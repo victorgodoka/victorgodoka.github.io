@@ -1,0 +1,12 @@
+{
+  "name": "victorgodoka.github.io",
+  "version": "1.0.0",
+  "description": "showcase of my skills",
+  "main": "index.js",
+  "repository": "https://github.com/victorgodoka/victorgodoka.github.io",
+  "author": "@victorgodoka",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
+  }
+}
