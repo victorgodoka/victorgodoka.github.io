@@ -8,5 +8,8 @@
   "license": "MIT",
   "devDependencies": {
     "tailwindcss": "^3.2.7"
+  },
+  "scripts": {
+    "build:css": "tailwindcss -i ./input.css -o ./css/style.css --watch"
   }
 }
