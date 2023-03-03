@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i ./input.css -o ./css/style.css --watch",
-    "build:tt": "esbuild --bundle ./twitter/src/index.jsx --outfile=js/twitter.js && cp ./twitter/index.html twitter.html"
+    "build:tt": "esbuild --bundle ./twitter/src/index.jsx --outfile=js/twitter.js --watch && cp ./twitter/index.html twitter.html"
   },
   "dependencies": {
     "react": "^18.2.0",
