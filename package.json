@@ -12,9 +12,9 @@
     "tailwindcss": "^3.2.7"
   },
   "scripts": {
-    "build:css": "tailwindcss -i ./input.css -o ./dist/css/style.css --watch",
-    "build:tt": "cp ./twitter/index.html ./dist/twitter.html && esbuild --bundle ./twitter/src/index.jsx --outfile=dist/js/twitter.js --watch",
-    "start": "live-server ./dist"
+    "build:css": "tailwindcss -i ./input.css -o ./docs/css/style.css --watch",
+    "build:tt": "cp ./twitter/index.html ./docs/twitter.html && esbuild --bundle ./twitter/src/index.jsx --outfile=docs/js/twitter.js --watch",
+    "start": "live-server ./docs"
   },
   "dependencies": {
     "react": "^18.2.0",
