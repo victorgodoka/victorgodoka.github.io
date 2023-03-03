@@ -5,7 +5,14 @@
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __commonJS = (cb, mod) => function __require() {
+  var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
+    get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
+  }) : x)(function(x) {
+    if (typeof require !== "undefined")
+      return require.apply(this, arguments);
+    throw new Error('Dynamic require of "' + x + '" is not supported');
+  });
+  var __commonJS = (cb, mod) => function __require2() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
   var __copyProps = (to, from, except, desc) => {
@@ -1084,7 +1091,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState(initialState) {
+          function useState2(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1096,7 +1103,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect(create, deps) {
+          function useEffect2(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1878,7 +1885,7 @@
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect;
+          exports.useEffect = useEffect2;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
@@ -1886,7 +1893,7 @@
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
           exports.useRef = useRef;
-          exports.useState = useState;
+          exports.useState = useState2;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -6042,11 +6049,11 @@
               return false;
             }
           }
-          function onScheduleRoot(root2, children) {
+          function onScheduleRoot(root3, children) {
             {
               if (injectedHook && typeof injectedHook.onScheduleFiberRoot === "function") {
                 try {
-                  injectedHook.onScheduleFiberRoot(rendererID, root2, children);
+                  injectedHook.onScheduleFiberRoot(rendererID, root3, children);
                 } catch (err) {
                   if (!hasLoggedError) {
                     hasLoggedError = true;
@@ -6056,10 +6063,10 @@
               }
             }
           }
-          function onCommitRoot(root2, eventPriority) {
+          function onCommitRoot(root3, eventPriority) {
             if (injectedHook && typeof injectedHook.onCommitFiberRoot === "function") {
               try {
-                var didError = (root2.current.flags & DidCapture) === DidCapture;
+                var didError = (root3.current.flags & DidCapture) === DidCapture;
                 if (enableProfilerTimer) {
                   var schedulerPriority;
                   switch (eventPriority) {
@@ -6079,9 +6086,9 @@
                       schedulerPriority = NormalPriority;
                       break;
                   }
-                  injectedHook.onCommitFiberRoot(rendererID, root2, schedulerPriority, didError);
+                  injectedHook.onCommitFiberRoot(rendererID, root3, schedulerPriority, didError);
                 } else {
-                  injectedHook.onCommitFiberRoot(rendererID, root2, void 0, didError);
+                  injectedHook.onCommitFiberRoot(rendererID, root3, void 0, didError);
                 }
               } catch (err) {
                 {
@@ -6093,10 +6100,10 @@
               }
             }
           }
-          function onPostCommitRoot(root2) {
+          function onPostCommitRoot(root3) {
             if (injectedHook && typeof injectedHook.onPostCommitFiberRoot === "function") {
               try {
-                injectedHook.onPostCommitFiberRoot(rendererID, root2);
+                injectedHook.onPostCommitFiberRoot(rendererID, root3);
               } catch (err) {
                 {
                   if (!hasLoggedError) {
@@ -6595,14 +6602,14 @@
                 return lanes;
             }
           }
-          function getNextLanes(root2, wipLanes) {
-            var pendingLanes = root2.pendingLanes;
+          function getNextLanes(root3, wipLanes) {
+            var pendingLanes = root3.pendingLanes;
             if (pendingLanes === NoLanes) {
               return NoLanes;
             }
             var nextLanes = NoLanes;
-            var suspendedLanes = root2.suspendedLanes;
-            var pingedLanes = root2.pingedLanes;
+            var suspendedLanes = root3.suspendedLanes;
+            var pingedLanes = root3.pingedLanes;
             var nonIdlePendingLanes = pendingLanes & NonIdleLanes;
             if (nonIdlePendingLanes !== NoLanes) {
               var nonIdleUnblockedLanes = nonIdlePendingLanes & ~suspendedLanes;
@@ -6646,9 +6653,9 @@
             if ((nextLanes & InputContinuousLane) !== NoLanes) {
               nextLanes |= pendingLanes & DefaultLane;
             }
-            var entangledLanes = root2.entangledLanes;
+            var entangledLanes = root3.entangledLanes;
             if (entangledLanes !== NoLanes) {
-              var entanglements = root2.entanglements;
+              var entanglements = root3.entanglements;
               var lanes = nextLanes & entangledLanes;
               while (lanes > 0) {
                 var index2 = pickArbitraryLaneIndex(lanes);
@@ -6659,8 +6666,8 @@
             }
             return nextLanes;
           }
-          function getMostRecentEventTime(root2, lanes) {
-            var eventTimes = root2.eventTimes;
+          function getMostRecentEventTime(root3, lanes) {
+            var eventTimes = root3.eventTimes;
             var mostRecentEventTime = NoTimestamp;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6717,11 +6724,11 @@
                 return NoTimestamp;
             }
           }
-          function markStarvedLanesAsExpired(root2, currentTime) {
-            var pendingLanes = root2.pendingLanes;
-            var suspendedLanes = root2.suspendedLanes;
-            var pingedLanes = root2.pingedLanes;
-            var expirationTimes = root2.expirationTimes;
+          function markStarvedLanesAsExpired(root3, currentTime) {
+            var pendingLanes = root3.pendingLanes;
+            var suspendedLanes = root3.suspendedLanes;
+            var pingedLanes = root3.pingedLanes;
+            var expirationTimes = root3.expirationTimes;
             var lanes = pendingLanes;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6732,16 +6739,16 @@
                   expirationTimes[index2] = computeExpirationTime(lane, currentTime);
                 }
               } else if (expirationTime <= currentTime) {
-                root2.expiredLanes |= lane;
+                root3.expiredLanes |= lane;
               }
               lanes &= ~lane;
             }
           }
-          function getHighestPriorityPendingLanes(root2) {
-            return getHighestPriorityLanes(root2.pendingLanes);
+          function getHighestPriorityPendingLanes(root3) {
+            return getHighestPriorityLanes(root3.pendingLanes);
           }
-          function getLanesToRetrySynchronouslyOnError(root2) {
-            var everythingButOffscreen = root2.pendingLanes & ~OffscreenLane;
+          function getLanesToRetrySynchronouslyOnError(root3) {
+            var everythingButOffscreen = root3.pendingLanes & ~OffscreenLane;
             if (everythingButOffscreen !== NoLanes) {
               return everythingButOffscreen;
             }
@@ -6766,12 +6773,12 @@
           function includesOnlyTransitions(lanes) {
             return (lanes & TransitionLanes) === lanes;
           }
-          function includesBlockingLane(root2, lanes) {
+          function includesBlockingLane(root3, lanes) {
             var SyncDefaultLanes = InputContinuousHydrationLane | InputContinuousLane | DefaultHydrationLane | DefaultLane;
             return (lanes & SyncDefaultLanes) !== NoLanes;
           }
-          function includesExpiredLane(root2, lanes) {
-            return (lanes & root2.expiredLanes) !== NoLanes;
+          function includesExpiredLane(root3, lanes) {
+            return (lanes & root3.expiredLanes) !== NoLanes;
           }
           function isTransitionLane(lane) {
             return (lane & TransitionLanes) !== NoLanes;
@@ -6832,20 +6839,20 @@
             }
             return laneMap;
           }
-          function markRootUpdated(root2, updateLane, eventTime) {
-            root2.pendingLanes |= updateLane;
+          function markRootUpdated(root3, updateLane, eventTime) {
+            root3.pendingLanes |= updateLane;
             if (updateLane !== IdleLane) {
-              root2.suspendedLanes = NoLanes;
-              root2.pingedLanes = NoLanes;
+              root3.suspendedLanes = NoLanes;
+              root3.pingedLanes = NoLanes;
             }
-            var eventTimes = root2.eventTimes;
+            var eventTimes = root3.eventTimes;
             var index2 = laneToIndex(updateLane);
             eventTimes[index2] = eventTime;
           }
-          function markRootSuspended(root2, suspendedLanes) {
-            root2.suspendedLanes |= suspendedLanes;
-            root2.pingedLanes &= ~suspendedLanes;
-            var expirationTimes = root2.expirationTimes;
+          function markRootSuspended(root3, suspendedLanes) {
+            root3.suspendedLanes |= suspendedLanes;
+            root3.pingedLanes &= ~suspendedLanes;
+            var expirationTimes = root3.expirationTimes;
             var lanes = suspendedLanes;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6854,20 +6861,20 @@
               lanes &= ~lane;
             }
           }
-          function markRootPinged(root2, pingedLanes, eventTime) {
-            root2.pingedLanes |= root2.suspendedLanes & pingedLanes;
+          function markRootPinged(root3, pingedLanes, eventTime) {
+            root3.pingedLanes |= root3.suspendedLanes & pingedLanes;
           }
-          function markRootFinished(root2, remainingLanes) {
-            var noLongerPendingLanes = root2.pendingLanes & ~remainingLanes;
-            root2.pendingLanes = remainingLanes;
-            root2.suspendedLanes = NoLanes;
-            root2.pingedLanes = NoLanes;
-            root2.expiredLanes &= remainingLanes;
-            root2.mutableReadLanes &= remainingLanes;
-            root2.entangledLanes &= remainingLanes;
-            var entanglements = root2.entanglements;
-            var eventTimes = root2.eventTimes;
-            var expirationTimes = root2.expirationTimes;
+          function markRootFinished(root3, remainingLanes) {
+            var noLongerPendingLanes = root3.pendingLanes & ~remainingLanes;
+            root3.pendingLanes = remainingLanes;
+            root3.suspendedLanes = NoLanes;
+            root3.pingedLanes = NoLanes;
+            root3.expiredLanes &= remainingLanes;
+            root3.mutableReadLanes &= remainingLanes;
+            root3.entangledLanes &= remainingLanes;
+            var entanglements = root3.entanglements;
+            var eventTimes = root3.eventTimes;
+            var expirationTimes = root3.expirationTimes;
             var lanes = noLongerPendingLanes;
             while (lanes > 0) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6878,9 +6885,9 @@
               lanes &= ~lane;
             }
           }
-          function markRootEntangled(root2, entangledLanes) {
-            var rootEntangledLanes = root2.entangledLanes |= entangledLanes;
-            var entanglements = root2.entanglements;
+          function markRootEntangled(root3, entangledLanes) {
+            var rootEntangledLanes = root3.entangledLanes |= entangledLanes;
+            var entanglements = root3.entanglements;
             var lanes = rootEntangledLanes;
             while (lanes) {
               var index2 = pickArbitraryLaneIndex(lanes);
@@ -6895,7 +6902,7 @@
               lanes &= ~lane;
             }
           }
-          function getBumpedLaneForHydration(root2, renderLanes2) {
+          function getBumpedLaneForHydration(root3, renderLanes2) {
             var renderLane = getHighestPriorityLane(renderLanes2);
             var lane;
             switch (renderLane) {
@@ -6935,16 +6942,16 @@
                 lane = NoLane;
                 break;
             }
-            if ((lane & (root2.suspendedLanes | renderLanes2)) !== NoLane) {
+            if ((lane & (root3.suspendedLanes | renderLanes2)) !== NoLane) {
               return NoLane;
             }
             return lane;
           }
-          function addFiberToLanesMap(root2, fiber, lanes) {
+          function addFiberToLanesMap(root3, fiber, lanes) {
             if (!isDevToolsPresent) {
               return;
             }
-            var pendingUpdatersLaneMap = root2.pendingUpdatersLaneMap;
+            var pendingUpdatersLaneMap = root3.pendingUpdatersLaneMap;
             while (lanes > 0) {
               var index2 = laneToIndex(lanes);
               var lane = 1 << index2;
@@ -6953,12 +6960,12 @@
               lanes &= ~lane;
             }
           }
-          function movePendingFibersToMemoized(root2, lanes) {
+          function movePendingFibersToMemoized(root3, lanes) {
             if (!isDevToolsPresent) {
               return;
             }
-            var pendingUpdatersLaneMap = root2.pendingUpdatersLaneMap;
-            var memoizedUpdaters = root2.memoizedUpdaters;
+            var pendingUpdatersLaneMap = root3.pendingUpdatersLaneMap;
+            var memoizedUpdaters = root3.memoizedUpdaters;
             while (lanes > 0) {
               var index2 = laneToIndex(lanes);
               var lane = 1 << index2;
@@ -6975,7 +6982,7 @@
               lanes &= ~lane;
             }
           }
-          function getTransitionsForLanes(root2, lanes) {
+          function getTransitionsForLanes(root3, lanes) {
             {
               return null;
             }
@@ -7022,8 +7029,8 @@
             }
             return IdleEventPriority;
           }
-          function isRootDehydrated(root2) {
-            var currentState = root2.current.memoizedState;
+          function isRootDehydrated(root3) {
+            var currentState = root3.current.memoizedState;
             return currentState.isDehydrated;
           }
           var _attemptSynchronousHydration;
@@ -7194,8 +7201,8 @@
                     return;
                   }
                 } else if (tag === HostRoot) {
-                  var root2 = nearestMounted.stateNode;
-                  if (isRootDehydrated(root2)) {
+                  var root3 = nearestMounted.stateNode;
+                  if (isRootDehydrated(root3)) {
                     queuedTarget.blockedOn = getContainerFromFiber(nearestMounted);
                     return;
                   }
@@ -7345,25 +7352,25 @@
             }
             return listenerWrapper.bind(null, domEventName, eventSystemFlags, targetContainer);
           }
-          function dispatchDiscreteEvent(domEventName, eventSystemFlags, container, nativeEvent) {
+          function dispatchDiscreteEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
             var previousPriority = getCurrentUpdatePriority();
             var prevTransition = ReactCurrentBatchConfig.transition;
             ReactCurrentBatchConfig.transition = null;
             try {
               setCurrentUpdatePriority(DiscreteEventPriority);
-              dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
+              dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
             } finally {
               setCurrentUpdatePriority(previousPriority);
               ReactCurrentBatchConfig.transition = prevTransition;
             }
           }
-          function dispatchContinuousEvent(domEventName, eventSystemFlags, container, nativeEvent) {
+          function dispatchContinuousEvent(domEventName, eventSystemFlags, container2, nativeEvent) {
             var previousPriority = getCurrentUpdatePriority();
             var prevTransition = ReactCurrentBatchConfig.transition;
             ReactCurrentBatchConfig.transition = null;
             try {
               setCurrentUpdatePriority(ContinuousEventPriority);
-              dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent);
+              dispatchEvent(domEventName, eventSystemFlags, container2, nativeEvent);
             } finally {
               setCurrentUpdatePriority(previousPriority);
               ReactCurrentBatchConfig.transition = prevTransition;
@@ -7429,8 +7436,8 @@
                   }
                   targetInst = null;
                 } else if (tag === HostRoot) {
-                  var root2 = nearestMounted.stateNode;
-                  if (isRootDehydrated(root2)) {
+                  var root3 = nearestMounted.stateNode;
+                  if (isRootDehydrated(root3)) {
                     return getContainerFromFiber(nearestMounted);
                   }
                   targetInst = null;
@@ -7557,16 +7564,16 @@
             });
             return listener;
           }
-          var root = null;
+          var root2 = null;
           var startText = null;
           var fallbackText = null;
           function initialize(nativeEventTarget) {
-            root = nativeEventTarget;
+            root2 = nativeEventTarget;
             startText = getText();
             return true;
           }
           function reset() {
-            root = null;
+            root2 = null;
             startText = null;
             fallbackText = null;
           }
@@ -7596,10 +7603,10 @@
             return fallbackText;
           }
           function getText() {
-            if ("value" in root) {
-              return root.value;
+            if ("value" in root2) {
+              return root2.value;
             }
-            return root.textContent;
+            return root2.textContent;
           }
           function getEventCharCode(nativeEvent) {
             var charCode;
@@ -8417,8 +8424,8 @@
               node = node.parentNode;
             }
           }
-          function getNodeForCharacterOffset(root2, offset) {
-            var node = getLeafNode(root2);
+          function getNodeForCharacterOffset(root3, offset) {
+            var node = getLeafNode(root3);
             var nodeStart = 0;
             var nodeEnd = 0;
             while (node) {
@@ -9044,8 +9051,8 @@
                     }
                     var nodeTag = node.tag;
                     if (nodeTag === HostRoot || nodeTag === HostPortal) {
-                      var container = node.stateNode.containerInfo;
-                      if (isMatchingRootContainer(container, targetContainerNode)) {
+                      var container2 = node.stateNode.containerInfo;
+                      if (isMatchingRootContainer(container2, targetContainerNode)) {
                         break;
                       }
                       if (nodeTag === HostPortal) {
@@ -9061,8 +9068,8 @@
                           grandNode = grandNode.return;
                         }
                       }
-                      while (container !== null) {
-                        var parentNode = getClosestInstanceFromNode(container);
+                      while (container2 !== null) {
+                        var parentNode = getClosestInstanceFromNode(container2);
                         if (parentNode === null) {
                           return;
                         }
@@ -9071,7 +9078,7 @@
                           node = ancestorInst = parentNode;
                           continue mainLoop;
                         }
-                        container = container.parentNode;
+                        container2 = container2.parentNode;
                       }
                     }
                     node = node.return;
@@ -10189,14 +10196,14 @@
               case DOCUMENT_NODE:
               case DOCUMENT_FRAGMENT_NODE: {
                 type = nodeType === DOCUMENT_NODE ? "#document" : "#fragment";
-                var root2 = rootContainerInstance.documentElement;
-                namespace = root2 ? root2.namespaceURI : getChildNamespace(null, "");
+                var root3 = rootContainerInstance.documentElement;
+                namespace = root3 ? root3.namespaceURI : getChildNamespace(null, "");
                 break;
               }
               default: {
-                var container = nodeType === COMMENT_NODE ? rootContainerInstance.parentNode : rootContainerInstance;
-                var ownNamespace = container.namespaceURI || null;
-                type = container.tagName;
+                var container2 = nodeType === COMMENT_NODE ? rootContainerInstance.parentNode : rootContainerInstance;
+                var ownNamespace = container2.namespaceURI || null;
+                type = container2.tagName;
                 namespace = getChildNamespace(ownNamespace, type);
                 break;
               }
@@ -10344,16 +10351,16 @@
           function appendChild(parentInstance, child) {
             parentInstance.appendChild(child);
           }
-          function appendChildToContainer(container, child) {
+          function appendChildToContainer(container2, child) {
             var parentNode;
-            if (container.nodeType === COMMENT_NODE) {
-              parentNode = container.parentNode;
-              parentNode.insertBefore(child, container);
+            if (container2.nodeType === COMMENT_NODE) {
+              parentNode = container2.parentNode;
+              parentNode.insertBefore(child, container2);
             } else {
-              parentNode = container;
+              parentNode = container2;
               parentNode.appendChild(child);
             }
-            var reactRootContainer = container._reactRootContainer;
+            var reactRootContainer = container2._reactRootContainer;
             if ((reactRootContainer === null || reactRootContainer === void 0) && parentNode.onclick === null) {
               trapClickOnNonInteractiveElement(parentNode);
             }
@@ -10361,21 +10368,21 @@
           function insertBefore(parentInstance, child, beforeChild) {
             parentInstance.insertBefore(child, beforeChild);
           }
-          function insertInContainerBefore(container, child, beforeChild) {
-            if (container.nodeType === COMMENT_NODE) {
-              container.parentNode.insertBefore(child, beforeChild);
+          function insertInContainerBefore(container2, child, beforeChild) {
+            if (container2.nodeType === COMMENT_NODE) {
+              container2.parentNode.insertBefore(child, beforeChild);
             } else {
-              container.insertBefore(child, beforeChild);
+              container2.insertBefore(child, beforeChild);
             }
           }
           function removeChild(parentInstance, child) {
             parentInstance.removeChild(child);
           }
-          function removeChildFromContainer(container, child) {
-            if (container.nodeType === COMMENT_NODE) {
-              container.parentNode.removeChild(child);
+          function removeChildFromContainer(container2, child) {
+            if (container2.nodeType === COMMENT_NODE) {
+              container2.parentNode.removeChild(child);
             } else {
-              container.removeChild(child);
+              container2.removeChild(child);
             }
           }
           function clearSuspenseBoundary(parentInstance, suspenseInstance) {
@@ -10402,13 +10409,13 @@
             } while (node);
             retryIfBlockedOn(suspenseInstance);
           }
-          function clearSuspenseBoundaryFromContainer(container, suspenseInstance) {
-            if (container.nodeType === COMMENT_NODE) {
-              clearSuspenseBoundary(container.parentNode, suspenseInstance);
-            } else if (container.nodeType === ELEMENT_NODE) {
-              clearSuspenseBoundary(container, suspenseInstance);
+          function clearSuspenseBoundaryFromContainer(container2, suspenseInstance) {
+            if (container2.nodeType === COMMENT_NODE) {
+              clearSuspenseBoundary(container2.parentNode, suspenseInstance);
+            } else if (container2.nodeType === ELEMENT_NODE) {
+              clearSuspenseBoundary(container2, suspenseInstance);
             }
-            retryIfBlockedOn(container);
+            retryIfBlockedOn(container2);
           }
           function hideInstance(instance) {
             instance = instance;
@@ -10431,12 +10438,12 @@
           function unhideTextInstance(textInstance, text) {
             textInstance.nodeValue = text;
           }
-          function clearContainer(container) {
-            if (container.nodeType === ELEMENT_NODE) {
-              container.textContent = "";
-            } else if (container.nodeType === DOCUMENT_NODE) {
-              if (container.documentElement) {
-                container.removeChild(container.documentElement);
+          function clearContainer(container2) {
+            if (container2.nodeType === ELEMENT_NODE) {
+              container2.textContent = "";
+            } else if (container2.nodeType === DOCUMENT_NODE) {
+              if (container2.documentElement) {
+                container2.removeChild(container2.documentElement);
               }
             }
           }
@@ -10574,8 +10581,8 @@
             }
             return null;
           }
-          function commitHydratedContainer(container) {
-            retryIfBlockedOn(container);
+          function commitHydratedContainer(container2) {
+            retryIfBlockedOn(container2);
           }
           function commitHydratedSuspenseInstance(suspenseInstance) {
             retryIfBlockedOn(suspenseInstance);
@@ -12068,8 +12075,8 @@
               parent = parent.return;
             }
             if (node.tag === HostRoot) {
-              var root2 = node.stateNode;
-              return root2;
+              var root3 = node.stateNode;
+              return root3;
             } else {
               return null;
             }
@@ -12150,7 +12157,7 @@
               return enqueueConcurrentClassUpdate(fiber, sharedQueue, update, lane);
             }
           }
-          function entangleTransitions(root2, fiber, lane) {
+          function entangleTransitions(root3, fiber, lane) {
             var updateQueue = fiber.updateQueue;
             if (updateQueue === null) {
               return;
@@ -12158,10 +12165,10 @@
             var sharedQueue = updateQueue.shared;
             if (isTransitionLane(lane)) {
               var queueLanes = sharedQueue.lanes;
-              queueLanes = intersectLanes(queueLanes, root2.pendingLanes);
+              queueLanes = intersectLanes(queueLanes, root3.pendingLanes);
               var newQueueLanes = mergeLanes(queueLanes, lane);
               sharedQueue.lanes = newQueueLanes;
-              markRootEntangled(root2, newQueueLanes);
+              markRootEntangled(root3, newQueueLanes);
             }
           }
           function enqueueCapturedUpdate(workInProgress2, capturedUpdate) {
@@ -12519,10 +12526,10 @@
                 }
                 update.callback = callback;
               }
-              var root2 = enqueueUpdate(fiber, update, lane);
-              if (root2 !== null) {
-                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
-                entangleTransitions(root2, fiber, lane);
+              var root3 = enqueueUpdate(fiber, update, lane);
+              if (root3 !== null) {
+                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
+                entangleTransitions(root3, fiber, lane);
               }
               {
                 markStateUpdateScheduled(fiber, lane);
@@ -12541,10 +12548,10 @@
                 }
                 update.callback = callback;
               }
-              var root2 = enqueueUpdate(fiber, update, lane);
-              if (root2 !== null) {
-                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
-                entangleTransitions(root2, fiber, lane);
+              var root3 = enqueueUpdate(fiber, update, lane);
+              if (root3 !== null) {
+                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
+                entangleTransitions(root3, fiber, lane);
               }
               {
                 markStateUpdateScheduled(fiber, lane);
@@ -12562,10 +12569,10 @@
                 }
                 update.callback = callback;
               }
-              var root2 = enqueueUpdate(fiber, update, lane);
-              if (root2 !== null) {
-                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
-                entangleTransitions(root2, fiber, lane);
+              var root3 = enqueueUpdate(fiber, update, lane);
+              if (root3 !== null) {
+                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
+                entangleTransitions(root3, fiber, lane);
               }
               {
                 markForceUpdateScheduled(fiber, lane);
@@ -13946,13 +13953,13 @@
             }
             workInProgressSources.length = 0;
           }
-          function registerMutableSourceForHydration(root2, mutableSource) {
+          function registerMutableSourceForHydration(root3, mutableSource) {
             var getVersion = mutableSource._getVersion;
             var version = getVersion(mutableSource._source);
-            if (root2.mutableSourceEagerHydrationData == null) {
-              root2.mutableSourceEagerHydrationData = [mutableSource, version];
+            if (root3.mutableSourceEagerHydrationData == null) {
+              root3.mutableSourceEagerHydrationData = [mutableSource, version];
             } else {
-              root2.mutableSourceEagerHydrationData.push(mutableSource, version);
+              root3.mutableSourceEagerHydrationData.push(mutableSource, version);
             }
           }
           var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher, ReactCurrentBatchConfig$2 = ReactSharedInternals.ReactCurrentBatchConfig;
@@ -14421,11 +14428,11 @@
                   }
                 }
               }
-              var root2 = getWorkInProgressRoot();
-              if (root2 === null) {
+              var root3 = getWorkInProgressRoot();
+              if (root3 === null) {
                 throw new Error("Expected a work-in-progress root. This is a bug in React. Please file an issue.");
               }
-              if (!includesBlockingLane(root2, renderLanes)) {
+              if (!includesBlockingLane(root3, renderLanes)) {
                 pushStoreConsistencyCheck(fiber, getSnapshot, nextSnapshot);
               }
             }
@@ -14466,11 +14473,11 @@
             workInProgressHook !== null && workInProgressHook.memoizedState.tag & HasEffect) {
               fiber.flags |= Passive;
               pushEffect(HasEffect | Passive$1, updateStoreInstance.bind(null, fiber, inst, nextSnapshot, getSnapshot), void 0, null);
-              var root2 = getWorkInProgressRoot();
-              if (root2 === null) {
+              var root3 = getWorkInProgressRoot();
+              if (root3 === null) {
                 throw new Error("Expected a work-in-progress root. This is a bug in React. Please file an issue.");
               }
-              if (!includesBlockingLane(root2, renderLanes)) {
+              if (!includesBlockingLane(root3, renderLanes)) {
                 pushStoreConsistencyCheck(fiber, getSnapshot, nextSnapshot);
               }
             }
@@ -14522,9 +14529,9 @@
             }
           }
           function forceStoreRerender(fiber) {
-            var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-            if (root2 !== null) {
-              scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+            var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+            if (root3 !== null) {
+              scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
             }
           }
           function mountState(initialState) {
@@ -14833,8 +14840,8 @@
           }
           function mountId() {
             var hook = mountWorkInProgressHook();
-            var root2 = getWorkInProgressRoot();
-            var identifierPrefix = root2.identifierPrefix;
+            var root3 = getWorkInProgressRoot();
+            var identifierPrefix = root3.identifierPrefix;
             var id;
             if (getIsHydrating()) {
               var treeId = getTreeId();
@@ -14873,11 +14880,11 @@
             if (isRenderPhaseUpdate(fiber)) {
               enqueueRenderPhaseUpdate(queue, update);
             } else {
-              var root2 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
-              if (root2 !== null) {
+              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
+              if (root3 !== null) {
                 var eventTime = requestEventTime();
-                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
-                entangleTransitionUpdate(root2, queue, lane);
+                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
+                entangleTransitionUpdate(root3, queue, lane);
               }
             }
             markUpdateInDevTools(fiber, lane);
@@ -14925,11 +14932,11 @@
                   }
                 }
               }
-              var root2 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
-              if (root2 !== null) {
+              var root3 = enqueueConcurrentHookUpdate(fiber, queue, update, lane);
+              if (root3 !== null) {
                 var eventTime = requestEventTime();
-                scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
-                entangleTransitionUpdate(root2, queue, lane);
+                scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
+                entangleTransitionUpdate(root3, queue, lane);
               }
             }
             markUpdateInDevTools(fiber, lane);
@@ -14949,13 +14956,13 @@
             }
             queue.pending = update;
           }
-          function entangleTransitionUpdate(root2, queue, lane) {
+          function entangleTransitionUpdate(root3, queue, lane) {
             if (isTransitionLane(lane)) {
               var queueLanes = queue.lanes;
-              queueLanes = intersectLanes(queueLanes, root2.pendingLanes);
+              queueLanes = intersectLanes(queueLanes, root3.pendingLanes);
               var newQueueLanes = mergeLanes(queueLanes, lane);
               queue.lanes = newQueueLanes;
-              markRootEntangled(root2, newQueueLanes);
+              markRootEntangled(root3, newQueueLanes);
             }
           }
           function markUpdateInDevTools(fiber, lane, action) {
@@ -15843,8 +15850,8 @@
               while (parentFiber !== null) {
                 switch (parentFiber.tag) {
                   case HostRoot:
-                    var root2 = parentFiber.stateNode;
-                    root2.effectDuration += elapsedTime;
+                    var root3 = parentFiber.stateNode;
+                    root3.effectDuration += elapsedTime;
                     return;
                   case Profiler:
                     var parentStateNode = parentFiber.stateNode;
@@ -15863,9 +15870,9 @@
               while (parentFiber !== null) {
                 switch (parentFiber.tag) {
                   case HostRoot:
-                    var root2 = parentFiber.stateNode;
-                    if (root2 !== null) {
-                      root2.passiveEffectDuration += elapsedTime;
+                    var root3 = parentFiber.stateNode;
+                    if (root3 !== null) {
+                      root3.passiveEffectDuration += elapsedTime;
                     }
                     return;
                   case Profiler:
@@ -16004,11 +16011,11 @@
             }
             return update;
           }
-          function attachPingListener(root2, wakeable, lanes) {
-            var pingCache = root2.pingCache;
+          function attachPingListener(root3, wakeable, lanes) {
+            var pingCache = root3.pingCache;
             var threadIDs;
             if (pingCache === null) {
-              pingCache = root2.pingCache = new PossiblyWeakMap$1();
+              pingCache = root3.pingCache = new PossiblyWeakMap$1();
               threadIDs = /* @__PURE__ */ new Set();
               pingCache.set(wakeable, threadIDs);
             } else {
@@ -16020,16 +16027,16 @@
             }
             if (!threadIDs.has(lanes)) {
               threadIDs.add(lanes);
-              var ping = pingSuspendedRoot.bind(null, root2, wakeable, lanes);
+              var ping = pingSuspendedRoot.bind(null, root3, wakeable, lanes);
               {
                 if (isDevToolsPresent) {
-                  restorePendingUpdaters(root2, lanes);
+                  restorePendingUpdaters(root3, lanes);
                 }
               }
               wakeable.then(ping, ping);
             }
           }
-          function attachRetryListener(suspenseBoundary, root2, wakeable, lanes) {
+          function attachRetryListener(suspenseBoundary, root3, wakeable, lanes) {
             var wakeables = suspenseBoundary.updateQueue;
             if (wakeables === null) {
               var updateQueue = /* @__PURE__ */ new Set();
@@ -16063,7 +16070,7 @@
             } while (node !== null);
             return null;
           }
-          function markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root2, rootRenderLanes) {
+          function markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root3, rootRenderLanes) {
             if ((suspenseBoundary.mode & ConcurrentMode) === NoMode) {
               if (suspenseBoundary === returnFiber) {
                 suspenseBoundary.flags |= ShouldCapture;
@@ -16089,11 +16096,11 @@
             suspenseBoundary.lanes = rootRenderLanes;
             return suspenseBoundary;
           }
-          function throwException(root2, returnFiber, sourceFiber, value, rootRenderLanes) {
+          function throwException(root3, returnFiber, sourceFiber, value, rootRenderLanes) {
             sourceFiber.flags |= Incomplete;
             {
               if (isDevToolsPresent) {
-                restorePendingUpdaters(root2, rootRenderLanes);
+                restorePendingUpdaters(root3, rootRenderLanes);
               }
             }
             if (value !== null && typeof value === "object" && typeof value.then === "function") {
@@ -16107,15 +16114,15 @@
               var suspenseBoundary = getNearestSuspenseBoundaryToCapture(returnFiber);
               if (suspenseBoundary !== null) {
                 suspenseBoundary.flags &= ~ForceClientRender;
-                markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root2, rootRenderLanes);
+                markSuspenseBoundaryShouldCapture(suspenseBoundary, returnFiber, sourceFiber, root3, rootRenderLanes);
                 if (suspenseBoundary.mode & ConcurrentMode) {
-                  attachPingListener(root2, wakeable, rootRenderLanes);
+                  attachPingListener(root3, wakeable, rootRenderLanes);
                 }
-                attachRetryListener(suspenseBoundary, root2, wakeable);
+                attachRetryListener(suspenseBoundary, root3, wakeable);
                 return;
               } else {
                 if (!includesSyncLane(rootRenderLanes)) {
-                  attachPingListener(root2, wakeable, rootRenderLanes);
+                  attachPingListener(root3, wakeable, rootRenderLanes);
                   renderDidSuspendDelayIfPossible();
                   return;
                 }
@@ -16130,7 +16137,7 @@
                   if ((_suspenseBoundary.flags & ShouldCapture) === NoFlags) {
                     _suspenseBoundary.flags |= ForceClientRender;
                   }
-                  markSuspenseBoundaryShouldCapture(_suspenseBoundary, returnFiber, sourceFiber, root2, rootRenderLanes);
+                  markSuspenseBoundaryShouldCapture(_suspenseBoundary, returnFiber, sourceFiber, root3, rootRenderLanes);
                   queueHydrationError(createCapturedValueAtFiber(value, sourceFiber));
                   return;
                 }
@@ -16624,13 +16631,13 @@
             return workInProgress2.child;
           }
           function pushHostRootContext(workInProgress2) {
-            var root2 = workInProgress2.stateNode;
-            if (root2.pendingContext) {
-              pushTopLevelContextObject(workInProgress2, root2.pendingContext, root2.pendingContext !== root2.context);
-            } else if (root2.context) {
-              pushTopLevelContextObject(workInProgress2, root2.context, false);
+            var root3 = workInProgress2.stateNode;
+            if (root3.pendingContext) {
+              pushTopLevelContextObject(workInProgress2, root3.pendingContext, root3.pendingContext !== root3.context);
+            } else if (root3.context) {
+              pushTopLevelContextObject(workInProgress2, root3.context, false);
             }
-            pushHostContainer(workInProgress2, root2.containerInfo);
+            pushHostContainer(workInProgress2, root3.containerInfo);
           }
           function updateHostRoot(current2, workInProgress2, renderLanes2) {
             pushHostRootContext(workInProgress2);
@@ -16643,7 +16650,7 @@
             cloneUpdateQueue(current2, workInProgress2);
             processUpdateQueue(workInProgress2, nextProps, null, renderLanes2);
             var nextState = workInProgress2.memoizedState;
-            var root2 = workInProgress2.stateNode;
+            var root3 = workInProgress2.stateNode;
             var nextChildren = nextState.element;
             if (prevState.isDehydrated) {
               var overrideState = {
@@ -17224,14 +17231,14 @@
               }
               var hasContextChanged2 = includesSomeLane(renderLanes2, current2.childLanes);
               if (didReceiveUpdate || hasContextChanged2) {
-                var root2 = getWorkInProgressRoot();
-                if (root2 !== null) {
-                  var attemptHydrationAtLane = getBumpedLaneForHydration(root2, renderLanes2);
+                var root3 = getWorkInProgressRoot();
+                if (root3 !== null) {
+                  var attemptHydrationAtLane = getBumpedLaneForHydration(root3, renderLanes2);
                   if (attemptHydrationAtLane !== NoLane && attemptHydrationAtLane !== suspenseState.retryLane) {
                     suspenseState.retryLane = attemptHydrationAtLane;
                     var eventTime = NoTimestamp;
                     enqueueConcurrentRenderForLane(current2, attemptHydrationAtLane);
-                    scheduleUpdateOnFiber(root2, current2, attemptHydrationAtLane, eventTime);
+                    scheduleUpdateOnFiber(root3, current2, attemptHydrationAtLane, eventTime);
                   }
                 }
                 renderDidSuspendDelayIfPossible();
@@ -17676,7 +17683,7 @@
             switch (workInProgress2.tag) {
               case HostRoot:
                 pushHostRootContext(workInProgress2);
-                var root2 = workInProgress2.stateNode;
+                var root3 = workInProgress2.stateNode;
                 resetHydrationState();
                 break;
               case HostComponent:
@@ -18453,7 +18460,7 @@
                 return null;
               }
               case HostRoot: {
-                var root2 = workInProgress2.stateNode;
+                var root3 = workInProgress2.stateNode;
                 popHostContainer(workInProgress2);
                 popTopLevelContextObject(workInProgress2);
                 resetWorkInProgressVersions();
@@ -18519,7 +18526,7 @@
                 break;
               }
               case HostRoot: {
-                var root2 = interruptedWork.stateNode;
+                var root3 = interruptedWork.stateNode;
                 popHostContainer(interruptedWork);
                 popTopLevelContextObject(interruptedWork);
                 resetWorkInProgressVersions();
@@ -18646,8 +18653,8 @@
           }
           var focusedInstanceHandle = null;
           var shouldFireAfterActiveInstanceBlur = false;
-          function commitBeforeMutationEffects(root2, firstChild) {
-            focusedInstanceHandle = prepareForCommit(root2.containerInfo);
+          function commitBeforeMutationEffects(root3, firstChild) {
+            focusedInstanceHandle = prepareForCommit(root3.containerInfo);
             nextEffect = firstChild;
             commitBeforeMutationEffects_begin();
             var shouldFire = shouldFireAfterActiveInstanceBlur;
@@ -18726,8 +18733,8 @@
                 }
                 case HostRoot: {
                   {
-                    var root2 = finishedWork.stateNode;
-                    clearContainer(root2.containerInfo);
+                    var root3 = finishedWork.stateNode;
+                    clearContainer(root3.containerInfo);
                   }
                   break;
                 }
@@ -18868,8 +18875,8 @@
                       while (parentFiber !== null) {
                         switch (parentFiber.tag) {
                           case HostRoot:
-                            var root2 = parentFiber.stateNode;
-                            root2.passiveEffectDuration += passiveEffectDuration;
+                            var root3 = parentFiber.stateNode;
+                            root3.passiveEffectDuration += passiveEffectDuration;
                             break outer;
                           case Profiler:
                             var parentStateNode = parentFiber.stateNode;
@@ -19028,8 +19035,8 @@
                         while (parentFiber !== null) {
                           switch (parentFiber.tag) {
                             case HostRoot:
-                              var root2 = parentFiber.stateNode;
-                              root2.effectDuration += effectDuration;
+                              var root3 = parentFiber.stateNode;
+                              root3.effectDuration += effectDuration;
                               break outer;
                             case Profiler:
                               var parentStateNode = parentFiber.stateNode;
@@ -19348,7 +19355,7 @@
           }
           var hostParent = null;
           var hostParentIsContainer = false;
-          function commitDeletionEffects(root2, returnFiber, deletedFiber) {
+          function commitDeletionEffects(root3, returnFiber, deletedFiber) {
             {
               var parent = returnFiber;
               findParent:
@@ -19375,7 +19382,7 @@
               if (hostParent === null) {
                 throw new Error("Expected to find a host parent. This error is likely caused by a bug in React. Please file an issue.");
               }
-              commitDeletionEffectsOnFiber(root2, returnFiber, deletedFiber);
+              commitDeletionEffectsOnFiber(root3, returnFiber, deletedFiber);
               hostParent = null;
               hostParentIsContainer = false;
             }
@@ -19557,22 +19564,22 @@
               });
             }
           }
-          function commitMutationEffects(root2, finishedWork, committedLanes) {
+          function commitMutationEffects(root3, finishedWork, committedLanes) {
             inProgressLanes = committedLanes;
-            inProgressRoot = root2;
+            inProgressRoot = root3;
             setCurrentFiber(finishedWork);
-            commitMutationEffectsOnFiber(finishedWork, root2);
+            commitMutationEffectsOnFiber(finishedWork, root3);
             setCurrentFiber(finishedWork);
             inProgressLanes = null;
             inProgressRoot = null;
           }
-          function recursivelyTraverseMutationEffects(root2, parentFiber, lanes) {
+          function recursivelyTraverseMutationEffects(root3, parentFiber, lanes) {
             var deletions = parentFiber.deletions;
             if (deletions !== null) {
               for (var i = 0; i < deletions.length; i++) {
                 var childToDelete = deletions[i];
                 try {
-                  commitDeletionEffects(root2, parentFiber, childToDelete);
+                  commitDeletionEffects(root3, parentFiber, childToDelete);
                 } catch (error2) {
                   captureCommitPhaseError(childToDelete, parentFiber, error2);
                 }
@@ -19583,13 +19590,13 @@
               var child = parentFiber.child;
               while (child !== null) {
                 setCurrentFiber(child);
-                commitMutationEffectsOnFiber(child, root2);
+                commitMutationEffectsOnFiber(child, root3);
                 child = child.sibling;
               }
             }
             setCurrentFiber(prevDebugFiber);
           }
-          function commitMutationEffectsOnFiber(finishedWork, root2, lanes) {
+          function commitMutationEffectsOnFiber(finishedWork, root3, lanes) {
             var current2 = finishedWork.alternate;
             var flags = finishedWork.flags;
             switch (finishedWork.tag) {
@@ -19597,7 +19604,7 @@
               case ForwardRef:
               case MemoComponent:
               case SimpleMemoComponent: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   try {
@@ -19625,7 +19632,7 @@
                 return;
               }
               case ClassComponent: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Ref) {
                   if (current2 !== null) {
@@ -19635,7 +19642,7 @@
                 return;
               }
               case HostComponent: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Ref) {
                   if (current2 !== null) {
@@ -19672,7 +19679,7 @@
                 return;
               }
               case HostText: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   {
@@ -19692,7 +19699,7 @@
                 return;
               }
               case HostRoot: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   {
@@ -19700,7 +19707,7 @@
                       var prevRootState = current2.memoizedState;
                       if (prevRootState.isDehydrated) {
                         try {
-                          commitHydratedContainer(root2.containerInfo);
+                          commitHydratedContainer(root3.containerInfo);
                         } catch (error2) {
                           captureCommitPhaseError(finishedWork, finishedWork.return, error2);
                         }
@@ -19711,12 +19718,12 @@
                 return;
               }
               case HostPortal: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 return;
               }
               case SuspenseComponent: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 var offscreenFiber = finishedWork.child;
                 if (offscreenFiber.flags & Visibility) {
@@ -19749,10 +19756,10 @@
                 ) {
                   var prevOffscreenSubtreeWasHidden = offscreenSubtreeWasHidden;
                   offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden || _wasHidden;
-                  recursivelyTraverseMutationEffects(root2, finishedWork);
+                  recursivelyTraverseMutationEffects(root3, finishedWork);
                   offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden;
                 } else {
-                  recursivelyTraverseMutationEffects(root2, finishedWork);
+                  recursivelyTraverseMutationEffects(root3, finishedWork);
                 }
                 commitReconciliationEffects(finishedWork);
                 if (flags & Visibility) {
@@ -19783,7 +19790,7 @@
                 return;
               }
               case SuspenseListComponent: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 if (flags & Update) {
                   attachSuspenseRetryListeners(finishedWork);
@@ -19794,7 +19801,7 @@
                 return;
               }
               default: {
-                recursivelyTraverseMutationEffects(root2, finishedWork);
+                recursivelyTraverseMutationEffects(root3, finishedWork);
                 commitReconciliationEffects(finishedWork);
                 return;
               }
@@ -19814,15 +19821,15 @@
               finishedWork.flags &= ~Hydrating;
             }
           }
-          function commitLayoutEffects(finishedWork, root2, committedLanes) {
+          function commitLayoutEffects(finishedWork, root3, committedLanes) {
             inProgressLanes = committedLanes;
-            inProgressRoot = root2;
+            inProgressRoot = root3;
             nextEffect = finishedWork;
-            commitLayoutEffects_begin(finishedWork, root2, committedLanes);
+            commitLayoutEffects_begin(finishedWork, root3, committedLanes);
             inProgressLanes = null;
             inProgressRoot = null;
           }
-          function commitLayoutEffects_begin(subtreeRoot, root2, committedLanes) {
+          function commitLayoutEffects_begin(subtreeRoot, root3, committedLanes) {
             var isModernRoot = (subtreeRoot.mode & ConcurrentMode) !== NoMode;
             while (nextEffect !== null) {
               var fiber = nextEffect;
@@ -19831,7 +19838,7 @@
                 var isHidden = fiber.memoizedState !== null;
                 var newOffscreenSubtreeIsHidden = isHidden || offscreenSubtreeIsHidden;
                 if (newOffscreenSubtreeIsHidden) {
-                  commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes);
+                  commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes);
                   continue;
                 } else {
                   var current2 = fiber.alternate;
@@ -19851,7 +19858,7 @@
                     commitLayoutEffects_begin(
                       child,
                       // New root; bubble back up to here and stop.
-                      root2,
+                      root3,
                       committedLanes
                     );
                     child = child.sibling;
@@ -19859,7 +19866,7 @@
                   nextEffect = fiber;
                   offscreenSubtreeIsHidden = prevOffscreenSubtreeIsHidden;
                   offscreenSubtreeWasHidden = prevOffscreenSubtreeWasHidden;
-                  commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes);
+                  commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes);
                   continue;
                 }
               }
@@ -19867,18 +19874,18 @@
                 firstChild.return = fiber;
                 nextEffect = firstChild;
               } else {
-                commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes);
+                commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes);
               }
             }
           }
-          function commitLayoutMountEffects_complete(subtreeRoot, root2, committedLanes) {
+          function commitLayoutMountEffects_complete(subtreeRoot, root3, committedLanes) {
             while (nextEffect !== null) {
               var fiber = nextEffect;
               if ((fiber.flags & LayoutMask) !== NoFlags) {
                 var current2 = fiber.alternate;
                 setCurrentFiber(fiber);
                 try {
-                  commitLayoutEffectOnFiber(root2, current2, fiber, committedLanes);
+                  commitLayoutEffectOnFiber(root3, current2, fiber, committedLanes);
                 } catch (error2) {
                   captureCommitPhaseError(fiber, fiber.return, error2);
                 }
@@ -20005,11 +20012,11 @@
               nextEffect = fiber.return;
             }
           }
-          function commitPassiveMountEffects(root2, finishedWork, committedLanes, committedTransitions) {
+          function commitPassiveMountEffects(root3, finishedWork, committedLanes, committedTransitions) {
             nextEffect = finishedWork;
-            commitPassiveMountEffects_begin(finishedWork, root2, committedLanes, committedTransitions);
+            commitPassiveMountEffects_begin(finishedWork, root3, committedLanes, committedTransitions);
           }
-          function commitPassiveMountEffects_begin(subtreeRoot, root2, committedLanes, committedTransitions) {
+          function commitPassiveMountEffects_begin(subtreeRoot, root3, committedLanes, committedTransitions) {
             while (nextEffect !== null) {
               var fiber = nextEffect;
               var firstChild = fiber.child;
@@ -20017,17 +20024,17 @@
                 firstChild.return = fiber;
                 nextEffect = firstChild;
               } else {
-                commitPassiveMountEffects_complete(subtreeRoot, root2, committedLanes, committedTransitions);
+                commitPassiveMountEffects_complete(subtreeRoot, root3, committedLanes, committedTransitions);
               }
             }
           }
-          function commitPassiveMountEffects_complete(subtreeRoot, root2, committedLanes, committedTransitions) {
+          function commitPassiveMountEffects_complete(subtreeRoot, root3, committedLanes, committedTransitions) {
             while (nextEffect !== null) {
               var fiber = nextEffect;
               if ((fiber.flags & Passive) !== NoFlags) {
                 setCurrentFiber(fiber);
                 try {
-                  commitPassiveMountOnFiber(root2, fiber, committedLanes, committedTransitions);
+                  commitPassiveMountOnFiber(root3, fiber, committedLanes, committedTransitions);
                 } catch (error2) {
                   captureCommitPhaseError(fiber, fiber.return, error2);
                 }
@@ -20430,7 +20437,7 @@
             }
             return claimNextRetryLane();
           }
-          function scheduleUpdateOnFiber(root2, fiber, lane, eventTime) {
+          function scheduleUpdateOnFiber(root3, fiber, lane, eventTime) {
             checkForNestedUpdates();
             {
               if (isRunningInsertionEffect) {
@@ -20442,25 +20449,25 @@
                 didScheduleUpdateDuringPassiveEffects = true;
               }
             }
-            markRootUpdated(root2, lane, eventTime);
-            if ((executionContext & RenderContext) !== NoLanes && root2 === workInProgressRoot) {
+            markRootUpdated(root3, lane, eventTime);
+            if ((executionContext & RenderContext) !== NoLanes && root3 === workInProgressRoot) {
               warnAboutRenderPhaseUpdatesInDEV(fiber);
             } else {
               {
                 if (isDevToolsPresent) {
-                  addFiberToLanesMap(root2, fiber, lane);
+                  addFiberToLanesMap(root3, fiber, lane);
                 }
               }
               warnIfUpdatesNotWrappedWithActDEV(fiber);
-              if (root2 === workInProgressRoot) {
+              if (root3 === workInProgressRoot) {
                 if ((executionContext & RenderContext) === NoContext) {
                   workInProgressRootInterleavedUpdatedLanes = mergeLanes(workInProgressRootInterleavedUpdatedLanes, lane);
                 }
                 if (workInProgressRootExitStatus === RootSuspendedWithDelay) {
-                  markRootSuspended$1(root2, workInProgressRootRenderLanes);
+                  markRootSuspended$1(root3, workInProgressRootRenderLanes);
                 }
               }
-              ensureRootIsScheduled(root2, eventTime);
+              ensureRootIsScheduled(root3, eventTime);
               if (lane === SyncLane && executionContext === NoContext && (fiber.mode & ConcurrentMode) === NoMode && // Treat `act` as if it's inside `batchedUpdates`, even in legacy mode.
               !ReactCurrentActQueue$1.isBatchingLegacy) {
                 resetRenderTimer();
@@ -20468,11 +20475,11 @@
               }
             }
           }
-          function scheduleInitialHydrationOnRoot(root2, lane, eventTime) {
-            var current2 = root2.current;
+          function scheduleInitialHydrationOnRoot(root3, lane, eventTime) {
+            var current2 = root3.current;
             current2.lanes = lane;
-            markRootUpdated(root2, lane, eventTime);
-            ensureRootIsScheduled(root2, eventTime);
+            markRootUpdated(root3, lane, eventTime);
+            ensureRootIsScheduled(root3, eventTime);
           }
           function isUnsafeClassRenderPhaseUpdate(fiber) {
             return (
@@ -20481,20 +20488,20 @@
               (executionContext & RenderContext) !== NoContext
             );
           }
-          function ensureRootIsScheduled(root2, currentTime) {
-            var existingCallbackNode = root2.callbackNode;
-            markStarvedLanesAsExpired(root2, currentTime);
-            var nextLanes = getNextLanes(root2, root2 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
+          function ensureRootIsScheduled(root3, currentTime) {
+            var existingCallbackNode = root3.callbackNode;
+            markStarvedLanesAsExpired(root3, currentTime);
+            var nextLanes = getNextLanes(root3, root3 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
             if (nextLanes === NoLanes) {
               if (existingCallbackNode !== null) {
                 cancelCallback$1(existingCallbackNode);
               }
-              root2.callbackNode = null;
-              root2.callbackPriority = NoLane;
+              root3.callbackNode = null;
+              root3.callbackPriority = NoLane;
               return;
             }
             var newCallbackPriority = getHighestPriorityLane(nextLanes);
-            var existingCallbackPriority = root2.callbackPriority;
+            var existingCallbackPriority = root3.callbackPriority;
             if (existingCallbackPriority === newCallbackPriority && // Special case related to `act`. If the currently scheduled task is a
             // Scheduler task, rather than an `act` task, cancel it and re-scheduled
             // on the `act` queue.
@@ -20511,13 +20518,13 @@
             }
             var newCallbackNode;
             if (newCallbackPriority === SyncLane) {
-              if (root2.tag === LegacyRoot) {
+              if (root3.tag === LegacyRoot) {
                 if (ReactCurrentActQueue$1.isBatchingLegacy !== null) {
                   ReactCurrentActQueue$1.didScheduleLegacyUpdate = true;
                 }
-                scheduleLegacySyncCallback(performSyncWorkOnRoot.bind(null, root2));
+                scheduleLegacySyncCallback(performSyncWorkOnRoot.bind(null, root3));
               } else {
-                scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root2));
+                scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root3));
               }
               {
                 if (ReactCurrentActQueue$1.current !== null) {
@@ -20550,12 +20557,12 @@
                   schedulerPriorityLevel = NormalPriority;
                   break;
               }
-              newCallbackNode = scheduleCallback$1(schedulerPriorityLevel, performConcurrentWorkOnRoot.bind(null, root2));
+              newCallbackNode = scheduleCallback$1(schedulerPriorityLevel, performConcurrentWorkOnRoot.bind(null, root3));
             }
-            root2.callbackPriority = newCallbackPriority;
-            root2.callbackNode = newCallbackNode;
+            root3.callbackPriority = newCallbackPriority;
+            root3.callbackNode = newCallbackNode;
           }
-          function performConcurrentWorkOnRoot(root2, didTimeout) {
+          function performConcurrentWorkOnRoot(root3, didTimeout) {
             {
               resetNestedUpdateFlag();
             }
@@ -20564,77 +20571,77 @@
             if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
               throw new Error("Should not already be working.");
             }
-            var originalCallbackNode = root2.callbackNode;
+            var originalCallbackNode = root3.callbackNode;
             var didFlushPassiveEffects = flushPassiveEffects();
             if (didFlushPassiveEffects) {
-              if (root2.callbackNode !== originalCallbackNode) {
+              if (root3.callbackNode !== originalCallbackNode) {
                 return null;
               }
             }
-            var lanes = getNextLanes(root2, root2 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
+            var lanes = getNextLanes(root3, root3 === workInProgressRoot ? workInProgressRootRenderLanes : NoLanes);
             if (lanes === NoLanes) {
               return null;
             }
-            var shouldTimeSlice = !includesBlockingLane(root2, lanes) && !includesExpiredLane(root2, lanes) && !didTimeout;
-            var exitStatus = shouldTimeSlice ? renderRootConcurrent(root2, lanes) : renderRootSync(root2, lanes);
+            var shouldTimeSlice = !includesBlockingLane(root3, lanes) && !includesExpiredLane(root3, lanes) && !didTimeout;
+            var exitStatus = shouldTimeSlice ? renderRootConcurrent(root3, lanes) : renderRootSync(root3, lanes);
             if (exitStatus !== RootInProgress) {
               if (exitStatus === RootErrored) {
-                var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root2);
+                var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root3);
                 if (errorRetryLanes !== NoLanes) {
                   lanes = errorRetryLanes;
-                  exitStatus = recoverFromConcurrentError(root2, errorRetryLanes);
+                  exitStatus = recoverFromConcurrentError(root3, errorRetryLanes);
                 }
               }
               if (exitStatus === RootFatalErrored) {
                 var fatalError = workInProgressRootFatalError;
-                prepareFreshStack(root2, NoLanes);
-                markRootSuspended$1(root2, lanes);
-                ensureRootIsScheduled(root2, now());
+                prepareFreshStack(root3, NoLanes);
+                markRootSuspended$1(root3, lanes);
+                ensureRootIsScheduled(root3, now());
                 throw fatalError;
               }
               if (exitStatus === RootDidNotComplete) {
-                markRootSuspended$1(root2, lanes);
+                markRootSuspended$1(root3, lanes);
               } else {
-                var renderWasConcurrent = !includesBlockingLane(root2, lanes);
-                var finishedWork = root2.current.alternate;
+                var renderWasConcurrent = !includesBlockingLane(root3, lanes);
+                var finishedWork = root3.current.alternate;
                 if (renderWasConcurrent && !isRenderConsistentWithExternalStores(finishedWork)) {
-                  exitStatus = renderRootSync(root2, lanes);
+                  exitStatus = renderRootSync(root3, lanes);
                   if (exitStatus === RootErrored) {
-                    var _errorRetryLanes = getLanesToRetrySynchronouslyOnError(root2);
+                    var _errorRetryLanes = getLanesToRetrySynchronouslyOnError(root3);
                     if (_errorRetryLanes !== NoLanes) {
                       lanes = _errorRetryLanes;
-                      exitStatus = recoverFromConcurrentError(root2, _errorRetryLanes);
+                      exitStatus = recoverFromConcurrentError(root3, _errorRetryLanes);
                     }
                   }
                   if (exitStatus === RootFatalErrored) {
                     var _fatalError = workInProgressRootFatalError;
-                    prepareFreshStack(root2, NoLanes);
-                    markRootSuspended$1(root2, lanes);
-                    ensureRootIsScheduled(root2, now());
+                    prepareFreshStack(root3, NoLanes);
+                    markRootSuspended$1(root3, lanes);
+                    ensureRootIsScheduled(root3, now());
                     throw _fatalError;
                   }
                 }
-                root2.finishedWork = finishedWork;
-                root2.finishedLanes = lanes;
-                finishConcurrentRender(root2, exitStatus, lanes);
+                root3.finishedWork = finishedWork;
+                root3.finishedLanes = lanes;
+                finishConcurrentRender(root3, exitStatus, lanes);
               }
             }
-            ensureRootIsScheduled(root2, now());
-            if (root2.callbackNode === originalCallbackNode) {
-              return performConcurrentWorkOnRoot.bind(null, root2);
+            ensureRootIsScheduled(root3, now());
+            if (root3.callbackNode === originalCallbackNode) {
+              return performConcurrentWorkOnRoot.bind(null, root3);
             }
             return null;
           }
-          function recoverFromConcurrentError(root2, errorRetryLanes) {
+          function recoverFromConcurrentError(root3, errorRetryLanes) {
             var errorsFromFirstAttempt = workInProgressRootConcurrentErrors;
-            if (isRootDehydrated(root2)) {
-              var rootWorkInProgress = prepareFreshStack(root2, errorRetryLanes);
+            if (isRootDehydrated(root3)) {
+              var rootWorkInProgress = prepareFreshStack(root3, errorRetryLanes);
               rootWorkInProgress.flags |= ForceClientRender;
               {
-                errorHydratingContainer(root2.containerInfo);
+                errorHydratingContainer(root3.containerInfo);
               }
             }
-            var exitStatus = renderRootSync(root2, errorRetryLanes);
+            var exitStatus = renderRootSync(root3, errorRetryLanes);
             if (exitStatus !== RootErrored) {
               var errorsFromSecondAttempt = workInProgressRootRecoverableErrors;
               workInProgressRootRecoverableErrors = errorsFromFirstAttempt;
@@ -20651,59 +20658,59 @@
               workInProgressRootRecoverableErrors.push.apply(workInProgressRootRecoverableErrors, errors);
             }
           }
-          function finishConcurrentRender(root2, exitStatus, lanes) {
+          function finishConcurrentRender(root3, exitStatus, lanes) {
             switch (exitStatus) {
               case RootInProgress:
               case RootFatalErrored: {
                 throw new Error("Root did not complete. This is a bug in React.");
               }
               case RootErrored: {
-                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               case RootSuspended: {
-                markRootSuspended$1(root2, lanes);
+                markRootSuspended$1(root3, lanes);
                 if (includesOnlyRetries(lanes) && // do not delay if we're inside an act() scope
                 !shouldForceFlushFallbacksInDEV()) {
                   var msUntilTimeout = globalMostRecentFallbackTime + FALLBACK_THROTTLE_MS - now();
                   if (msUntilTimeout > 10) {
-                    var nextLanes = getNextLanes(root2, NoLanes);
+                    var nextLanes = getNextLanes(root3, NoLanes);
                     if (nextLanes !== NoLanes) {
                       break;
                     }
-                    var suspendedLanes = root2.suspendedLanes;
+                    var suspendedLanes = root3.suspendedLanes;
                     if (!isSubsetOfLanes(suspendedLanes, lanes)) {
                       var eventTime = requestEventTime();
-                      markRootPinged(root2, suspendedLanes);
+                      markRootPinged(root3, suspendedLanes);
                       break;
                     }
-                    root2.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root2, workInProgressRootRecoverableErrors, workInProgressTransitions), msUntilTimeout);
+                    root3.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root3, workInProgressRootRecoverableErrors, workInProgressTransitions), msUntilTimeout);
                     break;
                   }
                 }
-                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               case RootSuspendedWithDelay: {
-                markRootSuspended$1(root2, lanes);
+                markRootSuspended$1(root3, lanes);
                 if (includesOnlyTransitions(lanes)) {
                   break;
                 }
                 if (!shouldForceFlushFallbacksInDEV()) {
-                  var mostRecentEventTime = getMostRecentEventTime(root2, lanes);
+                  var mostRecentEventTime = getMostRecentEventTime(root3, lanes);
                   var eventTimeMs = mostRecentEventTime;
                   var timeElapsedMs = now() - eventTimeMs;
                   var _msUntilTimeout = jnd(timeElapsedMs) - timeElapsedMs;
                   if (_msUntilTimeout > 10) {
-                    root2.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root2, workInProgressRootRecoverableErrors, workInProgressTransitions), _msUntilTimeout);
+                    root3.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root3, workInProgressRootRecoverableErrors, workInProgressTransitions), _msUntilTimeout);
                     break;
                   }
                 }
-                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               case RootCompleted: {
-                commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
+                commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
                 break;
               }
               default: {
@@ -20754,12 +20761,12 @@
             }
             return true;
           }
-          function markRootSuspended$1(root2, suspendedLanes) {
+          function markRootSuspended$1(root3, suspendedLanes) {
             suspendedLanes = removeLanes(suspendedLanes, workInProgressRootPingedLanes);
             suspendedLanes = removeLanes(suspendedLanes, workInProgressRootInterleavedUpdatedLanes);
-            markRootSuspended(root2, suspendedLanes);
+            markRootSuspended(root3, suspendedLanes);
           }
-          function performSyncWorkOnRoot(root2) {
+          function performSyncWorkOnRoot(root3) {
             {
               syncNestedUpdateFlag();
             }
@@ -20767,40 +20774,40 @@
               throw new Error("Should not already be working.");
             }
             flushPassiveEffects();
-            var lanes = getNextLanes(root2, NoLanes);
+            var lanes = getNextLanes(root3, NoLanes);
             if (!includesSomeLane(lanes, SyncLane)) {
-              ensureRootIsScheduled(root2, now());
+              ensureRootIsScheduled(root3, now());
               return null;
             }
-            var exitStatus = renderRootSync(root2, lanes);
-            if (root2.tag !== LegacyRoot && exitStatus === RootErrored) {
-              var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root2);
+            var exitStatus = renderRootSync(root3, lanes);
+            if (root3.tag !== LegacyRoot && exitStatus === RootErrored) {
+              var errorRetryLanes = getLanesToRetrySynchronouslyOnError(root3);
               if (errorRetryLanes !== NoLanes) {
                 lanes = errorRetryLanes;
-                exitStatus = recoverFromConcurrentError(root2, errorRetryLanes);
+                exitStatus = recoverFromConcurrentError(root3, errorRetryLanes);
               }
             }
             if (exitStatus === RootFatalErrored) {
               var fatalError = workInProgressRootFatalError;
-              prepareFreshStack(root2, NoLanes);
-              markRootSuspended$1(root2, lanes);
-              ensureRootIsScheduled(root2, now());
+              prepareFreshStack(root3, NoLanes);
+              markRootSuspended$1(root3, lanes);
+              ensureRootIsScheduled(root3, now());
               throw fatalError;
             }
             if (exitStatus === RootDidNotComplete) {
               throw new Error("Root did not complete. This is a bug in React.");
             }
-            var finishedWork = root2.current.alternate;
-            root2.finishedWork = finishedWork;
-            root2.finishedLanes = lanes;
-            commitRoot(root2, workInProgressRootRecoverableErrors, workInProgressTransitions);
-            ensureRootIsScheduled(root2, now());
+            var finishedWork = root3.current.alternate;
+            root3.finishedWork = finishedWork;
+            root3.finishedLanes = lanes;
+            commitRoot(root3, workInProgressRootRecoverableErrors, workInProgressTransitions);
+            ensureRootIsScheduled(root3, now());
             return null;
           }
-          function flushRoot(root2, lanes) {
+          function flushRoot(root3, lanes) {
             if (lanes !== NoLanes) {
-              markRootEntangled(root2, mergeLanes(lanes, SyncLane));
-              ensureRootIsScheduled(root2, now());
+              markRootEntangled(root3, mergeLanes(lanes, SyncLane));
+              ensureRootIsScheduled(root3, now());
               if ((executionContext & (RenderContext | CommitContext)) === NoContext) {
                 resetRenderTimer();
                 flushSyncCallbacks();
@@ -20873,12 +20880,12 @@
             subtreeRenderLanes = subtreeRenderLanesCursor.current;
             pop(subtreeRenderLanesCursor, fiber);
           }
-          function prepareFreshStack(root2, lanes) {
-            root2.finishedWork = null;
-            root2.finishedLanes = NoLanes;
-            var timeoutHandle = root2.timeoutHandle;
+          function prepareFreshStack(root3, lanes) {
+            root3.finishedWork = null;
+            root3.finishedLanes = NoLanes;
+            var timeoutHandle = root3.timeoutHandle;
             if (timeoutHandle !== noTimeout) {
-              root2.timeoutHandle = noTimeout;
+              root3.timeoutHandle = noTimeout;
               cancelTimeout(timeoutHandle);
             }
             if (workInProgress !== null) {
@@ -20889,8 +20896,8 @@
                 interruptedWork = interruptedWork.return;
               }
             }
-            workInProgressRoot = root2;
-            var rootWorkInProgress = createWorkInProgress(root2.current, null);
+            workInProgressRoot = root3;
+            var rootWorkInProgress = createWorkInProgress(root3.current, null);
             workInProgress = rootWorkInProgress;
             workInProgressRootRenderLanes = subtreeRenderLanes = workInProgressRootIncludedLanes = lanes;
             workInProgressRootExitStatus = RootInProgress;
@@ -20906,7 +20913,7 @@
             }
             return rootWorkInProgress;
           }
-          function handleError(root2, thrownValue) {
+          function handleError(root3, thrownValue) {
             do {
               var erroredWork = workInProgress;
               try {
@@ -20932,7 +20939,7 @@
                     markComponentErrored(erroredWork, thrownValue, workInProgressRootRenderLanes);
                   }
                 }
-                throwException(root2, erroredWork.return, erroredWork, thrownValue, workInProgressRootRenderLanes);
+                throwException(root3, erroredWork.return, erroredWork, thrownValue, workInProgressRootRenderLanes);
                 completeUnitOfWork(erroredWork);
               } catch (yetAnotherThrownValue) {
                 thrownValue = yetAnotherThrownValue;
@@ -20991,23 +20998,23 @@
           function renderHasNotSuspendedYet() {
             return workInProgressRootExitStatus === RootInProgress;
           }
-          function renderRootSync(root2, lanes) {
+          function renderRootSync(root3, lanes) {
             var prevExecutionContext = executionContext;
             executionContext |= RenderContext;
             var prevDispatcher = pushDispatcher();
-            if (workInProgressRoot !== root2 || workInProgressRootRenderLanes !== lanes) {
+            if (workInProgressRoot !== root3 || workInProgressRootRenderLanes !== lanes) {
               {
                 if (isDevToolsPresent) {
-                  var memoizedUpdaters = root2.memoizedUpdaters;
+                  var memoizedUpdaters = root3.memoizedUpdaters;
                   if (memoizedUpdaters.size > 0) {
-                    restorePendingUpdaters(root2, workInProgressRootRenderLanes);
+                    restorePendingUpdaters(root3, workInProgressRootRenderLanes);
                     memoizedUpdaters.clear();
                   }
-                  movePendingFibersToMemoized(root2, lanes);
+                  movePendingFibersToMemoized(root3, lanes);
                 }
               }
               workInProgressTransitions = getTransitionsForLanes();
-              prepareFreshStack(root2, lanes);
+              prepareFreshStack(root3, lanes);
             }
             {
               markRenderStarted(lanes);
@@ -21017,7 +21024,7 @@
                 workLoopSync();
                 break;
               } catch (thrownValue) {
-                handleError(root2, thrownValue);
+                handleError(root3, thrownValue);
               }
             } while (true);
             resetContextDependencies();
@@ -21038,24 +21045,24 @@
               performUnitOfWork(workInProgress);
             }
           }
-          function renderRootConcurrent(root2, lanes) {
+          function renderRootConcurrent(root3, lanes) {
             var prevExecutionContext = executionContext;
             executionContext |= RenderContext;
             var prevDispatcher = pushDispatcher();
-            if (workInProgressRoot !== root2 || workInProgressRootRenderLanes !== lanes) {
+            if (workInProgressRoot !== root3 || workInProgressRootRenderLanes !== lanes) {
               {
                 if (isDevToolsPresent) {
-                  var memoizedUpdaters = root2.memoizedUpdaters;
+                  var memoizedUpdaters = root3.memoizedUpdaters;
                   if (memoizedUpdaters.size > 0) {
-                    restorePendingUpdaters(root2, workInProgressRootRenderLanes);
+                    restorePendingUpdaters(root3, workInProgressRootRenderLanes);
                     memoizedUpdaters.clear();
                   }
-                  movePendingFibersToMemoized(root2, lanes);
+                  movePendingFibersToMemoized(root3, lanes);
                 }
               }
               workInProgressTransitions = getTransitionsForLanes();
               resetRenderTimer();
-              prepareFreshStack(root2, lanes);
+              prepareFreshStack(root3, lanes);
             }
             {
               markRenderStarted(lanes);
@@ -21065,7 +21072,7 @@
                 workLoopConcurrent();
                 break;
               } catch (thrownValue) {
-                handleError(root2, thrownValue);
+                handleError(root3, thrownValue);
               }
             } while (true);
             resetContextDependencies();
@@ -21169,20 +21176,20 @@
               workInProgressRootExitStatus = RootCompleted;
             }
           }
-          function commitRoot(root2, recoverableErrors, transitions) {
+          function commitRoot(root3, recoverableErrors, transitions) {
             var previousUpdateLanePriority = getCurrentUpdatePriority();
             var prevTransition = ReactCurrentBatchConfig$3.transition;
             try {
               ReactCurrentBatchConfig$3.transition = null;
               setCurrentUpdatePriority(DiscreteEventPriority);
-              commitRootImpl(root2, recoverableErrors, transitions, previousUpdateLanePriority);
+              commitRootImpl(root3, recoverableErrors, transitions, previousUpdateLanePriority);
             } finally {
               ReactCurrentBatchConfig$3.transition = prevTransition;
               setCurrentUpdatePriority(previousUpdateLanePriority);
             }
             return null;
           }
-          function commitRootImpl(root2, recoverableErrors, transitions, renderPriorityLevel) {
+          function commitRootImpl(root3, recoverableErrors, transitions, renderPriorityLevel) {
             do {
               flushPassiveEffects();
             } while (rootWithPendingPassiveEffects !== null);
@@ -21190,8 +21197,8 @@
             if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
               throw new Error("Should not already be working.");
             }
-            var finishedWork = root2.finishedWork;
-            var lanes = root2.finishedLanes;
+            var finishedWork = root3.finishedWork;
+            var lanes = root3.finishedLanes;
             {
               markCommitStarted(lanes);
             }
@@ -21207,16 +21214,16 @@
                 }
               }
             }
-            root2.finishedWork = null;
-            root2.finishedLanes = NoLanes;
-            if (finishedWork === root2.current) {
+            root3.finishedWork = null;
+            root3.finishedLanes = NoLanes;
+            if (finishedWork === root3.current) {
               throw new Error("Cannot commit the same tree as before. This error is likely caused by a bug in React. Please file an issue.");
             }
-            root2.callbackNode = null;
-            root2.callbackPriority = NoLane;
+            root3.callbackNode = null;
+            root3.callbackPriority = NoLane;
             var remainingLanes = mergeLanes(finishedWork.lanes, finishedWork.childLanes);
-            markRootFinished(root2, remainingLanes);
-            if (root2 === workInProgressRoot) {
+            markRootFinished(root3, remainingLanes);
+            if (root3 === workInProgressRoot) {
               workInProgressRoot = null;
               workInProgress = null;
               workInProgressRootRenderLanes = NoLanes;
@@ -21241,17 +21248,17 @@
               var prevExecutionContext = executionContext;
               executionContext |= CommitContext;
               ReactCurrentOwner$2.current = null;
-              var shouldFireAfterActiveInstanceBlur2 = commitBeforeMutationEffects(root2, finishedWork);
+              var shouldFireAfterActiveInstanceBlur2 = commitBeforeMutationEffects(root3, finishedWork);
               {
                 recordCommitTime();
               }
-              commitMutationEffects(root2, finishedWork, lanes);
-              resetAfterCommit(root2.containerInfo);
-              root2.current = finishedWork;
+              commitMutationEffects(root3, finishedWork, lanes);
+              resetAfterCommit(root3.containerInfo);
+              root3.current = finishedWork;
               {
                 markLayoutEffectsStarted(lanes);
               }
-              commitLayoutEffects(finishedWork, root2, lanes);
+              commitLayoutEffects(finishedWork, root3, lanes);
               {
                 markLayoutEffectsStopped();
               }
@@ -21260,7 +21267,7 @@
               setCurrentUpdatePriority(previousPriority);
               ReactCurrentBatchConfig$3.transition = prevTransition;
             } else {
-              root2.current = finishedWork;
+              root3.current = finishedWork;
               {
                 recordCommitTime();
               }
@@ -21268,7 +21275,7 @@
             var rootDidHavePassiveEffects = rootDoesHavePassiveEffects;
             if (rootDoesHavePassiveEffects) {
               rootDoesHavePassiveEffects = false;
-              rootWithPendingPassiveEffects = root2;
+              rootWithPendingPassiveEffects = root3;
               pendingPassiveEffectsLanes = lanes;
             } else {
               {
@@ -21276,27 +21283,27 @@
                 rootWithPassiveNestedUpdates = null;
               }
             }
-            remainingLanes = root2.pendingLanes;
+            remainingLanes = root3.pendingLanes;
             if (remainingLanes === NoLanes) {
               legacyErrorBoundariesThatAlreadyFailed = null;
             }
             {
               if (!rootDidHavePassiveEffects) {
-                commitDoubleInvokeEffectsInDEV(root2.current, false);
+                commitDoubleInvokeEffectsInDEV(root3.current, false);
               }
             }
             onCommitRoot(finishedWork.stateNode, renderPriorityLevel);
             {
               if (isDevToolsPresent) {
-                root2.memoizedUpdaters.clear();
+                root3.memoizedUpdaters.clear();
               }
             }
             {
               onCommitRoot$1();
             }
-            ensureRootIsScheduled(root2, now());
+            ensureRootIsScheduled(root3, now());
             if (recoverableErrors !== null) {
-              var onRecoverableError = root2.onRecoverableError;
+              var onRecoverableError = root3.onRecoverableError;
               for (var i = 0; i < recoverableErrors.length; i++) {
                 var recoverableError = recoverableErrors[i];
                 var componentStack = recoverableError.stack;
@@ -21313,19 +21320,19 @@
               firstUncaughtError = null;
               throw error$1;
             }
-            if (includesSomeLane(pendingPassiveEffectsLanes, SyncLane) && root2.tag !== LegacyRoot) {
+            if (includesSomeLane(pendingPassiveEffectsLanes, SyncLane) && root3.tag !== LegacyRoot) {
               flushPassiveEffects();
             }
-            remainingLanes = root2.pendingLanes;
+            remainingLanes = root3.pendingLanes;
             if (includesSomeLane(remainingLanes, SyncLane)) {
               {
                 markNestedUpdateScheduled();
               }
-              if (root2 === rootWithNestedUpdates) {
+              if (root3 === rootWithNestedUpdates) {
                 nestedUpdateCount++;
               } else {
                 nestedUpdateCount = 0;
-                rootWithNestedUpdates = root2;
+                rootWithNestedUpdates = root3;
               }
             } else {
               nestedUpdateCount = 0;
@@ -21371,7 +21378,7 @@
             }
             var transitions = pendingPassiveTransitions;
             pendingPassiveTransitions = null;
-            var root2 = rootWithPendingPassiveEffects;
+            var root3 = rootWithPendingPassiveEffects;
             var lanes = pendingPassiveEffectsLanes;
             rootWithPendingPassiveEffects = null;
             pendingPassiveEffectsLanes = NoLanes;
@@ -21387,31 +21394,31 @@
             }
             var prevExecutionContext = executionContext;
             executionContext |= CommitContext;
-            commitPassiveUnmountEffects(root2.current);
-            commitPassiveMountEffects(root2, root2.current, lanes, transitions);
+            commitPassiveUnmountEffects(root3.current);
+            commitPassiveMountEffects(root3, root3.current, lanes, transitions);
             {
               var profilerEffects = pendingPassiveProfilerEffects;
               pendingPassiveProfilerEffects = [];
               for (var i = 0; i < profilerEffects.length; i++) {
                 var _fiber = profilerEffects[i];
-                commitPassiveEffectDurations(root2, _fiber);
+                commitPassiveEffectDurations(root3, _fiber);
               }
             }
             {
               markPassiveEffectsStopped();
             }
             {
-              commitDoubleInvokeEffectsInDEV(root2.current, true);
+              commitDoubleInvokeEffectsInDEV(root3.current, true);
             }
             executionContext = prevExecutionContext;
             flushSyncCallbacks();
             {
               if (didScheduleUpdateDuringPassiveEffects) {
-                if (root2 === rootWithPassiveNestedUpdates) {
+                if (root3 === rootWithPassiveNestedUpdates) {
                   nestedPassiveUpdateCount++;
                 } else {
                   nestedPassiveUpdateCount = 0;
-                  rootWithPassiveNestedUpdates = root2;
+                  rootWithPassiveNestedUpdates = root3;
                 }
               } else {
                 nestedPassiveUpdateCount = 0;
@@ -21419,9 +21426,9 @@
               isFlushingPassiveEffects = false;
               didScheduleUpdateDuringPassiveEffects = false;
             }
-            onPostCommitRoot(root2);
+            onPostCommitRoot(root3);
             {
-              var stateNode = root2.current.stateNode;
+              var stateNode = root3.current.stateNode;
               stateNode.effectDuration = 0;
               stateNode.passiveEffectDuration = 0;
             }
@@ -21447,11 +21454,11 @@
           function captureCommitPhaseErrorOnRoot(rootFiber, sourceFiber, error2) {
             var errorInfo = createCapturedValueAtFiber(error2, sourceFiber);
             var update = createRootErrorUpdate(rootFiber, errorInfo, SyncLane);
-            var root2 = enqueueUpdate(rootFiber, update, SyncLane);
+            var root3 = enqueueUpdate(rootFiber, update, SyncLane);
             var eventTime = requestEventTime();
-            if (root2 !== null) {
-              markRootUpdated(root2, SyncLane, eventTime);
-              ensureRootIsScheduled(root2, eventTime);
+            if (root3 !== null) {
+              markRootUpdated(root3, SyncLane, eventTime);
+              ensureRootIsScheduled(root3, eventTime);
             }
           }
           function captureCommitPhaseError(sourceFiber, nearestMountedAncestor, error$1) {
@@ -21477,11 +21484,11 @@
                 if (typeof ctor.getDerivedStateFromError === "function" || typeof instance.componentDidCatch === "function" && !isAlreadyFailedLegacyErrorBoundary(instance)) {
                   var errorInfo = createCapturedValueAtFiber(error$1, sourceFiber);
                   var update = createClassErrorUpdate(fiber, errorInfo, SyncLane);
-                  var root2 = enqueueUpdate(fiber, update, SyncLane);
+                  var root3 = enqueueUpdate(fiber, update, SyncLane);
                   var eventTime = requestEventTime();
-                  if (root2 !== null) {
-                    markRootUpdated(root2, SyncLane, eventTime);
-                    ensureRootIsScheduled(root2, eventTime);
+                  if (root3 !== null) {
+                    markRootUpdated(root3, SyncLane, eventTime);
+                    ensureRootIsScheduled(root3, eventTime);
                   }
                   return;
                 }
@@ -21492,32 +21499,32 @@
               error("Internal React error: Attempted to capture a commit phase error inside a detached tree. This indicates a bug in React. Likely causes include deleting the same fiber more than once, committing an already-finished tree, or an inconsistent return pointer.\n\nError message:\n\n%s", error$1);
             }
           }
-          function pingSuspendedRoot(root2, wakeable, pingedLanes) {
-            var pingCache = root2.pingCache;
+          function pingSuspendedRoot(root3, wakeable, pingedLanes) {
+            var pingCache = root3.pingCache;
             if (pingCache !== null) {
               pingCache.delete(wakeable);
             }
             var eventTime = requestEventTime();
-            markRootPinged(root2, pingedLanes);
-            warnIfSuspenseResolutionNotWrappedWithActDEV(root2);
-            if (workInProgressRoot === root2 && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes)) {
+            markRootPinged(root3, pingedLanes);
+            warnIfSuspenseResolutionNotWrappedWithActDEV(root3);
+            if (workInProgressRoot === root3 && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes)) {
               if (workInProgressRootExitStatus === RootSuspendedWithDelay || workInProgressRootExitStatus === RootSuspended && includesOnlyRetries(workInProgressRootRenderLanes) && now() - globalMostRecentFallbackTime < FALLBACK_THROTTLE_MS) {
-                prepareFreshStack(root2, NoLanes);
+                prepareFreshStack(root3, NoLanes);
               } else {
                 workInProgressRootPingedLanes = mergeLanes(workInProgressRootPingedLanes, pingedLanes);
               }
             }
-            ensureRootIsScheduled(root2, eventTime);
+            ensureRootIsScheduled(root3, eventTime);
           }
           function retryTimedOutBoundary(boundaryFiber, retryLane) {
             if (retryLane === NoLane) {
               retryLane = requestRetryLane(boundaryFiber);
             }
             var eventTime = requestEventTime();
-            var root2 = enqueueConcurrentRenderForLane(boundaryFiber, retryLane);
-            if (root2 !== null) {
-              markRootUpdated(root2, retryLane, eventTime);
-              ensureRootIsScheduled(root2, eventTime);
+            var root3 = enqueueConcurrentRenderForLane(boundaryFiber, retryLane);
+            if (root3 !== null) {
+              markRootUpdated(root3, retryLane, eventTime);
+              ensureRootIsScheduled(root3, eventTime);
             }
           }
           function retryDehydratedSuspenseBoundary(boundaryFiber) {
@@ -21706,12 +21713,12 @@
               }
             }
           }
-          function restorePendingUpdaters(root2, lanes) {
+          function restorePendingUpdaters(root3, lanes) {
             {
               if (isDevToolsPresent) {
-                var memoizedUpdaters = root2.memoizedUpdaters;
+                var memoizedUpdaters = root3.memoizedUpdaters;
                 memoizedUpdaters.forEach(function(schedulingFiber) {
-                  addFiberToLanesMap(root2, schedulingFiber, lanes);
+                  addFiberToLanesMap(root3, schedulingFiber, lanes);
                 });
               }
             }
@@ -21769,9 +21776,9 @@
               }
             }
           }
-          function warnIfSuspenseResolutionNotWrappedWithActDEV(root2) {
+          function warnIfSuspenseResolutionNotWrappedWithActDEV(root3) {
             {
-              if (root2.tag !== LegacyRoot && isConcurrentActEnvironment() && ReactCurrentActQueue$1.current === null) {
+              if (root3.tag !== LegacyRoot && isConcurrentActEnvironment() && ReactCurrentActQueue$1.current === null) {
                 error("A suspended resource finished loading inside a test, but the event was not wrapped in act(...).\n\nWhen testing, code that resolves suspended data should be wrapped into act(...):\n\nact(() => {\n  /* finish loading suspended data */\n});\n/* assert on the output */\n\nThis ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act");
               }
             }
@@ -21895,7 +21902,7 @@
               failedBoundaries.add(fiber);
             }
           }
-          var scheduleRefresh = function(root2, update) {
+          var scheduleRefresh = function(root3, update) {
             {
               if (resolveFamily === null) {
                 return;
@@ -21903,18 +21910,18 @@
               var staleFamilies = update.staleFamilies, updatedFamilies = update.updatedFamilies;
               flushPassiveEffects();
               flushSync(function() {
-                scheduleFibersWithFamiliesRecursively(root2.current, updatedFamilies, staleFamilies);
+                scheduleFibersWithFamiliesRecursively(root3.current, updatedFamilies, staleFamilies);
               });
             }
           };
-          var scheduleRoot = function(root2, element) {
+          var scheduleRoot = function(root3, element) {
             {
-              if (root2.context !== emptyContextObject) {
+              if (root3.context !== emptyContextObject) {
                 return;
               }
               flushPassiveEffects();
               flushSync(function() {
-                updateContainer(element, root2, null, null);
+                updateContainer(element, root3, null, null);
               });
             }
           };
@@ -21973,13 +21980,13 @@
               }
             }
           }
-          var findHostInstancesForRefresh = function(root2, families) {
+          var findHostInstancesForRefresh = function(root3, families) {
             {
               var hostInstances = /* @__PURE__ */ new Set();
               var types = new Set(families.map(function(family) {
                 return family.current;
               }));
-              findHostInstancesForMatchingFibersRecursively(root2.current, types, hostInstances);
+              findHostInstancesForMatchingFibersRecursively(root3.current, types, hostInstances);
               return hostInstances;
             }
           };
@@ -22528,10 +22535,10 @@
             }
           }
           function createFiberRoot(containerInfo, tag, hydrate2, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError, transitionCallbacks) {
-            var root2 = new FiberRootNode(containerInfo, tag, hydrate2, identifierPrefix, onRecoverableError);
+            var root3 = new FiberRootNode(containerInfo, tag, hydrate2, identifierPrefix, onRecoverableError);
             var uninitializedFiber = createHostRootFiber(tag, isStrictMode);
-            root2.current = uninitializedFiber;
-            uninitializedFiber.stateNode = root2;
+            root3.current = uninitializedFiber;
+            uninitializedFiber.stateNode = root3;
             {
               var _initialState = {
                 element: initialChildren,
@@ -22544,7 +22551,7 @@
               uninitializedFiber.memoizedState = _initialState;
             }
             initializeUpdateQueue(uninitializedFiber);
-            return root2;
+            return root3;
           }
           var ReactVersion = "18.2.0";
           function createPortal(children, containerInfo, implementation) {
@@ -22627,32 +22634,32 @@
           }
           function createHydrationContainer(initialChildren, callback, containerInfo, tag, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError, transitionCallbacks) {
             var hydrate2 = true;
-            var root2 = createFiberRoot(containerInfo, tag, hydrate2, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            root2.context = getContextForSubtree(null);
-            var current2 = root2.current;
+            var root3 = createFiberRoot(containerInfo, tag, hydrate2, initialChildren, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            root3.context = getContextForSubtree(null);
+            var current2 = root3.current;
             var eventTime = requestEventTime();
             var lane = requestUpdateLane(current2);
             var update = createUpdate(eventTime, lane);
             update.callback = callback !== void 0 && callback !== null ? callback : null;
             enqueueUpdate(current2, update, lane);
-            scheduleInitialHydrationOnRoot(root2, lane, eventTime);
-            return root2;
+            scheduleInitialHydrationOnRoot(root3, lane, eventTime);
+            return root3;
           }
-          function updateContainer(element, container, parentComponent, callback) {
+          function updateContainer(element, container2, parentComponent, callback) {
             {
-              onScheduleRoot(container, element);
+              onScheduleRoot(container2, element);
             }
-            var current$1 = container.current;
+            var current$1 = container2.current;
             var eventTime = requestEventTime();
             var lane = requestUpdateLane(current$1);
             {
               markRenderScheduled(lane);
             }
             var context = getContextForSubtree(parentComponent);
-            if (container.context === null) {
-              container.context = context;
+            if (container2.context === null) {
+              container2.context = context;
             } else {
-              container.pendingContext = context;
+              container2.pendingContext = context;
             }
             {
               if (isRendering && current !== null && !didWarnAboutNestedUpdates) {
@@ -22673,15 +22680,15 @@
               }
               update.callback = callback;
             }
-            var root2 = enqueueUpdate(current$1, update, lane);
-            if (root2 !== null) {
-              scheduleUpdateOnFiber(root2, current$1, lane, eventTime);
-              entangleTransitions(root2, current$1, lane);
+            var root3 = enqueueUpdate(current$1, update, lane);
+            if (root3 !== null) {
+              scheduleUpdateOnFiber(root3, current$1, lane, eventTime);
+              entangleTransitions(root3, current$1, lane);
             }
             return lane;
           }
-          function getPublicRootInstance(container) {
-            var containerFiber = container.current;
+          function getPublicRootInstance(container2) {
+            var containerFiber = container2.current;
             if (!containerFiber.child) {
               return null;
             }
@@ -22695,19 +22702,19 @@
           function attemptSynchronousHydration$1(fiber) {
             switch (fiber.tag) {
               case HostRoot: {
-                var root2 = fiber.stateNode;
-                if (isRootDehydrated(root2)) {
-                  var lanes = getHighestPriorityPendingLanes(root2);
-                  flushRoot(root2, lanes);
+                var root3 = fiber.stateNode;
+                if (isRootDehydrated(root3)) {
+                  var lanes = getHighestPriorityPendingLanes(root3);
+                  flushRoot(root3, lanes);
                 }
                 break;
               }
               case SuspenseComponent: {
                 flushSync(function() {
-                  var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                  if (root3 !== null) {
+                  var root4 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                  if (root4 !== null) {
                     var eventTime = requestEventTime();
-                    scheduleUpdateOnFiber(root3, fiber, SyncLane, eventTime);
+                    scheduleUpdateOnFiber(root4, fiber, SyncLane, eventTime);
                   }
                 });
                 var retryLane = SyncLane;
@@ -22734,10 +22741,10 @@
               return;
             }
             var lane = SelectiveHydrationLane;
-            var root2 = enqueueConcurrentRenderForLane(fiber, lane);
-            if (root2 !== null) {
+            var root3 = enqueueConcurrentRenderForLane(fiber, lane);
+            if (root3 !== null) {
               var eventTime = requestEventTime();
-              scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
+              scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
             }
             markRetryLaneIfNotHydrated(fiber, lane);
           }
@@ -22746,10 +22753,10 @@
               return;
             }
             var lane = requestUpdateLane(fiber);
-            var root2 = enqueueConcurrentRenderForLane(fiber, lane);
-            if (root2 !== null) {
+            var root3 = enqueueConcurrentRenderForLane(fiber, lane);
+            if (root3 !== null) {
               var eventTime = requestEventTime();
-              scheduleUpdateOnFiber(root2, fiber, lane, eventTime);
+              scheduleUpdateOnFiber(root3, fiber, lane, eventTime);
             }
             markRetryLaneIfNotHydrated(fiber, lane);
           }
@@ -22862,9 +22869,9 @@
                 hook.memoizedState = newState;
                 hook.baseState = newState;
                 fiber.memoizedProps = assign({}, fiber.memoizedProps);
-                var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                if (root2 !== null) {
-                  scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+                var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                if (root3 !== null) {
+                  scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
                 }
               }
             };
@@ -22875,9 +22882,9 @@
                 hook.memoizedState = newState;
                 hook.baseState = newState;
                 fiber.memoizedProps = assign({}, fiber.memoizedProps);
-                var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                if (root2 !== null) {
-                  scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+                var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                if (root3 !== null) {
+                  scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
                 }
               }
             };
@@ -22888,9 +22895,9 @@
                 hook.memoizedState = newState;
                 hook.baseState = newState;
                 fiber.memoizedProps = assign({}, fiber.memoizedProps);
-                var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-                if (root2 !== null) {
-                  scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+                var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+                if (root3 !== null) {
+                  scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
                 }
               }
             };
@@ -22899,9 +22906,9 @@
               if (fiber.alternate) {
                 fiber.alternate.pendingProps = fiber.pendingProps;
               }
-              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root2 !== null) {
-                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root3 !== null) {
+                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
               }
             };
             overridePropsDeletePath = function(fiber, path) {
@@ -22909,9 +22916,9 @@
               if (fiber.alternate) {
                 fiber.alternate.pendingProps = fiber.pendingProps;
               }
-              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root2 !== null) {
-                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root3 !== null) {
+                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
               }
             };
             overridePropsRenamePath = function(fiber, oldPath, newPath) {
@@ -22919,15 +22926,15 @@
               if (fiber.alternate) {
                 fiber.alternate.pendingProps = fiber.pendingProps;
               }
-              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root2 !== null) {
-                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root3 !== null) {
+                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
               }
             };
             scheduleUpdate = function(fiber) {
-              var root2 = enqueueConcurrentRenderForLane(fiber, SyncLane);
-              if (root2 !== null) {
-                scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
+              var root3 = enqueueConcurrentRenderForLane(fiber, SyncLane);
+              if (root3 !== null) {
+                scheduleUpdateOnFiber(root3, fiber, SyncLane, NoTimestamp);
               }
             };
             setErrorHandler = function(newShouldErrorImpl) {
@@ -22993,8 +23000,8 @@
             this._internalRoot = internalRoot;
           }
           ReactDOMHydrationRoot.prototype.render = ReactDOMRoot.prototype.render = function(children) {
-            var root2 = this._internalRoot;
-            if (root2 === null) {
+            var root3 = this._internalRoot;
+            if (root3 === null) {
               throw new Error("Cannot update an unmounted root.");
             }
             {
@@ -23005,17 +23012,17 @@
               } else if (typeof arguments[1] !== "undefined") {
                 error("You passed a second argument to root.render(...) but it only accepts one argument.");
               }
-              var container = root2.containerInfo;
-              if (container.nodeType !== COMMENT_NODE) {
-                var hostInstance = findHostInstanceWithNoPortals(root2.current);
+              var container2 = root3.containerInfo;
+              if (container2.nodeType !== COMMENT_NODE) {
+                var hostInstance = findHostInstanceWithNoPortals(root3.current);
                 if (hostInstance) {
-                  if (hostInstance.parentNode !== container) {
+                  if (hostInstance.parentNode !== container2) {
                     error("render(...): It looks like the React-rendered content of the root container was removed without using React. This is not supported and will cause errors. Instead, call root.unmount() to empty a root's container.");
                   }
                 }
               }
             }
-            updateContainer(children, root2, null, null);
+            updateContainer(children, root3, null, null);
           };
           ReactDOMHydrationRoot.prototype.unmount = ReactDOMRoot.prototype.unmount = function() {
             {
@@ -23023,26 +23030,26 @@
                 error("unmount(...): does not support a callback argument. To execute a side effect after rendering, declare it in a component body with useEffect().");
               }
             }
-            var root2 = this._internalRoot;
-            if (root2 !== null) {
+            var root3 = this._internalRoot;
+            if (root3 !== null) {
               this._internalRoot = null;
-              var container = root2.containerInfo;
+              var container2 = root3.containerInfo;
               {
                 if (isAlreadyRendering()) {
                   error("Attempted to synchronously unmount a root while React was already rendering. React cannot finish unmounting the root until the current render has completed, which may lead to a race condition.");
                 }
               }
               flushSync(function() {
-                updateContainer(null, root2, null, null);
+                updateContainer(null, root3, null, null);
               });
-              unmarkContainerAsRoot(container);
+              unmarkContainerAsRoot(container2);
             }
           };
-          function createRoot(container, options2) {
-            if (!isValidContainer(container)) {
+          function createRoot2(container2, options2) {
+            if (!isValidContainer(container2)) {
               throw new Error("createRoot(...): Target container is not a DOM element.");
             }
-            warnIfReactDOMContainerInDEV(container);
+            warnIfReactDOMContainerInDEV(container2);
             var isStrictMode = false;
             var concurrentUpdatesByDefaultOverride = false;
             var identifierPrefix = "";
@@ -23071,11 +23078,11 @@
                 transitionCallbacks = options2.transitionCallbacks;
               }
             }
-            var root2 = createContainer(container, ConcurrentRoot, null, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            markContainerAsRoot(root2.current, container);
-            var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
+            var root3 = createContainer(container2, ConcurrentRoot, null, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            markContainerAsRoot(root3.current, container2);
+            var rootContainerElement = container2.nodeType === COMMENT_NODE ? container2.parentNode : container2;
             listenToAllSupportedEvents(rootContainerElement);
-            return new ReactDOMRoot(root2);
+            return new ReactDOMRoot(root3);
           }
           function ReactDOMHydrationRoot(internalRoot) {
             this._internalRoot = internalRoot;
@@ -23086,11 +23093,11 @@
             }
           }
           ReactDOMHydrationRoot.prototype.unstable_scheduleHydration = scheduleHydration;
-          function hydrateRoot(container, initialChildren, options2) {
-            if (!isValidContainer(container)) {
+          function hydrateRoot(container2, initialChildren, options2) {
+            if (!isValidContainer(container2)) {
               throw new Error("hydrateRoot(...): Target container is not a DOM element.");
             }
-            warnIfReactDOMContainerInDEV(container);
+            warnIfReactDOMContainerInDEV(container2);
             {
               if (initialChildren === void 0) {
                 error("Must provide initial children as second argument to hydrateRoot. Example usage: hydrateRoot(domContainer, <App />)");
@@ -23113,16 +23120,16 @@
                 onRecoverableError = options2.onRecoverableError;
               }
             }
-            var root2 = createHydrationContainer(initialChildren, null, container, ConcurrentRoot, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
-            markContainerAsRoot(root2.current, container);
-            listenToAllSupportedEvents(container);
+            var root3 = createHydrationContainer(initialChildren, null, container2, ConcurrentRoot, hydrationCallbacks, isStrictMode, concurrentUpdatesByDefaultOverride, identifierPrefix, onRecoverableError);
+            markContainerAsRoot(root3.current, container2);
+            listenToAllSupportedEvents(container2);
             if (mutableSources) {
               for (var i = 0; i < mutableSources.length; i++) {
                 var mutableSource = mutableSources[i];
-                registerMutableSourceForHydration(root2, mutableSource);
+                registerMutableSourceForHydration(root3, mutableSource);
               }
             }
-            return new ReactDOMHydrationRoot(root2);
+            return new ReactDOMHydrationRoot(root3);
           }
           function isValidContainer(node) {
             return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || !disableCommentsAsDOMContainers));
@@ -23130,13 +23137,13 @@
           function isValidContainerLegacy(node) {
             return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || node.nodeType === COMMENT_NODE && node.nodeValue === " react-mount-point-unstable "));
           }
-          function warnIfReactDOMContainerInDEV(container) {
+          function warnIfReactDOMContainerInDEV(container2) {
             {
-              if (container.nodeType === ELEMENT_NODE && container.tagName && container.tagName.toUpperCase() === "BODY") {
+              if (container2.nodeType === ELEMENT_NODE && container2.tagName && container2.tagName.toUpperCase() === "BODY") {
                 error("createRoot(): Creating roots directly with document.body is discouraged, since its children are often manipulated by third-party scripts and browser extensions. This may lead to subtle reconciliation issues. Try using a container element created for your app.");
               }
-              if (isContainerMarkedAsRoot(container)) {
-                if (container._reactRootContainer) {
+              if (isContainerMarkedAsRoot(container2)) {
+                if (container2._reactRootContainer) {
                   error("You are calling ReactDOMClient.createRoot() on a container that was previously passed to ReactDOM.render(). This is not supported.");
                 } else {
                   error("You are calling ReactDOMClient.createRoot() on a container that has already been passed to createRoot() before. Instead, call root.render() on the existing root instead if you want to update it.");
@@ -23147,51 +23154,51 @@
           var ReactCurrentOwner$3 = ReactSharedInternals.ReactCurrentOwner;
           var topLevelUpdateWarnings;
           {
-            topLevelUpdateWarnings = function(container) {
-              if (container._reactRootContainer && container.nodeType !== COMMENT_NODE) {
-                var hostInstance = findHostInstanceWithNoPortals(container._reactRootContainer.current);
+            topLevelUpdateWarnings = function(container2) {
+              if (container2._reactRootContainer && container2.nodeType !== COMMENT_NODE) {
+                var hostInstance = findHostInstanceWithNoPortals(container2._reactRootContainer.current);
                 if (hostInstance) {
-                  if (hostInstance.parentNode !== container) {
+                  if (hostInstance.parentNode !== container2) {
                     error("render(...): It looks like the React-rendered content of this container was removed without using React. This is not supported and will cause errors. Instead, call ReactDOM.unmountComponentAtNode to empty a container.");
                   }
                 }
               }
-              var isRootRenderedBySomeReact = !!container._reactRootContainer;
-              var rootEl = getReactRootElementInContainer(container);
+              var isRootRenderedBySomeReact = !!container2._reactRootContainer;
+              var rootEl = getReactRootElementInContainer(container2);
               var hasNonRootReactChild = !!(rootEl && getInstanceFromNode(rootEl));
               if (hasNonRootReactChild && !isRootRenderedBySomeReact) {
                 error("render(...): Replacing React-rendered children with a new root component. If you intended to update the children of this node, you should instead have the existing children update their state and render the new components instead of calling ReactDOM.render.");
               }
-              if (container.nodeType === ELEMENT_NODE && container.tagName && container.tagName.toUpperCase() === "BODY") {
+              if (container2.nodeType === ELEMENT_NODE && container2.tagName && container2.tagName.toUpperCase() === "BODY") {
                 error("render(): Rendering components directly into document.body is discouraged, since its children are often manipulated by third-party scripts and browser extensions. This may lead to subtle reconciliation issues. Try rendering into a container element created for your app.");
               }
             };
           }
-          function getReactRootElementInContainer(container) {
-            if (!container) {
+          function getReactRootElementInContainer(container2) {
+            if (!container2) {
               return null;
             }
-            if (container.nodeType === DOCUMENT_NODE) {
-              return container.documentElement;
+            if (container2.nodeType === DOCUMENT_NODE) {
+              return container2.documentElement;
             } else {
-              return container.firstChild;
+              return container2.firstChild;
             }
           }
           function noopOnRecoverableError() {
           }
-          function legacyCreateRootFromDOMContainer(container, initialChildren, parentComponent, callback, isHydrationContainer) {
+          function legacyCreateRootFromDOMContainer(container2, initialChildren, parentComponent, callback, isHydrationContainer) {
             if (isHydrationContainer) {
               if (typeof callback === "function") {
                 var originalCallback = callback;
                 callback = function() {
-                  var instance = getPublicRootInstance(root2);
+                  var instance = getPublicRootInstance(root3);
                   originalCallback.call(instance);
                 };
               }
-              var root2 = createHydrationContainer(
+              var root3 = createHydrationContainer(
                 initialChildren,
                 callback,
-                container,
+                container2,
                 LegacyRoot,
                 null,
                 // hydrationCallbacks
@@ -23203,16 +23210,16 @@
                 // identifierPrefix
                 noopOnRecoverableError
               );
-              container._reactRootContainer = root2;
-              markContainerAsRoot(root2.current, container);
-              var rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
+              container2._reactRootContainer = root3;
+              markContainerAsRoot(root3.current, container2);
+              var rootContainerElement = container2.nodeType === COMMENT_NODE ? container2.parentNode : container2;
               listenToAllSupportedEvents(rootContainerElement);
               flushSync();
-              return root2;
+              return root3;
             } else {
               var rootSibling;
-              while (rootSibling = container.lastChild) {
-                container.removeChild(rootSibling);
+              while (rootSibling = container2.lastChild) {
+                container2.removeChild(rootSibling);
               }
               if (typeof callback === "function") {
                 var _originalCallback = callback;
@@ -23222,7 +23229,7 @@
                 };
               }
               var _root = createContainer(
-                container,
+                container2,
                 LegacyRoot,
                 null,
                 // hydrationCallbacks
@@ -23234,9 +23241,9 @@
                 // identifierPrefix
                 noopOnRecoverableError
               );
-              container._reactRootContainer = _root;
-              markContainerAsRoot(_root.current, container);
-              var _rootContainerElement = container.nodeType === COMMENT_NODE ? container.parentNode : container;
+              container2._reactRootContainer = _root;
+              markContainerAsRoot(_root.current, container2);
+              var _rootContainerElement = container2.nodeType === COMMENT_NODE ? container2.parentNode : container2;
               listenToAllSupportedEvents(_rootContainerElement);
               flushSync(function() {
                 updateContainer(initialChildren, _root, parentComponent, callback);
@@ -23251,27 +23258,27 @@
               }
             }
           }
-          function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
+          function legacyRenderSubtreeIntoContainer(parentComponent, children, container2, forceHydrate, callback) {
             {
-              topLevelUpdateWarnings(container);
+              topLevelUpdateWarnings(container2);
               warnOnInvalidCallback$1(callback === void 0 ? null : callback, "render");
             }
-            var maybeRoot = container._reactRootContainer;
-            var root2;
+            var maybeRoot = container2._reactRootContainer;
+            var root3;
             if (!maybeRoot) {
-              root2 = legacyCreateRootFromDOMContainer(container, children, parentComponent, callback, forceHydrate);
+              root3 = legacyCreateRootFromDOMContainer(container2, children, parentComponent, callback, forceHydrate);
             } else {
-              root2 = maybeRoot;
+              root3 = maybeRoot;
               if (typeof callback === "function") {
                 var originalCallback = callback;
                 callback = function() {
-                  var instance = getPublicRootInstance(root2);
+                  var instance = getPublicRootInstance(root3);
                   originalCallback.call(instance);
                 };
               }
-              updateContainer(children, root2, parentComponent, callback);
+              updateContainer(children, root3, parentComponent, callback);
             }
-            return getPublicRootInstance(root2);
+            return getPublicRootInstance(root3);
           }
           function findDOMNode(componentOrElement) {
             {
@@ -23294,35 +23301,35 @@
               return findHostInstanceWithWarning(componentOrElement, "findDOMNode");
             }
           }
-          function hydrate(element, container, callback) {
+          function hydrate(element, container2, callback) {
             {
               error("ReactDOM.hydrate is no longer supported in React 18. Use hydrateRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot");
             }
-            if (!isValidContainerLegacy(container)) {
+            if (!isValidContainerLegacy(container2)) {
               throw new Error("Target container is not a DOM element.");
             }
             {
-              var isModernRoot = isContainerMarkedAsRoot(container) && container._reactRootContainer === void 0;
+              var isModernRoot = isContainerMarkedAsRoot(container2) && container2._reactRootContainer === void 0;
               if (isModernRoot) {
                 error("You are calling ReactDOM.hydrate() on a container that was previously passed to ReactDOMClient.createRoot(). This is not supported. Did you mean to call hydrateRoot(container, element)?");
               }
             }
-            return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
+            return legacyRenderSubtreeIntoContainer(null, element, container2, true, callback);
           }
-          function render(element, container, callback) {
+          function render(element, container2, callback) {
             {
               error("ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot");
             }
-            if (!isValidContainerLegacy(container)) {
+            if (!isValidContainerLegacy(container2)) {
               throw new Error("Target container is not a DOM element.");
             }
             {
-              var isModernRoot = isContainerMarkedAsRoot(container) && container._reactRootContainer === void 0;
+              var isModernRoot = isContainerMarkedAsRoot(container2) && container2._reactRootContainer === void 0;
               if (isModernRoot) {
                 error("You are calling ReactDOM.render() on a container that was previously passed to ReactDOMClient.createRoot(). This is not supported. Did you mean to call root.render(element)?");
               }
             }
-            return legacyRenderSubtreeIntoContainer(null, element, container, false, callback);
+            return legacyRenderSubtreeIntoContainer(null, element, container2, false, callback);
           }
           function unstable_renderSubtreeIntoContainer(parentComponent, element, containerNode, callback) {
             {
@@ -23336,36 +23343,36 @@
             }
             return legacyRenderSubtreeIntoContainer(parentComponent, element, containerNode, false, callback);
           }
-          function unmountComponentAtNode(container) {
-            if (!isValidContainerLegacy(container)) {
+          function unmountComponentAtNode(container2) {
+            if (!isValidContainerLegacy(container2)) {
               throw new Error("unmountComponentAtNode(...): Target container is not a DOM element.");
             }
             {
-              var isModernRoot = isContainerMarkedAsRoot(container) && container._reactRootContainer === void 0;
+              var isModernRoot = isContainerMarkedAsRoot(container2) && container2._reactRootContainer === void 0;
               if (isModernRoot) {
                 error("You are calling ReactDOM.unmountComponentAtNode() on a container that was previously passed to ReactDOMClient.createRoot(). This is not supported. Did you mean to call root.unmount()?");
               }
             }
-            if (container._reactRootContainer) {
+            if (container2._reactRootContainer) {
               {
-                var rootEl = getReactRootElementInContainer(container);
+                var rootEl = getReactRootElementInContainer(container2);
                 var renderedByDifferentReact = rootEl && !getInstanceFromNode(rootEl);
                 if (renderedByDifferentReact) {
                   error("unmountComponentAtNode(): The node you're attempting to unmount was rendered by another copy of React.");
                 }
               }
               flushSync(function() {
-                legacyRenderSubtreeIntoContainer(null, null, container, false, function() {
-                  container._reactRootContainer = null;
-                  unmarkContainerAsRoot(container);
+                legacyRenderSubtreeIntoContainer(null, null, container2, false, function() {
+                  container2._reactRootContainer = null;
+                  unmarkContainerAsRoot(container2);
                 });
               });
               return true;
             } else {
               {
-                var _rootEl = getReactRootElementInContainer(container);
+                var _rootEl = getReactRootElementInContainer(container2);
                 var hasNonRootReactChild = !!(_rootEl && getInstanceFromNode(_rootEl));
-                var isContainerReactRoot = container.nodeType === ELEMENT_NODE && isValidContainerLegacy(container.parentNode) && !!container.parentNode._reactRootContainer;
+                var isContainerReactRoot = container2.nodeType === ELEMENT_NODE && isValidContainerLegacy(container2.parentNode) && !!container2.parentNode._reactRootContainer;
                 if (hasNonRootReactChild) {
                   error("unmountComponentAtNode(): The node you're attempting to unmount was rendered by React and is not a top-level container. %s", isContainerReactRoot ? "You may have accidentally passed in a React root node instead of its container." : "Instead, have the parent component update its state and rerender in order to remove this component.");
                 }
@@ -23387,12 +23394,12 @@
           }
           setRestoreImplementation(restoreControlledState$3);
           setBatchingImplementation(batchedUpdates$1, discreteUpdates, flushSync);
-          function createPortal$1(children, container) {
+          function createPortal$1(children, container2) {
             var key = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : null;
-            if (!isValidContainer(container)) {
+            if (!isValidContainer(container2)) {
               throw new Error("Target container is not a DOM element.");
             }
-            return createPortal(children, container, null, key);
+            return createPortal(children, container2, null, key);
           }
           function renderSubtreeIntoContainer(parentComponent, element, containerNode, callback) {
             return unstable_renderSubtreeIntoContainer(parentComponent, element, containerNode, callback);
@@ -23403,21 +23410,21 @@
             // This is an array for better minification.
             Events: [getInstanceFromNode, getNodeFromInstance, getFiberCurrentPropsFromNode, enqueueStateRestore, restoreStateIfNeeded, batchedUpdates$1]
           };
-          function createRoot$1(container, options2) {
+          function createRoot$1(container2, options2) {
             {
               if (!Internals.usingClientEntryPoint && true) {
                 error('You are importing createRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".');
               }
             }
-            return createRoot(container, options2);
+            return createRoot2(container2, options2);
           }
-          function hydrateRoot$1(container, initialChildren, options2) {
+          function hydrateRoot$1(container2, initialChildren, options2) {
             {
               if (!Internals.usingClientEntryPoint && true) {
                 error('You are importing hydrateRoot from "react-dom" which is not supported. You should instead import it from "react-dom/client".');
               }
             }
-            return hydrateRoot(container, initialChildren, options2);
+            return hydrateRoot(container2, initialChildren, options2);
           }
           function flushSync$1(fn) {
             {
@@ -23476,28 +23483,15598 @@
     }
   });
 
+  // node_modules/react-dom/client.js
+  var require_client = __commonJS({
+    "node_modules/react-dom/client.js"(exports) {
+      "use strict";
+      var m = require_react_dom();
+      if (false) {
+        exports.createRoot = m.createRoot;
+        exports.hydrateRoot = m.hydrateRoot;
+      } else {
+        i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        exports.createRoot = function(c, o) {
+          i.usingClientEntryPoint = true;
+          try {
+            return m.createRoot(c, o);
+          } finally {
+            i.usingClientEntryPoint = false;
+          }
+        };
+        exports.hydrateRoot = function(c, h, o) {
+          i.usingClientEntryPoint = true;
+          try {
+            return m.hydrateRoot(c, h, o);
+          } finally {
+            i.usingClientEntryPoint = false;
+          }
+        };
+      }
+      var i;
+    }
+  });
+
+  // js/moment.js
+  var require_moment = __commonJS({
+    "js/moment.js"(exports, module) {
+      (function(global, factory) {
+        typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : global.moment = factory();
+      })(exports, function() {
+        "use strict";
+        var hookCallback;
+        function hooks() {
+          return hookCallback.apply(null, arguments);
+        }
+        function setHookCallback(callback) {
+          hookCallback = callback;
+        }
+        function isArray(input) {
+          return input instanceof Array || Object.prototype.toString.call(input) === "[object Array]";
+        }
+        function isObject(input) {
+          return input != null && Object.prototype.toString.call(input) === "[object Object]";
+        }
+        function hasOwnProp(a, b) {
+          return Object.prototype.hasOwnProperty.call(a, b);
+        }
+        function isObjectEmpty(obj) {
+          if (Object.getOwnPropertyNames) {
+            return Object.getOwnPropertyNames(obj).length === 0;
+          } else {
+            var k;
+            for (k in obj) {
+              if (hasOwnProp(obj, k)) {
+                return false;
+              }
+            }
+            return true;
+          }
+        }
+        function isUndefined(input) {
+          return input === void 0;
+        }
+        function isNumber(input) {
+          return typeof input === "number" || Object.prototype.toString.call(input) === "[object Number]";
+        }
+        function isDate(input) {
+          return input instanceof Date || Object.prototype.toString.call(input) === "[object Date]";
+        }
+        function map(arr, fn) {
+          var res = [], i, arrLen = arr.length;
+          for (i = 0; i < arrLen; ++i) {
+            res.push(fn(arr[i], i));
+          }
+          return res;
+        }
+        function extend(a, b) {
+          for (var i in b) {
+            if (hasOwnProp(b, i)) {
+              a[i] = b[i];
+            }
+          }
+          if (hasOwnProp(b, "toString")) {
+            a.toString = b.toString;
+          }
+          if (hasOwnProp(b, "valueOf")) {
+            a.valueOf = b.valueOf;
+          }
+          return a;
+        }
+        function createUTC(input, format2, locale2, strict) {
+          return createLocalOrUTC(input, format2, locale2, strict, true).utc();
+        }
+        function defaultParsingFlags() {
+          return {
+            empty: false,
+            unusedTokens: [],
+            unusedInput: [],
+            overflow: -2,
+            charsLeftOver: 0,
+            nullInput: false,
+            invalidEra: null,
+            invalidMonth: null,
+            invalidFormat: false,
+            userInvalidated: false,
+            iso: false,
+            parsedDateParts: [],
+            era: null,
+            meridiem: null,
+            rfc2822: false,
+            weekdayMismatch: false
+          };
+        }
+        function getParsingFlags(m) {
+          if (m._pf == null) {
+            m._pf = defaultParsingFlags();
+          }
+          return m._pf;
+        }
+        var some;
+        if (Array.prototype.some) {
+          some = Array.prototype.some;
+        } else {
+          some = function(fun) {
+            var t = Object(this), len = t.length >>> 0, i;
+            for (i = 0; i < len; i++) {
+              if (i in t && fun.call(this, t[i], i, t)) {
+                return true;
+              }
+            }
+            return false;
+          };
+        }
+        function isValid(m) {
+          if (m._isValid == null) {
+            var flags = getParsingFlags(m), parsedParts = some.call(flags.parsedDateParts, function(i) {
+              return i != null;
+            }), isNowValid = !isNaN(m._d.getTime()) && flags.overflow < 0 && !flags.empty && !flags.invalidEra && !flags.invalidMonth && !flags.invalidWeekday && !flags.weekdayMismatch && !flags.nullInput && !flags.invalidFormat && !flags.userInvalidated && (!flags.meridiem || flags.meridiem && parsedParts);
+            if (m._strict) {
+              isNowValid = isNowValid && flags.charsLeftOver === 0 && flags.unusedTokens.length === 0 && flags.bigHour === void 0;
+            }
+            if (Object.isFrozen == null || !Object.isFrozen(m)) {
+              m._isValid = isNowValid;
+            } else {
+              return isNowValid;
+            }
+          }
+          return m._isValid;
+        }
+        function createInvalid(flags) {
+          var m = createUTC(NaN);
+          if (flags != null) {
+            extend(getParsingFlags(m), flags);
+          } else {
+            getParsingFlags(m).userInvalidated = true;
+          }
+          return m;
+        }
+        var momentProperties = hooks.momentProperties = [], updateInProgress = false;
+        function copyConfig(to2, from2) {
+          var i, prop, val, momentPropertiesLen = momentProperties.length;
+          if (!isUndefined(from2._isAMomentObject)) {
+            to2._isAMomentObject = from2._isAMomentObject;
+          }
+          if (!isUndefined(from2._i)) {
+            to2._i = from2._i;
+          }
+          if (!isUndefined(from2._f)) {
+            to2._f = from2._f;
+          }
+          if (!isUndefined(from2._l)) {
+            to2._l = from2._l;
+          }
+          if (!isUndefined(from2._strict)) {
+            to2._strict = from2._strict;
+          }
+          if (!isUndefined(from2._tzm)) {
+            to2._tzm = from2._tzm;
+          }
+          if (!isUndefined(from2._isUTC)) {
+            to2._isUTC = from2._isUTC;
+          }
+          if (!isUndefined(from2._offset)) {
+            to2._offset = from2._offset;
+          }
+          if (!isUndefined(from2._pf)) {
+            to2._pf = getParsingFlags(from2);
+          }
+          if (!isUndefined(from2._locale)) {
+            to2._locale = from2._locale;
+          }
+          if (momentPropertiesLen > 0) {
+            for (i = 0; i < momentPropertiesLen; i++) {
+              prop = momentProperties[i];
+              val = from2[prop];
+              if (!isUndefined(val)) {
+                to2[prop] = val;
+              }
+            }
+          }
+          return to2;
+        }
+        function Moment(config) {
+          copyConfig(this, config);
+          this._d = new Date(config._d != null ? config._d.getTime() : NaN);
+          if (!this.isValid()) {
+            this._d = /* @__PURE__ */ new Date(NaN);
+          }
+          if (updateInProgress === false) {
+            updateInProgress = true;
+            hooks.updateOffset(this);
+            updateInProgress = false;
+          }
+        }
+        function isMoment(obj) {
+          return obj instanceof Moment || obj != null && obj._isAMomentObject != null;
+        }
+        function warn(msg) {
+          if (hooks.suppressDeprecationWarnings === false && typeof console !== "undefined" && console.warn) {
+            console.warn("Deprecation warning: " + msg);
+          }
+        }
+        function deprecate(msg, fn) {
+          var firstTime = true;
+          return extend(function() {
+            if (hooks.deprecationHandler != null) {
+              hooks.deprecationHandler(null, msg);
+            }
+            if (firstTime) {
+              var args = [], arg, i, key, argLen = arguments.length;
+              for (i = 0; i < argLen; i++) {
+                arg = "";
+                if (typeof arguments[i] === "object") {
+                  arg += "\n[" + i + "] ";
+                  for (key in arguments[0]) {
+                    if (hasOwnProp(arguments[0], key)) {
+                      arg += key + ": " + arguments[0][key] + ", ";
+                    }
+                  }
+                  arg = arg.slice(0, -2);
+                } else {
+                  arg = arguments[i];
+                }
+                args.push(arg);
+              }
+              warn(
+                msg + "\nArguments: " + Array.prototype.slice.call(args).join("") + "\n" + new Error().stack
+              );
+              firstTime = false;
+            }
+            return fn.apply(this, arguments);
+          }, fn);
+        }
+        var deprecations = {};
+        function deprecateSimple(name, msg) {
+          if (hooks.deprecationHandler != null) {
+            hooks.deprecationHandler(name, msg);
+          }
+          if (!deprecations[name]) {
+            warn(msg);
+            deprecations[name] = true;
+          }
+        }
+        hooks.suppressDeprecationWarnings = false;
+        hooks.deprecationHandler = null;
+        function isFunction(input) {
+          return typeof Function !== "undefined" && input instanceof Function || Object.prototype.toString.call(input) === "[object Function]";
+        }
+        function set(config) {
+          var prop, i;
+          for (i in config) {
+            if (hasOwnProp(config, i)) {
+              prop = config[i];
+              if (isFunction(prop)) {
+                this[i] = prop;
+              } else {
+                this["_" + i] = prop;
+              }
+            }
+          }
+          this._config = config;
+          this._dayOfMonthOrdinalParseLenient = new RegExp(
+            (this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) + "|" + /\d{1,2}/.source
+          );
+        }
+        function mergeConfigs(parentConfig, childConfig) {
+          var res = extend({}, parentConfig), prop;
+          for (prop in childConfig) {
+            if (hasOwnProp(childConfig, prop)) {
+              if (isObject(parentConfig[prop]) && isObject(childConfig[prop])) {
+                res[prop] = {};
+                extend(res[prop], parentConfig[prop]);
+                extend(res[prop], childConfig[prop]);
+              } else if (childConfig[prop] != null) {
+                res[prop] = childConfig[prop];
+              } else {
+                delete res[prop];
+              }
+            }
+          }
+          for (prop in parentConfig) {
+            if (hasOwnProp(parentConfig, prop) && !hasOwnProp(childConfig, prop) && isObject(parentConfig[prop])) {
+              res[prop] = extend({}, res[prop]);
+            }
+          }
+          return res;
+        }
+        function Locale(config) {
+          if (config != null) {
+            this.set(config);
+          }
+        }
+        var keys;
+        if (Object.keys) {
+          keys = Object.keys;
+        } else {
+          keys = function(obj) {
+            var i, res = [];
+            for (i in obj) {
+              if (hasOwnProp(obj, i)) {
+                res.push(i);
+              }
+            }
+            return res;
+          };
+        }
+        var defaultCalendar = {
+          sameDay: "[Today at] LT",
+          nextDay: "[Tomorrow at] LT",
+          nextWeek: "dddd [at] LT",
+          lastDay: "[Yesterday at] LT",
+          lastWeek: "[Last] dddd [at] LT",
+          sameElse: "L"
+        };
+        function calendar(key, mom, now2) {
+          var output = this._calendar[key] || this._calendar["sameElse"];
+          return isFunction(output) ? output.call(mom, now2) : output;
+        }
+        function zeroFill(number, targetLength, forceSign) {
+          var absNumber = "" + Math.abs(number), zerosToFill = targetLength - absNumber.length, sign2 = number >= 0;
+          return (sign2 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
+        }
+        var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g, localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g, formatFunctions = {}, formatTokenFunctions = {};
+        function addFormatToken(token2, padded, ordinal2, callback) {
+          var func = callback;
+          if (typeof callback === "string") {
+            func = function() {
+              return this[callback]();
+            };
+          }
+          if (token2) {
+            formatTokenFunctions[token2] = func;
+          }
+          if (padded) {
+            formatTokenFunctions[padded[0]] = function() {
+              return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
+            };
+          }
+          if (ordinal2) {
+            formatTokenFunctions[ordinal2] = function() {
+              return this.localeData().ordinal(
+                func.apply(this, arguments),
+                token2
+              );
+            };
+          }
+        }
+        function removeFormattingTokens(input) {
+          if (input.match(/\[[\s\S]/)) {
+            return input.replace(/^\[|\]$/g, "");
+          }
+          return input.replace(/\\/g, "");
+        }
+        function makeFormatFunction(format2) {
+          var array = format2.match(formattingTokens), i, length;
+          for (i = 0, length = array.length; i < length; i++) {
+            if (formatTokenFunctions[array[i]]) {
+              array[i] = formatTokenFunctions[array[i]];
+            } else {
+              array[i] = removeFormattingTokens(array[i]);
+            }
+          }
+          return function(mom) {
+            var output = "", i2;
+            for (i2 = 0; i2 < length; i2++) {
+              output += isFunction(array[i2]) ? array[i2].call(mom, format2) : array[i2];
+            }
+            return output;
+          };
+        }
+        function formatMoment(m, format2) {
+          if (!m.isValid()) {
+            return m.localeData().invalidDate();
+          }
+          format2 = expandFormat(format2, m.localeData());
+          formatFunctions[format2] = formatFunctions[format2] || makeFormatFunction(format2);
+          return formatFunctions[format2](m);
+        }
+        function expandFormat(format2, locale2) {
+          var i = 5;
+          function replaceLongDateFormatTokens(input) {
+            return locale2.longDateFormat(input) || input;
+          }
+          localFormattingTokens.lastIndex = 0;
+          while (i >= 0 && localFormattingTokens.test(format2)) {
+            format2 = format2.replace(
+              localFormattingTokens,
+              replaceLongDateFormatTokens
+            );
+            localFormattingTokens.lastIndex = 0;
+            i -= 1;
+          }
+          return format2;
+        }
+        var defaultLongDateFormat = {
+          LTS: "h:mm:ss A",
+          LT: "h:mm A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A"
+        };
+        function longDateFormat(key) {
+          var format2 = this._longDateFormat[key], formatUpper = this._longDateFormat[key.toUpperCase()];
+          if (format2 || !formatUpper) {
+            return format2;
+          }
+          this._longDateFormat[key] = formatUpper.match(formattingTokens).map(function(tok) {
+            if (tok === "MMMM" || tok === "MM" || tok === "DD" || tok === "dddd") {
+              return tok.slice(1);
+            }
+            return tok;
+          }).join("");
+          return this._longDateFormat[key];
+        }
+        var defaultInvalidDate = "Invalid date";
+        function invalidDate() {
+          return this._invalidDate;
+        }
+        var defaultOrdinal = "%d", defaultDayOfMonthOrdinalParse = /\d{1,2}/;
+        function ordinal(number) {
+          return this._ordinal.replace("%d", number);
+        }
+        var defaultRelativeTime = {
+          future: "in %s",
+          past: "%s ago",
+          s: "a few seconds",
+          ss: "%d seconds",
+          m: "a minute",
+          mm: "%d minutes",
+          h: "an hour",
+          hh: "%d hours",
+          d: "a day",
+          dd: "%d days",
+          w: "a week",
+          ww: "%d weeks",
+          M: "a month",
+          MM: "%d months",
+          y: "a year",
+          yy: "%d years"
+        };
+        function relativeTime(number, withoutSuffix, string, isFuture) {
+          var output = this._relativeTime[string];
+          return isFunction(output) ? output(number, withoutSuffix, string, isFuture) : output.replace(/%d/i, number);
+        }
+        function pastFuture(diff2, output) {
+          var format2 = this._relativeTime[diff2 > 0 ? "future" : "past"];
+          return isFunction(format2) ? format2(output) : format2.replace(/%s/i, output);
+        }
+        var aliases = {};
+        function addUnitAlias(unit, shorthand) {
+          var lowerCase = unit.toLowerCase();
+          aliases[lowerCase] = aliases[lowerCase + "s"] = aliases[shorthand] = unit;
+        }
+        function normalizeUnits(units2) {
+          return typeof units2 === "string" ? aliases[units2] || aliases[units2.toLowerCase()] : void 0;
+        }
+        function normalizeObjectUnits(inputObject) {
+          var normalizedInput = {}, normalizedProp, prop;
+          for (prop in inputObject) {
+            if (hasOwnProp(inputObject, prop)) {
+              normalizedProp = normalizeUnits(prop);
+              if (normalizedProp) {
+                normalizedInput[normalizedProp] = inputObject[prop];
+              }
+            }
+          }
+          return normalizedInput;
+        }
+        var priorities = {};
+        function addUnitPriority(unit, priority) {
+          priorities[unit] = priority;
+        }
+        function getPrioritizedUnits(unitsObj) {
+          var units2 = [], u;
+          for (u in unitsObj) {
+            if (hasOwnProp(unitsObj, u)) {
+              units2.push({ unit: u, priority: priorities[u] });
+            }
+          }
+          units2.sort(function(a, b) {
+            return a.priority - b.priority;
+          });
+          return units2;
+        }
+        function isLeapYear(year) {
+          return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+        }
+        function absFloor(number) {
+          if (number < 0) {
+            return Math.ceil(number) || 0;
+          } else {
+            return Math.floor(number);
+          }
+        }
+        function toInt(argumentForCoercion) {
+          var coercedNumber = +argumentForCoercion, value = 0;
+          if (coercedNumber !== 0 && isFinite(coercedNumber)) {
+            value = absFloor(coercedNumber);
+          }
+          return value;
+        }
+        function makeGetSet(unit, keepTime) {
+          return function(value) {
+            if (value != null) {
+              set$1(this, unit, value);
+              hooks.updateOffset(this, keepTime);
+              return this;
+            } else {
+              return get(this, unit);
+            }
+          };
+        }
+        function get(mom, unit) {
+          return mom.isValid() ? mom._d["get" + (mom._isUTC ? "UTC" : "") + unit]() : NaN;
+        }
+        function set$1(mom, unit, value) {
+          if (mom.isValid() && !isNaN(value)) {
+            if (unit === "FullYear" && isLeapYear(mom.year()) && mom.month() === 1 && mom.date() === 29) {
+              value = toInt(value);
+              mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](
+                value,
+                mom.month(),
+                daysInMonth(value, mom.month())
+              );
+            } else {
+              mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value);
+            }
+          }
+        }
+        function stringGet(units2) {
+          units2 = normalizeUnits(units2);
+          if (isFunction(this[units2])) {
+            return this[units2]();
+          }
+          return this;
+        }
+        function stringSet(units2, value) {
+          if (typeof units2 === "object") {
+            units2 = normalizeObjectUnits(units2);
+            var prioritized = getPrioritizedUnits(units2), i, prioritizedLen = prioritized.length;
+            for (i = 0; i < prioritizedLen; i++) {
+              this[prioritized[i].unit](units2[prioritized[i].unit]);
+            }
+          } else {
+            units2 = normalizeUnits(units2);
+            if (isFunction(this[units2])) {
+              return this[units2](value);
+            }
+          }
+          return this;
+        }
+        var match1 = /\d/, match2 = /\d\d/, match3 = /\d{3}/, match4 = /\d{4}/, match6 = /[+-]?\d{6}/, match1to2 = /\d\d?/, match3to4 = /\d\d\d\d?/, match5to6 = /\d\d\d\d\d\d?/, match1to3 = /\d{1,3}/, match1to4 = /\d{1,4}/, match1to6 = /[+-]?\d{1,6}/, matchUnsigned = /\d+/, matchSigned = /[+-]?\d+/, matchOffset = /Z|[+-]\d\d:?\d\d/gi, matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi, matchTimestamp = /[+-]?\d+(\.\d{1,3})?/, matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i, regexes;
+        regexes = {};
+        function addRegexToken(token2, regex, strictRegex) {
+          regexes[token2] = isFunction(regex) ? regex : function(isStrict, localeData2) {
+            return isStrict && strictRegex ? strictRegex : regex;
+          };
+        }
+        function getParseRegexForToken(token2, config) {
+          if (!hasOwnProp(regexes, token2)) {
+            return new RegExp(unescapeFormat(token2));
+          }
+          return regexes[token2](config._strict, config._locale);
+        }
+        function unescapeFormat(s) {
+          return regexEscape(
+            s.replace("\\", "").replace(
+              /\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g,
+              function(matched, p1, p2, p3, p4) {
+                return p1 || p2 || p3 || p4;
+              }
+            )
+          );
+        }
+        function regexEscape(s) {
+          return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+        }
+        var tokens = {};
+        function addParseToken(token2, callback) {
+          var i, func = callback, tokenLen;
+          if (typeof token2 === "string") {
+            token2 = [token2];
+          }
+          if (isNumber(callback)) {
+            func = function(input, array) {
+              array[callback] = toInt(input);
+            };
+          }
+          tokenLen = token2.length;
+          for (i = 0; i < tokenLen; i++) {
+            tokens[token2[i]] = func;
+          }
+        }
+        function addWeekParseToken(token2, callback) {
+          addParseToken(token2, function(input, array, config, token3) {
+            config._w = config._w || {};
+            callback(input, config._w, config, token3);
+          });
+        }
+        function addTimeToArrayFromToken(token2, input, config) {
+          if (input != null && hasOwnProp(tokens, token2)) {
+            tokens[token2](input, config._a, config, token2);
+          }
+        }
+        var YEAR = 0, MONTH = 1, DATE = 2, HOUR = 3, MINUTE = 4, SECOND = 5, MILLISECOND = 6, WEEK = 7, WEEKDAY = 8;
+        function mod(n, x) {
+          return (n % x + x) % x;
+        }
+        var indexOf;
+        if (Array.prototype.indexOf) {
+          indexOf = Array.prototype.indexOf;
+        } else {
+          indexOf = function(o) {
+            var i;
+            for (i = 0; i < this.length; ++i) {
+              if (this[i] === o) {
+                return i;
+              }
+            }
+            return -1;
+          };
+        }
+        function daysInMonth(year, month) {
+          if (isNaN(year) || isNaN(month)) {
+            return NaN;
+          }
+          var modMonth = mod(month, 12);
+          year += (month - modMonth) / 12;
+          return modMonth === 1 ? isLeapYear(year) ? 29 : 28 : 31 - modMonth % 7 % 2;
+        }
+        addFormatToken("M", ["MM", 2], "Mo", function() {
+          return this.month() + 1;
+        });
+        addFormatToken("MMM", 0, 0, function(format2) {
+          return this.localeData().monthsShort(this, format2);
+        });
+        addFormatToken("MMMM", 0, 0, function(format2) {
+          return this.localeData().months(this, format2);
+        });
+        addUnitAlias("month", "M");
+        addUnitPriority("month", 8);
+        addRegexToken("M", match1to2);
+        addRegexToken("MM", match1to2, match2);
+        addRegexToken("MMM", function(isStrict, locale2) {
+          return locale2.monthsShortRegex(isStrict);
+        });
+        addRegexToken("MMMM", function(isStrict, locale2) {
+          return locale2.monthsRegex(isStrict);
+        });
+        addParseToken(["M", "MM"], function(input, array) {
+          array[MONTH] = toInt(input) - 1;
+        });
+        addParseToken(["MMM", "MMMM"], function(input, array, config, token2) {
+          var month = config._locale.monthsParse(input, token2, config._strict);
+          if (month != null) {
+            array[MONTH] = month;
+          } else {
+            getParsingFlags(config).invalidMonth = input;
+          }
+        });
+        var defaultLocaleMonths = "January_February_March_April_May_June_July_August_September_October_November_December".split(
+          "_"
+        ), defaultLocaleMonthsShort = "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/, defaultMonthsShortRegex = matchWord, defaultMonthsRegex = matchWord;
+        function localeMonths(m, format2) {
+          if (!m) {
+            return isArray(this._months) ? this._months : this._months["standalone"];
+          }
+          return isArray(this._months) ? this._months[m.month()] : this._months[(this._months.isFormat || MONTHS_IN_FORMAT).test(format2) ? "format" : "standalone"][m.month()];
+        }
+        function localeMonthsShort(m, format2) {
+          if (!m) {
+            return isArray(this._monthsShort) ? this._monthsShort : this._monthsShort["standalone"];
+          }
+          return isArray(this._monthsShort) ? this._monthsShort[m.month()] : this._monthsShort[MONTHS_IN_FORMAT.test(format2) ? "format" : "standalone"][m.month()];
+        }
+        function handleStrictParse(monthName, format2, strict) {
+          var i, ii, mom, llc = monthName.toLocaleLowerCase();
+          if (!this._monthsParse) {
+            this._monthsParse = [];
+            this._longMonthsParse = [];
+            this._shortMonthsParse = [];
+            for (i = 0; i < 12; ++i) {
+              mom = createUTC([2e3, i]);
+              this._shortMonthsParse[i] = this.monthsShort(
+                mom,
+                ""
+              ).toLocaleLowerCase();
+              this._longMonthsParse[i] = this.months(mom, "").toLocaleLowerCase();
+            }
+          }
+          if (strict) {
+            if (format2 === "MMM") {
+              ii = indexOf.call(this._shortMonthsParse, llc);
+              return ii !== -1 ? ii : null;
+            } else {
+              ii = indexOf.call(this._longMonthsParse, llc);
+              return ii !== -1 ? ii : null;
+            }
+          } else {
+            if (format2 === "MMM") {
+              ii = indexOf.call(this._shortMonthsParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._longMonthsParse, llc);
+              return ii !== -1 ? ii : null;
+            } else {
+              ii = indexOf.call(this._longMonthsParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._shortMonthsParse, llc);
+              return ii !== -1 ? ii : null;
+            }
+          }
+        }
+        function localeMonthsParse(monthName, format2, strict) {
+          var i, mom, regex;
+          if (this._monthsParseExact) {
+            return handleStrictParse.call(this, monthName, format2, strict);
+          }
+          if (!this._monthsParse) {
+            this._monthsParse = [];
+            this._longMonthsParse = [];
+            this._shortMonthsParse = [];
+          }
+          for (i = 0; i < 12; i++) {
+            mom = createUTC([2e3, i]);
+            if (strict && !this._longMonthsParse[i]) {
+              this._longMonthsParse[i] = new RegExp(
+                "^" + this.months(mom, "").replace(".", "") + "$",
+                "i"
+              );
+              this._shortMonthsParse[i] = new RegExp(
+                "^" + this.monthsShort(mom, "").replace(".", "") + "$",
+                "i"
+              );
+            }
+            if (!strict && !this._monthsParse[i]) {
+              regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, "");
+              this._monthsParse[i] = new RegExp(regex.replace(".", ""), "i");
+            }
+            if (strict && format2 === "MMMM" && this._longMonthsParse[i].test(monthName)) {
+              return i;
+            } else if (strict && format2 === "MMM" && this._shortMonthsParse[i].test(monthName)) {
+              return i;
+            } else if (!strict && this._monthsParse[i].test(monthName)) {
+              return i;
+            }
+          }
+        }
+        function setMonth(mom, value) {
+          var dayOfMonth;
+          if (!mom.isValid()) {
+            return mom;
+          }
+          if (typeof value === "string") {
+            if (/^\d+$/.test(value)) {
+              value = toInt(value);
+            } else {
+              value = mom.localeData().monthsParse(value);
+              if (!isNumber(value)) {
+                return mom;
+              }
+            }
+          }
+          dayOfMonth = Math.min(mom.date(), daysInMonth(mom.year(), value));
+          mom._d["set" + (mom._isUTC ? "UTC" : "") + "Month"](value, dayOfMonth);
+          return mom;
+        }
+        function getSetMonth(value) {
+          if (value != null) {
+            setMonth(this, value);
+            hooks.updateOffset(this, true);
+            return this;
+          } else {
+            return get(this, "Month");
+          }
+        }
+        function getDaysInMonth() {
+          return daysInMonth(this.year(), this.month());
+        }
+        function monthsShortRegex(isStrict) {
+          if (this._monthsParseExact) {
+            if (!hasOwnProp(this, "_monthsRegex")) {
+              computeMonthsParse.call(this);
+            }
+            if (isStrict) {
+              return this._monthsShortStrictRegex;
+            } else {
+              return this._monthsShortRegex;
+            }
+          } else {
+            if (!hasOwnProp(this, "_monthsShortRegex")) {
+              this._monthsShortRegex = defaultMonthsShortRegex;
+            }
+            return this._monthsShortStrictRegex && isStrict ? this._monthsShortStrictRegex : this._monthsShortRegex;
+          }
+        }
+        function monthsRegex(isStrict) {
+          if (this._monthsParseExact) {
+            if (!hasOwnProp(this, "_monthsRegex")) {
+              computeMonthsParse.call(this);
+            }
+            if (isStrict) {
+              return this._monthsStrictRegex;
+            } else {
+              return this._monthsRegex;
+            }
+          } else {
+            if (!hasOwnProp(this, "_monthsRegex")) {
+              this._monthsRegex = defaultMonthsRegex;
+            }
+            return this._monthsStrictRegex && isStrict ? this._monthsStrictRegex : this._monthsRegex;
+          }
+        }
+        function computeMonthsParse() {
+          function cmpLenRev(a, b) {
+            return b.length - a.length;
+          }
+          var shortPieces = [], longPieces = [], mixedPieces = [], i, mom;
+          for (i = 0; i < 12; i++) {
+            mom = createUTC([2e3, i]);
+            shortPieces.push(this.monthsShort(mom, ""));
+            longPieces.push(this.months(mom, ""));
+            mixedPieces.push(this.months(mom, ""));
+            mixedPieces.push(this.monthsShort(mom, ""));
+          }
+          shortPieces.sort(cmpLenRev);
+          longPieces.sort(cmpLenRev);
+          mixedPieces.sort(cmpLenRev);
+          for (i = 0; i < 12; i++) {
+            shortPieces[i] = regexEscape(shortPieces[i]);
+            longPieces[i] = regexEscape(longPieces[i]);
+          }
+          for (i = 0; i < 24; i++) {
+            mixedPieces[i] = regexEscape(mixedPieces[i]);
+          }
+          this._monthsRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i");
+          this._monthsShortRegex = this._monthsRegex;
+          this._monthsStrictRegex = new RegExp(
+            "^(" + longPieces.join("|") + ")",
+            "i"
+          );
+          this._monthsShortStrictRegex = new RegExp(
+            "^(" + shortPieces.join("|") + ")",
+            "i"
+          );
+        }
+        addFormatToken("Y", 0, 0, function() {
+          var y = this.year();
+          return y <= 9999 ? zeroFill(y, 4) : "+" + y;
+        });
+        addFormatToken(0, ["YY", 2], 0, function() {
+          return this.year() % 100;
+        });
+        addFormatToken(0, ["YYYY", 4], 0, "year");
+        addFormatToken(0, ["YYYYY", 5], 0, "year");
+        addFormatToken(0, ["YYYYYY", 6, true], 0, "year");
+        addUnitAlias("year", "y");
+        addUnitPriority("year", 1);
+        addRegexToken("Y", matchSigned);
+        addRegexToken("YY", match1to2, match2);
+        addRegexToken("YYYY", match1to4, match4);
+        addRegexToken("YYYYY", match1to6, match6);
+        addRegexToken("YYYYYY", match1to6, match6);
+        addParseToken(["YYYYY", "YYYYYY"], YEAR);
+        addParseToken("YYYY", function(input, array) {
+          array[YEAR] = input.length === 2 ? hooks.parseTwoDigitYear(input) : toInt(input);
+        });
+        addParseToken("YY", function(input, array) {
+          array[YEAR] = hooks.parseTwoDigitYear(input);
+        });
+        addParseToken("Y", function(input, array) {
+          array[YEAR] = parseInt(input, 10);
+        });
+        function daysInYear(year) {
+          return isLeapYear(year) ? 366 : 365;
+        }
+        hooks.parseTwoDigitYear = function(input) {
+          return toInt(input) + (toInt(input) > 68 ? 1900 : 2e3);
+        };
+        var getSetYear = makeGetSet("FullYear", true);
+        function getIsLeapYear() {
+          return isLeapYear(this.year());
+        }
+        function createDate(y, m, d, h, M, s, ms) {
+          var date;
+          if (y < 100 && y >= 0) {
+            date = new Date(y + 400, m, d, h, M, s, ms);
+            if (isFinite(date.getFullYear())) {
+              date.setFullYear(y);
+            }
+          } else {
+            date = new Date(y, m, d, h, M, s, ms);
+          }
+          return date;
+        }
+        function createUTCDate(y) {
+          var date, args;
+          if (y < 100 && y >= 0) {
+            args = Array.prototype.slice.call(arguments);
+            args[0] = y + 400;
+            date = new Date(Date.UTC.apply(null, args));
+            if (isFinite(date.getUTCFullYear())) {
+              date.setUTCFullYear(y);
+            }
+          } else {
+            date = new Date(Date.UTC.apply(null, arguments));
+          }
+          return date;
+        }
+        function firstWeekOffset(year, dow, doy) {
+          var fwd = 7 + dow - doy, fwdlw = (7 + createUTCDate(year, 0, fwd).getUTCDay() - dow) % 7;
+          return -fwdlw + fwd - 1;
+        }
+        function dayOfYearFromWeeks(year, week2, weekday, dow, doy) {
+          var localWeekday = (7 + weekday - dow) % 7, weekOffset = firstWeekOffset(year, dow, doy), dayOfYear = 1 + 7 * (week2 - 1) + localWeekday + weekOffset, resYear, resDayOfYear;
+          if (dayOfYear <= 0) {
+            resYear = year - 1;
+            resDayOfYear = daysInYear(resYear) + dayOfYear;
+          } else if (dayOfYear > daysInYear(year)) {
+            resYear = year + 1;
+            resDayOfYear = dayOfYear - daysInYear(year);
+          } else {
+            resYear = year;
+            resDayOfYear = dayOfYear;
+          }
+          return {
+            year: resYear,
+            dayOfYear: resDayOfYear
+          };
+        }
+        function weekOfYear(mom, dow, doy) {
+          var weekOffset = firstWeekOffset(mom.year(), dow, doy), week2 = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1, resWeek, resYear;
+          if (week2 < 1) {
+            resYear = mom.year() - 1;
+            resWeek = week2 + weeksInYear(resYear, dow, doy);
+          } else if (week2 > weeksInYear(mom.year(), dow, doy)) {
+            resWeek = week2 - weeksInYear(mom.year(), dow, doy);
+            resYear = mom.year() + 1;
+          } else {
+            resYear = mom.year();
+            resWeek = week2;
+          }
+          return {
+            week: resWeek,
+            year: resYear
+          };
+        }
+        function weeksInYear(year, dow, doy) {
+          var weekOffset = firstWeekOffset(year, dow, doy), weekOffsetNext = firstWeekOffset(year + 1, dow, doy);
+          return (daysInYear(year) - weekOffset + weekOffsetNext) / 7;
+        }
+        addFormatToken("w", ["ww", 2], "wo", "week");
+        addFormatToken("W", ["WW", 2], "Wo", "isoWeek");
+        addUnitAlias("week", "w");
+        addUnitAlias("isoWeek", "W");
+        addUnitPriority("week", 5);
+        addUnitPriority("isoWeek", 5);
+        addRegexToken("w", match1to2);
+        addRegexToken("ww", match1to2, match2);
+        addRegexToken("W", match1to2);
+        addRegexToken("WW", match1to2, match2);
+        addWeekParseToken(
+          ["w", "ww", "W", "WW"],
+          function(input, week2, config, token2) {
+            week2[token2.substr(0, 1)] = toInt(input);
+          }
+        );
+        function localeWeek(mom) {
+          return weekOfYear(mom, this._week.dow, this._week.doy).week;
+        }
+        var defaultLocaleWeek = {
+          dow: 0,
+          // Sunday is the first day of the week.
+          doy: 6
+          // The week that contains Jan 6th is the first week of the year.
+        };
+        function localeFirstDayOfWeek() {
+          return this._week.dow;
+        }
+        function localeFirstDayOfYear() {
+          return this._week.doy;
+        }
+        function getSetWeek(input) {
+          var week2 = this.localeData().week(this);
+          return input == null ? week2 : this.add((input - week2) * 7, "d");
+        }
+        function getSetISOWeek(input) {
+          var week2 = weekOfYear(this, 1, 4).week;
+          return input == null ? week2 : this.add((input - week2) * 7, "d");
+        }
+        addFormatToken("d", 0, "do", "day");
+        addFormatToken("dd", 0, 0, function(format2) {
+          return this.localeData().weekdaysMin(this, format2);
+        });
+        addFormatToken("ddd", 0, 0, function(format2) {
+          return this.localeData().weekdaysShort(this, format2);
+        });
+        addFormatToken("dddd", 0, 0, function(format2) {
+          return this.localeData().weekdays(this, format2);
+        });
+        addFormatToken("e", 0, 0, "weekday");
+        addFormatToken("E", 0, 0, "isoWeekday");
+        addUnitAlias("day", "d");
+        addUnitAlias("weekday", "e");
+        addUnitAlias("isoWeekday", "E");
+        addUnitPriority("day", 11);
+        addUnitPriority("weekday", 11);
+        addUnitPriority("isoWeekday", 11);
+        addRegexToken("d", match1to2);
+        addRegexToken("e", match1to2);
+        addRegexToken("E", match1to2);
+        addRegexToken("dd", function(isStrict, locale2) {
+          return locale2.weekdaysMinRegex(isStrict);
+        });
+        addRegexToken("ddd", function(isStrict, locale2) {
+          return locale2.weekdaysShortRegex(isStrict);
+        });
+        addRegexToken("dddd", function(isStrict, locale2) {
+          return locale2.weekdaysRegex(isStrict);
+        });
+        addWeekParseToken(["dd", "ddd", "dddd"], function(input, week2, config, token2) {
+          var weekday = config._locale.weekdaysParse(input, token2, config._strict);
+          if (weekday != null) {
+            week2.d = weekday;
+          } else {
+            getParsingFlags(config).invalidWeekday = input;
+          }
+        });
+        addWeekParseToken(["d", "e", "E"], function(input, week2, config, token2) {
+          week2[token2] = toInt(input);
+        });
+        function parseWeekday(input, locale2) {
+          if (typeof input !== "string") {
+            return input;
+          }
+          if (!isNaN(input)) {
+            return parseInt(input, 10);
+          }
+          input = locale2.weekdaysParse(input);
+          if (typeof input === "number") {
+            return input;
+          }
+          return null;
+        }
+        function parseIsoWeekday(input, locale2) {
+          if (typeof input === "string") {
+            return locale2.weekdaysParse(input) % 7 || 7;
+          }
+          return isNaN(input) ? null : input;
+        }
+        function shiftWeekdays(ws, n) {
+          return ws.slice(n, 7).concat(ws.slice(0, n));
+        }
+        var defaultLocaleWeekdays = "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), defaultLocaleWeekdaysMin = "Su_Mo_Tu_We_Th_Fr_Sa".split("_"), defaultWeekdaysRegex = matchWord, defaultWeekdaysShortRegex = matchWord, defaultWeekdaysMinRegex = matchWord;
+        function localeWeekdays(m, format2) {
+          var weekdays2 = isArray(this._weekdays) ? this._weekdays : this._weekdays[m && m !== true && this._weekdays.isFormat.test(format2) ? "format" : "standalone"];
+          return m === true ? shiftWeekdays(weekdays2, this._week.dow) : m ? weekdays2[m.day()] : weekdays2;
+        }
+        function localeWeekdaysShort(m) {
+          return m === true ? shiftWeekdays(this._weekdaysShort, this._week.dow) : m ? this._weekdaysShort[m.day()] : this._weekdaysShort;
+        }
+        function localeWeekdaysMin(m) {
+          return m === true ? shiftWeekdays(this._weekdaysMin, this._week.dow) : m ? this._weekdaysMin[m.day()] : this._weekdaysMin;
+        }
+        function handleStrictParse$1(weekdayName, format2, strict) {
+          var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
+          if (!this._weekdaysParse) {
+            this._weekdaysParse = [];
+            this._shortWeekdaysParse = [];
+            this._minWeekdaysParse = [];
+            for (i = 0; i < 7; ++i) {
+              mom = createUTC([2e3, 1]).day(i);
+              this._minWeekdaysParse[i] = this.weekdaysMin(
+                mom,
+                ""
+              ).toLocaleLowerCase();
+              this._shortWeekdaysParse[i] = this.weekdaysShort(
+                mom,
+                ""
+              ).toLocaleLowerCase();
+              this._weekdaysParse[i] = this.weekdays(mom, "").toLocaleLowerCase();
+            }
+          }
+          if (strict) {
+            if (format2 === "dddd") {
+              ii = indexOf.call(this._weekdaysParse, llc);
+              return ii !== -1 ? ii : null;
+            } else if (format2 === "ddd") {
+              ii = indexOf.call(this._shortWeekdaysParse, llc);
+              return ii !== -1 ? ii : null;
+            } else {
+              ii = indexOf.call(this._minWeekdaysParse, llc);
+              return ii !== -1 ? ii : null;
+            }
+          } else {
+            if (format2 === "dddd") {
+              ii = indexOf.call(this._weekdaysParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._shortWeekdaysParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._minWeekdaysParse, llc);
+              return ii !== -1 ? ii : null;
+            } else if (format2 === "ddd") {
+              ii = indexOf.call(this._shortWeekdaysParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._weekdaysParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._minWeekdaysParse, llc);
+              return ii !== -1 ? ii : null;
+            } else {
+              ii = indexOf.call(this._minWeekdaysParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._weekdaysParse, llc);
+              if (ii !== -1) {
+                return ii;
+              }
+              ii = indexOf.call(this._shortWeekdaysParse, llc);
+              return ii !== -1 ? ii : null;
+            }
+          }
+        }
+        function localeWeekdaysParse(weekdayName, format2, strict) {
+          var i, mom, regex;
+          if (this._weekdaysParseExact) {
+            return handleStrictParse$1.call(this, weekdayName, format2, strict);
+          }
+          if (!this._weekdaysParse) {
+            this._weekdaysParse = [];
+            this._minWeekdaysParse = [];
+            this._shortWeekdaysParse = [];
+            this._fullWeekdaysParse = [];
+          }
+          for (i = 0; i < 7; i++) {
+            mom = createUTC([2e3, 1]).day(i);
+            if (strict && !this._fullWeekdaysParse[i]) {
+              this._fullWeekdaysParse[i] = new RegExp(
+                "^" + this.weekdays(mom, "").replace(".", "\\.?") + "$",
+                "i"
+              );
+              this._shortWeekdaysParse[i] = new RegExp(
+                "^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$",
+                "i"
+              );
+              this._minWeekdaysParse[i] = new RegExp(
+                "^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$",
+                "i"
+              );
+            }
+            if (!this._weekdaysParse[i]) {
+              regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, "");
+              this._weekdaysParse[i] = new RegExp(regex.replace(".", ""), "i");
+            }
+            if (strict && format2 === "dddd" && this._fullWeekdaysParse[i].test(weekdayName)) {
+              return i;
+            } else if (strict && format2 === "ddd" && this._shortWeekdaysParse[i].test(weekdayName)) {
+              return i;
+            } else if (strict && format2 === "dd" && this._minWeekdaysParse[i].test(weekdayName)) {
+              return i;
+            } else if (!strict && this._weekdaysParse[i].test(weekdayName)) {
+              return i;
+            }
+          }
+        }
+        function getSetDayOfWeek(input) {
+          if (!this.isValid()) {
+            return input != null ? this : NaN;
+          }
+          var day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
+          if (input != null) {
+            input = parseWeekday(input, this.localeData());
+            return this.add(input - day, "d");
+          } else {
+            return day;
+          }
+        }
+        function getSetLocaleDayOfWeek(input) {
+          if (!this.isValid()) {
+            return input != null ? this : NaN;
+          }
+          var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
+          return input == null ? weekday : this.add(input - weekday, "d");
+        }
+        function getSetISODayOfWeek(input) {
+          if (!this.isValid()) {
+            return input != null ? this : NaN;
+          }
+          if (input != null) {
+            var weekday = parseIsoWeekday(input, this.localeData());
+            return this.day(this.day() % 7 ? weekday : weekday - 7);
+          } else {
+            return this.day() || 7;
+          }
+        }
+        function weekdaysRegex(isStrict) {
+          if (this._weekdaysParseExact) {
+            if (!hasOwnProp(this, "_weekdaysRegex")) {
+              computeWeekdaysParse.call(this);
+            }
+            if (isStrict) {
+              return this._weekdaysStrictRegex;
+            } else {
+              return this._weekdaysRegex;
+            }
+          } else {
+            if (!hasOwnProp(this, "_weekdaysRegex")) {
+              this._weekdaysRegex = defaultWeekdaysRegex;
+            }
+            return this._weekdaysStrictRegex && isStrict ? this._weekdaysStrictRegex : this._weekdaysRegex;
+          }
+        }
+        function weekdaysShortRegex(isStrict) {
+          if (this._weekdaysParseExact) {
+            if (!hasOwnProp(this, "_weekdaysRegex")) {
+              computeWeekdaysParse.call(this);
+            }
+            if (isStrict) {
+              return this._weekdaysShortStrictRegex;
+            } else {
+              return this._weekdaysShortRegex;
+            }
+          } else {
+            if (!hasOwnProp(this, "_weekdaysShortRegex")) {
+              this._weekdaysShortRegex = defaultWeekdaysShortRegex;
+            }
+            return this._weekdaysShortStrictRegex && isStrict ? this._weekdaysShortStrictRegex : this._weekdaysShortRegex;
+          }
+        }
+        function weekdaysMinRegex(isStrict) {
+          if (this._weekdaysParseExact) {
+            if (!hasOwnProp(this, "_weekdaysRegex")) {
+              computeWeekdaysParse.call(this);
+            }
+            if (isStrict) {
+              return this._weekdaysMinStrictRegex;
+            } else {
+              return this._weekdaysMinRegex;
+            }
+          } else {
+            if (!hasOwnProp(this, "_weekdaysMinRegex")) {
+              this._weekdaysMinRegex = defaultWeekdaysMinRegex;
+            }
+            return this._weekdaysMinStrictRegex && isStrict ? this._weekdaysMinStrictRegex : this._weekdaysMinRegex;
+          }
+        }
+        function computeWeekdaysParse() {
+          function cmpLenRev(a, b) {
+            return b.length - a.length;
+          }
+          var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [], i, mom, minp, shortp, longp;
+          for (i = 0; i < 7; i++) {
+            mom = createUTC([2e3, 1]).day(i);
+            minp = regexEscape(this.weekdaysMin(mom, ""));
+            shortp = regexEscape(this.weekdaysShort(mom, ""));
+            longp = regexEscape(this.weekdays(mom, ""));
+            minPieces.push(minp);
+            shortPieces.push(shortp);
+            longPieces.push(longp);
+            mixedPieces.push(minp);
+            mixedPieces.push(shortp);
+            mixedPieces.push(longp);
+          }
+          minPieces.sort(cmpLenRev);
+          shortPieces.sort(cmpLenRev);
+          longPieces.sort(cmpLenRev);
+          mixedPieces.sort(cmpLenRev);
+          this._weekdaysRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i");
+          this._weekdaysShortRegex = this._weekdaysRegex;
+          this._weekdaysMinRegex = this._weekdaysRegex;
+          this._weekdaysStrictRegex = new RegExp(
+            "^(" + longPieces.join("|") + ")",
+            "i"
+          );
+          this._weekdaysShortStrictRegex = new RegExp(
+            "^(" + shortPieces.join("|") + ")",
+            "i"
+          );
+          this._weekdaysMinStrictRegex = new RegExp(
+            "^(" + minPieces.join("|") + ")",
+            "i"
+          );
+        }
+        function hFormat() {
+          return this.hours() % 12 || 12;
+        }
+        function kFormat() {
+          return this.hours() || 24;
+        }
+        addFormatToken("H", ["HH", 2], 0, "hour");
+        addFormatToken("h", ["hh", 2], 0, hFormat);
+        addFormatToken("k", ["kk", 2], 0, kFormat);
+        addFormatToken("hmm", 0, 0, function() {
+          return "" + hFormat.apply(this) + zeroFill(this.minutes(), 2);
+        });
+        addFormatToken("hmmss", 0, 0, function() {
+          return "" + hFormat.apply(this) + zeroFill(this.minutes(), 2) + zeroFill(this.seconds(), 2);
+        });
+        addFormatToken("Hmm", 0, 0, function() {
+          return "" + this.hours() + zeroFill(this.minutes(), 2);
+        });
+        addFormatToken("Hmmss", 0, 0, function() {
+          return "" + this.hours() + zeroFill(this.minutes(), 2) + zeroFill(this.seconds(), 2);
+        });
+        function meridiem(token2, lowercase) {
+          addFormatToken(token2, 0, 0, function() {
+            return this.localeData().meridiem(
+              this.hours(),
+              this.minutes(),
+              lowercase
+            );
+          });
+        }
+        meridiem("a", true);
+        meridiem("A", false);
+        addUnitAlias("hour", "h");
+        addUnitPriority("hour", 13);
+        function matchMeridiem(isStrict, locale2) {
+          return locale2._meridiemParse;
+        }
+        addRegexToken("a", matchMeridiem);
+        addRegexToken("A", matchMeridiem);
+        addRegexToken("H", match1to2);
+        addRegexToken("h", match1to2);
+        addRegexToken("k", match1to2);
+        addRegexToken("HH", match1to2, match2);
+        addRegexToken("hh", match1to2, match2);
+        addRegexToken("kk", match1to2, match2);
+        addRegexToken("hmm", match3to4);
+        addRegexToken("hmmss", match5to6);
+        addRegexToken("Hmm", match3to4);
+        addRegexToken("Hmmss", match5to6);
+        addParseToken(["H", "HH"], HOUR);
+        addParseToken(["k", "kk"], function(input, array, config) {
+          var kInput = toInt(input);
+          array[HOUR] = kInput === 24 ? 0 : kInput;
+        });
+        addParseToken(["a", "A"], function(input, array, config) {
+          config._isPm = config._locale.isPM(input);
+          config._meridiem = input;
+        });
+        addParseToken(["h", "hh"], function(input, array, config) {
+          array[HOUR] = toInt(input);
+          getParsingFlags(config).bigHour = true;
+        });
+        addParseToken("hmm", function(input, array, config) {
+          var pos = input.length - 2;
+          array[HOUR] = toInt(input.substr(0, pos));
+          array[MINUTE] = toInt(input.substr(pos));
+          getParsingFlags(config).bigHour = true;
+        });
+        addParseToken("hmmss", function(input, array, config) {
+          var pos1 = input.length - 4, pos2 = input.length - 2;
+          array[HOUR] = toInt(input.substr(0, pos1));
+          array[MINUTE] = toInt(input.substr(pos1, 2));
+          array[SECOND] = toInt(input.substr(pos2));
+          getParsingFlags(config).bigHour = true;
+        });
+        addParseToken("Hmm", function(input, array, config) {
+          var pos = input.length - 2;
+          array[HOUR] = toInt(input.substr(0, pos));
+          array[MINUTE] = toInt(input.substr(pos));
+        });
+        addParseToken("Hmmss", function(input, array, config) {
+          var pos1 = input.length - 4, pos2 = input.length - 2;
+          array[HOUR] = toInt(input.substr(0, pos1));
+          array[MINUTE] = toInt(input.substr(pos1, 2));
+          array[SECOND] = toInt(input.substr(pos2));
+        });
+        function localeIsPM(input) {
+          return (input + "").toLowerCase().charAt(0) === "p";
+        }
+        var defaultLocaleMeridiemParse = /[ap]\.?m?\.?/i, getSetHour = makeGetSet("Hours", true);
+        function localeMeridiem(hours2, minutes2, isLower) {
+          if (hours2 > 11) {
+            return isLower ? "pm" : "PM";
+          } else {
+            return isLower ? "am" : "AM";
+          }
+        }
+        var baseConfig = {
+          calendar: defaultCalendar,
+          longDateFormat: defaultLongDateFormat,
+          invalidDate: defaultInvalidDate,
+          ordinal: defaultOrdinal,
+          dayOfMonthOrdinalParse: defaultDayOfMonthOrdinalParse,
+          relativeTime: defaultRelativeTime,
+          months: defaultLocaleMonths,
+          monthsShort: defaultLocaleMonthsShort,
+          week: defaultLocaleWeek,
+          weekdays: defaultLocaleWeekdays,
+          weekdaysMin: defaultLocaleWeekdaysMin,
+          weekdaysShort: defaultLocaleWeekdaysShort,
+          meridiemParse: defaultLocaleMeridiemParse
+        };
+        var locales = {}, localeFamilies = {}, globalLocale;
+        function commonPrefix(arr1, arr2) {
+          var i, minl = Math.min(arr1.length, arr2.length);
+          for (i = 0; i < minl; i += 1) {
+            if (arr1[i] !== arr2[i]) {
+              return i;
+            }
+          }
+          return minl;
+        }
+        function normalizeLocale(key) {
+          return key ? key.toLowerCase().replace("_", "-") : key;
+        }
+        function chooseLocale(names) {
+          var i = 0, j, next, locale2, split;
+          while (i < names.length) {
+            split = normalizeLocale(names[i]).split("-");
+            j = split.length;
+            next = normalizeLocale(names[i + 1]);
+            next = next ? next.split("-") : null;
+            while (j > 0) {
+              locale2 = loadLocale(split.slice(0, j).join("-"));
+              if (locale2) {
+                return locale2;
+              }
+              if (next && next.length >= j && commonPrefix(split, next) >= j - 1) {
+                break;
+              }
+              j--;
+            }
+            i++;
+          }
+          return globalLocale;
+        }
+        function isLocaleNameSane(name) {
+          return name.match("^[^/\\\\]*$") != null;
+        }
+        function loadLocale(name) {
+          var oldLocale = null, aliasedRequire;
+          if (locales[name] === void 0 && typeof module !== "undefined" && module && module.exports && isLocaleNameSane(name)) {
+            try {
+              oldLocale = globalLocale._abbr;
+              aliasedRequire = __require;
+              aliasedRequire("./locale/" + name);
+              getSetGlobalLocale(oldLocale);
+            } catch (e) {
+              locales[name] = null;
+            }
+          }
+          return locales[name];
+        }
+        function getSetGlobalLocale(key, values) {
+          var data;
+          if (key) {
+            if (isUndefined(values)) {
+              data = getLocale(key);
+            } else {
+              data = defineLocale(key, values);
+            }
+            if (data) {
+              globalLocale = data;
+            } else {
+              if (typeof console !== "undefined" && console.warn) {
+                console.warn(
+                  "Locale " + key + " not found. Did you forget to load it?"
+                );
+              }
+            }
+          }
+          return globalLocale._abbr;
+        }
+        function defineLocale(name, config) {
+          if (config !== null) {
+            var locale2, parentConfig = baseConfig;
+            config.abbr = name;
+            if (locales[name] != null) {
+              deprecateSimple(
+                "defineLocaleOverride",
+                "use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."
+              );
+              parentConfig = locales[name]._config;
+            } else if (config.parentLocale != null) {
+              if (locales[config.parentLocale] != null) {
+                parentConfig = locales[config.parentLocale]._config;
+              } else {
+                locale2 = loadLocale(config.parentLocale);
+                if (locale2 != null) {
+                  parentConfig = locale2._config;
+                } else {
+                  if (!localeFamilies[config.parentLocale]) {
+                    localeFamilies[config.parentLocale] = [];
+                  }
+                  localeFamilies[config.parentLocale].push({
+                    name,
+                    config
+                  });
+                  return null;
+                }
+              }
+            }
+            locales[name] = new Locale(mergeConfigs(parentConfig, config));
+            if (localeFamilies[name]) {
+              localeFamilies[name].forEach(function(x) {
+                defineLocale(x.name, x.config);
+              });
+            }
+            getSetGlobalLocale(name);
+            return locales[name];
+          } else {
+            delete locales[name];
+            return null;
+          }
+        }
+        function updateLocale(name, config) {
+          if (config != null) {
+            var locale2, tmpLocale, parentConfig = baseConfig;
+            if (locales[name] != null && locales[name].parentLocale != null) {
+              locales[name].set(mergeConfigs(locales[name]._config, config));
+            } else {
+              tmpLocale = loadLocale(name);
+              if (tmpLocale != null) {
+                parentConfig = tmpLocale._config;
+              }
+              config = mergeConfigs(parentConfig, config);
+              if (tmpLocale == null) {
+                config.abbr = name;
+              }
+              locale2 = new Locale(config);
+              locale2.parentLocale = locales[name];
+              locales[name] = locale2;
+            }
+            getSetGlobalLocale(name);
+          } else {
+            if (locales[name] != null) {
+              if (locales[name].parentLocale != null) {
+                locales[name] = locales[name].parentLocale;
+                if (name === getSetGlobalLocale()) {
+                  getSetGlobalLocale(name);
+                }
+              } else if (locales[name] != null) {
+                delete locales[name];
+              }
+            }
+          }
+          return locales[name];
+        }
+        function getLocale(key) {
+          var locale2;
+          if (key && key._locale && key._locale._abbr) {
+            key = key._locale._abbr;
+          }
+          if (!key) {
+            return globalLocale;
+          }
+          if (!isArray(key)) {
+            locale2 = loadLocale(key);
+            if (locale2) {
+              return locale2;
+            }
+            key = [key];
+          }
+          return chooseLocale(key);
+        }
+        function listLocales() {
+          return keys(locales);
+        }
+        function checkOverflow(m) {
+          var overflow, a = m._a;
+          if (a && getParsingFlags(m).overflow === -2) {
+            overflow = a[MONTH] < 0 || a[MONTH] > 11 ? MONTH : a[DATE] < 1 || a[DATE] > daysInMonth(a[YEAR], a[MONTH]) ? DATE : a[HOUR] < 0 || a[HOUR] > 24 || a[HOUR] === 24 && (a[MINUTE] !== 0 || a[SECOND] !== 0 || a[MILLISECOND] !== 0) ? HOUR : a[MINUTE] < 0 || a[MINUTE] > 59 ? MINUTE : a[SECOND] < 0 || a[SECOND] > 59 ? SECOND : a[MILLISECOND] < 0 || a[MILLISECOND] > 999 ? MILLISECOND : -1;
+            if (getParsingFlags(m)._overflowDayOfYear && (overflow < YEAR || overflow > DATE)) {
+              overflow = DATE;
+            }
+            if (getParsingFlags(m)._overflowWeeks && overflow === -1) {
+              overflow = WEEK;
+            }
+            if (getParsingFlags(m)._overflowWeekday && overflow === -1) {
+              overflow = WEEKDAY;
+            }
+            getParsingFlags(m).overflow = overflow;
+          }
+          return m;
+        }
+        var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/, basicIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d|))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/, tzRegex = /Z|[+-]\d\d(?::?\d\d)?/, isoDates = [
+          ["YYYYYY-MM-DD", /[+-]\d{6}-\d\d-\d\d/],
+          ["YYYY-MM-DD", /\d{4}-\d\d-\d\d/],
+          ["GGGG-[W]WW-E", /\d{4}-W\d\d-\d/],
+          ["GGGG-[W]WW", /\d{4}-W\d\d/, false],
+          ["YYYY-DDD", /\d{4}-\d{3}/],
+          ["YYYY-MM", /\d{4}-\d\d/, false],
+          ["YYYYYYMMDD", /[+-]\d{10}/],
+          ["YYYYMMDD", /\d{8}/],
+          ["GGGG[W]WWE", /\d{4}W\d{3}/],
+          ["GGGG[W]WW", /\d{4}W\d{2}/, false],
+          ["YYYYDDD", /\d{7}/],
+          ["YYYYMM", /\d{6}/, false],
+          ["YYYY", /\d{4}/, false]
+        ], isoTimes = [
+          ["HH:mm:ss.SSSS", /\d\d:\d\d:\d\d\.\d+/],
+          ["HH:mm:ss,SSSS", /\d\d:\d\d:\d\d,\d+/],
+          ["HH:mm:ss", /\d\d:\d\d:\d\d/],
+          ["HH:mm", /\d\d:\d\d/],
+          ["HHmmss.SSSS", /\d\d\d\d\d\d\.\d+/],
+          ["HHmmss,SSSS", /\d\d\d\d\d\d,\d+/],
+          ["HHmmss", /\d\d\d\d\d\d/],
+          ["HHmm", /\d\d\d\d/],
+          ["HH", /\d\d/]
+        ], aspNetJsonRegex = /^\/?Date\((-?\d+)/i, rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|([+-]\d{4}))$/, obsOffsets = {
+          UT: 0,
+          GMT: 0,
+          EDT: -4 * 60,
+          EST: -5 * 60,
+          CDT: -5 * 60,
+          CST: -6 * 60,
+          MDT: -6 * 60,
+          MST: -7 * 60,
+          PDT: -7 * 60,
+          PST: -8 * 60
+        };
+        function configFromISO(config) {
+          var i, l, string = config._i, match = extendedIsoRegex.exec(string) || basicIsoRegex.exec(string), allowTime, dateFormat, timeFormat, tzFormat, isoDatesLen = isoDates.length, isoTimesLen = isoTimes.length;
+          if (match) {
+            getParsingFlags(config).iso = true;
+            for (i = 0, l = isoDatesLen; i < l; i++) {
+              if (isoDates[i][1].exec(match[1])) {
+                dateFormat = isoDates[i][0];
+                allowTime = isoDates[i][2] !== false;
+                break;
+              }
+            }
+            if (dateFormat == null) {
+              config._isValid = false;
+              return;
+            }
+            if (match[3]) {
+              for (i = 0, l = isoTimesLen; i < l; i++) {
+                if (isoTimes[i][1].exec(match[3])) {
+                  timeFormat = (match[2] || " ") + isoTimes[i][0];
+                  break;
+                }
+              }
+              if (timeFormat == null) {
+                config._isValid = false;
+                return;
+              }
+            }
+            if (!allowTime && timeFormat != null) {
+              config._isValid = false;
+              return;
+            }
+            if (match[4]) {
+              if (tzRegex.exec(match[4])) {
+                tzFormat = "Z";
+              } else {
+                config._isValid = false;
+                return;
+              }
+            }
+            config._f = dateFormat + (timeFormat || "") + (tzFormat || "");
+            configFromStringAndFormat(config);
+          } else {
+            config._isValid = false;
+          }
+        }
+        function extractFromRFC2822Strings(yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
+          var result = [
+            untruncateYear(yearStr),
+            defaultLocaleMonthsShort.indexOf(monthStr),
+            parseInt(dayStr, 10),
+            parseInt(hourStr, 10),
+            parseInt(minuteStr, 10)
+          ];
+          if (secondStr) {
+            result.push(parseInt(secondStr, 10));
+          }
+          return result;
+        }
+        function untruncateYear(yearStr) {
+          var year = parseInt(yearStr, 10);
+          if (year <= 49) {
+            return 2e3 + year;
+          } else if (year <= 999) {
+            return 1900 + year;
+          }
+          return year;
+        }
+        function preprocessRFC2822(s) {
+          return s.replace(/\([^()]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, "");
+        }
+        function checkWeekday(weekdayStr, parsedInput, config) {
+          if (weekdayStr) {
+            var weekdayProvided = defaultLocaleWeekdaysShort.indexOf(weekdayStr), weekdayActual = new Date(
+              parsedInput[0],
+              parsedInput[1],
+              parsedInput[2]
+            ).getDay();
+            if (weekdayProvided !== weekdayActual) {
+              getParsingFlags(config).weekdayMismatch = true;
+              config._isValid = false;
+              return false;
+            }
+          }
+          return true;
+        }
+        function calculateOffset(obsOffset, militaryOffset, numOffset) {
+          if (obsOffset) {
+            return obsOffsets[obsOffset];
+          } else if (militaryOffset) {
+            return 0;
+          } else {
+            var hm = parseInt(numOffset, 10), m = hm % 100, h = (hm - m) / 100;
+            return h * 60 + m;
+          }
+        }
+        function configFromRFC2822(config) {
+          var match = rfc2822.exec(preprocessRFC2822(config._i)), parsedArray;
+          if (match) {
+            parsedArray = extractFromRFC2822Strings(
+              match[4],
+              match[3],
+              match[2],
+              match[5],
+              match[6],
+              match[7]
+            );
+            if (!checkWeekday(match[1], parsedArray, config)) {
+              return;
+            }
+            config._a = parsedArray;
+            config._tzm = calculateOffset(match[8], match[9], match[10]);
+            config._d = createUTCDate.apply(null, config._a);
+            config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm);
+            getParsingFlags(config).rfc2822 = true;
+          } else {
+            config._isValid = false;
+          }
+        }
+        function configFromString(config) {
+          var matched = aspNetJsonRegex.exec(config._i);
+          if (matched !== null) {
+            config._d = /* @__PURE__ */ new Date(+matched[1]);
+            return;
+          }
+          configFromISO(config);
+          if (config._isValid === false) {
+            delete config._isValid;
+          } else {
+            return;
+          }
+          configFromRFC2822(config);
+          if (config._isValid === false) {
+            delete config._isValid;
+          } else {
+            return;
+          }
+          if (config._strict) {
+            config._isValid = false;
+          } else {
+            hooks.createFromInputFallback(config);
+          }
+        }
+        hooks.createFromInputFallback = deprecate(
+          "value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",
+          function(config) {
+            config._d = /* @__PURE__ */ new Date(config._i + (config._useUTC ? " UTC" : ""));
+          }
+        );
+        function defaults(a, b, c) {
+          if (a != null) {
+            return a;
+          }
+          if (b != null) {
+            return b;
+          }
+          return c;
+        }
+        function currentDateArray(config) {
+          var nowValue = new Date(hooks.now());
+          if (config._useUTC) {
+            return [
+              nowValue.getUTCFullYear(),
+              nowValue.getUTCMonth(),
+              nowValue.getUTCDate()
+            ];
+          }
+          return [nowValue.getFullYear(), nowValue.getMonth(), nowValue.getDate()];
+        }
+        function configFromArray(config) {
+          var i, date, input = [], currentDate, expectedWeekday, yearToUse;
+          if (config._d) {
+            return;
+          }
+          currentDate = currentDateArray(config);
+          if (config._w && config._a[DATE] == null && config._a[MONTH] == null) {
+            dayOfYearFromWeekInfo(config);
+          }
+          if (config._dayOfYear != null) {
+            yearToUse = defaults(config._a[YEAR], currentDate[YEAR]);
+            if (config._dayOfYear > daysInYear(yearToUse) || config._dayOfYear === 0) {
+              getParsingFlags(config)._overflowDayOfYear = true;
+            }
+            date = createUTCDate(yearToUse, 0, config._dayOfYear);
+            config._a[MONTH] = date.getUTCMonth();
+            config._a[DATE] = date.getUTCDate();
+          }
+          for (i = 0; i < 3 && config._a[i] == null; ++i) {
+            config._a[i] = input[i] = currentDate[i];
+          }
+          for (; i < 7; i++) {
+            config._a[i] = input[i] = config._a[i] == null ? i === 2 ? 1 : 0 : config._a[i];
+          }
+          if (config._a[HOUR] === 24 && config._a[MINUTE] === 0 && config._a[SECOND] === 0 && config._a[MILLISECOND] === 0) {
+            config._nextDay = true;
+            config._a[HOUR] = 0;
+          }
+          config._d = (config._useUTC ? createUTCDate : createDate).apply(
+            null,
+            input
+          );
+          expectedWeekday = config._useUTC ? config._d.getUTCDay() : config._d.getDay();
+          if (config._tzm != null) {
+            config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm);
+          }
+          if (config._nextDay) {
+            config._a[HOUR] = 24;
+          }
+          if (config._w && typeof config._w.d !== "undefined" && config._w.d !== expectedWeekday) {
+            getParsingFlags(config).weekdayMismatch = true;
+          }
+        }
+        function dayOfYearFromWeekInfo(config) {
+          var w, weekYear, week2, weekday, dow, doy, temp, weekdayOverflow, curWeek;
+          w = config._w;
+          if (w.GG != null || w.W != null || w.E != null) {
+            dow = 1;
+            doy = 4;
+            weekYear = defaults(
+              w.GG,
+              config._a[YEAR],
+              weekOfYear(createLocal(), 1, 4).year
+            );
+            week2 = defaults(w.W, 1);
+            weekday = defaults(w.E, 1);
+            if (weekday < 1 || weekday > 7) {
+              weekdayOverflow = true;
+            }
+          } else {
+            dow = config._locale._week.dow;
+            doy = config._locale._week.doy;
+            curWeek = weekOfYear(createLocal(), dow, doy);
+            weekYear = defaults(w.gg, config._a[YEAR], curWeek.year);
+            week2 = defaults(w.w, curWeek.week);
+            if (w.d != null) {
+              weekday = w.d;
+              if (weekday < 0 || weekday > 6) {
+                weekdayOverflow = true;
+              }
+            } else if (w.e != null) {
+              weekday = w.e + dow;
+              if (w.e < 0 || w.e > 6) {
+                weekdayOverflow = true;
+              }
+            } else {
+              weekday = dow;
+            }
+          }
+          if (week2 < 1 || week2 > weeksInYear(weekYear, dow, doy)) {
+            getParsingFlags(config)._overflowWeeks = true;
+          } else if (weekdayOverflow != null) {
+            getParsingFlags(config)._overflowWeekday = true;
+          } else {
+            temp = dayOfYearFromWeeks(weekYear, week2, weekday, dow, doy);
+            config._a[YEAR] = temp.year;
+            config._dayOfYear = temp.dayOfYear;
+          }
+        }
+        hooks.ISO_8601 = function() {
+        };
+        hooks.RFC_2822 = function() {
+        };
+        function configFromStringAndFormat(config) {
+          if (config._f === hooks.ISO_8601) {
+            configFromISO(config);
+            return;
+          }
+          if (config._f === hooks.RFC_2822) {
+            configFromRFC2822(config);
+            return;
+          }
+          config._a = [];
+          getParsingFlags(config).empty = true;
+          var string = "" + config._i, i, parsedInput, tokens2, token2, skipped, stringLength = string.length, totalParsedInputLength = 0, era, tokenLen;
+          tokens2 = expandFormat(config._f, config._locale).match(formattingTokens) || [];
+          tokenLen = tokens2.length;
+          for (i = 0; i < tokenLen; i++) {
+            token2 = tokens2[i];
+            parsedInput = (string.match(getParseRegexForToken(token2, config)) || [])[0];
+            if (parsedInput) {
+              skipped = string.substr(0, string.indexOf(parsedInput));
+              if (skipped.length > 0) {
+                getParsingFlags(config).unusedInput.push(skipped);
+              }
+              string = string.slice(
+                string.indexOf(parsedInput) + parsedInput.length
+              );
+              totalParsedInputLength += parsedInput.length;
+            }
+            if (formatTokenFunctions[token2]) {
+              if (parsedInput) {
+                getParsingFlags(config).empty = false;
+              } else {
+                getParsingFlags(config).unusedTokens.push(token2);
+              }
+              addTimeToArrayFromToken(token2, parsedInput, config);
+            } else if (config._strict && !parsedInput) {
+              getParsingFlags(config).unusedTokens.push(token2);
+            }
+          }
+          getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength;
+          if (string.length > 0) {
+            getParsingFlags(config).unusedInput.push(string);
+          }
+          if (config._a[HOUR] <= 12 && getParsingFlags(config).bigHour === true && config._a[HOUR] > 0) {
+            getParsingFlags(config).bigHour = void 0;
+          }
+          getParsingFlags(config).parsedDateParts = config._a.slice(0);
+          getParsingFlags(config).meridiem = config._meridiem;
+          config._a[HOUR] = meridiemFixWrap(
+            config._locale,
+            config._a[HOUR],
+            config._meridiem
+          );
+          era = getParsingFlags(config).era;
+          if (era !== null) {
+            config._a[YEAR] = config._locale.erasConvertYear(era, config._a[YEAR]);
+          }
+          configFromArray(config);
+          checkOverflow(config);
+        }
+        function meridiemFixWrap(locale2, hour, meridiem2) {
+          var isPm;
+          if (meridiem2 == null) {
+            return hour;
+          }
+          if (locale2.meridiemHour != null) {
+            return locale2.meridiemHour(hour, meridiem2);
+          } else if (locale2.isPM != null) {
+            isPm = locale2.isPM(meridiem2);
+            if (isPm && hour < 12) {
+              hour += 12;
+            }
+            if (!isPm && hour === 12) {
+              hour = 0;
+            }
+            return hour;
+          } else {
+            return hour;
+          }
+        }
+        function configFromStringAndArray(config) {
+          var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = false, configfLen = config._f.length;
+          if (configfLen === 0) {
+            getParsingFlags(config).invalidFormat = true;
+            config._d = /* @__PURE__ */ new Date(NaN);
+            return;
+          }
+          for (i = 0; i < configfLen; i++) {
+            currentScore = 0;
+            validFormatFound = false;
+            tempConfig = copyConfig({}, config);
+            if (config._useUTC != null) {
+              tempConfig._useUTC = config._useUTC;
+            }
+            tempConfig._f = config._f[i];
+            configFromStringAndFormat(tempConfig);
+            if (isValid(tempConfig)) {
+              validFormatFound = true;
+            }
+            currentScore += getParsingFlags(tempConfig).charsLeftOver;
+            currentScore += getParsingFlags(tempConfig).unusedTokens.length * 10;
+            getParsingFlags(tempConfig).score = currentScore;
+            if (!bestFormatIsValid) {
+              if (scoreToBeat == null || currentScore < scoreToBeat || validFormatFound) {
+                scoreToBeat = currentScore;
+                bestMoment = tempConfig;
+                if (validFormatFound) {
+                  bestFormatIsValid = true;
+                }
+              }
+            } else {
+              if (currentScore < scoreToBeat) {
+                scoreToBeat = currentScore;
+                bestMoment = tempConfig;
+              }
+            }
+          }
+          extend(config, bestMoment || tempConfig);
+        }
+        function configFromObject(config) {
+          if (config._d) {
+            return;
+          }
+          var i = normalizeObjectUnits(config._i), dayOrDate = i.day === void 0 ? i.date : i.day;
+          config._a = map(
+            [i.year, i.month, dayOrDate, i.hour, i.minute, i.second, i.millisecond],
+            function(obj) {
+              return obj && parseInt(obj, 10);
+            }
+          );
+          configFromArray(config);
+        }
+        function createFromConfig(config) {
+          var res = new Moment(checkOverflow(prepareConfig(config)));
+          if (res._nextDay) {
+            res.add(1, "d");
+            res._nextDay = void 0;
+          }
+          return res;
+        }
+        function prepareConfig(config) {
+          var input = config._i, format2 = config._f;
+          config._locale = config._locale || getLocale(config._l);
+          if (input === null || format2 === void 0 && input === "") {
+            return createInvalid({ nullInput: true });
+          }
+          if (typeof input === "string") {
+            config._i = input = config._locale.preparse(input);
+          }
+          if (isMoment(input)) {
+            return new Moment(checkOverflow(input));
+          } else if (isDate(input)) {
+            config._d = input;
+          } else if (isArray(format2)) {
+            configFromStringAndArray(config);
+          } else if (format2) {
+            configFromStringAndFormat(config);
+          } else {
+            configFromInput(config);
+          }
+          if (!isValid(config)) {
+            config._d = null;
+          }
+          return config;
+        }
+        function configFromInput(config) {
+          var input = config._i;
+          if (isUndefined(input)) {
+            config._d = new Date(hooks.now());
+          } else if (isDate(input)) {
+            config._d = new Date(input.valueOf());
+          } else if (typeof input === "string") {
+            configFromString(config);
+          } else if (isArray(input)) {
+            config._a = map(input.slice(0), function(obj) {
+              return parseInt(obj, 10);
+            });
+            configFromArray(config);
+          } else if (isObject(input)) {
+            configFromObject(config);
+          } else if (isNumber(input)) {
+            config._d = new Date(input);
+          } else {
+            hooks.createFromInputFallback(config);
+          }
+        }
+        function createLocalOrUTC(input, format2, locale2, strict, isUTC) {
+          var c = {};
+          if (format2 === true || format2 === false) {
+            strict = format2;
+            format2 = void 0;
+          }
+          if (locale2 === true || locale2 === false) {
+            strict = locale2;
+            locale2 = void 0;
+          }
+          if (isObject(input) && isObjectEmpty(input) || isArray(input) && input.length === 0) {
+            input = void 0;
+          }
+          c._isAMomentObject = true;
+          c._useUTC = c._isUTC = isUTC;
+          c._l = locale2;
+          c._i = input;
+          c._f = format2;
+          c._strict = strict;
+          return createFromConfig(c);
+        }
+        function createLocal(input, format2, locale2, strict) {
+          return createLocalOrUTC(input, format2, locale2, strict, false);
+        }
+        var prototypeMin = deprecate(
+          "moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",
+          function() {
+            var other = createLocal.apply(null, arguments);
+            if (this.isValid() && other.isValid()) {
+              return other < this ? this : other;
+            } else {
+              return createInvalid();
+            }
+          }
+        ), prototypeMax = deprecate(
+          "moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/",
+          function() {
+            var other = createLocal.apply(null, arguments);
+            if (this.isValid() && other.isValid()) {
+              return other > this ? this : other;
+            } else {
+              return createInvalid();
+            }
+          }
+        );
+        function pickBy(fn, moments) {
+          var res, i;
+          if (moments.length === 1 && isArray(moments[0])) {
+            moments = moments[0];
+          }
+          if (!moments.length) {
+            return createLocal();
+          }
+          res = moments[0];
+          for (i = 1; i < moments.length; ++i) {
+            if (!moments[i].isValid() || moments[i][fn](res)) {
+              res = moments[i];
+            }
+          }
+          return res;
+        }
+        function min() {
+          var args = [].slice.call(arguments, 0);
+          return pickBy("isBefore", args);
+        }
+        function max() {
+          var args = [].slice.call(arguments, 0);
+          return pickBy("isAfter", args);
+        }
+        var now = function() {
+          return Date.now ? Date.now() : +/* @__PURE__ */ new Date();
+        };
+        var ordering = [
+          "year",
+          "quarter",
+          "month",
+          "week",
+          "day",
+          "hour",
+          "minute",
+          "second",
+          "millisecond"
+        ];
+        function isDurationValid(m) {
+          var key, unitHasDecimal = false, i, orderLen = ordering.length;
+          for (key in m) {
+            if (hasOwnProp(m, key) && !(indexOf.call(ordering, key) !== -1 && (m[key] == null || !isNaN(m[key])))) {
+              return false;
+            }
+          }
+          for (i = 0; i < orderLen; ++i) {
+            if (m[ordering[i]]) {
+              if (unitHasDecimal) {
+                return false;
+              }
+              if (parseFloat(m[ordering[i]]) !== toInt(m[ordering[i]])) {
+                unitHasDecimal = true;
+              }
+            }
+          }
+          return true;
+        }
+        function isValid$1() {
+          return this._isValid;
+        }
+        function createInvalid$1() {
+          return createDuration(NaN);
+        }
+        function Duration(duration) {
+          var normalizedInput = normalizeObjectUnits(duration), years2 = normalizedInput.year || 0, quarters = normalizedInput.quarter || 0, months2 = normalizedInput.month || 0, weeks2 = normalizedInput.week || normalizedInput.isoWeek || 0, days2 = normalizedInput.day || 0, hours2 = normalizedInput.hour || 0, minutes2 = normalizedInput.minute || 0, seconds2 = normalizedInput.second || 0, milliseconds2 = normalizedInput.millisecond || 0;
+          this._isValid = isDurationValid(normalizedInput);
+          this._milliseconds = +milliseconds2 + seconds2 * 1e3 + // 1000
+          minutes2 * 6e4 + // 1000 * 60
+          hours2 * 1e3 * 60 * 60;
+          this._days = +days2 + weeks2 * 7;
+          this._months = +months2 + quarters * 3 + years2 * 12;
+          this._data = {};
+          this._locale = getLocale();
+          this._bubble();
+        }
+        function isDuration(obj) {
+          return obj instanceof Duration;
+        }
+        function absRound(number) {
+          if (number < 0) {
+            return Math.round(-1 * number) * -1;
+          } else {
+            return Math.round(number);
+          }
+        }
+        function compareArrays(array1, array2, dontConvert) {
+          var len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0, i;
+          for (i = 0; i < len; i++) {
+            if (dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) {
+              diffs++;
+            }
+          }
+          return diffs + lengthDiff;
+        }
+        function offset(token2, separator) {
+          addFormatToken(token2, 0, 0, function() {
+            var offset2 = this.utcOffset(), sign2 = "+";
+            if (offset2 < 0) {
+              offset2 = -offset2;
+              sign2 = "-";
+            }
+            return sign2 + zeroFill(~~(offset2 / 60), 2) + separator + zeroFill(~~offset2 % 60, 2);
+          });
+        }
+        offset("Z", ":");
+        offset("ZZ", "");
+        addRegexToken("Z", matchShortOffset);
+        addRegexToken("ZZ", matchShortOffset);
+        addParseToken(["Z", "ZZ"], function(input, array, config) {
+          config._useUTC = true;
+          config._tzm = offsetFromString(matchShortOffset, input);
+        });
+        var chunkOffset = /([\+\-]|\d\d)/gi;
+        function offsetFromString(matcher, string) {
+          var matches = (string || "").match(matcher), chunk, parts, minutes2;
+          if (matches === null) {
+            return null;
+          }
+          chunk = matches[matches.length - 1] || [];
+          parts = (chunk + "").match(chunkOffset) || ["-", 0, 0];
+          minutes2 = +(parts[1] * 60) + toInt(parts[2]);
+          return minutes2 === 0 ? 0 : parts[0] === "+" ? minutes2 : -minutes2;
+        }
+        function cloneWithOffset(input, model) {
+          var res, diff2;
+          if (model._isUTC) {
+            res = model.clone();
+            diff2 = (isMoment(input) || isDate(input) ? input.valueOf() : createLocal(input).valueOf()) - res.valueOf();
+            res._d.setTime(res._d.valueOf() + diff2);
+            hooks.updateOffset(res, false);
+            return res;
+          } else {
+            return createLocal(input).local();
+          }
+        }
+        function getDateOffset(m) {
+          return -Math.round(m._d.getTimezoneOffset());
+        }
+        hooks.updateOffset = function() {
+        };
+        function getSetOffset(input, keepLocalTime, keepMinutes) {
+          var offset2 = this._offset || 0, localAdjust;
+          if (!this.isValid()) {
+            return input != null ? this : NaN;
+          }
+          if (input != null) {
+            if (typeof input === "string") {
+              input = offsetFromString(matchShortOffset, input);
+              if (input === null) {
+                return this;
+              }
+            } else if (Math.abs(input) < 16 && !keepMinutes) {
+              input = input * 60;
+            }
+            if (!this._isUTC && keepLocalTime) {
+              localAdjust = getDateOffset(this);
+            }
+            this._offset = input;
+            this._isUTC = true;
+            if (localAdjust != null) {
+              this.add(localAdjust, "m");
+            }
+            if (offset2 !== input) {
+              if (!keepLocalTime || this._changeInProgress) {
+                addSubtract(
+                  this,
+                  createDuration(input - offset2, "m"),
+                  1,
+                  false
+                );
+              } else if (!this._changeInProgress) {
+                this._changeInProgress = true;
+                hooks.updateOffset(this, true);
+                this._changeInProgress = null;
+              }
+            }
+            return this;
+          } else {
+            return this._isUTC ? offset2 : getDateOffset(this);
+          }
+        }
+        function getSetZone(input, keepLocalTime) {
+          if (input != null) {
+            if (typeof input !== "string") {
+              input = -input;
+            }
+            this.utcOffset(input, keepLocalTime);
+            return this;
+          } else {
+            return -this.utcOffset();
+          }
+        }
+        function setOffsetToUTC(keepLocalTime) {
+          return this.utcOffset(0, keepLocalTime);
+        }
+        function setOffsetToLocal(keepLocalTime) {
+          if (this._isUTC) {
+            this.utcOffset(0, keepLocalTime);
+            this._isUTC = false;
+            if (keepLocalTime) {
+              this.subtract(getDateOffset(this), "m");
+            }
+          }
+          return this;
+        }
+        function setOffsetToParsedOffset() {
+          if (this._tzm != null) {
+            this.utcOffset(this._tzm, false, true);
+          } else if (typeof this._i === "string") {
+            var tZone = offsetFromString(matchOffset, this._i);
+            if (tZone != null) {
+              this.utcOffset(tZone);
+            } else {
+              this.utcOffset(0, true);
+            }
+          }
+          return this;
+        }
+        function hasAlignedHourOffset(input) {
+          if (!this.isValid()) {
+            return false;
+          }
+          input = input ? createLocal(input).utcOffset() : 0;
+          return (this.utcOffset() - input) % 60 === 0;
+        }
+        function isDaylightSavingTime() {
+          return this.utcOffset() > this.clone().month(0).utcOffset() || this.utcOffset() > this.clone().month(5).utcOffset();
+        }
+        function isDaylightSavingTimeShifted() {
+          if (!isUndefined(this._isDSTShifted)) {
+            return this._isDSTShifted;
+          }
+          var c = {}, other;
+          copyConfig(c, this);
+          c = prepareConfig(c);
+          if (c._a) {
+            other = c._isUTC ? createUTC(c._a) : createLocal(c._a);
+            this._isDSTShifted = this.isValid() && compareArrays(c._a, other.toArray()) > 0;
+          } else {
+            this._isDSTShifted = false;
+          }
+          return this._isDSTShifted;
+        }
+        function isLocal() {
+          return this.isValid() ? !this._isUTC : false;
+        }
+        function isUtcOffset() {
+          return this.isValid() ? this._isUTC : false;
+        }
+        function isUtc() {
+          return this.isValid() ? this._isUTC && this._offset === 0 : false;
+        }
+        var aspNetRegex = /^(-|\+)?(?:(\d*)[. ])?(\d+):(\d+)(?::(\d+)(\.\d*)?)?$/, isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
+        function createDuration(input, key) {
+          var duration = input, match = null, sign2, ret, diffRes;
+          if (isDuration(input)) {
+            duration = {
+              ms: input._milliseconds,
+              d: input._days,
+              M: input._months
+            };
+          } else if (isNumber(input) || !isNaN(+input)) {
+            duration = {};
+            if (key) {
+              duration[key] = +input;
+            } else {
+              duration.milliseconds = +input;
+            }
+          } else if (match = aspNetRegex.exec(input)) {
+            sign2 = match[1] === "-" ? -1 : 1;
+            duration = {
+              y: 0,
+              d: toInt(match[DATE]) * sign2,
+              h: toInt(match[HOUR]) * sign2,
+              m: toInt(match[MINUTE]) * sign2,
+              s: toInt(match[SECOND]) * sign2,
+              ms: toInt(absRound(match[MILLISECOND] * 1e3)) * sign2
+              // the millisecond decimal point is included in the match
+            };
+          } else if (match = isoRegex.exec(input)) {
+            sign2 = match[1] === "-" ? -1 : 1;
+            duration = {
+              y: parseIso(match[2], sign2),
+              M: parseIso(match[3], sign2),
+              w: parseIso(match[4], sign2),
+              d: parseIso(match[5], sign2),
+              h: parseIso(match[6], sign2),
+              m: parseIso(match[7], sign2),
+              s: parseIso(match[8], sign2)
+            };
+          } else if (duration == null) {
+            duration = {};
+          } else if (typeof duration === "object" && ("from" in duration || "to" in duration)) {
+            diffRes = momentsDifference(
+              createLocal(duration.from),
+              createLocal(duration.to)
+            );
+            duration = {};
+            duration.ms = diffRes.milliseconds;
+            duration.M = diffRes.months;
+          }
+          ret = new Duration(duration);
+          if (isDuration(input) && hasOwnProp(input, "_locale")) {
+            ret._locale = input._locale;
+          }
+          if (isDuration(input) && hasOwnProp(input, "_isValid")) {
+            ret._isValid = input._isValid;
+          }
+          return ret;
+        }
+        createDuration.fn = Duration.prototype;
+        createDuration.invalid = createInvalid$1;
+        function parseIso(inp, sign2) {
+          var res = inp && parseFloat(inp.replace(",", "."));
+          return (isNaN(res) ? 0 : res) * sign2;
+        }
+        function positiveMomentsDifference(base, other) {
+          var res = {};
+          res.months = other.month() - base.month() + (other.year() - base.year()) * 12;
+          if (base.clone().add(res.months, "M").isAfter(other)) {
+            --res.months;
+          }
+          res.milliseconds = +other - +base.clone().add(res.months, "M");
+          return res;
+        }
+        function momentsDifference(base, other) {
+          var res;
+          if (!(base.isValid() && other.isValid())) {
+            return { milliseconds: 0, months: 0 };
+          }
+          other = cloneWithOffset(other, base);
+          if (base.isBefore(other)) {
+            res = positiveMomentsDifference(base, other);
+          } else {
+            res = positiveMomentsDifference(other, base);
+            res.milliseconds = -res.milliseconds;
+            res.months = -res.months;
+          }
+          return res;
+        }
+        function createAdder(direction, name) {
+          return function(val, period) {
+            var dur, tmp;
+            if (period !== null && !isNaN(+period)) {
+              deprecateSimple(
+                name,
+                "moment()." + name + "(period, number) is deprecated. Please use moment()." + name + "(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."
+              );
+              tmp = val;
+              val = period;
+              period = tmp;
+            }
+            dur = createDuration(val, period);
+            addSubtract(this, dur, direction);
+            return this;
+          };
+        }
+        function addSubtract(mom, duration, isAdding, updateOffset) {
+          var milliseconds2 = duration._milliseconds, days2 = absRound(duration._days), months2 = absRound(duration._months);
+          if (!mom.isValid()) {
+            return;
+          }
+          updateOffset = updateOffset == null ? true : updateOffset;
+          if (months2) {
+            setMonth(mom, get(mom, "Month") + months2 * isAdding);
+          }
+          if (days2) {
+            set$1(mom, "Date", get(mom, "Date") + days2 * isAdding);
+          }
+          if (milliseconds2) {
+            mom._d.setTime(mom._d.valueOf() + milliseconds2 * isAdding);
+          }
+          if (updateOffset) {
+            hooks.updateOffset(mom, days2 || months2);
+          }
+        }
+        var add = createAdder(1, "add"), subtract = createAdder(-1, "subtract");
+        function isString(input) {
+          return typeof input === "string" || input instanceof String;
+        }
+        function isMomentInput(input) {
+          return isMoment(input) || isDate(input) || isString(input) || isNumber(input) || isNumberOrStringArray(input) || isMomentInputObject(input) || input === null || input === void 0;
+        }
+        function isMomentInputObject(input) {
+          var objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = false, properties = [
+            "years",
+            "year",
+            "y",
+            "months",
+            "month",
+            "M",
+            "days",
+            "day",
+            "d",
+            "dates",
+            "date",
+            "D",
+            "hours",
+            "hour",
+            "h",
+            "minutes",
+            "minute",
+            "m",
+            "seconds",
+            "second",
+            "s",
+            "milliseconds",
+            "millisecond",
+            "ms"
+          ], i, property, propertyLen = properties.length;
+          for (i = 0; i < propertyLen; i += 1) {
+            property = properties[i];
+            propertyTest = propertyTest || hasOwnProp(input, property);
+          }
+          return objectTest && propertyTest;
+        }
+        function isNumberOrStringArray(input) {
+          var arrayTest = isArray(input), dataTypeTest = false;
+          if (arrayTest) {
+            dataTypeTest = input.filter(function(item) {
+              return !isNumber(item) && isString(input);
+            }).length === 0;
+          }
+          return arrayTest && dataTypeTest;
+        }
+        function isCalendarSpec(input) {
+          var objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = false, properties = [
+            "sameDay",
+            "nextDay",
+            "lastDay",
+            "nextWeek",
+            "lastWeek",
+            "sameElse"
+          ], i, property;
+          for (i = 0; i < properties.length; i += 1) {
+            property = properties[i];
+            propertyTest = propertyTest || hasOwnProp(input, property);
+          }
+          return objectTest && propertyTest;
+        }
+        function getCalendarFormat(myMoment, now2) {
+          var diff2 = myMoment.diff(now2, "days", true);
+          return diff2 < -6 ? "sameElse" : diff2 < -1 ? "lastWeek" : diff2 < 0 ? "lastDay" : diff2 < 1 ? "sameDay" : diff2 < 2 ? "nextDay" : diff2 < 7 ? "nextWeek" : "sameElse";
+        }
+        function calendar$1(time, formats) {
+          if (arguments.length === 1) {
+            if (!arguments[0]) {
+              time = void 0;
+              formats = void 0;
+            } else if (isMomentInput(arguments[0])) {
+              time = arguments[0];
+              formats = void 0;
+            } else if (isCalendarSpec(arguments[0])) {
+              formats = arguments[0];
+              time = void 0;
+            }
+          }
+          var now2 = time || createLocal(), sod = cloneWithOffset(now2, this).startOf("day"), format2 = hooks.calendarFormat(this, sod) || "sameElse", output = formats && (isFunction(formats[format2]) ? formats[format2].call(this, now2) : formats[format2]);
+          return this.format(
+            output || this.localeData().calendar(format2, this, createLocal(now2))
+          );
+        }
+        function clone() {
+          return new Moment(this);
+        }
+        function isAfter(input, units2) {
+          var localInput = isMoment(input) ? input : createLocal(input);
+          if (!(this.isValid() && localInput.isValid())) {
+            return false;
+          }
+          units2 = normalizeUnits(units2) || "millisecond";
+          if (units2 === "millisecond") {
+            return this.valueOf() > localInput.valueOf();
+          } else {
+            return localInput.valueOf() < this.clone().startOf(units2).valueOf();
+          }
+        }
+        function isBefore(input, units2) {
+          var localInput = isMoment(input) ? input : createLocal(input);
+          if (!(this.isValid() && localInput.isValid())) {
+            return false;
+          }
+          units2 = normalizeUnits(units2) || "millisecond";
+          if (units2 === "millisecond") {
+            return this.valueOf() < localInput.valueOf();
+          } else {
+            return this.clone().endOf(units2).valueOf() < localInput.valueOf();
+          }
+        }
+        function isBetween(from2, to2, units2, inclusivity) {
+          var localFrom = isMoment(from2) ? from2 : createLocal(from2), localTo = isMoment(to2) ? to2 : createLocal(to2);
+          if (!(this.isValid() && localFrom.isValid() && localTo.isValid())) {
+            return false;
+          }
+          inclusivity = inclusivity || "()";
+          return (inclusivity[0] === "(" ? this.isAfter(localFrom, units2) : !this.isBefore(localFrom, units2)) && (inclusivity[1] === ")" ? this.isBefore(localTo, units2) : !this.isAfter(localTo, units2));
+        }
+        function isSame(input, units2) {
+          var localInput = isMoment(input) ? input : createLocal(input), inputMs;
+          if (!(this.isValid() && localInput.isValid())) {
+            return false;
+          }
+          units2 = normalizeUnits(units2) || "millisecond";
+          if (units2 === "millisecond") {
+            return this.valueOf() === localInput.valueOf();
+          } else {
+            inputMs = localInput.valueOf();
+            return this.clone().startOf(units2).valueOf() <= inputMs && inputMs <= this.clone().endOf(units2).valueOf();
+          }
+        }
+        function isSameOrAfter(input, units2) {
+          return this.isSame(input, units2) || this.isAfter(input, units2);
+        }
+        function isSameOrBefore(input, units2) {
+          return this.isSame(input, units2) || this.isBefore(input, units2);
+        }
+        function diff(input, units2, asFloat) {
+          var that, zoneDelta, output;
+          if (!this.isValid()) {
+            return NaN;
+          }
+          that = cloneWithOffset(input, this);
+          if (!that.isValid()) {
+            return NaN;
+          }
+          zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4;
+          units2 = normalizeUnits(units2);
+          switch (units2) {
+            case "year":
+              output = monthDiff(this, that) / 12;
+              break;
+            case "month":
+              output = monthDiff(this, that);
+              break;
+            case "quarter":
+              output = monthDiff(this, that) / 3;
+              break;
+            case "second":
+              output = (this - that) / 1e3;
+              break;
+            case "minute":
+              output = (this - that) / 6e4;
+              break;
+            case "hour":
+              output = (this - that) / 36e5;
+              break;
+            case "day":
+              output = (this - that - zoneDelta) / 864e5;
+              break;
+            case "week":
+              output = (this - that - zoneDelta) / 6048e5;
+              break;
+            default:
+              output = this - that;
+          }
+          return asFloat ? output : absFloor(output);
+        }
+        function monthDiff(a, b) {
+          if (a.date() < b.date()) {
+            return -monthDiff(b, a);
+          }
+          var wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month()), anchor = a.clone().add(wholeMonthDiff, "months"), anchor2, adjust;
+          if (b - anchor < 0) {
+            anchor2 = a.clone().add(wholeMonthDiff - 1, "months");
+            adjust = (b - anchor) / (anchor - anchor2);
+          } else {
+            anchor2 = a.clone().add(wholeMonthDiff + 1, "months");
+            adjust = (b - anchor) / (anchor2 - anchor);
+          }
+          return -(wholeMonthDiff + adjust) || 0;
+        }
+        hooks.defaultFormat = "YYYY-MM-DDTHH:mm:ssZ";
+        hooks.defaultFormatUtc = "YYYY-MM-DDTHH:mm:ss[Z]";
+        function toString() {
+          return this.clone().locale("en").format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ");
+        }
+        function toISOString(keepOffset) {
+          if (!this.isValid()) {
+            return null;
+          }
+          var utc = keepOffset !== true, m = utc ? this.clone().utc() : this;
+          if (m.year() < 0 || m.year() > 9999) {
+            return formatMoment(
+              m,
+              utc ? "YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]" : "YYYYYY-MM-DD[T]HH:mm:ss.SSSZ"
+            );
+          }
+          if (isFunction(Date.prototype.toISOString)) {
+            if (utc) {
+              return this.toDate().toISOString();
+            } else {
+              return new Date(this.valueOf() + this.utcOffset() * 60 * 1e3).toISOString().replace("Z", formatMoment(m, "Z"));
+            }
+          }
+          return formatMoment(
+            m,
+            utc ? "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]" : "YYYY-MM-DD[T]HH:mm:ss.SSSZ"
+          );
+        }
+        function inspect() {
+          if (!this.isValid()) {
+            return "moment.invalid(/* " + this._i + " */)";
+          }
+          var func = "moment", zone = "", prefix, year, datetime, suffix;
+          if (!this.isLocal()) {
+            func = this.utcOffset() === 0 ? "moment.utc" : "moment.parseZone";
+            zone = "Z";
+          }
+          prefix = "[" + func + '("]';
+          year = 0 <= this.year() && this.year() <= 9999 ? "YYYY" : "YYYYYY";
+          datetime = "-MM-DD[T]HH:mm:ss.SSS";
+          suffix = zone + '[")]';
+          return this.format(prefix + year + datetime + suffix);
+        }
+        function format(inputString) {
+          if (!inputString) {
+            inputString = this.isUtc() ? hooks.defaultFormatUtc : hooks.defaultFormat;
+          }
+          var output = formatMoment(this, inputString);
+          return this.localeData().postformat(output);
+        }
+        function from(time, withoutSuffix) {
+          if (this.isValid() && (isMoment(time) && time.isValid() || createLocal(time).isValid())) {
+            return createDuration({ to: this, from: time }).locale(this.locale()).humanize(!withoutSuffix);
+          } else {
+            return this.localeData().invalidDate();
+          }
+        }
+        function fromNow(withoutSuffix) {
+          return this.from(createLocal(), withoutSuffix);
+        }
+        function to(time, withoutSuffix) {
+          if (this.isValid() && (isMoment(time) && time.isValid() || createLocal(time).isValid())) {
+            return createDuration({ from: this, to: time }).locale(this.locale()).humanize(!withoutSuffix);
+          } else {
+            return this.localeData().invalidDate();
+          }
+        }
+        function toNow(withoutSuffix) {
+          return this.to(createLocal(), withoutSuffix);
+        }
+        function locale(key) {
+          var newLocaleData;
+          if (key === void 0) {
+            return this._locale._abbr;
+          } else {
+            newLocaleData = getLocale(key);
+            if (newLocaleData != null) {
+              this._locale = newLocaleData;
+            }
+            return this;
+          }
+        }
+        var lang = deprecate(
+          "moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.",
+          function(key) {
+            if (key === void 0) {
+              return this.localeData();
+            } else {
+              return this.locale(key);
+            }
+          }
+        );
+        function localeData() {
+          return this._locale;
+        }
+        var MS_PER_SECOND = 1e3, MS_PER_MINUTE = 60 * MS_PER_SECOND, MS_PER_HOUR = 60 * MS_PER_MINUTE, MS_PER_400_YEARS = (365 * 400 + 97) * 24 * MS_PER_HOUR;
+        function mod$1(dividend, divisor) {
+          return (dividend % divisor + divisor) % divisor;
+        }
+        function localStartOfDate(y, m, d) {
+          if (y < 100 && y >= 0) {
+            return new Date(y + 400, m, d) - MS_PER_400_YEARS;
+          } else {
+            return new Date(y, m, d).valueOf();
+          }
+        }
+        function utcStartOfDate(y, m, d) {
+          if (y < 100 && y >= 0) {
+            return Date.UTC(y + 400, m, d) - MS_PER_400_YEARS;
+          } else {
+            return Date.UTC(y, m, d);
+          }
+        }
+        function startOf(units2) {
+          var time, startOfDate;
+          units2 = normalizeUnits(units2);
+          if (units2 === void 0 || units2 === "millisecond" || !this.isValid()) {
+            return this;
+          }
+          startOfDate = this._isUTC ? utcStartOfDate : localStartOfDate;
+          switch (units2) {
+            case "year":
+              time = startOfDate(this.year(), 0, 1);
+              break;
+            case "quarter":
+              time = startOfDate(
+                this.year(),
+                this.month() - this.month() % 3,
+                1
+              );
+              break;
+            case "month":
+              time = startOfDate(this.year(), this.month(), 1);
+              break;
+            case "week":
+              time = startOfDate(
+                this.year(),
+                this.month(),
+                this.date() - this.weekday()
+              );
+              break;
+            case "isoWeek":
+              time = startOfDate(
+                this.year(),
+                this.month(),
+                this.date() - (this.isoWeekday() - 1)
+              );
+              break;
+            case "day":
+            case "date":
+              time = startOfDate(this.year(), this.month(), this.date());
+              break;
+            case "hour":
+              time = this._d.valueOf();
+              time -= mod$1(
+                time + (this._isUTC ? 0 : this.utcOffset() * MS_PER_MINUTE),
+                MS_PER_HOUR
+              );
+              break;
+            case "minute":
+              time = this._d.valueOf();
+              time -= mod$1(time, MS_PER_MINUTE);
+              break;
+            case "second":
+              time = this._d.valueOf();
+              time -= mod$1(time, MS_PER_SECOND);
+              break;
+          }
+          this._d.setTime(time);
+          hooks.updateOffset(this, true);
+          return this;
+        }
+        function endOf(units2) {
+          var time, startOfDate;
+          units2 = normalizeUnits(units2);
+          if (units2 === void 0 || units2 === "millisecond" || !this.isValid()) {
+            return this;
+          }
+          startOfDate = this._isUTC ? utcStartOfDate : localStartOfDate;
+          switch (units2) {
+            case "year":
+              time = startOfDate(this.year() + 1, 0, 1) - 1;
+              break;
+            case "quarter":
+              time = startOfDate(
+                this.year(),
+                this.month() - this.month() % 3 + 3,
+                1
+              ) - 1;
+              break;
+            case "month":
+              time = startOfDate(this.year(), this.month() + 1, 1) - 1;
+              break;
+            case "week":
+              time = startOfDate(
+                this.year(),
+                this.month(),
+                this.date() - this.weekday() + 7
+              ) - 1;
+              break;
+            case "isoWeek":
+              time = startOfDate(
+                this.year(),
+                this.month(),
+                this.date() - (this.isoWeekday() - 1) + 7
+              ) - 1;
+              break;
+            case "day":
+            case "date":
+              time = startOfDate(this.year(), this.month(), this.date() + 1) - 1;
+              break;
+            case "hour":
+              time = this._d.valueOf();
+              time += MS_PER_HOUR - mod$1(
+                time + (this._isUTC ? 0 : this.utcOffset() * MS_PER_MINUTE),
+                MS_PER_HOUR
+              ) - 1;
+              break;
+            case "minute":
+              time = this._d.valueOf();
+              time += MS_PER_MINUTE - mod$1(time, MS_PER_MINUTE) - 1;
+              break;
+            case "second":
+              time = this._d.valueOf();
+              time += MS_PER_SECOND - mod$1(time, MS_PER_SECOND) - 1;
+              break;
+          }
+          this._d.setTime(time);
+          hooks.updateOffset(this, true);
+          return this;
+        }
+        function valueOf() {
+          return this._d.valueOf() - (this._offset || 0) * 6e4;
+        }
+        function unix() {
+          return Math.floor(this.valueOf() / 1e3);
+        }
+        function toDate() {
+          return new Date(this.valueOf());
+        }
+        function toArray() {
+          var m = this;
+          return [
+            m.year(),
+            m.month(),
+            m.date(),
+            m.hour(),
+            m.minute(),
+            m.second(),
+            m.millisecond()
+          ];
+        }
+        function toObject() {
+          var m = this;
+          return {
+            years: m.year(),
+            months: m.month(),
+            date: m.date(),
+            hours: m.hours(),
+            minutes: m.minutes(),
+            seconds: m.seconds(),
+            milliseconds: m.milliseconds()
+          };
+        }
+        function toJSON() {
+          return this.isValid() ? this.toISOString() : null;
+        }
+        function isValid$2() {
+          return isValid(this);
+        }
+        function parsingFlags() {
+          return extend({}, getParsingFlags(this));
+        }
+        function invalidAt() {
+          return getParsingFlags(this).overflow;
+        }
+        function creationData() {
+          return {
+            input: this._i,
+            format: this._f,
+            locale: this._locale,
+            isUTC: this._isUTC,
+            strict: this._strict
+          };
+        }
+        addFormatToken("N", 0, 0, "eraAbbr");
+        addFormatToken("NN", 0, 0, "eraAbbr");
+        addFormatToken("NNN", 0, 0, "eraAbbr");
+        addFormatToken("NNNN", 0, 0, "eraName");
+        addFormatToken("NNNNN", 0, 0, "eraNarrow");
+        addFormatToken("y", ["y", 1], "yo", "eraYear");
+        addFormatToken("y", ["yy", 2], 0, "eraYear");
+        addFormatToken("y", ["yyy", 3], 0, "eraYear");
+        addFormatToken("y", ["yyyy", 4], 0, "eraYear");
+        addRegexToken("N", matchEraAbbr);
+        addRegexToken("NN", matchEraAbbr);
+        addRegexToken("NNN", matchEraAbbr);
+        addRegexToken("NNNN", matchEraName);
+        addRegexToken("NNNNN", matchEraNarrow);
+        addParseToken(
+          ["N", "NN", "NNN", "NNNN", "NNNNN"],
+          function(input, array, config, token2) {
+            var era = config._locale.erasParse(input, token2, config._strict);
+            if (era) {
+              getParsingFlags(config).era = era;
+            } else {
+              getParsingFlags(config).invalidEra = input;
+            }
+          }
+        );
+        addRegexToken("y", matchUnsigned);
+        addRegexToken("yy", matchUnsigned);
+        addRegexToken("yyy", matchUnsigned);
+        addRegexToken("yyyy", matchUnsigned);
+        addRegexToken("yo", matchEraYearOrdinal);
+        addParseToken(["y", "yy", "yyy", "yyyy"], YEAR);
+        addParseToken(["yo"], function(input, array, config, token2) {
+          var match;
+          if (config._locale._eraYearOrdinalRegex) {
+            match = input.match(config._locale._eraYearOrdinalRegex);
+          }
+          if (config._locale.eraYearOrdinalParse) {
+            array[YEAR] = config._locale.eraYearOrdinalParse(input, match);
+          } else {
+            array[YEAR] = parseInt(input, 10);
+          }
+        });
+        function localeEras(m, format2) {
+          var i, l, date, eras = this._eras || getLocale("en")._eras;
+          for (i = 0, l = eras.length; i < l; ++i) {
+            switch (typeof eras[i].since) {
+              case "string":
+                date = hooks(eras[i].since).startOf("day");
+                eras[i].since = date.valueOf();
+                break;
+            }
+            switch (typeof eras[i].until) {
+              case "undefined":
+                eras[i].until = Infinity;
+                break;
+              case "string":
+                date = hooks(eras[i].until).startOf("day").valueOf();
+                eras[i].until = date.valueOf();
+                break;
+            }
+          }
+          return eras;
+        }
+        function localeErasParse(eraName, format2, strict) {
+          var i, l, eras = this.eras(), name, abbr, narrow;
+          eraName = eraName.toUpperCase();
+          for (i = 0, l = eras.length; i < l; ++i) {
+            name = eras[i].name.toUpperCase();
+            abbr = eras[i].abbr.toUpperCase();
+            narrow = eras[i].narrow.toUpperCase();
+            if (strict) {
+              switch (format2) {
+                case "N":
+                case "NN":
+                case "NNN":
+                  if (abbr === eraName) {
+                    return eras[i];
+                  }
+                  break;
+                case "NNNN":
+                  if (name === eraName) {
+                    return eras[i];
+                  }
+                  break;
+                case "NNNNN":
+                  if (narrow === eraName) {
+                    return eras[i];
+                  }
+                  break;
+              }
+            } else if ([name, abbr, narrow].indexOf(eraName) >= 0) {
+              return eras[i];
+            }
+          }
+        }
+        function localeErasConvertYear(era, year) {
+          var dir = era.since <= era.until ? 1 : -1;
+          if (year === void 0) {
+            return hooks(era.since).year();
+          } else {
+            return hooks(era.since).year() + (year - era.offset) * dir;
+          }
+        }
+        function getEraName() {
+          var i, l, val, eras = this.localeData().eras();
+          for (i = 0, l = eras.length; i < l; ++i) {
+            val = this.clone().startOf("day").valueOf();
+            if (eras[i].since <= val && val <= eras[i].until) {
+              return eras[i].name;
+            }
+            if (eras[i].until <= val && val <= eras[i].since) {
+              return eras[i].name;
+            }
+          }
+          return "";
+        }
+        function getEraNarrow() {
+          var i, l, val, eras = this.localeData().eras();
+          for (i = 0, l = eras.length; i < l; ++i) {
+            val = this.clone().startOf("day").valueOf();
+            if (eras[i].since <= val && val <= eras[i].until) {
+              return eras[i].narrow;
+            }
+            if (eras[i].until <= val && val <= eras[i].since) {
+              return eras[i].narrow;
+            }
+          }
+          return "";
+        }
+        function getEraAbbr() {
+          var i, l, val, eras = this.localeData().eras();
+          for (i = 0, l = eras.length; i < l; ++i) {
+            val = this.clone().startOf("day").valueOf();
+            if (eras[i].since <= val && val <= eras[i].until) {
+              return eras[i].abbr;
+            }
+            if (eras[i].until <= val && val <= eras[i].since) {
+              return eras[i].abbr;
+            }
+          }
+          return "";
+        }
+        function getEraYear() {
+          var i, l, dir, val, eras = this.localeData().eras();
+          for (i = 0, l = eras.length; i < l; ++i) {
+            dir = eras[i].since <= eras[i].until ? 1 : -1;
+            val = this.clone().startOf("day").valueOf();
+            if (eras[i].since <= val && val <= eras[i].until || eras[i].until <= val && val <= eras[i].since) {
+              return (this.year() - hooks(eras[i].since).year()) * dir + eras[i].offset;
+            }
+          }
+          return this.year();
+        }
+        function erasNameRegex(isStrict) {
+          if (!hasOwnProp(this, "_erasNameRegex")) {
+            computeErasParse.call(this);
+          }
+          return isStrict ? this._erasNameRegex : this._erasRegex;
+        }
+        function erasAbbrRegex(isStrict) {
+          if (!hasOwnProp(this, "_erasAbbrRegex")) {
+            computeErasParse.call(this);
+          }
+          return isStrict ? this._erasAbbrRegex : this._erasRegex;
+        }
+        function erasNarrowRegex(isStrict) {
+          if (!hasOwnProp(this, "_erasNarrowRegex")) {
+            computeErasParse.call(this);
+          }
+          return isStrict ? this._erasNarrowRegex : this._erasRegex;
+        }
+        function matchEraAbbr(isStrict, locale2) {
+          return locale2.erasAbbrRegex(isStrict);
+        }
+        function matchEraName(isStrict, locale2) {
+          return locale2.erasNameRegex(isStrict);
+        }
+        function matchEraNarrow(isStrict, locale2) {
+          return locale2.erasNarrowRegex(isStrict);
+        }
+        function matchEraYearOrdinal(isStrict, locale2) {
+          return locale2._eraYearOrdinalRegex || matchUnsigned;
+        }
+        function computeErasParse() {
+          var abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], i, l, eras = this.eras();
+          for (i = 0, l = eras.length; i < l; ++i) {
+            namePieces.push(regexEscape(eras[i].name));
+            abbrPieces.push(regexEscape(eras[i].abbr));
+            narrowPieces.push(regexEscape(eras[i].narrow));
+            mixedPieces.push(regexEscape(eras[i].name));
+            mixedPieces.push(regexEscape(eras[i].abbr));
+            mixedPieces.push(regexEscape(eras[i].narrow));
+          }
+          this._erasRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i");
+          this._erasNameRegex = new RegExp("^(" + namePieces.join("|") + ")", "i");
+          this._erasAbbrRegex = new RegExp("^(" + abbrPieces.join("|") + ")", "i");
+          this._erasNarrowRegex = new RegExp(
+            "^(" + narrowPieces.join("|") + ")",
+            "i"
+          );
+        }
+        addFormatToken(0, ["gg", 2], 0, function() {
+          return this.weekYear() % 100;
+        });
+        addFormatToken(0, ["GG", 2], 0, function() {
+          return this.isoWeekYear() % 100;
+        });
+        function addWeekYearFormatToken(token2, getter) {
+          addFormatToken(0, [token2, token2.length], 0, getter);
+        }
+        addWeekYearFormatToken("gggg", "weekYear");
+        addWeekYearFormatToken("ggggg", "weekYear");
+        addWeekYearFormatToken("GGGG", "isoWeekYear");
+        addWeekYearFormatToken("GGGGG", "isoWeekYear");
+        addUnitAlias("weekYear", "gg");
+        addUnitAlias("isoWeekYear", "GG");
+        addUnitPriority("weekYear", 1);
+        addUnitPriority("isoWeekYear", 1);
+        addRegexToken("G", matchSigned);
+        addRegexToken("g", matchSigned);
+        addRegexToken("GG", match1to2, match2);
+        addRegexToken("gg", match1to2, match2);
+        addRegexToken("GGGG", match1to4, match4);
+        addRegexToken("gggg", match1to4, match4);
+        addRegexToken("GGGGG", match1to6, match6);
+        addRegexToken("ggggg", match1to6, match6);
+        addWeekParseToken(
+          ["gggg", "ggggg", "GGGG", "GGGGG"],
+          function(input, week2, config, token2) {
+            week2[token2.substr(0, 2)] = toInt(input);
+          }
+        );
+        addWeekParseToken(["gg", "GG"], function(input, week2, config, token2) {
+          week2[token2] = hooks.parseTwoDigitYear(input);
+        });
+        function getSetWeekYear(input) {
+          return getSetWeekYearHelper.call(
+            this,
+            input,
+            this.week(),
+            this.weekday(),
+            this.localeData()._week.dow,
+            this.localeData()._week.doy
+          );
+        }
+        function getSetISOWeekYear(input) {
+          return getSetWeekYearHelper.call(
+            this,
+            input,
+            this.isoWeek(),
+            this.isoWeekday(),
+            1,
+            4
+          );
+        }
+        function getISOWeeksInYear() {
+          return weeksInYear(this.year(), 1, 4);
+        }
+        function getISOWeeksInISOWeekYear() {
+          return weeksInYear(this.isoWeekYear(), 1, 4);
+        }
+        function getWeeksInYear() {
+          var weekInfo = this.localeData()._week;
+          return weeksInYear(this.year(), weekInfo.dow, weekInfo.doy);
+        }
+        function getWeeksInWeekYear() {
+          var weekInfo = this.localeData()._week;
+          return weeksInYear(this.weekYear(), weekInfo.dow, weekInfo.doy);
+        }
+        function getSetWeekYearHelper(input, week2, weekday, dow, doy) {
+          var weeksTarget;
+          if (input == null) {
+            return weekOfYear(this, dow, doy).year;
+          } else {
+            weeksTarget = weeksInYear(input, dow, doy);
+            if (week2 > weeksTarget) {
+              week2 = weeksTarget;
+            }
+            return setWeekAll.call(this, input, week2, weekday, dow, doy);
+          }
+        }
+        function setWeekAll(weekYear, week2, weekday, dow, doy) {
+          var dayOfYearData = dayOfYearFromWeeks(weekYear, week2, weekday, dow, doy), date = createUTCDate(dayOfYearData.year, 0, dayOfYearData.dayOfYear);
+          this.year(date.getUTCFullYear());
+          this.month(date.getUTCMonth());
+          this.date(date.getUTCDate());
+          return this;
+        }
+        addFormatToken("Q", 0, "Qo", "quarter");
+        addUnitAlias("quarter", "Q");
+        addUnitPriority("quarter", 7);
+        addRegexToken("Q", match1);
+        addParseToken("Q", function(input, array) {
+          array[MONTH] = (toInt(input) - 1) * 3;
+        });
+        function getSetQuarter(input) {
+          return input == null ? Math.ceil((this.month() + 1) / 3) : this.month((input - 1) * 3 + this.month() % 3);
+        }
+        addFormatToken("D", ["DD", 2], "Do", "date");
+        addUnitAlias("date", "D");
+        addUnitPriority("date", 9);
+        addRegexToken("D", match1to2);
+        addRegexToken("DD", match1to2, match2);
+        addRegexToken("Do", function(isStrict, locale2) {
+          return isStrict ? locale2._dayOfMonthOrdinalParse || locale2._ordinalParse : locale2._dayOfMonthOrdinalParseLenient;
+        });
+        addParseToken(["D", "DD"], DATE);
+        addParseToken("Do", function(input, array) {
+          array[DATE] = toInt(input.match(match1to2)[0]);
+        });
+        var getSetDayOfMonth = makeGetSet("Date", true);
+        addFormatToken("DDD", ["DDDD", 3], "DDDo", "dayOfYear");
+        addUnitAlias("dayOfYear", "DDD");
+        addUnitPriority("dayOfYear", 4);
+        addRegexToken("DDD", match1to3);
+        addRegexToken("DDDD", match3);
+        addParseToken(["DDD", "DDDD"], function(input, array, config) {
+          config._dayOfYear = toInt(input);
+        });
+        function getSetDayOfYear(input) {
+          var dayOfYear = Math.round(
+            (this.clone().startOf("day") - this.clone().startOf("year")) / 864e5
+          ) + 1;
+          return input == null ? dayOfYear : this.add(input - dayOfYear, "d");
+        }
+        addFormatToken("m", ["mm", 2], 0, "minute");
+        addUnitAlias("minute", "m");
+        addUnitPriority("minute", 14);
+        addRegexToken("m", match1to2);
+        addRegexToken("mm", match1to2, match2);
+        addParseToken(["m", "mm"], MINUTE);
+        var getSetMinute = makeGetSet("Minutes", false);
+        addFormatToken("s", ["ss", 2], 0, "second");
+        addUnitAlias("second", "s");
+        addUnitPriority("second", 15);
+        addRegexToken("s", match1to2);
+        addRegexToken("ss", match1to2, match2);
+        addParseToken(["s", "ss"], SECOND);
+        var getSetSecond = makeGetSet("Seconds", false);
+        addFormatToken("S", 0, 0, function() {
+          return ~~(this.millisecond() / 100);
+        });
+        addFormatToken(0, ["SS", 2], 0, function() {
+          return ~~(this.millisecond() / 10);
+        });
+        addFormatToken(0, ["SSS", 3], 0, "millisecond");
+        addFormatToken(0, ["SSSS", 4], 0, function() {
+          return this.millisecond() * 10;
+        });
+        addFormatToken(0, ["SSSSS", 5], 0, function() {
+          return this.millisecond() * 100;
+        });
+        addFormatToken(0, ["SSSSSS", 6], 0, function() {
+          return this.millisecond() * 1e3;
+        });
+        addFormatToken(0, ["SSSSSSS", 7], 0, function() {
+          return this.millisecond() * 1e4;
+        });
+        addFormatToken(0, ["SSSSSSSS", 8], 0, function() {
+          return this.millisecond() * 1e5;
+        });
+        addFormatToken(0, ["SSSSSSSSS", 9], 0, function() {
+          return this.millisecond() * 1e6;
+        });
+        addUnitAlias("millisecond", "ms");
+        addUnitPriority("millisecond", 16);
+        addRegexToken("S", match1to3, match1);
+        addRegexToken("SS", match1to3, match2);
+        addRegexToken("SSS", match1to3, match3);
+        var token, getSetMillisecond;
+        for (token = "SSSS"; token.length <= 9; token += "S") {
+          addRegexToken(token, matchUnsigned);
+        }
+        function parseMs(input, array) {
+          array[MILLISECOND] = toInt(("0." + input) * 1e3);
+        }
+        for (token = "S"; token.length <= 9; token += "S") {
+          addParseToken(token, parseMs);
+        }
+        getSetMillisecond = makeGetSet("Milliseconds", false);
+        addFormatToken("z", 0, 0, "zoneAbbr");
+        addFormatToken("zz", 0, 0, "zoneName");
+        function getZoneAbbr() {
+          return this._isUTC ? "UTC" : "";
+        }
+        function getZoneName() {
+          return this._isUTC ? "Coordinated Universal Time" : "";
+        }
+        var proto = Moment.prototype;
+        proto.add = add;
+        proto.calendar = calendar$1;
+        proto.clone = clone;
+        proto.diff = diff;
+        proto.endOf = endOf;
+        proto.format = format;
+        proto.from = from;
+        proto.fromNow = fromNow;
+        proto.to = to;
+        proto.toNow = toNow;
+        proto.get = stringGet;
+        proto.invalidAt = invalidAt;
+        proto.isAfter = isAfter;
+        proto.isBefore = isBefore;
+        proto.isBetween = isBetween;
+        proto.isSame = isSame;
+        proto.isSameOrAfter = isSameOrAfter;
+        proto.isSameOrBefore = isSameOrBefore;
+        proto.isValid = isValid$2;
+        proto.lang = lang;
+        proto.locale = locale;
+        proto.localeData = localeData;
+        proto.max = prototypeMax;
+        proto.min = prototypeMin;
+        proto.parsingFlags = parsingFlags;
+        proto.set = stringSet;
+        proto.startOf = startOf;
+        proto.subtract = subtract;
+        proto.toArray = toArray;
+        proto.toObject = toObject;
+        proto.toDate = toDate;
+        proto.toISOString = toISOString;
+        proto.inspect = inspect;
+        if (typeof Symbol !== "undefined" && Symbol.for != null) {
+          proto[Symbol.for("nodejs.util.inspect.custom")] = function() {
+            return "Moment<" + this.format() + ">";
+          };
+        }
+        proto.toJSON = toJSON;
+        proto.toString = toString;
+        proto.unix = unix;
+        proto.valueOf = valueOf;
+        proto.creationData = creationData;
+        proto.eraName = getEraName;
+        proto.eraNarrow = getEraNarrow;
+        proto.eraAbbr = getEraAbbr;
+        proto.eraYear = getEraYear;
+        proto.year = getSetYear;
+        proto.isLeapYear = getIsLeapYear;
+        proto.weekYear = getSetWeekYear;
+        proto.isoWeekYear = getSetISOWeekYear;
+        proto.quarter = proto.quarters = getSetQuarter;
+        proto.month = getSetMonth;
+        proto.daysInMonth = getDaysInMonth;
+        proto.week = proto.weeks = getSetWeek;
+        proto.isoWeek = proto.isoWeeks = getSetISOWeek;
+        proto.weeksInYear = getWeeksInYear;
+        proto.weeksInWeekYear = getWeeksInWeekYear;
+        proto.isoWeeksInYear = getISOWeeksInYear;
+        proto.isoWeeksInISOWeekYear = getISOWeeksInISOWeekYear;
+        proto.date = getSetDayOfMonth;
+        proto.day = proto.days = getSetDayOfWeek;
+        proto.weekday = getSetLocaleDayOfWeek;
+        proto.isoWeekday = getSetISODayOfWeek;
+        proto.dayOfYear = getSetDayOfYear;
+        proto.hour = proto.hours = getSetHour;
+        proto.minute = proto.minutes = getSetMinute;
+        proto.second = proto.seconds = getSetSecond;
+        proto.millisecond = proto.milliseconds = getSetMillisecond;
+        proto.utcOffset = getSetOffset;
+        proto.utc = setOffsetToUTC;
+        proto.local = setOffsetToLocal;
+        proto.parseZone = setOffsetToParsedOffset;
+        proto.hasAlignedHourOffset = hasAlignedHourOffset;
+        proto.isDST = isDaylightSavingTime;
+        proto.isLocal = isLocal;
+        proto.isUtcOffset = isUtcOffset;
+        proto.isUtc = isUtc;
+        proto.isUTC = isUtc;
+        proto.zoneAbbr = getZoneAbbr;
+        proto.zoneName = getZoneName;
+        proto.dates = deprecate(
+          "dates accessor is deprecated. Use date instead.",
+          getSetDayOfMonth
+        );
+        proto.months = deprecate(
+          "months accessor is deprecated. Use month instead",
+          getSetMonth
+        );
+        proto.years = deprecate(
+          "years accessor is deprecated. Use year instead",
+          getSetYear
+        );
+        proto.zone = deprecate(
+          "moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/",
+          getSetZone
+        );
+        proto.isDSTShifted = deprecate(
+          "isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information",
+          isDaylightSavingTimeShifted
+        );
+        function createUnix(input) {
+          return createLocal(input * 1e3);
+        }
+        function createInZone() {
+          return createLocal.apply(null, arguments).parseZone();
+        }
+        function preParsePostFormat(string) {
+          return string;
+        }
+        var proto$1 = Locale.prototype;
+        proto$1.calendar = calendar;
+        proto$1.longDateFormat = longDateFormat;
+        proto$1.invalidDate = invalidDate;
+        proto$1.ordinal = ordinal;
+        proto$1.preparse = preParsePostFormat;
+        proto$1.postformat = preParsePostFormat;
+        proto$1.relativeTime = relativeTime;
+        proto$1.pastFuture = pastFuture;
+        proto$1.set = set;
+        proto$1.eras = localeEras;
+        proto$1.erasParse = localeErasParse;
+        proto$1.erasConvertYear = localeErasConvertYear;
+        proto$1.erasAbbrRegex = erasAbbrRegex;
+        proto$1.erasNameRegex = erasNameRegex;
+        proto$1.erasNarrowRegex = erasNarrowRegex;
+        proto$1.months = localeMonths;
+        proto$1.monthsShort = localeMonthsShort;
+        proto$1.monthsParse = localeMonthsParse;
+        proto$1.monthsRegex = monthsRegex;
+        proto$1.monthsShortRegex = monthsShortRegex;
+        proto$1.week = localeWeek;
+        proto$1.firstDayOfYear = localeFirstDayOfYear;
+        proto$1.firstDayOfWeek = localeFirstDayOfWeek;
+        proto$1.weekdays = localeWeekdays;
+        proto$1.weekdaysMin = localeWeekdaysMin;
+        proto$1.weekdaysShort = localeWeekdaysShort;
+        proto$1.weekdaysParse = localeWeekdaysParse;
+        proto$1.weekdaysRegex = weekdaysRegex;
+        proto$1.weekdaysShortRegex = weekdaysShortRegex;
+        proto$1.weekdaysMinRegex = weekdaysMinRegex;
+        proto$1.isPM = localeIsPM;
+        proto$1.meridiem = localeMeridiem;
+        function get$1(format2, index, field, setter) {
+          var locale2 = getLocale(), utc = createUTC().set(setter, index);
+          return locale2[field](utc, format2);
+        }
+        function listMonthsImpl(format2, index, field) {
+          if (isNumber(format2)) {
+            index = format2;
+            format2 = void 0;
+          }
+          format2 = format2 || "";
+          if (index != null) {
+            return get$1(format2, index, field, "month");
+          }
+          var i, out = [];
+          for (i = 0; i < 12; i++) {
+            out[i] = get$1(format2, i, field, "month");
+          }
+          return out;
+        }
+        function listWeekdaysImpl(localeSorted, format2, index, field) {
+          if (typeof localeSorted === "boolean") {
+            if (isNumber(format2)) {
+              index = format2;
+              format2 = void 0;
+            }
+            format2 = format2 || "";
+          } else {
+            format2 = localeSorted;
+            index = format2;
+            localeSorted = false;
+            if (isNumber(format2)) {
+              index = format2;
+              format2 = void 0;
+            }
+            format2 = format2 || "";
+          }
+          var locale2 = getLocale(), shift = localeSorted ? locale2._week.dow : 0, i, out = [];
+          if (index != null) {
+            return get$1(format2, (index + shift) % 7, field, "day");
+          }
+          for (i = 0; i < 7; i++) {
+            out[i] = get$1(format2, (i + shift) % 7, field, "day");
+          }
+          return out;
+        }
+        function listMonths(format2, index) {
+          return listMonthsImpl(format2, index, "months");
+        }
+        function listMonthsShort(format2, index) {
+          return listMonthsImpl(format2, index, "monthsShort");
+        }
+        function listWeekdays(localeSorted, format2, index) {
+          return listWeekdaysImpl(localeSorted, format2, index, "weekdays");
+        }
+        function listWeekdaysShort(localeSorted, format2, index) {
+          return listWeekdaysImpl(localeSorted, format2, index, "weekdaysShort");
+        }
+        function listWeekdaysMin(localeSorted, format2, index) {
+          return listWeekdaysImpl(localeSorted, format2, index, "weekdaysMin");
+        }
+        getSetGlobalLocale("en", {
+          eras: [
+            {
+              since: "0001-01-01",
+              until: Infinity,
+              offset: 1,
+              name: "Anno Domini",
+              narrow: "AD",
+              abbr: "AD"
+            },
+            {
+              since: "0000-12-31",
+              until: -Infinity,
+              offset: 1,
+              name: "Before Christ",
+              narrow: "BC",
+              abbr: "BC"
+            }
+          ],
+          dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+          ordinal: function(number) {
+            var b = number % 10, output = toInt(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          }
+        });
+        hooks.lang = deprecate(
+          "moment.lang is deprecated. Use moment.locale instead.",
+          getSetGlobalLocale
+        );
+        hooks.langData = deprecate(
+          "moment.langData is deprecated. Use moment.localeData instead.",
+          getLocale
+        );
+        var mathAbs = Math.abs;
+        function abs() {
+          var data = this._data;
+          this._milliseconds = mathAbs(this._milliseconds);
+          this._days = mathAbs(this._days);
+          this._months = mathAbs(this._months);
+          data.milliseconds = mathAbs(data.milliseconds);
+          data.seconds = mathAbs(data.seconds);
+          data.minutes = mathAbs(data.minutes);
+          data.hours = mathAbs(data.hours);
+          data.months = mathAbs(data.months);
+          data.years = mathAbs(data.years);
+          return this;
+        }
+        function addSubtract$1(duration, input, value, direction) {
+          var other = createDuration(input, value);
+          duration._milliseconds += direction * other._milliseconds;
+          duration._days += direction * other._days;
+          duration._months += direction * other._months;
+          return duration._bubble();
+        }
+        function add$1(input, value) {
+          return addSubtract$1(this, input, value, 1);
+        }
+        function subtract$1(input, value) {
+          return addSubtract$1(this, input, value, -1);
+        }
+        function absCeil(number) {
+          if (number < 0) {
+            return Math.floor(number);
+          } else {
+            return Math.ceil(number);
+          }
+        }
+        function bubble() {
+          var milliseconds2 = this._milliseconds, days2 = this._days, months2 = this._months, data = this._data, seconds2, minutes2, hours2, years2, monthsFromDays;
+          if (!(milliseconds2 >= 0 && days2 >= 0 && months2 >= 0 || milliseconds2 <= 0 && days2 <= 0 && months2 <= 0)) {
+            milliseconds2 += absCeil(monthsToDays(months2) + days2) * 864e5;
+            days2 = 0;
+            months2 = 0;
+          }
+          data.milliseconds = milliseconds2 % 1e3;
+          seconds2 = absFloor(milliseconds2 / 1e3);
+          data.seconds = seconds2 % 60;
+          minutes2 = absFloor(seconds2 / 60);
+          data.minutes = minutes2 % 60;
+          hours2 = absFloor(minutes2 / 60);
+          data.hours = hours2 % 24;
+          days2 += absFloor(hours2 / 24);
+          monthsFromDays = absFloor(daysToMonths(days2));
+          months2 += monthsFromDays;
+          days2 -= absCeil(monthsToDays(monthsFromDays));
+          years2 = absFloor(months2 / 12);
+          months2 %= 12;
+          data.days = days2;
+          data.months = months2;
+          data.years = years2;
+          return this;
+        }
+        function daysToMonths(days2) {
+          return days2 * 4800 / 146097;
+        }
+        function monthsToDays(months2) {
+          return months2 * 146097 / 4800;
+        }
+        function as(units2) {
+          if (!this.isValid()) {
+            return NaN;
+          }
+          var days2, months2, milliseconds2 = this._milliseconds;
+          units2 = normalizeUnits(units2);
+          if (units2 === "month" || units2 === "quarter" || units2 === "year") {
+            days2 = this._days + milliseconds2 / 864e5;
+            months2 = this._months + daysToMonths(days2);
+            switch (units2) {
+              case "month":
+                return months2;
+              case "quarter":
+                return months2 / 3;
+              case "year":
+                return months2 / 12;
+            }
+          } else {
+            days2 = this._days + Math.round(monthsToDays(this._months));
+            switch (units2) {
+              case "week":
+                return days2 / 7 + milliseconds2 / 6048e5;
+              case "day":
+                return days2 + milliseconds2 / 864e5;
+              case "hour":
+                return days2 * 24 + milliseconds2 / 36e5;
+              case "minute":
+                return days2 * 1440 + milliseconds2 / 6e4;
+              case "second":
+                return days2 * 86400 + milliseconds2 / 1e3;
+              case "millisecond":
+                return Math.floor(days2 * 864e5) + milliseconds2;
+              default:
+                throw new Error("Unknown unit " + units2);
+            }
+          }
+        }
+        function valueOf$1() {
+          if (!this.isValid()) {
+            return NaN;
+          }
+          return this._milliseconds + this._days * 864e5 + this._months % 12 * 2592e6 + toInt(this._months / 12) * 31536e6;
+        }
+        function makeAs(alias) {
+          return function() {
+            return this.as(alias);
+          };
+        }
+        var asMilliseconds = makeAs("ms"), asSeconds = makeAs("s"), asMinutes = makeAs("m"), asHours = makeAs("h"), asDays = makeAs("d"), asWeeks = makeAs("w"), asMonths = makeAs("M"), asQuarters = makeAs("Q"), asYears = makeAs("y");
+        function clone$1() {
+          return createDuration(this);
+        }
+        function get$2(units2) {
+          units2 = normalizeUnits(units2);
+          return this.isValid() ? this[units2 + "s"]() : NaN;
+        }
+        function makeGetter(name) {
+          return function() {
+            return this.isValid() ? this._data[name] : NaN;
+          };
+        }
+        var milliseconds = makeGetter("milliseconds"), seconds = makeGetter("seconds"), minutes = makeGetter("minutes"), hours = makeGetter("hours"), days = makeGetter("days"), months = makeGetter("months"), years = makeGetter("years");
+        function weeks() {
+          return absFloor(this.days() / 7);
+        }
+        var round = Math.round, thresholds = {
+          ss: 44,
+          // a few seconds to seconds
+          s: 45,
+          // seconds to minute
+          m: 45,
+          // minutes to hour
+          h: 22,
+          // hours to day
+          d: 26,
+          // days to month/week
+          w: null,
+          // weeks to month
+          M: 11
+          // months to year
+        };
+        function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale2) {
+          return locale2.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
+        }
+        function relativeTime$1(posNegDuration, withoutSuffix, thresholds2, locale2) {
+          var duration = createDuration(posNegDuration).abs(), seconds2 = round(duration.as("s")), minutes2 = round(duration.as("m")), hours2 = round(duration.as("h")), days2 = round(duration.as("d")), months2 = round(duration.as("M")), weeks2 = round(duration.as("w")), years2 = round(duration.as("y")), a = seconds2 <= thresholds2.ss && ["s", seconds2] || seconds2 < thresholds2.s && ["ss", seconds2] || minutes2 <= 1 && ["m"] || minutes2 < thresholds2.m && ["mm", minutes2] || hours2 <= 1 && ["h"] || hours2 < thresholds2.h && ["hh", hours2] || days2 <= 1 && ["d"] || days2 < thresholds2.d && ["dd", days2];
+          if (thresholds2.w != null) {
+            a = a || weeks2 <= 1 && ["w"] || weeks2 < thresholds2.w && ["ww", weeks2];
+          }
+          a = a || months2 <= 1 && ["M"] || months2 < thresholds2.M && ["MM", months2] || years2 <= 1 && ["y"] || ["yy", years2];
+          a[2] = withoutSuffix;
+          a[3] = +posNegDuration > 0;
+          a[4] = locale2;
+          return substituteTimeAgo.apply(null, a);
+        }
+        function getSetRelativeTimeRounding(roundingFunction) {
+          if (roundingFunction === void 0) {
+            return round;
+          }
+          if (typeof roundingFunction === "function") {
+            round = roundingFunction;
+            return true;
+          }
+          return false;
+        }
+        function getSetRelativeTimeThreshold(threshold, limit) {
+          if (thresholds[threshold] === void 0) {
+            return false;
+          }
+          if (limit === void 0) {
+            return thresholds[threshold];
+          }
+          thresholds[threshold] = limit;
+          if (threshold === "s") {
+            thresholds.ss = limit - 1;
+          }
+          return true;
+        }
+        function humanize(argWithSuffix, argThresholds) {
+          if (!this.isValid()) {
+            return this.localeData().invalidDate();
+          }
+          var withSuffix = false, th = thresholds, locale2, output;
+          if (typeof argWithSuffix === "object") {
+            argThresholds = argWithSuffix;
+            argWithSuffix = false;
+          }
+          if (typeof argWithSuffix === "boolean") {
+            withSuffix = argWithSuffix;
+          }
+          if (typeof argThresholds === "object") {
+            th = Object.assign({}, thresholds, argThresholds);
+            if (argThresholds.s != null && argThresholds.ss == null) {
+              th.ss = argThresholds.s - 1;
+            }
+          }
+          locale2 = this.localeData();
+          output = relativeTime$1(this, !withSuffix, th, locale2);
+          if (withSuffix) {
+            output = locale2.pastFuture(+this, output);
+          }
+          return locale2.postformat(output);
+        }
+        var abs$1 = Math.abs;
+        function sign(x) {
+          return (x > 0) - (x < 0) || +x;
+        }
+        function toISOString$1() {
+          if (!this.isValid()) {
+            return this.localeData().invalidDate();
+          }
+          var seconds2 = abs$1(this._milliseconds) / 1e3, days2 = abs$1(this._days), months2 = abs$1(this._months), minutes2, hours2, years2, s, total = this.asSeconds(), totalSign, ymSign, daysSign, hmsSign;
+          if (!total) {
+            return "P0D";
+          }
+          minutes2 = absFloor(seconds2 / 60);
+          hours2 = absFloor(minutes2 / 60);
+          seconds2 %= 60;
+          minutes2 %= 60;
+          years2 = absFloor(months2 / 12);
+          months2 %= 12;
+          s = seconds2 ? seconds2.toFixed(3).replace(/\.?0+$/, "") : "";
+          totalSign = total < 0 ? "-" : "";
+          ymSign = sign(this._months) !== sign(total) ? "-" : "";
+          daysSign = sign(this._days) !== sign(total) ? "-" : "";
+          hmsSign = sign(this._milliseconds) !== sign(total) ? "-" : "";
+          return totalSign + "P" + (years2 ? ymSign + years2 + "Y" : "") + (months2 ? ymSign + months2 + "M" : "") + (days2 ? daysSign + days2 + "D" : "") + (hours2 || minutes2 || seconds2 ? "T" : "") + (hours2 ? hmsSign + hours2 + "H" : "") + (minutes2 ? hmsSign + minutes2 + "M" : "") + (seconds2 ? hmsSign + s + "S" : "");
+        }
+        var proto$2 = Duration.prototype;
+        proto$2.isValid = isValid$1;
+        proto$2.abs = abs;
+        proto$2.add = add$1;
+        proto$2.subtract = subtract$1;
+        proto$2.as = as;
+        proto$2.asMilliseconds = asMilliseconds;
+        proto$2.asSeconds = asSeconds;
+        proto$2.asMinutes = asMinutes;
+        proto$2.asHours = asHours;
+        proto$2.asDays = asDays;
+        proto$2.asWeeks = asWeeks;
+        proto$2.asMonths = asMonths;
+        proto$2.asQuarters = asQuarters;
+        proto$2.asYears = asYears;
+        proto$2.valueOf = valueOf$1;
+        proto$2._bubble = bubble;
+        proto$2.clone = clone$1;
+        proto$2.get = get$2;
+        proto$2.milliseconds = milliseconds;
+        proto$2.seconds = seconds;
+        proto$2.minutes = minutes;
+        proto$2.hours = hours;
+        proto$2.days = days;
+        proto$2.weeks = weeks;
+        proto$2.months = months;
+        proto$2.years = years;
+        proto$2.humanize = humanize;
+        proto$2.toISOString = toISOString$1;
+        proto$2.toString = toISOString$1;
+        proto$2.toJSON = toISOString$1;
+        proto$2.locale = locale;
+        proto$2.localeData = localeData;
+        proto$2.toIsoString = deprecate(
+          "toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)",
+          toISOString$1
+        );
+        proto$2.lang = lang;
+        addFormatToken("X", 0, 0, "unix");
+        addFormatToken("x", 0, 0, "valueOf");
+        addRegexToken("x", matchSigned);
+        addRegexToken("X", matchTimestamp);
+        addParseToken("X", function(input, array, config) {
+          config._d = new Date(parseFloat(input) * 1e3);
+        });
+        addParseToken("x", function(input, array, config) {
+          config._d = new Date(toInt(input));
+        });
+        hooks.version = "2.29.4";
+        setHookCallback(createLocal);
+        hooks.fn = proto;
+        hooks.min = min;
+        hooks.max = max;
+        hooks.now = now;
+        hooks.utc = createUTC;
+        hooks.unix = createUnix;
+        hooks.months = listMonths;
+        hooks.isDate = isDate;
+        hooks.locale = getSetGlobalLocale;
+        hooks.invalid = createInvalid;
+        hooks.duration = createDuration;
+        hooks.isMoment = isMoment;
+        hooks.weekdays = listWeekdays;
+        hooks.parseZone = createInZone;
+        hooks.localeData = getLocale;
+        hooks.isDuration = isDuration;
+        hooks.monthsShort = listMonthsShort;
+        hooks.weekdaysMin = listWeekdaysMin;
+        hooks.defineLocale = defineLocale;
+        hooks.updateLocale = updateLocale;
+        hooks.locales = listLocales;
+        hooks.weekdaysShort = listWeekdaysShort;
+        hooks.normalizeUnits = normalizeUnits;
+        hooks.relativeTimeRounding = getSetRelativeTimeRounding;
+        hooks.relativeTimeThreshold = getSetRelativeTimeThreshold;
+        hooks.calendarFormat = getCalendarFormat;
+        hooks.prototype = proto;
+        hooks.HTML5_FMT = {
+          DATETIME_LOCAL: "YYYY-MM-DDTHH:mm",
+          // <input type="datetime-local" />
+          DATETIME_LOCAL_SECONDS: "YYYY-MM-DDTHH:mm:ss",
+          // <input type="datetime-local" step="1" />
+          DATETIME_LOCAL_MS: "YYYY-MM-DDTHH:mm:ss.SSS",
+          // <input type="datetime-local" step="0.001" />
+          DATE: "YYYY-MM-DD",
+          // <input type="date" />
+          TIME: "HH:mm",
+          // <input type="time" />
+          TIME_SECONDS: "HH:mm:ss",
+          // <input type="time" step="1" />
+          TIME_MS: "HH:mm:ss.SSS",
+          // <input type="time" step="0.001" />
+          WEEK: "GGGG-[W]WW",
+          // <input type="week" />
+          MONTH: "YYYY-MM"
+          // <input type="month" />
+        };
+        hooks.defineLocale("af", {
+          months: "Januarie_Februarie_Maart_April_Mei_Junie_Julie_Augustus_September_Oktober_November_Desember".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mrt_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Des".split("_"),
+          weekdays: "Sondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrydag_Saterdag".split(
+            "_"
+          ),
+          weekdaysShort: "Son_Maa_Din_Woe_Don_Vry_Sat".split("_"),
+          weekdaysMin: "So_Ma_Di_Wo_Do_Vr_Sa".split("_"),
+          meridiemParse: /vm|nm/i,
+          isPM: function(input) {
+            return /^nm$/i.test(input);
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 12) {
+              return isLower ? "vm" : "VM";
+            } else {
+              return isLower ? "nm" : "NM";
+            }
+          },
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Vandag om] LT",
+            nextDay: "[M\xF4re om] LT",
+            nextWeek: "dddd [om] LT",
+            lastDay: "[Gister om] LT",
+            lastWeek: "[Laas] dddd [om] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "oor %s",
+            past: "%s gelede",
+            s: "'n paar sekondes",
+            ss: "%d sekondes",
+            m: "'n minuut",
+            mm: "%d minute",
+            h: "'n uur",
+            hh: "%d ure",
+            d: "'n dag",
+            dd: "%d dae",
+            M: "'n maand",
+            MM: "%d maande",
+            y: "'n jaar",
+            yy: "%d jaar"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(ste|de)/,
+          ordinal: function(number) {
+            return number + (number === 1 || number === 8 || number >= 20 ? "ste" : "de");
+          },
+          week: {
+            dow: 1,
+            // Maandag is die eerste dag van die week.
+            doy: 4
+            // Die week wat die 4de Januarie bevat is die eerste week van die jaar.
+          }
+        });
+        var pluralForm = function(n) {
+          return n === 0 ? 0 : n === 1 ? 1 : n === 2 ? 2 : n % 100 >= 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 ? 4 : 5;
+        }, plurals = {
+          s: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u062B\u0627\u0646\u064A\u0629",
+            "\u062B\u0627\u0646\u064A\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u062B\u0627\u0646\u064A\u062A\u0627\u0646", "\u062B\u0627\u0646\u064A\u062A\u064A\u0646"],
+            "%d \u062B\u0648\u0627\u0646",
+            "%d \u062B\u0627\u0646\u064A\u0629",
+            "%d \u062B\u0627\u0646\u064A\u0629"
+          ],
+          m: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u062F\u0642\u064A\u0642\u0629",
+            "\u062F\u0642\u064A\u0642\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u062F\u0642\u064A\u0642\u062A\u0627\u0646", "\u062F\u0642\u064A\u0642\u062A\u064A\u0646"],
+            "%d \u062F\u0642\u0627\u0626\u0642",
+            "%d \u062F\u0642\u064A\u0642\u0629",
+            "%d \u062F\u0642\u064A\u0642\u0629"
+          ],
+          h: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0633\u0627\u0639\u0629",
+            "\u0633\u0627\u0639\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u0633\u0627\u0639\u062A\u0627\u0646", "\u0633\u0627\u0639\u062A\u064A\u0646"],
+            "%d \u0633\u0627\u0639\u0627\u062A",
+            "%d \u0633\u0627\u0639\u0629",
+            "%d \u0633\u0627\u0639\u0629"
+          ],
+          d: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u064A\u0648\u0645",
+            "\u064A\u0648\u0645 \u0648\u0627\u062D\u062F",
+            ["\u064A\u0648\u0645\u0627\u0646", "\u064A\u0648\u0645\u064A\u0646"],
+            "%d \u0623\u064A\u0627\u0645",
+            "%d \u064A\u0648\u0645\u064B\u0627",
+            "%d \u064A\u0648\u0645"
+          ],
+          M: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0634\u0647\u0631",
+            "\u0634\u0647\u0631 \u0648\u0627\u062D\u062F",
+            ["\u0634\u0647\u0631\u0627\u0646", "\u0634\u0647\u0631\u064A\u0646"],
+            "%d \u0623\u0634\u0647\u0631",
+            "%d \u0634\u0647\u0631\u0627",
+            "%d \u0634\u0647\u0631"
+          ],
+          y: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0639\u0627\u0645",
+            "\u0639\u0627\u0645 \u0648\u0627\u062D\u062F",
+            ["\u0639\u0627\u0645\u0627\u0646", "\u0639\u0627\u0645\u064A\u0646"],
+            "%d \u0623\u0639\u0648\u0627\u0645",
+            "%d \u0639\u0627\u0645\u064B\u0627",
+            "%d \u0639\u0627\u0645"
+          ]
+        }, pluralize = function(u) {
+          return function(number, withoutSuffix, string, isFuture) {
+            var f = pluralForm(number), str = plurals[u][pluralForm(number)];
+            if (f === 2) {
+              str = str[withoutSuffix ? 0 : 1];
+            }
+            return str.replace(/%d/i, number);
+          };
+        }, months$1 = [
+          "\u062C\u0627\u0646\u0641\u064A",
+          "\u0641\u064A\u0641\u0631\u064A",
+          "\u0645\u0627\u0631\u0633",
+          "\u0623\u0641\u0631\u064A\u0644",
+          "\u0645\u0627\u064A",
+          "\u062C\u0648\u0627\u0646",
+          "\u062C\u0648\u064A\u0644\u064A\u0629",
+          "\u0623\u0648\u062A",
+          "\u0633\u0628\u062A\u0645\u0628\u0631",
+          "\u0623\u0643\u062A\u0648\u0628\u0631",
+          "\u0646\u0648\u0641\u0645\u0628\u0631",
+          "\u062F\u064A\u0633\u0645\u0628\u0631"
+        ];
+        hooks.defineLocale("ar-dz", {
+          months: months$1,
+          monthsShort: months$1,
+          weekdays: "\u0627\u0644\u0623\u062D\u062F_\u0627\u0644\u0625\u062B\u0646\u064A\u0646_\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621_\u0627\u0644\u062E\u0645\u064A\u0633_\u0627\u0644\u062C\u0645\u0639\u0629_\u0627\u0644\u0633\u0628\u062A".split("_"),
+          weekdaysShort: "\u0623\u062D\u062F_\u0625\u062B\u0646\u064A\u0646_\u062B\u0644\u0627\u062B\u0627\u0621_\u0623\u0631\u0628\u0639\u0627\u0621_\u062E\u0645\u064A\u0633_\u062C\u0645\u0639\u0629_\u0633\u0628\u062A".split("_"),
+          weekdaysMin: "\u062D_\u0646_\u062B_\u0631_\u062E_\u062C_\u0633".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "D/\u200FM/\u200FYYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /ص|م/,
+          isPM: function(input) {
+            return "\u0645" === input;
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0635";
+            } else {
+              return "\u0645";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0627\u0644\u064A\u0648\u0645 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextDay: "[\u063A\u062F\u064B\u0627 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextWeek: "dddd [\u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastDay: "[\u0623\u0645\u0633 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastWeek: "dddd [\u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0628\u0639\u062F %s",
+            past: "\u0645\u0646\u0630 %s",
+            s: pluralize("s"),
+            ss: pluralize("s"),
+            m: pluralize("m"),
+            mm: pluralize("m"),
+            h: pluralize("h"),
+            hh: pluralize("h"),
+            d: pluralize("d"),
+            dd: pluralize("d"),
+            M: pluralize("M"),
+            MM: pluralize("M"),
+            y: pluralize("y"),
+            yy: pluralize("y")
+          },
+          postformat: function(string) {
+            return string.replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ar-kw", {
+          months: "\u064A\u0646\u0627\u064A\u0631_\u0641\u0628\u0631\u0627\u064A\u0631_\u0645\u0627\u0631\u0633_\u0623\u0628\u0631\u064A\u0644_\u0645\u0627\u064A_\u064A\u0648\u0646\u064A\u0648_\u064A\u0648\u0644\u064A\u0648\u0632_\u063A\u0634\u062A_\u0634\u062A\u0646\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0646\u0628\u0631_\u062F\u062C\u0646\u0628\u0631".split(
+            "_"
+          ),
+          monthsShort: "\u064A\u0646\u0627\u064A\u0631_\u0641\u0628\u0631\u0627\u064A\u0631_\u0645\u0627\u0631\u0633_\u0623\u0628\u0631\u064A\u0644_\u0645\u0627\u064A_\u064A\u0648\u0646\u064A\u0648_\u064A\u0648\u0644\u064A\u0648\u0632_\u063A\u0634\u062A_\u0634\u062A\u0646\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0646\u0628\u0631_\u062F\u062C\u0646\u0628\u0631".split(
+            "_"
+          ),
+          weekdays: "\u0627\u0644\u0623\u062D\u062F_\u0627\u0644\u0625\u062A\u0646\u064A\u0646_\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621_\u0627\u0644\u062E\u0645\u064A\u0633_\u0627\u0644\u062C\u0645\u0639\u0629_\u0627\u0644\u0633\u0628\u062A".split("_"),
+          weekdaysShort: "\u0627\u062D\u062F_\u0627\u062A\u0646\u064A\u0646_\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0631\u0628\u0639\u0627\u0621_\u062E\u0645\u064A\u0633_\u062C\u0645\u0639\u0629_\u0633\u0628\u062A".split("_"),
+          weekdaysMin: "\u062D_\u0646_\u062B_\u0631_\u062E_\u062C_\u0633".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0627\u0644\u064A\u0648\u0645 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextDay: "[\u063A\u062F\u0627 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastDay: "[\u0623\u0645\u0633 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0641\u064A %s",
+            past: "\u0645\u0646\u0630 %s",
+            s: "\u062B\u0648\u0627\u0646",
+            ss: "%d \u062B\u0627\u0646\u064A\u0629",
+            m: "\u062F\u0642\u064A\u0642\u0629",
+            mm: "%d \u062F\u0642\u0627\u0626\u0642",
+            h: "\u0633\u0627\u0639\u0629",
+            hh: "%d \u0633\u0627\u0639\u0627\u062A",
+            d: "\u064A\u0648\u0645",
+            dd: "%d \u0623\u064A\u0627\u0645",
+            M: "\u0634\u0647\u0631",
+            MM: "%d \u0623\u0634\u0647\u0631",
+            y: "\u0633\u0646\u0629",
+            yy: "%d \u0633\u0646\u0648\u0627\u062A"
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        var symbolMap = {
+          1: "1",
+          2: "2",
+          3: "3",
+          4: "4",
+          5: "5",
+          6: "6",
+          7: "7",
+          8: "8",
+          9: "9",
+          0: "0"
+        }, pluralForm$1 = function(n) {
+          return n === 0 ? 0 : n === 1 ? 1 : n === 2 ? 2 : n % 100 >= 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 ? 4 : 5;
+        }, plurals$1 = {
+          s: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u062B\u0627\u0646\u064A\u0629",
+            "\u062B\u0627\u0646\u064A\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u062B\u0627\u0646\u064A\u062A\u0627\u0646", "\u062B\u0627\u0646\u064A\u062A\u064A\u0646"],
+            "%d \u062B\u0648\u0627\u0646",
+            "%d \u062B\u0627\u0646\u064A\u0629",
+            "%d \u062B\u0627\u0646\u064A\u0629"
+          ],
+          m: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u062F\u0642\u064A\u0642\u0629",
+            "\u062F\u0642\u064A\u0642\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u062F\u0642\u064A\u0642\u062A\u0627\u0646", "\u062F\u0642\u064A\u0642\u062A\u064A\u0646"],
+            "%d \u062F\u0642\u0627\u0626\u0642",
+            "%d \u062F\u0642\u064A\u0642\u0629",
+            "%d \u062F\u0642\u064A\u0642\u0629"
+          ],
+          h: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0633\u0627\u0639\u0629",
+            "\u0633\u0627\u0639\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u0633\u0627\u0639\u062A\u0627\u0646", "\u0633\u0627\u0639\u062A\u064A\u0646"],
+            "%d \u0633\u0627\u0639\u0627\u062A",
+            "%d \u0633\u0627\u0639\u0629",
+            "%d \u0633\u0627\u0639\u0629"
+          ],
+          d: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u064A\u0648\u0645",
+            "\u064A\u0648\u0645 \u0648\u0627\u062D\u062F",
+            ["\u064A\u0648\u0645\u0627\u0646", "\u064A\u0648\u0645\u064A\u0646"],
+            "%d \u0623\u064A\u0627\u0645",
+            "%d \u064A\u0648\u0645\u064B\u0627",
+            "%d \u064A\u0648\u0645"
+          ],
+          M: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0634\u0647\u0631",
+            "\u0634\u0647\u0631 \u0648\u0627\u062D\u062F",
+            ["\u0634\u0647\u0631\u0627\u0646", "\u0634\u0647\u0631\u064A\u0646"],
+            "%d \u0623\u0634\u0647\u0631",
+            "%d \u0634\u0647\u0631\u0627",
+            "%d \u0634\u0647\u0631"
+          ],
+          y: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0639\u0627\u0645",
+            "\u0639\u0627\u0645 \u0648\u0627\u062D\u062F",
+            ["\u0639\u0627\u0645\u0627\u0646", "\u0639\u0627\u0645\u064A\u0646"],
+            "%d \u0623\u0639\u0648\u0627\u0645",
+            "%d \u0639\u0627\u0645\u064B\u0627",
+            "%d \u0639\u0627\u0645"
+          ]
+        }, pluralize$1 = function(u) {
+          return function(number, withoutSuffix, string, isFuture) {
+            var f = pluralForm$1(number), str = plurals$1[u][pluralForm$1(number)];
+            if (f === 2) {
+              str = str[withoutSuffix ? 0 : 1];
+            }
+            return str.replace(/%d/i, number);
+          };
+        }, months$2 = [
+          "\u064A\u0646\u0627\u064A\u0631",
+          "\u0641\u0628\u0631\u0627\u064A\u0631",
+          "\u0645\u0627\u0631\u0633",
+          "\u0623\u0628\u0631\u064A\u0644",
+          "\u0645\u0627\u064A\u0648",
+          "\u064A\u0648\u0646\u064A\u0648",
+          "\u064A\u0648\u0644\u064A\u0648",
+          "\u0623\u063A\u0633\u0637\u0633",
+          "\u0633\u0628\u062A\u0645\u0628\u0631",
+          "\u0623\u0643\u062A\u0648\u0628\u0631",
+          "\u0646\u0648\u0641\u0645\u0628\u0631",
+          "\u062F\u064A\u0633\u0645\u0628\u0631"
+        ];
+        hooks.defineLocale("ar-ly", {
+          months: months$2,
+          monthsShort: months$2,
+          weekdays: "\u0627\u0644\u0623\u062D\u062F_\u0627\u0644\u0625\u062B\u0646\u064A\u0646_\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621_\u0627\u0644\u062E\u0645\u064A\u0633_\u0627\u0644\u062C\u0645\u0639\u0629_\u0627\u0644\u0633\u0628\u062A".split("_"),
+          weekdaysShort: "\u0623\u062D\u062F_\u0625\u062B\u0646\u064A\u0646_\u062B\u0644\u0627\u062B\u0627\u0621_\u0623\u0631\u0628\u0639\u0627\u0621_\u062E\u0645\u064A\u0633_\u062C\u0645\u0639\u0629_\u0633\u0628\u062A".split("_"),
+          weekdaysMin: "\u062D_\u0646_\u062B_\u0631_\u062E_\u062C_\u0633".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "D/\u200FM/\u200FYYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /ص|م/,
+          isPM: function(input) {
+            return "\u0645" === input;
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0635";
+            } else {
+              return "\u0645";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0627\u0644\u064A\u0648\u0645 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextDay: "[\u063A\u062F\u064B\u0627 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextWeek: "dddd [\u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastDay: "[\u0623\u0645\u0633 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastWeek: "dddd [\u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0628\u0639\u062F %s",
+            past: "\u0645\u0646\u0630 %s",
+            s: pluralize$1("s"),
+            ss: pluralize$1("s"),
+            m: pluralize$1("m"),
+            mm: pluralize$1("m"),
+            h: pluralize$1("h"),
+            hh: pluralize$1("h"),
+            d: pluralize$1("d"),
+            dd: pluralize$1("d"),
+            M: pluralize$1("M"),
+            MM: pluralize$1("M"),
+            y: pluralize$1("y"),
+            yy: pluralize$1("y")
+          },
+          preparse: function(string) {
+            return string.replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap[match];
+            }).replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 6,
+            // Saturday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ar-ma", {
+          months: "\u064A\u0646\u0627\u064A\u0631_\u0641\u0628\u0631\u0627\u064A\u0631_\u0645\u0627\u0631\u0633_\u0623\u0628\u0631\u064A\u0644_\u0645\u0627\u064A_\u064A\u0648\u0646\u064A\u0648_\u064A\u0648\u0644\u064A\u0648\u0632_\u063A\u0634\u062A_\u0634\u062A\u0646\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0646\u0628\u0631_\u062F\u062C\u0646\u0628\u0631".split(
+            "_"
+          ),
+          monthsShort: "\u064A\u0646\u0627\u064A\u0631_\u0641\u0628\u0631\u0627\u064A\u0631_\u0645\u0627\u0631\u0633_\u0623\u0628\u0631\u064A\u0644_\u0645\u0627\u064A_\u064A\u0648\u0646\u064A\u0648_\u064A\u0648\u0644\u064A\u0648\u0632_\u063A\u0634\u062A_\u0634\u062A\u0646\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0646\u0628\u0631_\u062F\u062C\u0646\u0628\u0631".split(
+            "_"
+          ),
+          weekdays: "\u0627\u0644\u0623\u062D\u062F_\u0627\u0644\u0625\u062B\u0646\u064A\u0646_\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621_\u0627\u0644\u062E\u0645\u064A\u0633_\u0627\u0644\u062C\u0645\u0639\u0629_\u0627\u0644\u0633\u0628\u062A".split("_"),
+          weekdaysShort: "\u0627\u062D\u062F_\u0627\u062B\u0646\u064A\u0646_\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0631\u0628\u0639\u0627\u0621_\u062E\u0645\u064A\u0633_\u062C\u0645\u0639\u0629_\u0633\u0628\u062A".split("_"),
+          weekdaysMin: "\u062D_\u0646_\u062B_\u0631_\u062E_\u062C_\u0633".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0627\u0644\u064A\u0648\u0645 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextDay: "[\u063A\u062F\u0627 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastDay: "[\u0623\u0645\u0633 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0641\u064A %s",
+            past: "\u0645\u0646\u0630 %s",
+            s: "\u062B\u0648\u0627\u0646",
+            ss: "%d \u062B\u0627\u0646\u064A\u0629",
+            m: "\u062F\u0642\u064A\u0642\u0629",
+            mm: "%d \u062F\u0642\u0627\u0626\u0642",
+            h: "\u0633\u0627\u0639\u0629",
+            hh: "%d \u0633\u0627\u0639\u0627\u062A",
+            d: "\u064A\u0648\u0645",
+            dd: "%d \u0623\u064A\u0627\u0645",
+            M: "\u0634\u0647\u0631",
+            MM: "%d \u0623\u0634\u0647\u0631",
+            y: "\u0633\u0646\u0629",
+            yy: "%d \u0633\u0646\u0648\u0627\u062A"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var symbolMap$1 = {
+          1: "\u0661",
+          2: "\u0662",
+          3: "\u0663",
+          4: "\u0664",
+          5: "\u0665",
+          6: "\u0666",
+          7: "\u0667",
+          8: "\u0668",
+          9: "\u0669",
+          0: "\u0660"
+        }, numberMap = {
+          "\u0661": "1",
+          "\u0662": "2",
+          "\u0663": "3",
+          "\u0664": "4",
+          "\u0665": "5",
+          "\u0666": "6",
+          "\u0667": "7",
+          "\u0668": "8",
+          "\u0669": "9",
+          "\u0660": "0"
+        };
+        hooks.defineLocale("ar-sa", {
+          months: "\u064A\u0646\u0627\u064A\u0631_\u0641\u0628\u0631\u0627\u064A\u0631_\u0645\u0627\u0631\u0633_\u0623\u0628\u0631\u064A\u0644_\u0645\u0627\u064A\u0648_\u064A\u0648\u0646\u064A\u0648_\u064A\u0648\u0644\u064A\u0648_\u0623\u063A\u0633\u0637\u0633_\u0633\u0628\u062A\u0645\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0641\u0645\u0628\u0631_\u062F\u064A\u0633\u0645\u0628\u0631".split(
+            "_"
+          ),
+          monthsShort: "\u064A\u0646\u0627\u064A\u0631_\u0641\u0628\u0631\u0627\u064A\u0631_\u0645\u0627\u0631\u0633_\u0623\u0628\u0631\u064A\u0644_\u0645\u0627\u064A\u0648_\u064A\u0648\u0646\u064A\u0648_\u064A\u0648\u0644\u064A\u0648_\u0623\u063A\u0633\u0637\u0633_\u0633\u0628\u062A\u0645\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0641\u0645\u0628\u0631_\u062F\u064A\u0633\u0645\u0628\u0631".split(
+            "_"
+          ),
+          weekdays: "\u0627\u0644\u0623\u062D\u062F_\u0627\u0644\u0625\u062B\u0646\u064A\u0646_\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621_\u0627\u0644\u062E\u0645\u064A\u0633_\u0627\u0644\u062C\u0645\u0639\u0629_\u0627\u0644\u0633\u0628\u062A".split("_"),
+          weekdaysShort: "\u0623\u062D\u062F_\u0625\u062B\u0646\u064A\u0646_\u062B\u0644\u0627\u062B\u0627\u0621_\u0623\u0631\u0628\u0639\u0627\u0621_\u062E\u0645\u064A\u0633_\u062C\u0645\u0639\u0629_\u0633\u0628\u062A".split("_"),
+          weekdaysMin: "\u062D_\u0646_\u062B_\u0631_\u062E_\u062C_\u0633".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /ص|م/,
+          isPM: function(input) {
+            return "\u0645" === input;
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0635";
+            } else {
+              return "\u0645";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0627\u0644\u064A\u0648\u0645 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextDay: "[\u063A\u062F\u0627 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastDay: "[\u0623\u0645\u0633 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0641\u064A %s",
+            past: "\u0645\u0646\u0630 %s",
+            s: "\u062B\u0648\u0627\u0646",
+            ss: "%d \u062B\u0627\u0646\u064A\u0629",
+            m: "\u062F\u0642\u064A\u0642\u0629",
+            mm: "%d \u062F\u0642\u0627\u0626\u0642",
+            h: "\u0633\u0627\u0639\u0629",
+            hh: "%d \u0633\u0627\u0639\u0627\u062A",
+            d: "\u064A\u0648\u0645",
+            dd: "%d \u0623\u064A\u0627\u0645",
+            M: "\u0634\u0647\u0631",
+            MM: "%d \u0623\u0634\u0647\u0631",
+            y: "\u0633\u0646\u0629",
+            yy: "%d \u0633\u0646\u0648\u0627\u062A"
+          },
+          preparse: function(string) {
+            return string.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(match) {
+              return numberMap[match];
+            }).replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$1[match];
+            }).replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ar-tn", {
+          months: "\u062C\u0627\u0646\u0641\u064A_\u0641\u064A\u0641\u0631\u064A_\u0645\u0627\u0631\u0633_\u0623\u0641\u0631\u064A\u0644_\u0645\u0627\u064A_\u062C\u0648\u0627\u0646_\u062C\u0648\u064A\u0644\u064A\u0629_\u0623\u0648\u062A_\u0633\u0628\u062A\u0645\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0641\u0645\u0628\u0631_\u062F\u064A\u0633\u0645\u0628\u0631".split(
+            "_"
+          ),
+          monthsShort: "\u062C\u0627\u0646\u0641\u064A_\u0641\u064A\u0641\u0631\u064A_\u0645\u0627\u0631\u0633_\u0623\u0641\u0631\u064A\u0644_\u0645\u0627\u064A_\u062C\u0648\u0627\u0646_\u062C\u0648\u064A\u0644\u064A\u0629_\u0623\u0648\u062A_\u0633\u0628\u062A\u0645\u0628\u0631_\u0623\u0643\u062A\u0648\u0628\u0631_\u0646\u0648\u0641\u0645\u0628\u0631_\u062F\u064A\u0633\u0645\u0628\u0631".split(
+            "_"
+          ),
+          weekdays: "\u0627\u0644\u0623\u062D\u062F_\u0627\u0644\u0625\u062B\u0646\u064A\u0646_\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621_\u0627\u0644\u062E\u0645\u064A\u0633_\u0627\u0644\u062C\u0645\u0639\u0629_\u0627\u0644\u0633\u0628\u062A".split("_"),
+          weekdaysShort: "\u0623\u062D\u062F_\u0625\u062B\u0646\u064A\u0646_\u062B\u0644\u0627\u062B\u0627\u0621_\u0623\u0631\u0628\u0639\u0627\u0621_\u062E\u0645\u064A\u0633_\u062C\u0645\u0639\u0629_\u0633\u0628\u062A".split("_"),
+          weekdaysMin: "\u062D_\u0646_\u062B_\u0631_\u062E_\u062C_\u0633".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0627\u0644\u064A\u0648\u0645 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextDay: "[\u063A\u062F\u0627 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastDay: "[\u0623\u0645\u0633 \u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastWeek: "dddd [\u0639\u0644\u0649 \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0641\u064A %s",
+            past: "\u0645\u0646\u0630 %s",
+            s: "\u062B\u0648\u0627\u0646",
+            ss: "%d \u062B\u0627\u0646\u064A\u0629",
+            m: "\u062F\u0642\u064A\u0642\u0629",
+            mm: "%d \u062F\u0642\u0627\u0626\u0642",
+            h: "\u0633\u0627\u0639\u0629",
+            hh: "%d \u0633\u0627\u0639\u0627\u062A",
+            d: "\u064A\u0648\u0645",
+            dd: "%d \u0623\u064A\u0627\u0645",
+            M: "\u0634\u0647\u0631",
+            MM: "%d \u0623\u0634\u0647\u0631",
+            y: "\u0633\u0646\u0629",
+            yy: "%d \u0633\u0646\u0648\u0627\u062A"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var symbolMap$2 = {
+          1: "\u0661",
+          2: "\u0662",
+          3: "\u0663",
+          4: "\u0664",
+          5: "\u0665",
+          6: "\u0666",
+          7: "\u0667",
+          8: "\u0668",
+          9: "\u0669",
+          0: "\u0660"
+        }, numberMap$1 = {
+          "\u0661": "1",
+          "\u0662": "2",
+          "\u0663": "3",
+          "\u0664": "4",
+          "\u0665": "5",
+          "\u0666": "6",
+          "\u0667": "7",
+          "\u0668": "8",
+          "\u0669": "9",
+          "\u0660": "0"
+        }, pluralForm$2 = function(n) {
+          return n === 0 ? 0 : n === 1 ? 1 : n === 2 ? 2 : n % 100 >= 3 && n % 100 <= 10 ? 3 : n % 100 >= 11 ? 4 : 5;
+        }, plurals$2 = {
+          s: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u062B\u0627\u0646\u064A\u0629",
+            "\u062B\u0627\u0646\u064A\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u062B\u0627\u0646\u064A\u062A\u0627\u0646", "\u062B\u0627\u0646\u064A\u062A\u064A\u0646"],
+            "%d \u062B\u0648\u0627\u0646",
+            "%d \u062B\u0627\u0646\u064A\u0629",
+            "%d \u062B\u0627\u0646\u064A\u0629"
+          ],
+          m: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u062F\u0642\u064A\u0642\u0629",
+            "\u062F\u0642\u064A\u0642\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u062F\u0642\u064A\u0642\u062A\u0627\u0646", "\u062F\u0642\u064A\u0642\u062A\u064A\u0646"],
+            "%d \u062F\u0642\u0627\u0626\u0642",
+            "%d \u062F\u0642\u064A\u0642\u0629",
+            "%d \u062F\u0642\u064A\u0642\u0629"
+          ],
+          h: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0633\u0627\u0639\u0629",
+            "\u0633\u0627\u0639\u0629 \u0648\u0627\u062D\u062F\u0629",
+            ["\u0633\u0627\u0639\u062A\u0627\u0646", "\u0633\u0627\u0639\u062A\u064A\u0646"],
+            "%d \u0633\u0627\u0639\u0627\u062A",
+            "%d \u0633\u0627\u0639\u0629",
+            "%d \u0633\u0627\u0639\u0629"
+          ],
+          d: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u064A\u0648\u0645",
+            "\u064A\u0648\u0645 \u0648\u0627\u062D\u062F",
+            ["\u064A\u0648\u0645\u0627\u0646", "\u064A\u0648\u0645\u064A\u0646"],
+            "%d \u0623\u064A\u0627\u0645",
+            "%d \u064A\u0648\u0645\u064B\u0627",
+            "%d \u064A\u0648\u0645"
+          ],
+          M: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0634\u0647\u0631",
+            "\u0634\u0647\u0631 \u0648\u0627\u062D\u062F",
+            ["\u0634\u0647\u0631\u0627\u0646", "\u0634\u0647\u0631\u064A\u0646"],
+            "%d \u0623\u0634\u0647\u0631",
+            "%d \u0634\u0647\u0631\u0627",
+            "%d \u0634\u0647\u0631"
+          ],
+          y: [
+            "\u0623\u0642\u0644 \u0645\u0646 \u0639\u0627\u0645",
+            "\u0639\u0627\u0645 \u0648\u0627\u062D\u062F",
+            ["\u0639\u0627\u0645\u0627\u0646", "\u0639\u0627\u0645\u064A\u0646"],
+            "%d \u0623\u0639\u0648\u0627\u0645",
+            "%d \u0639\u0627\u0645\u064B\u0627",
+            "%d \u0639\u0627\u0645"
+          ]
+        }, pluralize$2 = function(u) {
+          return function(number, withoutSuffix, string, isFuture) {
+            var f = pluralForm$2(number), str = plurals$2[u][pluralForm$2(number)];
+            if (f === 2) {
+              str = str[withoutSuffix ? 0 : 1];
+            }
+            return str.replace(/%d/i, number);
+          };
+        }, months$3 = [
+          "\u064A\u0646\u0627\u064A\u0631",
+          "\u0641\u0628\u0631\u0627\u064A\u0631",
+          "\u0645\u0627\u0631\u0633",
+          "\u0623\u0628\u0631\u064A\u0644",
+          "\u0645\u0627\u064A\u0648",
+          "\u064A\u0648\u0646\u064A\u0648",
+          "\u064A\u0648\u0644\u064A\u0648",
+          "\u0623\u063A\u0633\u0637\u0633",
+          "\u0633\u0628\u062A\u0645\u0628\u0631",
+          "\u0623\u0643\u062A\u0648\u0628\u0631",
+          "\u0646\u0648\u0641\u0645\u0628\u0631",
+          "\u062F\u064A\u0633\u0645\u0628\u0631"
+        ];
+        hooks.defineLocale("ar", {
+          months: months$3,
+          monthsShort: months$3,
+          weekdays: "\u0627\u0644\u0623\u062D\u062F_\u0627\u0644\u0625\u062B\u0646\u064A\u0646_\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621_\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621_\u0627\u0644\u062E\u0645\u064A\u0633_\u0627\u0644\u062C\u0645\u0639\u0629_\u0627\u0644\u0633\u0628\u062A".split("_"),
+          weekdaysShort: "\u0623\u062D\u062F_\u0625\u062B\u0646\u064A\u0646_\u062B\u0644\u0627\u062B\u0627\u0621_\u0623\u0631\u0628\u0639\u0627\u0621_\u062E\u0645\u064A\u0633_\u062C\u0645\u0639\u0629_\u0633\u0628\u062A".split("_"),
+          weekdaysMin: "\u062D_\u0646_\u062B_\u0631_\u062E_\u062C_\u0633".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "D/\u200FM/\u200FYYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /ص|م/,
+          isPM: function(input) {
+            return "\u0645" === input;
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0635";
+            } else {
+              return "\u0645";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0627\u0644\u064A\u0648\u0645 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextDay: "[\u063A\u062F\u064B\u0627 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            nextWeek: "dddd [\u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastDay: "[\u0623\u0645\u0633 \u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            lastWeek: "dddd [\u0639\u0646\u062F \u0627\u0644\u0633\u0627\u0639\u0629] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0628\u0639\u062F %s",
+            past: "\u0645\u0646\u0630 %s",
+            s: pluralize$2("s"),
+            ss: pluralize$2("s"),
+            m: pluralize$2("m"),
+            mm: pluralize$2("m"),
+            h: pluralize$2("h"),
+            hh: pluralize$2("h"),
+            d: pluralize$2("d"),
+            dd: pluralize$2("d"),
+            M: pluralize$2("M"),
+            MM: pluralize$2("M"),
+            y: pluralize$2("y"),
+            yy: pluralize$2("y")
+          },
+          preparse: function(string) {
+            return string.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(match) {
+              return numberMap$1[match];
+            }).replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$2[match];
+            }).replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 6,
+            // Saturday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        var suffixes = {
+          1: "-inci",
+          5: "-inci",
+          8: "-inci",
+          70: "-inci",
+          80: "-inci",
+          2: "-nci",
+          7: "-nci",
+          20: "-nci",
+          50: "-nci",
+          3: "-\xFCnc\xFC",
+          4: "-\xFCnc\xFC",
+          100: "-\xFCnc\xFC",
+          6: "-nc\u0131",
+          9: "-uncu",
+          10: "-uncu",
+          30: "-uncu",
+          60: "-\u0131nc\u0131",
+          90: "-\u0131nc\u0131"
+        };
+        hooks.defineLocale("az", {
+          months: "yanvar_fevral_mart_aprel_may_iyun_iyul_avqust_sentyabr_oktyabr_noyabr_dekabr".split(
+            "_"
+          ),
+          monthsShort: "yan_fev_mar_apr_may_iyn_iyl_avq_sen_okt_noy_dek".split("_"),
+          weekdays: "Bazar_Bazar ert\u0259si_\xC7\u0259r\u015F\u0259nb\u0259 ax\u015Fam\u0131_\xC7\u0259r\u015F\u0259nb\u0259_C\xFCm\u0259 ax\u015Fam\u0131_C\xFCm\u0259_\u015E\u0259nb\u0259".split(
+            "_"
+          ),
+          weekdaysShort: "Baz_BzE_\xC7Ax_\xC7\u0259r_CAx_C\xFCm_\u015E\u0259n".split("_"),
+          weekdaysMin: "Bz_BE_\xC7A_\xC7\u0259_CA_C\xFC_\u015E\u0259".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[bug\xFCn saat] LT",
+            nextDay: "[sabah saat] LT",
+            nextWeek: "[g\u0259l\u0259n h\u0259ft\u0259] dddd [saat] LT",
+            lastDay: "[d\xFCn\u0259n] LT",
+            lastWeek: "[ke\xE7\u0259n h\u0259ft\u0259] dddd [saat] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s sonra",
+            past: "%s \u0259vv\u0259l",
+            s: "bir ne\xE7\u0259 saniy\u0259",
+            ss: "%d saniy\u0259",
+            m: "bir d\u0259qiq\u0259",
+            mm: "%d d\u0259qiq\u0259",
+            h: "bir saat",
+            hh: "%d saat",
+            d: "bir g\xFCn",
+            dd: "%d g\xFCn",
+            M: "bir ay",
+            MM: "%d ay",
+            y: "bir il",
+            yy: "%d il"
+          },
+          meridiemParse: /gecə|səhər|gündüz|axşam/,
+          isPM: function(input) {
+            return /^(gündüz|axşam)$/.test(input);
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "gec\u0259";
+            } else if (hour < 12) {
+              return "s\u0259h\u0259r";
+            } else if (hour < 17) {
+              return "g\xFCnd\xFCz";
+            } else {
+              return "ax\u015Fam";
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(ıncı|inci|nci|üncü|ncı|uncu)/,
+          ordinal: function(number) {
+            if (number === 0) {
+              return number + "-\u0131nc\u0131";
+            }
+            var a = number % 10, b = number % 100 - a, c = number >= 100 ? 100 : null;
+            return number + (suffixes[a] || suffixes[b] || suffixes[c]);
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        function plural(word, num) {
+          var forms2 = word.split("_");
+          return num % 10 === 1 && num % 100 !== 11 ? forms2[0] : num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms2[1] : forms2[2];
+        }
+        function relativeTimeWithPlural(number, withoutSuffix, key) {
+          var format2 = {
+            ss: withoutSuffix ? "\u0441\u0435\u043A\u0443\u043D\u0434\u0430_\u0441\u0435\u043A\u0443\u043D\u0434\u044B_\u0441\u0435\u043A\u0443\u043D\u0434" : "\u0441\u0435\u043A\u0443\u043D\u0434\u0443_\u0441\u0435\u043A\u0443\u043D\u0434\u044B_\u0441\u0435\u043A\u0443\u043D\u0434",
+            mm: withoutSuffix ? "\u0445\u0432\u0456\u043B\u0456\u043D\u0430_\u0445\u0432\u0456\u043B\u0456\u043D\u044B_\u0445\u0432\u0456\u043B\u0456\u043D" : "\u0445\u0432\u0456\u043B\u0456\u043D\u0443_\u0445\u0432\u0456\u043B\u0456\u043D\u044B_\u0445\u0432\u0456\u043B\u0456\u043D",
+            hh: withoutSuffix ? "\u0433\u0430\u0434\u0437\u0456\u043D\u0430_\u0433\u0430\u0434\u0437\u0456\u043D\u044B_\u0433\u0430\u0434\u0437\u0456\u043D" : "\u0433\u0430\u0434\u0437\u0456\u043D\u0443_\u0433\u0430\u0434\u0437\u0456\u043D\u044B_\u0433\u0430\u0434\u0437\u0456\u043D",
+            dd: "\u0434\u0437\u0435\u043D\u044C_\u0434\u043D\u0456_\u0434\u0437\u0451\u043D",
+            MM: "\u043C\u0435\u0441\u044F\u0446_\u043C\u0435\u0441\u044F\u0446\u044B_\u043C\u0435\u0441\u044F\u0446\u0430\u045E",
+            yy: "\u0433\u043E\u0434_\u0433\u0430\u0434\u044B_\u0433\u0430\u0434\u043E\u045E"
+          };
+          if (key === "m") {
+            return withoutSuffix ? "\u0445\u0432\u0456\u043B\u0456\u043D\u0430" : "\u0445\u0432\u0456\u043B\u0456\u043D\u0443";
+          } else if (key === "h") {
+            return withoutSuffix ? "\u0433\u0430\u0434\u0437\u0456\u043D\u0430" : "\u0433\u0430\u0434\u0437\u0456\u043D\u0443";
+          } else {
+            return number + " " + plural(format2[key], +number);
+          }
+        }
+        hooks.defineLocale("be", {
+          months: {
+            format: "\u0441\u0442\u0443\u0434\u0437\u0435\u043D\u044F_\u043B\u044E\u0442\u0430\u0433\u0430_\u0441\u0430\u043A\u0430\u0432\u0456\u043A\u0430_\u043A\u0440\u0430\u0441\u0430\u0432\u0456\u043A\u0430_\u0442\u0440\u0430\u045E\u043D\u044F_\u0447\u044D\u0440\u0432\u0435\u043D\u044F_\u043B\u0456\u043F\u0435\u043D\u044F_\u0436\u043D\u0456\u045E\u043D\u044F_\u0432\u0435\u0440\u0430\u0441\u043D\u044F_\u043A\u0430\u0441\u0442\u0440\u044B\u0447\u043D\u0456\u043A\u0430_\u043B\u0456\u0441\u0442\u0430\u043F\u0430\u0434\u0430_\u0441\u043D\u0435\u0436\u043D\u044F".split(
+              "_"
+            ),
+            standalone: "\u0441\u0442\u0443\u0434\u0437\u0435\u043D\u044C_\u043B\u044E\u0442\u044B_\u0441\u0430\u043A\u0430\u0432\u0456\u043A_\u043A\u0440\u0430\u0441\u0430\u0432\u0456\u043A_\u0442\u0440\u0430\u0432\u0435\u043D\u044C_\u0447\u044D\u0440\u0432\u0435\u043D\u044C_\u043B\u0456\u043F\u0435\u043D\u044C_\u0436\u043D\u0456\u0432\u0435\u043D\u044C_\u0432\u0435\u0440\u0430\u0441\u0435\u043D\u044C_\u043A\u0430\u0441\u0442\u0440\u044B\u0447\u043D\u0456\u043A_\u043B\u0456\u0441\u0442\u0430\u043F\u0430\u0434_\u0441\u043D\u0435\u0436\u0430\u043D\u044C".split(
+              "_"
+            )
+          },
+          monthsShort: "\u0441\u0442\u0443\u0434_\u043B\u044E\u0442_\u0441\u0430\u043A_\u043A\u0440\u0430\u0441_\u0442\u0440\u0430\u0432_\u0447\u044D\u0440\u0432_\u043B\u0456\u043F_\u0436\u043D\u0456\u0432_\u0432\u0435\u0440_\u043A\u0430\u0441\u0442_\u043B\u0456\u0441\u0442_\u0441\u043D\u0435\u0436".split("_"),
+          weekdays: {
+            format: "\u043D\u044F\u0434\u0437\u0435\u043B\u044E_\u043F\u0430\u043D\u044F\u0434\u0437\u0435\u043B\u0430\u043A_\u0430\u045E\u0442\u043E\u0440\u0430\u043A_\u0441\u0435\u0440\u0430\u0434\u0443_\u0447\u0430\u0446\u0432\u0435\u0440_\u043F\u044F\u0442\u043D\u0456\u0446\u0443_\u0441\u0443\u0431\u043E\u0442\u0443".split(
+              "_"
+            ),
+            standalone: "\u043D\u044F\u0434\u0437\u0435\u043B\u044F_\u043F\u0430\u043D\u044F\u0434\u0437\u0435\u043B\u0430\u043A_\u0430\u045E\u0442\u043E\u0440\u0430\u043A_\u0441\u0435\u0440\u0430\u0434\u0430_\u0447\u0430\u0446\u0432\u0435\u0440_\u043F\u044F\u0442\u043D\u0456\u0446\u0430_\u0441\u0443\u0431\u043E\u0442\u0430".split(
+              "_"
+            ),
+            isFormat: /\[ ?[Ууў] ?(?:мінулую|наступную)? ?\] ?dddd/
+          },
+          weekdaysShort: "\u043D\u0434_\u043F\u043D_\u0430\u0442_\u0441\u0440_\u0447\u0446_\u043F\u0442_\u0441\u0431".split("_"),
+          weekdaysMin: "\u043D\u0434_\u043F\u043D_\u0430\u0442_\u0441\u0440_\u0447\u0446_\u043F\u0442_\u0441\u0431".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY \u0433.",
+            LLL: "D MMMM YYYY \u0433., HH:mm",
+            LLLL: "dddd, D MMMM YYYY \u0433., HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0421\u0451\u043D\u043D\u044F \u045E] LT",
+            nextDay: "[\u0417\u0430\u045E\u0442\u0440\u0430 \u045E] LT",
+            lastDay: "[\u0423\u0447\u043E\u0440\u0430 \u045E] LT",
+            nextWeek: function() {
+              return "[\u0423] dddd [\u045E] LT";
+            },
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                case 3:
+                case 5:
+                case 6:
+                  return "[\u0423 \u043C\u0456\u043D\u0443\u043B\u0443\u044E] dddd [\u045E] LT";
+                case 1:
+                case 2:
+                case 4:
+                  return "[\u0423 \u043C\u0456\u043D\u0443\u043B\u044B] dddd [\u045E] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u043F\u0440\u0430\u0437 %s",
+            past: "%s \u0442\u0430\u043C\u0443",
+            s: "\u043D\u0435\u043A\u0430\u043B\u044C\u043A\u0456 \u0441\u0435\u043A\u0443\u043D\u0434",
+            m: relativeTimeWithPlural,
+            mm: relativeTimeWithPlural,
+            h: relativeTimeWithPlural,
+            hh: relativeTimeWithPlural,
+            d: "\u0434\u0437\u0435\u043D\u044C",
+            dd: relativeTimeWithPlural,
+            M: "\u043C\u0435\u0441\u044F\u0446",
+            MM: relativeTimeWithPlural,
+            y: "\u0433\u043E\u0434",
+            yy: relativeTimeWithPlural
+          },
+          meridiemParse: /ночы|раніцы|дня|вечара/,
+          isPM: function(input) {
+            return /^(дня|вечара)$/.test(input);
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u043D\u043E\u0447\u044B";
+            } else if (hour < 12) {
+              return "\u0440\u0430\u043D\u0456\u0446\u044B";
+            } else if (hour < 17) {
+              return "\u0434\u043D\u044F";
+            } else {
+              return "\u0432\u0435\u0447\u0430\u0440\u0430";
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(і|ы|га)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "M":
+              case "d":
+              case "DDD":
+              case "w":
+              case "W":
+                return (number % 10 === 2 || number % 10 === 3) && number % 100 !== 12 && number % 100 !== 13 ? number + "-\u0456" : number + "-\u044B";
+              case "D":
+                return number + "-\u0433\u0430";
+              default:
+                return number;
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("bg", {
+          months: "\u044F\u043D\u0443\u0430\u0440\u0438_\u0444\u0435\u0432\u0440\u0443\u0430\u0440\u0438_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440\u0438\u043B_\u043C\u0430\u0439_\u044E\u043D\u0438_\u044E\u043B\u0438_\u0430\u0432\u0433\u0443\u0441\u0442_\u0441\u0435\u043F\u0442\u0435\u043C\u0432\u0440\u0438_\u043E\u043A\u0442\u043E\u043C\u0432\u0440\u0438_\u043D\u043E\u0435\u043C\u0432\u0440\u0438_\u0434\u0435\u043A\u0435\u043C\u0432\u0440\u0438".split(
+            "_"
+          ),
+          monthsShort: "\u044F\u043D\u0443_\u0444\u0435\u0432_\u043C\u0430\u0440_\u0430\u043F\u0440_\u043C\u0430\u0439_\u044E\u043D\u0438_\u044E\u043B\u0438_\u0430\u0432\u0433_\u0441\u0435\u043F_\u043E\u043A\u0442_\u043D\u043E\u0435_\u0434\u0435\u043A".split("_"),
+          weekdays: "\u043D\u0435\u0434\u0435\u043B\u044F_\u043F\u043E\u043D\u0435\u0434\u0435\u043B\u043D\u0438\u043A_\u0432\u0442\u043E\u0440\u043D\u0438\u043A_\u0441\u0440\u044F\u0434\u0430_\u0447\u0435\u0442\u0432\u044A\u0440\u0442\u044A\u043A_\u043F\u0435\u0442\u044A\u043A_\u0441\u044A\u0431\u043E\u0442\u0430".split(
+            "_"
+          ),
+          weekdaysShort: "\u043D\u0435\u0434_\u043F\u043E\u043D_\u0432\u0442\u043E_\u0441\u0440\u044F_\u0447\u0435\u0442_\u043F\u0435\u0442_\u0441\u044A\u0431".split("_"),
+          weekdaysMin: "\u043D\u0434_\u043F\u043D_\u0432\u0442_\u0441\u0440_\u0447\u0442_\u043F\u0442_\u0441\u0431".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "D.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY H:mm",
+            LLLL: "dddd, D MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[\u0414\u043D\u0435\u0441 \u0432] LT",
+            nextDay: "[\u0423\u0442\u0440\u0435 \u0432] LT",
+            nextWeek: "dddd [\u0432] LT",
+            lastDay: "[\u0412\u0447\u0435\u0440\u0430 \u0432] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                case 3:
+                case 6:
+                  return "[\u041C\u0438\u043D\u0430\u043B\u0430\u0442\u0430] dddd [\u0432] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[\u041C\u0438\u043D\u0430\u043B\u0438\u044F] dddd [\u0432] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0441\u043B\u0435\u0434 %s",
+            past: "\u043F\u0440\u0435\u0434\u0438 %s",
+            s: "\u043D\u044F\u043A\u043E\u043B\u043A\u043E \u0441\u0435\u043A\u0443\u043D\u0434\u0438",
+            ss: "%d \u0441\u0435\u043A\u0443\u043D\u0434\u0438",
+            m: "\u043C\u0438\u043D\u0443\u0442\u0430",
+            mm: "%d \u043C\u0438\u043D\u0443\u0442\u0438",
+            h: "\u0447\u0430\u0441",
+            hh: "%d \u0447\u0430\u0441\u0430",
+            d: "\u0434\u0435\u043D",
+            dd: "%d \u0434\u0435\u043D\u0430",
+            w: "\u0441\u0435\u0434\u043C\u0438\u0446\u0430",
+            ww: "%d \u0441\u0435\u0434\u043C\u0438\u0446\u0438",
+            M: "\u043C\u0435\u0441\u0435\u0446",
+            MM: "%d \u043C\u0435\u0441\u0435\u0446\u0430",
+            y: "\u0433\u043E\u0434\u0438\u043D\u0430",
+            yy: "%d \u0433\u043E\u0434\u0438\u043D\u0438"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(ев|ен|ти|ви|ри|ми)/,
+          ordinal: function(number) {
+            var lastDigit = number % 10, last2Digits = number % 100;
+            if (number === 0) {
+              return number + "-\u0435\u0432";
+            } else if (last2Digits === 0) {
+              return number + "-\u0435\u043D";
+            } else if (last2Digits > 10 && last2Digits < 20) {
+              return number + "-\u0442\u0438";
+            } else if (lastDigit === 1) {
+              return number + "-\u0432\u0438";
+            } else if (lastDigit === 2) {
+              return number + "-\u0440\u0438";
+            } else if (lastDigit === 7 || lastDigit === 8) {
+              return number + "-\u043C\u0438";
+            } else {
+              return number + "-\u0442\u0438";
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("bm", {
+          months: "Zanwuyekalo_Fewuruyekalo_Marisikalo_Awirilikalo_M\u025Bkalo_Zuw\u025Bnkalo_Zuluyekalo_Utikalo_S\u025Btanburukalo_\u0254kut\u0254burukalo_Nowanburukalo_Desanburukalo".split(
+            "_"
+          ),
+          monthsShort: "Zan_Few_Mar_Awi_M\u025B_Zuw_Zul_Uti_S\u025Bt_\u0254ku_Now_Des".split("_"),
+          weekdays: "Kari_Nt\u025Bn\u025Bn_Tarata_Araba_Alamisa_Juma_Sibiri".split("_"),
+          weekdaysShort: "Kar_Nt\u025B_Tar_Ara_Ala_Jum_Sib".split("_"),
+          weekdaysMin: "Ka_Nt_Ta_Ar_Al_Ju_Si".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "MMMM [tile] D [san] YYYY",
+            LLL: "MMMM [tile] D [san] YYYY [l\u025Br\u025B] HH:mm",
+            LLLL: "dddd MMMM [tile] D [san] YYYY [l\u025Br\u025B] HH:mm"
+          },
+          calendar: {
+            sameDay: "[Bi l\u025Br\u025B] LT",
+            nextDay: "[Sini l\u025Br\u025B] LT",
+            nextWeek: "dddd [don l\u025Br\u025B] LT",
+            lastDay: "[Kunu l\u025Br\u025B] LT",
+            lastWeek: "dddd [t\u025Bm\u025Bnen l\u025Br\u025B] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s k\u0254n\u0254",
+            past: "a b\u025B %s b\u0254",
+            s: "sanga dama dama",
+            ss: "sekondi %d",
+            m: "miniti kelen",
+            mm: "miniti %d",
+            h: "l\u025Br\u025B kelen",
+            hh: "l\u025Br\u025B %d",
+            d: "tile kelen",
+            dd: "tile %d",
+            M: "kalo kelen",
+            MM: "kalo %d",
+            y: "san kelen",
+            yy: "san %d"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var symbolMap$3 = {
+          1: "\u09E7",
+          2: "\u09E8",
+          3: "\u09E9",
+          4: "\u09EA",
+          5: "\u09EB",
+          6: "\u09EC",
+          7: "\u09ED",
+          8: "\u09EE",
+          9: "\u09EF",
+          0: "\u09E6"
+        }, numberMap$2 = {
+          "\u09E7": "1",
+          "\u09E8": "2",
+          "\u09E9": "3",
+          "\u09EA": "4",
+          "\u09EB": "5",
+          "\u09EC": "6",
+          "\u09ED": "7",
+          "\u09EE": "8",
+          "\u09EF": "9",
+          "\u09E6": "0"
+        };
+        hooks.defineLocale("bn-bd", {
+          months: "\u099C\u09BE\u09A8\u09C1\u09DF\u09BE\u09B0\u09BF_\u09AB\u09C7\u09AC\u09CD\u09B0\u09C1\u09DF\u09BE\u09B0\u09BF_\u09AE\u09BE\u09B0\u09CD\u099A_\u098F\u09AA\u09CD\u09B0\u09BF\u09B2_\u09AE\u09C7_\u099C\u09C1\u09A8_\u099C\u09C1\u09B2\u09BE\u0987_\u0986\u0997\u09B8\u09CD\u099F_\u09B8\u09C7\u09AA\u09CD\u099F\u09C7\u09AE\u09CD\u09AC\u09B0_\u0985\u0995\u09CD\u099F\u09CB\u09AC\u09B0_\u09A8\u09AD\u09C7\u09AE\u09CD\u09AC\u09B0_\u09A1\u09BF\u09B8\u09C7\u09AE\u09CD\u09AC\u09B0".split(
+            "_"
+          ),
+          monthsShort: "\u099C\u09BE\u09A8\u09C1_\u09AB\u09C7\u09AC\u09CD\u09B0\u09C1_\u09AE\u09BE\u09B0\u09CD\u099A_\u098F\u09AA\u09CD\u09B0\u09BF\u09B2_\u09AE\u09C7_\u099C\u09C1\u09A8_\u099C\u09C1\u09B2\u09BE\u0987_\u0986\u0997\u09B8\u09CD\u099F_\u09B8\u09C7\u09AA\u09CD\u099F_\u0985\u0995\u09CD\u099F\u09CB_\u09A8\u09AD\u09C7_\u09A1\u09BF\u09B8\u09C7".split(
+            "_"
+          ),
+          weekdays: "\u09B0\u09AC\u09BF\u09AC\u09BE\u09B0_\u09B8\u09CB\u09AE\u09AC\u09BE\u09B0_\u09AE\u0999\u09CD\u0997\u09B2\u09AC\u09BE\u09B0_\u09AC\u09C1\u09A7\u09AC\u09BE\u09B0_\u09AC\u09C3\u09B9\u09B8\u09CD\u09AA\u09A4\u09BF\u09AC\u09BE\u09B0_\u09B6\u09C1\u0995\u09CD\u09B0\u09AC\u09BE\u09B0_\u09B6\u09A8\u09BF\u09AC\u09BE\u09B0".split(
+            "_"
+          ),
+          weekdaysShort: "\u09B0\u09AC\u09BF_\u09B8\u09CB\u09AE_\u09AE\u0999\u09CD\u0997\u09B2_\u09AC\u09C1\u09A7_\u09AC\u09C3\u09B9\u09B8\u09CD\u09AA\u09A4\u09BF_\u09B6\u09C1\u0995\u09CD\u09B0_\u09B6\u09A8\u09BF".split("_"),
+          weekdaysMin: "\u09B0\u09AC\u09BF_\u09B8\u09CB\u09AE_\u09AE\u0999\u09CD\u0997\u09B2_\u09AC\u09C1\u09A7_\u09AC\u09C3\u09B9_\u09B6\u09C1\u0995\u09CD\u09B0_\u09B6\u09A8\u09BF".split("_"),
+          longDateFormat: {
+            LT: "A h:mm \u09B8\u09AE\u09DF",
+            LTS: "A h:mm:ss \u09B8\u09AE\u09DF",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm \u09B8\u09AE\u09DF",
+            LLLL: "dddd, D MMMM YYYY, A h:mm \u09B8\u09AE\u09DF"
+          },
+          calendar: {
+            sameDay: "[\u0986\u099C] LT",
+            nextDay: "[\u0986\u0997\u09BE\u09AE\u09C0\u0995\u09BE\u09B2] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0997\u09A4\u0995\u09BE\u09B2] LT",
+            lastWeek: "[\u0997\u09A4] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u09AA\u09B0\u09C7",
+            past: "%s \u0986\u0997\u09C7",
+            s: "\u0995\u09DF\u09C7\u0995 \u09B8\u09C7\u0995\u09C7\u09A8\u09CD\u09A1",
+            ss: "%d \u09B8\u09C7\u0995\u09C7\u09A8\u09CD\u09A1",
+            m: "\u098F\u0995 \u09AE\u09BF\u09A8\u09BF\u099F",
+            mm: "%d \u09AE\u09BF\u09A8\u09BF\u099F",
+            h: "\u098F\u0995 \u0998\u09A8\u09CD\u099F\u09BE",
+            hh: "%d \u0998\u09A8\u09CD\u099F\u09BE",
+            d: "\u098F\u0995 \u09A6\u09BF\u09A8",
+            dd: "%d \u09A6\u09BF\u09A8",
+            M: "\u098F\u0995 \u09AE\u09BE\u09B8",
+            MM: "%d \u09AE\u09BE\u09B8",
+            y: "\u098F\u0995 \u09AC\u099B\u09B0",
+            yy: "%d \u09AC\u099B\u09B0"
+          },
+          preparse: function(string) {
+            return string.replace(/[১২৩৪৫৬৭৮৯০]/g, function(match) {
+              return numberMap$2[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$3[match];
+            });
+          },
+          meridiemParse: /রাত|ভোর|সকাল|দুপুর|বিকাল|সন্ধ্যা|রাত/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u09B0\u09BE\u09A4") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u09AD\u09CB\u09B0") {
+              return hour;
+            } else if (meridiem2 === "\u09B8\u0995\u09BE\u09B2") {
+              return hour;
+            } else if (meridiem2 === "\u09A6\u09C1\u09AA\u09C1\u09B0") {
+              return hour >= 3 ? hour : hour + 12;
+            } else if (meridiem2 === "\u09AC\u09BF\u0995\u09BE\u09B2") {
+              return hour + 12;
+            } else if (meridiem2 === "\u09B8\u09A8\u09CD\u09A7\u09CD\u09AF\u09BE") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u09B0\u09BE\u09A4";
+            } else if (hour < 6) {
+              return "\u09AD\u09CB\u09B0";
+            } else if (hour < 12) {
+              return "\u09B8\u0995\u09BE\u09B2";
+            } else if (hour < 15) {
+              return "\u09A6\u09C1\u09AA\u09C1\u09B0";
+            } else if (hour < 18) {
+              return "\u09AC\u09BF\u0995\u09BE\u09B2";
+            } else if (hour < 20) {
+              return "\u09B8\u09A8\u09CD\u09A7\u09CD\u09AF\u09BE";
+            } else {
+              return "\u09B0\u09BE\u09A4";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        var symbolMap$4 = {
+          1: "\u09E7",
+          2: "\u09E8",
+          3: "\u09E9",
+          4: "\u09EA",
+          5: "\u09EB",
+          6: "\u09EC",
+          7: "\u09ED",
+          8: "\u09EE",
+          9: "\u09EF",
+          0: "\u09E6"
+        }, numberMap$3 = {
+          "\u09E7": "1",
+          "\u09E8": "2",
+          "\u09E9": "3",
+          "\u09EA": "4",
+          "\u09EB": "5",
+          "\u09EC": "6",
+          "\u09ED": "7",
+          "\u09EE": "8",
+          "\u09EF": "9",
+          "\u09E6": "0"
+        };
+        hooks.defineLocale("bn", {
+          months: "\u099C\u09BE\u09A8\u09C1\u09DF\u09BE\u09B0\u09BF_\u09AB\u09C7\u09AC\u09CD\u09B0\u09C1\u09DF\u09BE\u09B0\u09BF_\u09AE\u09BE\u09B0\u09CD\u099A_\u098F\u09AA\u09CD\u09B0\u09BF\u09B2_\u09AE\u09C7_\u099C\u09C1\u09A8_\u099C\u09C1\u09B2\u09BE\u0987_\u0986\u0997\u09B8\u09CD\u099F_\u09B8\u09C7\u09AA\u09CD\u099F\u09C7\u09AE\u09CD\u09AC\u09B0_\u0985\u0995\u09CD\u099F\u09CB\u09AC\u09B0_\u09A8\u09AD\u09C7\u09AE\u09CD\u09AC\u09B0_\u09A1\u09BF\u09B8\u09C7\u09AE\u09CD\u09AC\u09B0".split(
+            "_"
+          ),
+          monthsShort: "\u099C\u09BE\u09A8\u09C1_\u09AB\u09C7\u09AC\u09CD\u09B0\u09C1_\u09AE\u09BE\u09B0\u09CD\u099A_\u098F\u09AA\u09CD\u09B0\u09BF\u09B2_\u09AE\u09C7_\u099C\u09C1\u09A8_\u099C\u09C1\u09B2\u09BE\u0987_\u0986\u0997\u09B8\u09CD\u099F_\u09B8\u09C7\u09AA\u09CD\u099F_\u0985\u0995\u09CD\u099F\u09CB_\u09A8\u09AD\u09C7_\u09A1\u09BF\u09B8\u09C7".split(
+            "_"
+          ),
+          weekdays: "\u09B0\u09AC\u09BF\u09AC\u09BE\u09B0_\u09B8\u09CB\u09AE\u09AC\u09BE\u09B0_\u09AE\u0999\u09CD\u0997\u09B2\u09AC\u09BE\u09B0_\u09AC\u09C1\u09A7\u09AC\u09BE\u09B0_\u09AC\u09C3\u09B9\u09B8\u09CD\u09AA\u09A4\u09BF\u09AC\u09BE\u09B0_\u09B6\u09C1\u0995\u09CD\u09B0\u09AC\u09BE\u09B0_\u09B6\u09A8\u09BF\u09AC\u09BE\u09B0".split(
+            "_"
+          ),
+          weekdaysShort: "\u09B0\u09AC\u09BF_\u09B8\u09CB\u09AE_\u09AE\u0999\u09CD\u0997\u09B2_\u09AC\u09C1\u09A7_\u09AC\u09C3\u09B9\u09B8\u09CD\u09AA\u09A4\u09BF_\u09B6\u09C1\u0995\u09CD\u09B0_\u09B6\u09A8\u09BF".split("_"),
+          weekdaysMin: "\u09B0\u09AC\u09BF_\u09B8\u09CB\u09AE_\u09AE\u0999\u09CD\u0997\u09B2_\u09AC\u09C1\u09A7_\u09AC\u09C3\u09B9_\u09B6\u09C1\u0995\u09CD\u09B0_\u09B6\u09A8\u09BF".split("_"),
+          longDateFormat: {
+            LT: "A h:mm \u09B8\u09AE\u09DF",
+            LTS: "A h:mm:ss \u09B8\u09AE\u09DF",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm \u09B8\u09AE\u09DF",
+            LLLL: "dddd, D MMMM YYYY, A h:mm \u09B8\u09AE\u09DF"
+          },
+          calendar: {
+            sameDay: "[\u0986\u099C] LT",
+            nextDay: "[\u0986\u0997\u09BE\u09AE\u09C0\u0995\u09BE\u09B2] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0997\u09A4\u0995\u09BE\u09B2] LT",
+            lastWeek: "[\u0997\u09A4] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u09AA\u09B0\u09C7",
+            past: "%s \u0986\u0997\u09C7",
+            s: "\u0995\u09DF\u09C7\u0995 \u09B8\u09C7\u0995\u09C7\u09A8\u09CD\u09A1",
+            ss: "%d \u09B8\u09C7\u0995\u09C7\u09A8\u09CD\u09A1",
+            m: "\u098F\u0995 \u09AE\u09BF\u09A8\u09BF\u099F",
+            mm: "%d \u09AE\u09BF\u09A8\u09BF\u099F",
+            h: "\u098F\u0995 \u0998\u09A8\u09CD\u099F\u09BE",
+            hh: "%d \u0998\u09A8\u09CD\u099F\u09BE",
+            d: "\u098F\u0995 \u09A6\u09BF\u09A8",
+            dd: "%d \u09A6\u09BF\u09A8",
+            M: "\u098F\u0995 \u09AE\u09BE\u09B8",
+            MM: "%d \u09AE\u09BE\u09B8",
+            y: "\u098F\u0995 \u09AC\u099B\u09B0",
+            yy: "%d \u09AC\u099B\u09B0"
+          },
+          preparse: function(string) {
+            return string.replace(/[১২৩৪৫৬৭৮৯০]/g, function(match) {
+              return numberMap$3[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$4[match];
+            });
+          },
+          meridiemParse: /রাত|সকাল|দুপুর|বিকাল|রাত/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u09B0\u09BE\u09A4" && hour >= 4 || meridiem2 === "\u09A6\u09C1\u09AA\u09C1\u09B0" && hour < 5 || meridiem2 === "\u09AC\u09BF\u0995\u09BE\u09B2") {
+              return hour + 12;
+            } else {
+              return hour;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u09B0\u09BE\u09A4";
+            } else if (hour < 10) {
+              return "\u09B8\u0995\u09BE\u09B2";
+            } else if (hour < 17) {
+              return "\u09A6\u09C1\u09AA\u09C1\u09B0";
+            } else if (hour < 20) {
+              return "\u09AC\u09BF\u0995\u09BE\u09B2";
+            } else {
+              return "\u09B0\u09BE\u09A4";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        var symbolMap$5 = {
+          1: "\u0F21",
+          2: "\u0F22",
+          3: "\u0F23",
+          4: "\u0F24",
+          5: "\u0F25",
+          6: "\u0F26",
+          7: "\u0F27",
+          8: "\u0F28",
+          9: "\u0F29",
+          0: "\u0F20"
+        }, numberMap$4 = {
+          "\u0F21": "1",
+          "\u0F22": "2",
+          "\u0F23": "3",
+          "\u0F24": "4",
+          "\u0F25": "5",
+          "\u0F26": "6",
+          "\u0F27": "7",
+          "\u0F28": "8",
+          "\u0F29": "9",
+          "\u0F20": "0"
+        };
+        hooks.defineLocale("bo", {
+          months: "\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F51\u0F44\u0F0B\u0F54\u0F7C_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F42\u0F49\u0F72\u0F66\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F42\u0F66\u0F74\u0F58\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F56\u0F5E\u0F72\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F63\u0F94\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F51\u0FB2\u0F74\u0F42\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F56\u0F51\u0F74\u0F53\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F56\u0F62\u0F92\u0FB1\u0F51\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F51\u0F42\u0F74\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F56\u0F45\u0F74\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F56\u0F45\u0F74\u0F0B\u0F42\u0F45\u0F72\u0F42\u0F0B\u0F54_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F56\u0F45\u0F74\u0F0B\u0F42\u0F49\u0F72\u0F66\u0F0B\u0F54".split(
+            "_"
+          ),
+          monthsShort: "\u0F5F\u0FB3\u0F0B1_\u0F5F\u0FB3\u0F0B2_\u0F5F\u0FB3\u0F0B3_\u0F5F\u0FB3\u0F0B4_\u0F5F\u0FB3\u0F0B5_\u0F5F\u0FB3\u0F0B6_\u0F5F\u0FB3\u0F0B7_\u0F5F\u0FB3\u0F0B8_\u0F5F\u0FB3\u0F0B9_\u0F5F\u0FB3\u0F0B10_\u0F5F\u0FB3\u0F0B11_\u0F5F\u0FB3\u0F0B12".split(
+            "_"
+          ),
+          monthsShortRegex: /^(ཟླ་\d{1,2})/,
+          monthsParseExact: true,
+          weekdays: "\u0F42\u0F5F\u0F60\u0F0B\u0F49\u0F72\u0F0B\u0F58\u0F0B_\u0F42\u0F5F\u0F60\u0F0B\u0F5F\u0FB3\u0F0B\u0F56\u0F0B_\u0F42\u0F5F\u0F60\u0F0B\u0F58\u0F72\u0F42\u0F0B\u0F51\u0F58\u0F62\u0F0B_\u0F42\u0F5F\u0F60\u0F0B\u0F63\u0FB7\u0F42\u0F0B\u0F54\u0F0B_\u0F42\u0F5F\u0F60\u0F0B\u0F55\u0F74\u0F62\u0F0B\u0F56\u0F74_\u0F42\u0F5F\u0F60\u0F0B\u0F54\u0F0B\u0F66\u0F44\u0F66\u0F0B_\u0F42\u0F5F\u0F60\u0F0B\u0F66\u0FA4\u0F7A\u0F53\u0F0B\u0F54\u0F0B".split(
+            "_"
+          ),
+          weekdaysShort: "\u0F49\u0F72\u0F0B\u0F58\u0F0B_\u0F5F\u0FB3\u0F0B\u0F56\u0F0B_\u0F58\u0F72\u0F42\u0F0B\u0F51\u0F58\u0F62\u0F0B_\u0F63\u0FB7\u0F42\u0F0B\u0F54\u0F0B_\u0F55\u0F74\u0F62\u0F0B\u0F56\u0F74_\u0F54\u0F0B\u0F66\u0F44\u0F66\u0F0B_\u0F66\u0FA4\u0F7A\u0F53\u0F0B\u0F54\u0F0B".split(
+            "_"
+          ),
+          weekdaysMin: "\u0F49\u0F72_\u0F5F\u0FB3_\u0F58\u0F72\u0F42_\u0F63\u0FB7\u0F42_\u0F55\u0F74\u0F62_\u0F66\u0F44\u0F66_\u0F66\u0FA4\u0F7A\u0F53".split("_"),
+          longDateFormat: {
+            LT: "A h:mm",
+            LTS: "A h:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm",
+            LLLL: "dddd, D MMMM YYYY, A h:mm"
+          },
+          calendar: {
+            sameDay: "[\u0F51\u0F72\u0F0B\u0F62\u0F72\u0F44] LT",
+            nextDay: "[\u0F66\u0F44\u0F0B\u0F49\u0F72\u0F53] LT",
+            nextWeek: "[\u0F56\u0F51\u0F74\u0F53\u0F0B\u0F55\u0FB2\u0F42\u0F0B\u0F62\u0F97\u0F7A\u0F66\u0F0B\u0F58], LT",
+            lastDay: "[\u0F41\u0F0B\u0F66\u0F44] LT",
+            lastWeek: "[\u0F56\u0F51\u0F74\u0F53\u0F0B\u0F55\u0FB2\u0F42\u0F0B\u0F58\u0F50\u0F60\u0F0B\u0F58] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0F63\u0F0B",
+            past: "%s \u0F66\u0F94\u0F53\u0F0B\u0F63",
+            s: "\u0F63\u0F58\u0F0B\u0F66\u0F44",
+            ss: "%d \u0F66\u0F90\u0F62\u0F0B\u0F46\u0F0D",
+            m: "\u0F66\u0F90\u0F62\u0F0B\u0F58\u0F0B\u0F42\u0F45\u0F72\u0F42",
+            mm: "%d \u0F66\u0F90\u0F62\u0F0B\u0F58",
+            h: "\u0F46\u0F74\u0F0B\u0F5A\u0F7C\u0F51\u0F0B\u0F42\u0F45\u0F72\u0F42",
+            hh: "%d \u0F46\u0F74\u0F0B\u0F5A\u0F7C\u0F51",
+            d: "\u0F49\u0F72\u0F53\u0F0B\u0F42\u0F45\u0F72\u0F42",
+            dd: "%d \u0F49\u0F72\u0F53\u0F0B",
+            M: "\u0F5F\u0FB3\u0F0B\u0F56\u0F0B\u0F42\u0F45\u0F72\u0F42",
+            MM: "%d \u0F5F\u0FB3\u0F0B\u0F56",
+            y: "\u0F63\u0F7C\u0F0B\u0F42\u0F45\u0F72\u0F42",
+            yy: "%d \u0F63\u0F7C"
+          },
+          preparse: function(string) {
+            return string.replace(/[༡༢༣༤༥༦༧༨༩༠]/g, function(match) {
+              return numberMap$4[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$5[match];
+            });
+          },
+          meridiemParse: /མཚན་མོ|ཞོགས་ཀས|ཉིན་གུང|དགོང་དག|མཚན་མོ/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0F58\u0F5A\u0F53\u0F0B\u0F58\u0F7C" && hour >= 4 || meridiem2 === "\u0F49\u0F72\u0F53\u0F0B\u0F42\u0F74\u0F44" && hour < 5 || meridiem2 === "\u0F51\u0F42\u0F7C\u0F44\u0F0B\u0F51\u0F42") {
+              return hour + 12;
+            } else {
+              return hour;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0F58\u0F5A\u0F53\u0F0B\u0F58\u0F7C";
+            } else if (hour < 10) {
+              return "\u0F5E\u0F7C\u0F42\u0F66\u0F0B\u0F40\u0F66";
+            } else if (hour < 17) {
+              return "\u0F49\u0F72\u0F53\u0F0B\u0F42\u0F74\u0F44";
+            } else if (hour < 20) {
+              return "\u0F51\u0F42\u0F7C\u0F44\u0F0B\u0F51\u0F42";
+            } else {
+              return "\u0F58\u0F5A\u0F53\u0F0B\u0F58\u0F7C";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        function relativeTimeWithMutation(number, withoutSuffix, key) {
+          var format2 = {
+            mm: "munutenn",
+            MM: "miz",
+            dd: "devezh"
+          };
+          return number + " " + mutation(format2[key], number);
+        }
+        function specialMutationForYears(number) {
+          switch (lastNumber(number)) {
+            case 1:
+            case 3:
+            case 4:
+            case 5:
+            case 9:
+              return number + " bloaz";
+            default:
+              return number + " vloaz";
+          }
+        }
+        function lastNumber(number) {
+          if (number > 9) {
+            return lastNumber(number % 10);
+          }
+          return number;
+        }
+        function mutation(text, number) {
+          if (number === 2) {
+            return softMutation(text);
+          }
+          return text;
+        }
+        function softMutation(text) {
+          var mutationTable = {
+            m: "v",
+            b: "v",
+            d: "z"
+          };
+          if (mutationTable[text.charAt(0)] === void 0) {
+            return text;
+          }
+          return mutationTable[text.charAt(0)] + text.substring(1);
+        }
+        var monthsParse = [
+          /^gen/i,
+          /^c[ʼ\']hwe/i,
+          /^meu/i,
+          /^ebr/i,
+          /^mae/i,
+          /^(mez|eve)/i,
+          /^gou/i,
+          /^eos/i,
+          /^gwe/i,
+          /^her/i,
+          /^du/i,
+          /^ker/i
+        ], monthsRegex$1 = /^(genver|c[ʼ\']hwevrer|meurzh|ebrel|mae|mezheven|gouere|eost|gwengolo|here|du|kerzu|gen|c[ʼ\']hwe|meu|ebr|mae|eve|gou|eos|gwe|her|du|ker)/i, monthsStrictRegex = /^(genver|c[ʼ\']hwevrer|meurzh|ebrel|mae|mezheven|gouere|eost|gwengolo|here|du|kerzu)/i, monthsShortStrictRegex = /^(gen|c[ʼ\']hwe|meu|ebr|mae|eve|gou|eos|gwe|her|du|ker)/i, fullWeekdaysParse = [
+          /^sul/i,
+          /^lun/i,
+          /^meurzh/i,
+          /^merc[ʼ\']her/i,
+          /^yaou/i,
+          /^gwener/i,
+          /^sadorn/i
+        ], shortWeekdaysParse = [
+          /^Sul/i,
+          /^Lun/i,
+          /^Meu/i,
+          /^Mer/i,
+          /^Yao/i,
+          /^Gwe/i,
+          /^Sad/i
+        ], minWeekdaysParse = [
+          /^Su/i,
+          /^Lu/i,
+          /^Me([^r]|$)/i,
+          /^Mer/i,
+          /^Ya/i,
+          /^Gw/i,
+          /^Sa/i
+        ];
+        hooks.defineLocale("br", {
+          months: "Genver_C\u02BChwevrer_Meurzh_Ebrel_Mae_Mezheven_Gouere_Eost_Gwengolo_Here_Du_Kerzu".split(
+            "_"
+          ),
+          monthsShort: "Gen_C\u02BChwe_Meu_Ebr_Mae_Eve_Gou_Eos_Gwe_Her_Du_Ker".split("_"),
+          weekdays: "Sul_Lun_Meurzh_Merc\u02BCher_Yaou_Gwener_Sadorn".split("_"),
+          weekdaysShort: "Sul_Lun_Meu_Mer_Yao_Gwe_Sad".split("_"),
+          weekdaysMin: "Su_Lu_Me_Mer_Ya_Gw_Sa".split("_"),
+          weekdaysParse: minWeekdaysParse,
+          fullWeekdaysParse,
+          shortWeekdaysParse,
+          minWeekdaysParse,
+          monthsRegex: monthsRegex$1,
+          monthsShortRegex: monthsRegex$1,
+          monthsStrictRegex,
+          monthsShortStrictRegex,
+          monthsParse,
+          longMonthsParse: monthsParse,
+          shortMonthsParse: monthsParse,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D [a viz] MMMM YYYY",
+            LLL: "D [a viz] MMMM YYYY HH:mm",
+            LLLL: "dddd, D [a viz] MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Hiziv da] LT",
+            nextDay: "[Warc\u02BChoazh da] LT",
+            nextWeek: "dddd [da] LT",
+            lastDay: "[Dec\u02BCh da] LT",
+            lastWeek: "dddd [paset da] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "a-benn %s",
+            past: "%s \u02BCzo",
+            s: "un nebeud segondenno\xF9",
+            ss: "%d eilenn",
+            m: "ur vunutenn",
+            mm: relativeTimeWithMutation,
+            h: "un eur",
+            hh: "%d eur",
+            d: "un devezh",
+            dd: relativeTimeWithMutation,
+            M: "ur miz",
+            MM: relativeTimeWithMutation,
+            y: "ur bloaz",
+            yy: specialMutationForYears
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(añ|vet)/,
+          ordinal: function(number) {
+            var output = number === 1 ? "a\xF1" : "vet";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          },
+          meridiemParse: /a.m.|g.m./,
+          // goude merenn | a-raok merenn
+          isPM: function(token2) {
+            return token2 === "g.m.";
+          },
+          meridiem: function(hour, minute, isLower) {
+            return hour < 12 ? "a.m." : "g.m.";
+          }
+        });
+        function translate(number, withoutSuffix, key) {
+          var result = number + " ";
+          switch (key) {
+            case "ss":
+              if (number === 1) {
+                result += "sekunda";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "sekunde";
+              } else {
+                result += "sekundi";
+              }
+              return result;
+            case "m":
+              return withoutSuffix ? "jedna minuta" : "jedne minute";
+            case "mm":
+              if (number === 1) {
+                result += "minuta";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "minute";
+              } else {
+                result += "minuta";
+              }
+              return result;
+            case "h":
+              return withoutSuffix ? "jedan sat" : "jednog sata";
+            case "hh":
+              if (number === 1) {
+                result += "sat";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "sata";
+              } else {
+                result += "sati";
+              }
+              return result;
+            case "dd":
+              if (number === 1) {
+                result += "dan";
+              } else {
+                result += "dana";
+              }
+              return result;
+            case "MM":
+              if (number === 1) {
+                result += "mjesec";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "mjeseca";
+              } else {
+                result += "mjeseci";
+              }
+              return result;
+            case "yy":
+              if (number === 1) {
+                result += "godina";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "godine";
+              } else {
+                result += "godina";
+              }
+              return result;
+          }
+        }
+        hooks.defineLocale("bs", {
+          months: "januar_februar_mart_april_maj_juni_juli_august_septembar_oktobar_novembar_decembar".split(
+            "_"
+          ),
+          monthsShort: "jan._feb._mar._apr._maj._jun._jul._aug._sep._okt._nov._dec.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "nedjelja_ponedjeljak_utorak_srijeda_\u010Detvrtak_petak_subota".split(
+            "_"
+          ),
+          weekdaysShort: "ned._pon._uto._sri._\u010Det._pet._sub.".split("_"),
+          weekdaysMin: "ne_po_ut_sr_\u010De_pe_su".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY H:mm",
+            LLLL: "dddd, D. MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[danas u] LT",
+            nextDay: "[sutra u] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[u] [nedjelju] [u] LT";
+                case 3:
+                  return "[u] [srijedu] [u] LT";
+                case 6:
+                  return "[u] [subotu] [u] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[u] dddd [u] LT";
+              }
+            },
+            lastDay: "[ju\u010Der u] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                case 3:
+                  return "[pro\u0161lu] dddd [u] LT";
+                case 6:
+                  return "[pro\u0161le] [subote] [u] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[pro\u0161li] dddd [u] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "za %s",
+            past: "prije %s",
+            s: "par sekundi",
+            ss: translate,
+            m: translate,
+            mm: translate,
+            h: translate,
+            hh: translate,
+            d: "dan",
+            dd: translate,
+            M: "mjesec",
+            MM: translate,
+            y: "godinu",
+            yy: translate
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ca", {
+          months: {
+            standalone: "gener_febrer_mar\xE7_abril_maig_juny_juliol_agost_setembre_octubre_novembre_desembre".split(
+              "_"
+            ),
+            format: "de gener_de febrer_de mar\xE7_d'abril_de maig_de juny_de juliol_d'agost_de setembre_d'octubre_de novembre_de desembre".split(
+              "_"
+            ),
+            isFormat: /D[oD]?(\s)+MMMM/
+          },
+          monthsShort: "gen._febr._mar\xE7_abr._maig_juny_jul._ag._set._oct._nov._des.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "diumenge_dilluns_dimarts_dimecres_dijous_divendres_dissabte".split(
+            "_"
+          ),
+          weekdaysShort: "dg._dl._dt._dc._dj._dv._ds.".split("_"),
+          weekdaysMin: "dg_dl_dt_dc_dj_dv_ds".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM [de] YYYY",
+            ll: "D MMM YYYY",
+            LLL: "D MMMM [de] YYYY [a les] H:mm",
+            lll: "D MMM YYYY, H:mm",
+            LLLL: "dddd D MMMM [de] YYYY [a les] H:mm",
+            llll: "ddd D MMM YYYY, H:mm"
+          },
+          calendar: {
+            sameDay: function() {
+              return "[avui a " + (this.hours() !== 1 ? "les" : "la") + "] LT";
+            },
+            nextDay: function() {
+              return "[dem\xE0 a " + (this.hours() !== 1 ? "les" : "la") + "] LT";
+            },
+            nextWeek: function() {
+              return "dddd [a " + (this.hours() !== 1 ? "les" : "la") + "] LT";
+            },
+            lastDay: function() {
+              return "[ahir a " + (this.hours() !== 1 ? "les" : "la") + "] LT";
+            },
+            lastWeek: function() {
+              return "[el] dddd [passat a " + (this.hours() !== 1 ? "les" : "la") + "] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "d'aqu\xED %s",
+            past: "fa %s",
+            s: "uns segons",
+            ss: "%d segons",
+            m: "un minut",
+            mm: "%d minuts",
+            h: "una hora",
+            hh: "%d hores",
+            d: "un dia",
+            dd: "%d dies",
+            M: "un mes",
+            MM: "%d mesos",
+            y: "un any",
+            yy: "%d anys"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(r|n|t|è|a)/,
+          ordinal: function(number, period) {
+            var output = number === 1 ? "r" : number === 2 ? "n" : number === 3 ? "r" : number === 4 ? "t" : "\xE8";
+            if (period === "w" || period === "W") {
+              output = "a";
+            }
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var months$4 = {
+          format: "leden_\xFAnor_b\u0159ezen_duben_kv\u011Bten_\u010Derven_\u010Dervenec_srpen_z\xE1\u0159\xED_\u0159\xEDjen_listopad_prosinec".split(
+            "_"
+          ),
+          standalone: "ledna_\xFAnora_b\u0159ezna_dubna_kv\u011Btna_\u010Dervna_\u010Dervence_srpna_z\xE1\u0159\xED_\u0159\xEDjna_listopadu_prosince".split(
+            "_"
+          )
+        }, monthsShort = "led_\xFAno_b\u0159e_dub_kv\u011B_\u010Dvn_\u010Dvc_srp_z\xE1\u0159_\u0159\xEDj_lis_pro".split("_"), monthsParse$1 = [
+          /^led/i,
+          /^úno/i,
+          /^bře/i,
+          /^dub/i,
+          /^kvě/i,
+          /^(čvn|červen$|června)/i,
+          /^(čvc|červenec|července)/i,
+          /^srp/i,
+          /^zář/i,
+          /^říj/i,
+          /^lis/i,
+          /^pro/i
+        ], monthsRegex$2 = /^(leden|únor|březen|duben|květen|červenec|července|červen|června|srpen|září|říjen|listopad|prosinec|led|úno|bře|dub|kvě|čvn|čvc|srp|zář|říj|lis|pro)/i;
+        function plural$1(n) {
+          return n > 1 && n < 5 && ~~(n / 10) !== 1;
+        }
+        function translate$1(number, withoutSuffix, key, isFuture) {
+          var result = number + " ";
+          switch (key) {
+            case "s":
+              return withoutSuffix || isFuture ? "p\xE1r sekund" : "p\xE1r sekundami";
+            case "ss":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$1(number) ? "sekundy" : "sekund");
+              } else {
+                return result + "sekundami";
+              }
+            case "m":
+              return withoutSuffix ? "minuta" : isFuture ? "minutu" : "minutou";
+            case "mm":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$1(number) ? "minuty" : "minut");
+              } else {
+                return result + "minutami";
+              }
+            case "h":
+              return withoutSuffix ? "hodina" : isFuture ? "hodinu" : "hodinou";
+            case "hh":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$1(number) ? "hodiny" : "hodin");
+              } else {
+                return result + "hodinami";
+              }
+            case "d":
+              return withoutSuffix || isFuture ? "den" : "dnem";
+            case "dd":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$1(number) ? "dny" : "dn\xED");
+              } else {
+                return result + "dny";
+              }
+            case "M":
+              return withoutSuffix || isFuture ? "m\u011Bs\xEDc" : "m\u011Bs\xEDcem";
+            case "MM":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$1(number) ? "m\u011Bs\xEDce" : "m\u011Bs\xEDc\u016F");
+              } else {
+                return result + "m\u011Bs\xEDci";
+              }
+            case "y":
+              return withoutSuffix || isFuture ? "rok" : "rokem";
+            case "yy":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$1(number) ? "roky" : "let");
+              } else {
+                return result + "lety";
+              }
+          }
+        }
+        hooks.defineLocale("cs", {
+          months: months$4,
+          monthsShort,
+          monthsRegex: monthsRegex$2,
+          monthsShortRegex: monthsRegex$2,
+          // NOTE: 'červen' is substring of 'červenec'; therefore 'červenec' must precede 'červen' in the regex to be fully matched.
+          // Otherwise parser matches '1. červenec' as '1. červen' + 'ec'.
+          monthsStrictRegex: /^(leden|ledna|února|únor|březen|března|duben|dubna|květen|května|červenec|července|červen|června|srpen|srpna|září|říjen|října|listopadu|listopad|prosinec|prosince)/i,
+          monthsShortStrictRegex: /^(led|úno|bře|dub|kvě|čvn|čvc|srp|zář|říj|lis|pro)/i,
+          monthsParse: monthsParse$1,
+          longMonthsParse: monthsParse$1,
+          shortMonthsParse: monthsParse$1,
+          weekdays: "ned\u011Ble_pond\u011Bl\xED_\xFAter\xFD_st\u0159eda_\u010Dtvrtek_p\xE1tek_sobota".split("_"),
+          weekdaysShort: "ne_po_\xFAt_st_\u010Dt_p\xE1_so".split("_"),
+          weekdaysMin: "ne_po_\xFAt_st_\u010Dt_p\xE1_so".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY H:mm",
+            LLLL: "dddd D. MMMM YYYY H:mm",
+            l: "D. M. YYYY"
+          },
+          calendar: {
+            sameDay: "[dnes v] LT",
+            nextDay: "[z\xEDtra v] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[v ned\u011Bli v] LT";
+                case 1:
+                case 2:
+                  return "[v] dddd [v] LT";
+                case 3:
+                  return "[ve st\u0159edu v] LT";
+                case 4:
+                  return "[ve \u010Dtvrtek v] LT";
+                case 5:
+                  return "[v p\xE1tek v] LT";
+                case 6:
+                  return "[v sobotu v] LT";
+              }
+            },
+            lastDay: "[v\u010Dera v] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[minulou ned\u011Bli v] LT";
+                case 1:
+                case 2:
+                  return "[minul\xE9] dddd [v] LT";
+                case 3:
+                  return "[minulou st\u0159edu v] LT";
+                case 4:
+                case 5:
+                  return "[minul\xFD] dddd [v] LT";
+                case 6:
+                  return "[minulou sobotu v] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "za %s",
+            past: "p\u0159ed %s",
+            s: translate$1,
+            ss: translate$1,
+            m: translate$1,
+            mm: translate$1,
+            h: translate$1,
+            hh: translate$1,
+            d: translate$1,
+            dd: translate$1,
+            M: translate$1,
+            MM: translate$1,
+            y: translate$1,
+            yy: translate$1
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("cv", {
+          months: "\u043A\u04D1\u0440\u043B\u0430\u0447_\u043D\u0430\u0440\u04D1\u0441_\u043F\u0443\u0448_\u0430\u043A\u0430_\u043C\u0430\u0439_\u04AB\u04D7\u0440\u0442\u043C\u0435_\u0443\u0442\u04D1_\u04AB\u0443\u0440\u043B\u0430_\u0430\u0432\u04D1\u043D_\u044E\u043F\u0430_\u0447\u04F3\u043A_\u0440\u0430\u0448\u0442\u0430\u0432".split(
+            "_"
+          ),
+          monthsShort: "\u043A\u04D1\u0440_\u043D\u0430\u0440_\u043F\u0443\u0448_\u0430\u043A\u0430_\u043C\u0430\u0439_\u04AB\u04D7\u0440_\u0443\u0442\u04D1_\u04AB\u0443\u0440_\u0430\u0432\u043D_\u044E\u043F\u0430_\u0447\u04F3\u043A_\u0440\u0430\u0448".split("_"),
+          weekdays: "\u0432\u044B\u0440\u0441\u0430\u0440\u043D\u0438\u043A\u0443\u043D_\u0442\u0443\u043D\u0442\u0438\u043A\u0443\u043D_\u044B\u0442\u043B\u0430\u0440\u0438\u043A\u0443\u043D_\u044E\u043D\u043A\u0443\u043D_\u043A\u04D7\u04AB\u043D\u0435\u0440\u043D\u0438\u043A\u0443\u043D_\u044D\u0440\u043D\u0435\u043A\u0443\u043D_\u0448\u04D1\u043C\u0430\u0442\u043A\u0443\u043D".split(
+            "_"
+          ),
+          weekdaysShort: "\u0432\u044B\u0440_\u0442\u0443\u043D_\u044B\u0442\u043B_\u044E\u043D_\u043A\u04D7\u04AB_\u044D\u0440\u043D_\u0448\u04D1\u043C".split("_"),
+          weekdaysMin: "\u0432\u0440_\u0442\u043D_\u044B\u0442_\u044E\u043D_\u043A\u04AB_\u044D\u0440_\u0448\u043C".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD-MM-YYYY",
+            LL: "YYYY [\u04AB\u0443\u043B\u0445\u0438] MMMM [\u0443\u0439\u04D1\u0445\u04D7\u043D] D[-\u043C\u04D7\u0448\u04D7]",
+            LLL: "YYYY [\u04AB\u0443\u043B\u0445\u0438] MMMM [\u0443\u0439\u04D1\u0445\u04D7\u043D] D[-\u043C\u04D7\u0448\u04D7], HH:mm",
+            LLLL: "dddd, YYYY [\u04AB\u0443\u043B\u0445\u0438] MMMM [\u0443\u0439\u04D1\u0445\u04D7\u043D] D[-\u043C\u04D7\u0448\u04D7], HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u041F\u0430\u044F\u043D] LT [\u0441\u0435\u0445\u0435\u0442\u0440\u0435]",
+            nextDay: "[\u042B\u0440\u0430\u043D] LT [\u0441\u0435\u0445\u0435\u0442\u0440\u0435]",
+            lastDay: "[\u04D6\u043D\u0435\u0440] LT [\u0441\u0435\u0445\u0435\u0442\u0440\u0435]",
+            nextWeek: "[\u04AA\u0438\u0442\u0435\u0441] dddd LT [\u0441\u0435\u0445\u0435\u0442\u0440\u0435]",
+            lastWeek: "[\u0418\u0440\u0442\u043D\u04D7] dddd LT [\u0441\u0435\u0445\u0435\u0442\u0440\u0435]",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: function(output) {
+              var affix = /сехет$/i.exec(output) ? "\u0440\u0435\u043D" : /ҫул$/i.exec(output) ? "\u0442\u0430\u043D" : "\u0440\u0430\u043D";
+              return output + affix;
+            },
+            past: "%s \u043A\u0430\u044F\u043B\u043B\u0430",
+            s: "\u043F\u04D7\u0440-\u0438\u043A \u04AB\u0435\u043A\u043A\u0443\u043D\u0442",
+            ss: "%d \u04AB\u0435\u043A\u043A\u0443\u043D\u0442",
+            m: "\u043F\u04D7\u0440 \u043C\u0438\u043D\u0443\u0442",
+            mm: "%d \u043C\u0438\u043D\u0443\u0442",
+            h: "\u043F\u04D7\u0440 \u0441\u0435\u0445\u0435\u0442",
+            hh: "%d \u0441\u0435\u0445\u0435\u0442",
+            d: "\u043F\u04D7\u0440 \u043A\u0443\u043D",
+            dd: "%d \u043A\u0443\u043D",
+            M: "\u043F\u04D7\u0440 \u0443\u0439\u04D1\u0445",
+            MM: "%d \u0443\u0439\u04D1\u0445",
+            y: "\u043F\u04D7\u0440 \u04AB\u0443\u043B",
+            yy: "%d \u04AB\u0443\u043B"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-мӗш/,
+          ordinal: "%d-\u043C\u04D7\u0448",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("cy", {
+          months: "Ionawr_Chwefror_Mawrth_Ebrill_Mai_Mehefin_Gorffennaf_Awst_Medi_Hydref_Tachwedd_Rhagfyr".split(
+            "_"
+          ),
+          monthsShort: "Ion_Chwe_Maw_Ebr_Mai_Meh_Gor_Aws_Med_Hyd_Tach_Rhag".split(
+            "_"
+          ),
+          weekdays: "Dydd Sul_Dydd Llun_Dydd Mawrth_Dydd Mercher_Dydd Iau_Dydd Gwener_Dydd Sadwrn".split(
+            "_"
+          ),
+          weekdaysShort: "Sul_Llun_Maw_Mer_Iau_Gwe_Sad".split("_"),
+          weekdaysMin: "Su_Ll_Ma_Me_Ia_Gw_Sa".split("_"),
+          weekdaysParseExact: true,
+          // time formats are the same as en-gb
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Heddiw am] LT",
+            nextDay: "[Yfory am] LT",
+            nextWeek: "dddd [am] LT",
+            lastDay: "[Ddoe am] LT",
+            lastWeek: "dddd [diwethaf am] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "mewn %s",
+            past: "%s yn \xF4l",
+            s: "ychydig eiliadau",
+            ss: "%d eiliad",
+            m: "munud",
+            mm: "%d munud",
+            h: "awr",
+            hh: "%d awr",
+            d: "diwrnod",
+            dd: "%d diwrnod",
+            M: "mis",
+            MM: "%d mis",
+            y: "blwyddyn",
+            yy: "%d flynedd"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(fed|ain|af|il|ydd|ed|eg)/,
+          // traditional ordinal numbers above 31 are not commonly used in colloquial Welsh
+          ordinal: function(number) {
+            var b = number, output = "", lookup = [
+              "",
+              "af",
+              "il",
+              "ydd",
+              "ydd",
+              "ed",
+              "ed",
+              "ed",
+              "fed",
+              "fed",
+              "fed",
+              // 1af to 10fed
+              "eg",
+              "fed",
+              "eg",
+              "eg",
+              "fed",
+              "eg",
+              "eg",
+              "fed",
+              "eg",
+              "fed"
+              // 11eg to 20fed
+            ];
+            if (b > 20) {
+              if (b === 40 || b === 50 || b === 60 || b === 80 || b === 100) {
+                output = "fed";
+              } else {
+                output = "ain";
+              }
+            } else if (b > 0) {
+              output = lookup[b];
+            }
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("da", {
+          months: "januar_februar_marts_april_maj_juni_juli_august_september_oktober_november_december".split(
+            "_"
+          ),
+          monthsShort: "jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),
+          weekdays: "s\xF8ndag_mandag_tirsdag_onsdag_torsdag_fredag_l\xF8rdag".split("_"),
+          weekdaysShort: "s\xF8n_man_tir_ons_tor_fre_l\xF8r".split("_"),
+          weekdaysMin: "s\xF8_ma_ti_on_to_fr_l\xF8".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY HH:mm",
+            LLLL: "dddd [d.] D. MMMM YYYY [kl.] HH:mm"
+          },
+          calendar: {
+            sameDay: "[i dag kl.] LT",
+            nextDay: "[i morgen kl.] LT",
+            nextWeek: "p\xE5 dddd [kl.] LT",
+            lastDay: "[i g\xE5r kl.] LT",
+            lastWeek: "[i] dddd[s kl.] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "om %s",
+            past: "%s siden",
+            s: "f\xE5 sekunder",
+            ss: "%d sekunder",
+            m: "et minut",
+            mm: "%d minutter",
+            h: "en time",
+            hh: "%d timer",
+            d: "en dag",
+            dd: "%d dage",
+            M: "en m\xE5ned",
+            MM: "%d m\xE5neder",
+            y: "et \xE5r",
+            yy: "%d \xE5r"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        function processRelativeTime(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            m: ["eine Minute", "einer Minute"],
+            h: ["eine Stunde", "einer Stunde"],
+            d: ["ein Tag", "einem Tag"],
+            dd: [number + " Tage", number + " Tagen"],
+            w: ["eine Woche", "einer Woche"],
+            M: ["ein Monat", "einem Monat"],
+            MM: [number + " Monate", number + " Monaten"],
+            y: ["ein Jahr", "einem Jahr"],
+            yy: [number + " Jahre", number + " Jahren"]
+          };
+          return withoutSuffix ? format2[key][0] : format2[key][1];
+        }
+        hooks.defineLocale("de-at", {
+          months: "J\xE4nner_Februar_M\xE4rz_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split(
+            "_"
+          ),
+          monthsShort: "J\xE4n._Feb._M\xE4rz_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.".split("_"),
+          monthsParseExact: true,
+          weekdays: "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split(
+            "_"
+          ),
+          weekdaysShort: "So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),
+          weekdaysMin: "So_Mo_Di_Mi_Do_Fr_Sa".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY HH:mm",
+            LLLL: "dddd, D. MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[heute um] LT [Uhr]",
+            sameElse: "L",
+            nextDay: "[morgen um] LT [Uhr]",
+            nextWeek: "dddd [um] LT [Uhr]",
+            lastDay: "[gestern um] LT [Uhr]",
+            lastWeek: "[letzten] dddd [um] LT [Uhr]"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "vor %s",
+            s: "ein paar Sekunden",
+            ss: "%d Sekunden",
+            m: processRelativeTime,
+            mm: "%d Minuten",
+            h: processRelativeTime,
+            hh: "%d Stunden",
+            d: processRelativeTime,
+            dd: processRelativeTime,
+            w: processRelativeTime,
+            ww: "%d Wochen",
+            M: processRelativeTime,
+            MM: processRelativeTime,
+            y: processRelativeTime,
+            yy: processRelativeTime
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        function processRelativeTime$1(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            m: ["eine Minute", "einer Minute"],
+            h: ["eine Stunde", "einer Stunde"],
+            d: ["ein Tag", "einem Tag"],
+            dd: [number + " Tage", number + " Tagen"],
+            w: ["eine Woche", "einer Woche"],
+            M: ["ein Monat", "einem Monat"],
+            MM: [number + " Monate", number + " Monaten"],
+            y: ["ein Jahr", "einem Jahr"],
+            yy: [number + " Jahre", number + " Jahren"]
+          };
+          return withoutSuffix ? format2[key][0] : format2[key][1];
+        }
+        hooks.defineLocale("de-ch", {
+          months: "Januar_Februar_M\xE4rz_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split(
+            "_"
+          ),
+          monthsShort: "Jan._Feb._M\xE4rz_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.".split("_"),
+          monthsParseExact: true,
+          weekdays: "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split(
+            "_"
+          ),
+          weekdaysShort: "So_Mo_Di_Mi_Do_Fr_Sa".split("_"),
+          weekdaysMin: "So_Mo_Di_Mi_Do_Fr_Sa".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY HH:mm",
+            LLLL: "dddd, D. MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[heute um] LT [Uhr]",
+            sameElse: "L",
+            nextDay: "[morgen um] LT [Uhr]",
+            nextWeek: "dddd [um] LT [Uhr]",
+            lastDay: "[gestern um] LT [Uhr]",
+            lastWeek: "[letzten] dddd [um] LT [Uhr]"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "vor %s",
+            s: "ein paar Sekunden",
+            ss: "%d Sekunden",
+            m: processRelativeTime$1,
+            mm: "%d Minuten",
+            h: processRelativeTime$1,
+            hh: "%d Stunden",
+            d: processRelativeTime$1,
+            dd: processRelativeTime$1,
+            w: processRelativeTime$1,
+            ww: "%d Wochen",
+            M: processRelativeTime$1,
+            MM: processRelativeTime$1,
+            y: processRelativeTime$1,
+            yy: processRelativeTime$1
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        function processRelativeTime$2(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            m: ["eine Minute", "einer Minute"],
+            h: ["eine Stunde", "einer Stunde"],
+            d: ["ein Tag", "einem Tag"],
+            dd: [number + " Tage", number + " Tagen"],
+            w: ["eine Woche", "einer Woche"],
+            M: ["ein Monat", "einem Monat"],
+            MM: [number + " Monate", number + " Monaten"],
+            y: ["ein Jahr", "einem Jahr"],
+            yy: [number + " Jahre", number + " Jahren"]
+          };
+          return withoutSuffix ? format2[key][0] : format2[key][1];
+        }
+        hooks.defineLocale("de", {
+          months: "Januar_Februar_M\xE4rz_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split(
+            "_"
+          ),
+          monthsShort: "Jan._Feb._M\xE4rz_Apr._Mai_Juni_Juli_Aug._Sep._Okt._Nov._Dez.".split("_"),
+          monthsParseExact: true,
+          weekdays: "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split(
+            "_"
+          ),
+          weekdaysShort: "So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),
+          weekdaysMin: "So_Mo_Di_Mi_Do_Fr_Sa".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY HH:mm",
+            LLLL: "dddd, D. MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[heute um] LT [Uhr]",
+            sameElse: "L",
+            nextDay: "[morgen um] LT [Uhr]",
+            nextWeek: "dddd [um] LT [Uhr]",
+            lastDay: "[gestern um] LT [Uhr]",
+            lastWeek: "[letzten] dddd [um] LT [Uhr]"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "vor %s",
+            s: "ein paar Sekunden",
+            ss: "%d Sekunden",
+            m: processRelativeTime$2,
+            mm: "%d Minuten",
+            h: processRelativeTime$2,
+            hh: "%d Stunden",
+            d: processRelativeTime$2,
+            dd: processRelativeTime$2,
+            w: processRelativeTime$2,
+            ww: "%d Wochen",
+            M: processRelativeTime$2,
+            MM: processRelativeTime$2,
+            y: processRelativeTime$2,
+            yy: processRelativeTime$2
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var months$5 = [
+          "\u0796\u07AC\u0782\u07AA\u0787\u07A6\u0783\u07A9",
+          "\u078A\u07AC\u0784\u07B0\u0783\u07AA\u0787\u07A6\u0783\u07A9",
+          "\u0789\u07A7\u0783\u07A8\u0797\u07AA",
+          "\u0787\u07AD\u0795\u07B0\u0783\u07A9\u078D\u07AA",
+          "\u0789\u07AD",
+          "\u0796\u07AB\u0782\u07B0",
+          "\u0796\u07AA\u078D\u07A6\u0787\u07A8",
+          "\u0787\u07AF\u078E\u07A6\u0790\u07B0\u0793\u07AA",
+          "\u0790\u07AC\u0795\u07B0\u0793\u07AC\u0789\u07B0\u0784\u07A6\u0783\u07AA",
+          "\u0787\u07AE\u0786\u07B0\u0793\u07AF\u0784\u07A6\u0783\u07AA",
+          "\u0782\u07AE\u0788\u07AC\u0789\u07B0\u0784\u07A6\u0783\u07AA",
+          "\u0791\u07A8\u0790\u07AC\u0789\u07B0\u0784\u07A6\u0783\u07AA"
+        ], weekdays = [
+          "\u0787\u07A7\u078B\u07A8\u0787\u07B0\u078C\u07A6",
+          "\u0780\u07AF\u0789\u07A6",
+          "\u0787\u07A6\u0782\u07B0\u078E\u07A7\u0783\u07A6",
+          "\u0784\u07AA\u078B\u07A6",
+          "\u0784\u07AA\u0783\u07A7\u0790\u07B0\u078A\u07A6\u078C\u07A8",
+          "\u0780\u07AA\u0786\u07AA\u0783\u07AA",
+          "\u0780\u07AE\u0782\u07A8\u0780\u07A8\u0783\u07AA"
+        ];
+        hooks.defineLocale("dv", {
+          months: months$5,
+          monthsShort: months$5,
+          weekdays,
+          weekdaysShort: weekdays,
+          weekdaysMin: "\u0787\u07A7\u078B\u07A8_\u0780\u07AF\u0789\u07A6_\u0787\u07A6\u0782\u07B0_\u0784\u07AA\u078B\u07A6_\u0784\u07AA\u0783\u07A7_\u0780\u07AA\u0786\u07AA_\u0780\u07AE\u0782\u07A8".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "D/M/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /މކ|މފ/,
+          isPM: function(input) {
+            return "\u0789\u078A" === input;
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0789\u0786";
+            } else {
+              return "\u0789\u078A";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0789\u07A8\u0787\u07A6\u078B\u07AA] LT",
+            nextDay: "[\u0789\u07A7\u078B\u07A6\u0789\u07A7] LT",
+            nextWeek: "dddd LT",
+            lastDay: "[\u0787\u07A8\u0787\u07B0\u0794\u07AC] LT",
+            lastWeek: "[\u078A\u07A7\u0787\u07A8\u078C\u07AA\u0788\u07A8] dddd LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u078C\u07AC\u0783\u07AD\u078E\u07A6\u0787\u07A8 %s",
+            past: "\u0786\u07AA\u0783\u07A8\u0782\u07B0 %s",
+            s: "\u0790\u07A8\u0786\u07AA\u0782\u07B0\u078C\u07AA\u0786\u07AE\u0785\u07AC\u0787\u07B0",
+            ss: "d% \u0790\u07A8\u0786\u07AA\u0782\u07B0\u078C\u07AA",
+            m: "\u0789\u07A8\u0782\u07A8\u0793\u07AC\u0787\u07B0",
+            mm: "\u0789\u07A8\u0782\u07A8\u0793\u07AA %d",
+            h: "\u078E\u07A6\u0791\u07A8\u0787\u07A8\u0783\u07AC\u0787\u07B0",
+            hh: "\u078E\u07A6\u0791\u07A8\u0787\u07A8\u0783\u07AA %d",
+            d: "\u078B\u07AA\u0788\u07A6\u0780\u07AC\u0787\u07B0",
+            dd: "\u078B\u07AA\u0788\u07A6\u0790\u07B0 %d",
+            M: "\u0789\u07A6\u0780\u07AC\u0787\u07B0",
+            MM: "\u0789\u07A6\u0790\u07B0 %d",
+            y: "\u0787\u07A6\u0780\u07A6\u0783\u07AC\u0787\u07B0",
+            yy: "\u0787\u07A6\u0780\u07A6\u0783\u07AA %d"
+          },
+          preparse: function(string) {
+            return string.replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 7,
+            // Sunday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        function isFunction$1(input) {
+          return typeof Function !== "undefined" && input instanceof Function || Object.prototype.toString.call(input) === "[object Function]";
+        }
+        hooks.defineLocale("el", {
+          monthsNominativeEl: "\u0399\u03B1\u03BD\u03BF\u03C5\u03AC\u03C1\u03B9\u03BF\u03C2_\u03A6\u03B5\u03B2\u03C1\u03BF\u03C5\u03AC\u03C1\u03B9\u03BF\u03C2_\u039C\u03AC\u03C1\u03C4\u03B9\u03BF\u03C2_\u0391\u03C0\u03C1\u03AF\u03BB\u03B9\u03BF\u03C2_\u039C\u03AC\u03B9\u03BF\u03C2_\u0399\u03BF\u03CD\u03BD\u03B9\u03BF\u03C2_\u0399\u03BF\u03CD\u03BB\u03B9\u03BF\u03C2_\u0391\u03CD\u03B3\u03BF\u03C5\u03C3\u03C4\u03BF\u03C2_\u03A3\u03B5\u03C0\u03C4\u03AD\u03BC\u03B2\u03C1\u03B9\u03BF\u03C2_\u039F\u03BA\u03C4\u03CE\u03B2\u03C1\u03B9\u03BF\u03C2_\u039D\u03BF\u03AD\u03BC\u03B2\u03C1\u03B9\u03BF\u03C2_\u0394\u03B5\u03BA\u03AD\u03BC\u03B2\u03C1\u03B9\u03BF\u03C2".split(
+            "_"
+          ),
+          monthsGenitiveEl: "\u0399\u03B1\u03BD\u03BF\u03C5\u03B1\u03C1\u03AF\u03BF\u03C5_\u03A6\u03B5\u03B2\u03C1\u03BF\u03C5\u03B1\u03C1\u03AF\u03BF\u03C5_\u039C\u03B1\u03C1\u03C4\u03AF\u03BF\u03C5_\u0391\u03C0\u03C1\u03B9\u03BB\u03AF\u03BF\u03C5_\u039C\u03B1\u0390\u03BF\u03C5_\u0399\u03BF\u03C5\u03BD\u03AF\u03BF\u03C5_\u0399\u03BF\u03C5\u03BB\u03AF\u03BF\u03C5_\u0391\u03C5\u03B3\u03BF\u03CD\u03C3\u03C4\u03BF\u03C5_\u03A3\u03B5\u03C0\u03C4\u03B5\u03BC\u03B2\u03C1\u03AF\u03BF\u03C5_\u039F\u03BA\u03C4\u03C9\u03B2\u03C1\u03AF\u03BF\u03C5_\u039D\u03BF\u03B5\u03BC\u03B2\u03C1\u03AF\u03BF\u03C5_\u0394\u03B5\u03BA\u03B5\u03BC\u03B2\u03C1\u03AF\u03BF\u03C5".split(
+            "_"
+          ),
+          months: function(momentToFormat, format2) {
+            if (!momentToFormat) {
+              return this._monthsNominativeEl;
+            } else if (typeof format2 === "string" && /D/.test(format2.substring(0, format2.indexOf("MMMM")))) {
+              return this._monthsGenitiveEl[momentToFormat.month()];
+            } else {
+              return this._monthsNominativeEl[momentToFormat.month()];
+            }
+          },
+          monthsShort: "\u0399\u03B1\u03BD_\u03A6\u03B5\u03B2_\u039C\u03B1\u03C1_\u0391\u03C0\u03C1_\u039C\u03B1\u03CA_\u0399\u03BF\u03C5\u03BD_\u0399\u03BF\u03C5\u03BB_\u0391\u03C5\u03B3_\u03A3\u03B5\u03C0_\u039F\u03BA\u03C4_\u039D\u03BF\u03B5_\u0394\u03B5\u03BA".split("_"),
+          weekdays: "\u039A\u03C5\u03C1\u03B9\u03B1\u03BA\u03AE_\u0394\u03B5\u03C5\u03C4\u03AD\u03C1\u03B1_\u03A4\u03C1\u03AF\u03C4\u03B7_\u03A4\u03B5\u03C4\u03AC\u03C1\u03C4\u03B7_\u03A0\u03AD\u03BC\u03C0\u03C4\u03B7_\u03A0\u03B1\u03C1\u03B1\u03C3\u03BA\u03B5\u03C5\u03AE_\u03A3\u03AC\u03B2\u03B2\u03B1\u03C4\u03BF".split(
+            "_"
+          ),
+          weekdaysShort: "\u039A\u03C5\u03C1_\u0394\u03B5\u03C5_\u03A4\u03C1\u03B9_\u03A4\u03B5\u03C4_\u03A0\u03B5\u03BC_\u03A0\u03B1\u03C1_\u03A3\u03B1\u03B2".split("_"),
+          weekdaysMin: "\u039A\u03C5_\u0394\u03B5_\u03A4\u03C1_\u03A4\u03B5_\u03A0\u03B5_\u03A0\u03B1_\u03A3\u03B1".split("_"),
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 > 11) {
+              return isLower ? "\u03BC\u03BC" : "\u039C\u039C";
+            } else {
+              return isLower ? "\u03C0\u03BC" : "\u03A0\u039C";
+            }
+          },
+          isPM: function(input) {
+            return (input + "").toLowerCase()[0] === "\u03BC";
+          },
+          meridiemParse: /[ΠΜ]\.?Μ?\.?/i,
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY h:mm A",
+            LLLL: "dddd, D MMMM YYYY h:mm A"
+          },
+          calendarEl: {
+            sameDay: "[\u03A3\u03AE\u03BC\u03B5\u03C1\u03B1 {}] LT",
+            nextDay: "[\u0391\u03CD\u03C1\u03B9\u03BF {}] LT",
+            nextWeek: "dddd [{}] LT",
+            lastDay: "[\u03A7\u03B8\u03B5\u03C2 {}] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 6:
+                  return "[\u03C4\u03BF \u03C0\u03C1\u03BF\u03B7\u03B3\u03BF\u03CD\u03BC\u03B5\u03BD\u03BF] dddd [{}] LT";
+                default:
+                  return "[\u03C4\u03B7\u03BD \u03C0\u03C1\u03BF\u03B7\u03B3\u03BF\u03CD\u03BC\u03B5\u03BD\u03B7] dddd [{}] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          calendar: function(key, mom) {
+            var output = this._calendarEl[key], hours2 = mom && mom.hours();
+            if (isFunction$1(output)) {
+              output = output.apply(mom);
+            }
+            return output.replace("{}", hours2 % 12 === 1 ? "\u03C3\u03C4\u03B7" : "\u03C3\u03C4\u03B9\u03C2");
+          },
+          relativeTime: {
+            future: "\u03C3\u03B5 %s",
+            past: "%s \u03C0\u03C1\u03B9\u03BD",
+            s: "\u03BB\u03AF\u03B3\u03B1 \u03B4\u03B5\u03C5\u03C4\u03B5\u03C1\u03CC\u03BB\u03B5\u03C0\u03C4\u03B1",
+            ss: "%d \u03B4\u03B5\u03C5\u03C4\u03B5\u03C1\u03CC\u03BB\u03B5\u03C0\u03C4\u03B1",
+            m: "\u03AD\u03BD\u03B1 \u03BB\u03B5\u03C0\u03C4\u03CC",
+            mm: "%d \u03BB\u03B5\u03C0\u03C4\u03AC",
+            h: "\u03BC\u03AF\u03B1 \u03CE\u03C1\u03B1",
+            hh: "%d \u03CE\u03C1\u03B5\u03C2",
+            d: "\u03BC\u03AF\u03B1 \u03BC\u03AD\u03C1\u03B1",
+            dd: "%d \u03BC\u03AD\u03C1\u03B5\u03C2",
+            M: "\u03AD\u03BD\u03B1\u03C2 \u03BC\u03AE\u03BD\u03B1\u03C2",
+            MM: "%d \u03BC\u03AE\u03BD\u03B5\u03C2",
+            y: "\u03AD\u03BD\u03B1\u03C2 \u03C7\u03C1\u03CC\u03BD\u03BF\u03C2",
+            yy: "%d \u03C7\u03C1\u03CC\u03BD\u03B9\u03B1"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}η/,
+          ordinal: "%d\u03B7",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4st is the first week of the year.
+          }
+        });
+        hooks.defineLocale("en-au", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY h:mm A",
+            LLLL: "dddd, D MMMM YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("en-ca", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "YYYY-MM-DD",
+            LL: "MMMM D, YYYY",
+            LLL: "MMMM D, YYYY h:mm A",
+            LLLL: "dddd, MMMM D, YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          }
+        });
+        hooks.defineLocale("en-gb", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("en-ie", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("en-il", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          }
+        });
+        hooks.defineLocale("en-in", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY h:mm A",
+            LLLL: "dddd, D MMMM YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 1st is the first week of the year.
+          }
+        });
+        hooks.defineLocale("en-nz", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY h:mm A",
+            LLLL: "dddd, D MMMM YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("en-sg", {
+          months: "January_February_March_April_May_June_July_August_September_October_November_December".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
+          weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split(
+            "_"
+          ),
+          weekdaysShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
+          weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("eo", {
+          months: "januaro_februaro_marto_aprilo_majo_junio_julio_a\u016Dgusto_septembro_oktobro_novembro_decembro".split(
+            "_"
+          ),
+          monthsShort: "jan_feb_mart_apr_maj_jun_jul_a\u016Dg_sept_okt_nov_dec".split("_"),
+          weekdays: "diman\u0109o_lundo_mardo_merkredo_\u0135a\u016Ddo_vendredo_sabato".split("_"),
+          weekdaysShort: "dim_lun_mard_merk_\u0135a\u016D_ven_sab".split("_"),
+          weekdaysMin: "di_lu_ma_me_\u0135a_ve_sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY-MM-DD",
+            LL: "[la] D[-an de] MMMM, YYYY",
+            LLL: "[la] D[-an de] MMMM, YYYY HH:mm",
+            LLLL: "dddd[n], [la] D[-an de] MMMM, YYYY HH:mm",
+            llll: "ddd, [la] D[-an de] MMM, YYYY HH:mm"
+          },
+          meridiemParse: /[ap]\.t\.m/i,
+          isPM: function(input) {
+            return input.charAt(0).toLowerCase() === "p";
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 > 11) {
+              return isLower ? "p.t.m." : "P.T.M.";
+            } else {
+              return isLower ? "a.t.m." : "A.T.M.";
+            }
+          },
+          calendar: {
+            sameDay: "[Hodia\u016D je] LT",
+            nextDay: "[Morga\u016D je] LT",
+            nextWeek: "dddd[n je] LT",
+            lastDay: "[Hiera\u016D je] LT",
+            lastWeek: "[pasintan] dddd[n je] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "post %s",
+            past: "anta\u016D %s",
+            s: "kelkaj sekundoj",
+            ss: "%d sekundoj",
+            m: "unu minuto",
+            mm: "%d minutoj",
+            h: "unu horo",
+            hh: "%d horoj",
+            d: "unu tago",
+            //ne 'diurno', ĉar estas uzita por proksimumo
+            dd: "%d tagoj",
+            M: "unu monato",
+            MM: "%d monatoj",
+            y: "unu jaro",
+            yy: "%d jaroj"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}a/,
+          ordinal: "%da",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        var monthsShortDot = "ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split(
+          "_"
+        ), monthsShort$1 = "ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"), monthsParse$2 = [
+          /^ene/i,
+          /^feb/i,
+          /^mar/i,
+          /^abr/i,
+          /^may/i,
+          /^jun/i,
+          /^jul/i,
+          /^ago/i,
+          /^sep/i,
+          /^oct/i,
+          /^nov/i,
+          /^dic/i
+        ], monthsRegex$3 = /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;
+        hooks.defineLocale("es-do", {
+          months: "enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split(
+            "_"
+          ),
+          monthsShort: function(m, format2) {
+            if (!m) {
+              return monthsShortDot;
+            } else if (/-MMM-/.test(format2)) {
+              return monthsShort$1[m.month()];
+            } else {
+              return monthsShortDot[m.month()];
+            }
+          },
+          monthsRegex: monthsRegex$3,
+          monthsShortRegex: monthsRegex$3,
+          monthsStrictRegex: /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,
+          monthsShortStrictRegex: /^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,
+          monthsParse: monthsParse$2,
+          longMonthsParse: monthsParse$2,
+          shortMonthsParse: monthsParse$2,
+          weekdays: "domingo_lunes_martes_mi\xE9rcoles_jueves_viernes_s\xE1bado".split("_"),
+          weekdaysShort: "dom._lun._mar._mi\xE9._jue._vie._s\xE1b.".split("_"),
+          weekdaysMin: "do_lu_ma_mi_ju_vi_s\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D [de] MMMM [de] YYYY",
+            LLL: "D [de] MMMM [de] YYYY h:mm A",
+            LLLL: "dddd, D [de] MMMM [de] YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: function() {
+              return "[hoy a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextDay: function() {
+              return "[ma\xF1ana a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextWeek: function() {
+              return "dddd [a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastDay: function() {
+              return "[ayer a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastWeek: function() {
+              return "[el] dddd [pasado a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "en %s",
+            past: "hace %s",
+            s: "unos segundos",
+            ss: "%d segundos",
+            m: "un minuto",
+            mm: "%d minutos",
+            h: "una hora",
+            hh: "%d horas",
+            d: "un d\xEDa",
+            dd: "%d d\xEDas",
+            w: "una semana",
+            ww: "%d semanas",
+            M: "un mes",
+            MM: "%d meses",
+            y: "un a\xF1o",
+            yy: "%d a\xF1os"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var monthsShortDot$1 = "ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split(
+          "_"
+        ), monthsShort$2 = "ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"), monthsParse$3 = [
+          /^ene/i,
+          /^feb/i,
+          /^mar/i,
+          /^abr/i,
+          /^may/i,
+          /^jun/i,
+          /^jul/i,
+          /^ago/i,
+          /^sep/i,
+          /^oct/i,
+          /^nov/i,
+          /^dic/i
+        ], monthsRegex$4 = /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;
+        hooks.defineLocale("es-mx", {
+          months: "enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split(
+            "_"
+          ),
+          monthsShort: function(m, format2) {
+            if (!m) {
+              return monthsShortDot$1;
+            } else if (/-MMM-/.test(format2)) {
+              return monthsShort$2[m.month()];
+            } else {
+              return monthsShortDot$1[m.month()];
+            }
+          },
+          monthsRegex: monthsRegex$4,
+          monthsShortRegex: monthsRegex$4,
+          monthsStrictRegex: /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,
+          monthsShortStrictRegex: /^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,
+          monthsParse: monthsParse$3,
+          longMonthsParse: monthsParse$3,
+          shortMonthsParse: monthsParse$3,
+          weekdays: "domingo_lunes_martes_mi\xE9rcoles_jueves_viernes_s\xE1bado".split("_"),
+          weekdaysShort: "dom._lun._mar._mi\xE9._jue._vie._s\xE1b.".split("_"),
+          weekdaysMin: "do_lu_ma_mi_ju_vi_s\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D [de] MMMM [de] YYYY",
+            LLL: "D [de] MMMM [de] YYYY H:mm",
+            LLLL: "dddd, D [de] MMMM [de] YYYY H:mm"
+          },
+          calendar: {
+            sameDay: function() {
+              return "[hoy a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextDay: function() {
+              return "[ma\xF1ana a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextWeek: function() {
+              return "dddd [a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastDay: function() {
+              return "[ayer a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastWeek: function() {
+              return "[el] dddd [pasado a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "en %s",
+            past: "hace %s",
+            s: "unos segundos",
+            ss: "%d segundos",
+            m: "un minuto",
+            mm: "%d minutos",
+            h: "una hora",
+            hh: "%d horas",
+            d: "un d\xEDa",
+            dd: "%d d\xEDas",
+            w: "una semana",
+            ww: "%d semanas",
+            M: "un mes",
+            MM: "%d meses",
+            y: "un a\xF1o",
+            yy: "%d a\xF1os"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          },
+          invalidDate: "Fecha inv\xE1lida"
+        });
+        var monthsShortDot$2 = "ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split(
+          "_"
+        ), monthsShort$3 = "ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"), monthsParse$4 = [
+          /^ene/i,
+          /^feb/i,
+          /^mar/i,
+          /^abr/i,
+          /^may/i,
+          /^jun/i,
+          /^jul/i,
+          /^ago/i,
+          /^sep/i,
+          /^oct/i,
+          /^nov/i,
+          /^dic/i
+        ], monthsRegex$5 = /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;
+        hooks.defineLocale("es-us", {
+          months: "enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split(
+            "_"
+          ),
+          monthsShort: function(m, format2) {
+            if (!m) {
+              return monthsShortDot$2;
+            } else if (/-MMM-/.test(format2)) {
+              return monthsShort$3[m.month()];
+            } else {
+              return monthsShortDot$2[m.month()];
+            }
+          },
+          monthsRegex: monthsRegex$5,
+          monthsShortRegex: monthsRegex$5,
+          monthsStrictRegex: /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,
+          monthsShortStrictRegex: /^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,
+          monthsParse: monthsParse$4,
+          longMonthsParse: monthsParse$4,
+          shortMonthsParse: monthsParse$4,
+          weekdays: "domingo_lunes_martes_mi\xE9rcoles_jueves_viernes_s\xE1bado".split("_"),
+          weekdaysShort: "dom._lun._mar._mi\xE9._jue._vie._s\xE1b.".split("_"),
+          weekdaysMin: "do_lu_ma_mi_ju_vi_s\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "MM/DD/YYYY",
+            LL: "D [de] MMMM [de] YYYY",
+            LLL: "D [de] MMMM [de] YYYY h:mm A",
+            LLLL: "dddd, D [de] MMMM [de] YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: function() {
+              return "[hoy a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextDay: function() {
+              return "[ma\xF1ana a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextWeek: function() {
+              return "dddd [a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastDay: function() {
+              return "[ayer a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastWeek: function() {
+              return "[el] dddd [pasado a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "en %s",
+            past: "hace %s",
+            s: "unos segundos",
+            ss: "%d segundos",
+            m: "un minuto",
+            mm: "%d minutos",
+            h: "una hora",
+            hh: "%d horas",
+            d: "un d\xEDa",
+            dd: "%d d\xEDas",
+            w: "una semana",
+            ww: "%d semanas",
+            M: "un mes",
+            MM: "%d meses",
+            y: "un a\xF1o",
+            yy: "%d a\xF1os"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        var monthsShortDot$3 = "ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.".split(
+          "_"
+        ), monthsShort$4 = "ene_feb_mar_abr_may_jun_jul_ago_sep_oct_nov_dic".split("_"), monthsParse$5 = [
+          /^ene/i,
+          /^feb/i,
+          /^mar/i,
+          /^abr/i,
+          /^may/i,
+          /^jun/i,
+          /^jul/i,
+          /^ago/i,
+          /^sep/i,
+          /^oct/i,
+          /^nov/i,
+          /^dic/i
+        ], monthsRegex$6 = /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i;
+        hooks.defineLocale("es", {
+          months: "enero_febrero_marzo_abril_mayo_junio_julio_agosto_septiembre_octubre_noviembre_diciembre".split(
+            "_"
+          ),
+          monthsShort: function(m, format2) {
+            if (!m) {
+              return monthsShortDot$3;
+            } else if (/-MMM-/.test(format2)) {
+              return monthsShort$4[m.month()];
+            } else {
+              return monthsShortDot$3[m.month()];
+            }
+          },
+          monthsRegex: monthsRegex$6,
+          monthsShortRegex: monthsRegex$6,
+          monthsStrictRegex: /^(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i,
+          monthsShortStrictRegex: /^(ene\.?|feb\.?|mar\.?|abr\.?|may\.?|jun\.?|jul\.?|ago\.?|sep\.?|oct\.?|nov\.?|dic\.?)/i,
+          monthsParse: monthsParse$5,
+          longMonthsParse: monthsParse$5,
+          shortMonthsParse: monthsParse$5,
+          weekdays: "domingo_lunes_martes_mi\xE9rcoles_jueves_viernes_s\xE1bado".split("_"),
+          weekdaysShort: "dom._lun._mar._mi\xE9._jue._vie._s\xE1b.".split("_"),
+          weekdaysMin: "do_lu_ma_mi_ju_vi_s\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D [de] MMMM [de] YYYY",
+            LLL: "D [de] MMMM [de] YYYY H:mm",
+            LLLL: "dddd, D [de] MMMM [de] YYYY H:mm"
+          },
+          calendar: {
+            sameDay: function() {
+              return "[hoy a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextDay: function() {
+              return "[ma\xF1ana a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            nextWeek: function() {
+              return "dddd [a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastDay: function() {
+              return "[ayer a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            lastWeek: function() {
+              return "[el] dddd [pasado a la" + (this.hours() !== 1 ? "s" : "") + "] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "en %s",
+            past: "hace %s",
+            s: "unos segundos",
+            ss: "%d segundos",
+            m: "un minuto",
+            mm: "%d minutos",
+            h: "una hora",
+            hh: "%d horas",
+            d: "un d\xEDa",
+            dd: "%d d\xEDas",
+            w: "una semana",
+            ww: "%d semanas",
+            M: "un mes",
+            MM: "%d meses",
+            y: "un a\xF1o",
+            yy: "%d a\xF1os"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          },
+          invalidDate: "Fecha inv\xE1lida"
+        });
+        function processRelativeTime$3(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            s: ["m\xF5ne sekundi", "m\xF5ni sekund", "paar sekundit"],
+            ss: [number + "sekundi", number + "sekundit"],
+            m: ["\xFChe minuti", "\xFCks minut"],
+            mm: [number + " minuti", number + " minutit"],
+            h: ["\xFChe tunni", "tund aega", "\xFCks tund"],
+            hh: [number + " tunni", number + " tundi"],
+            d: ["\xFChe p\xE4eva", "\xFCks p\xE4ev"],
+            M: ["kuu aja", "kuu aega", "\xFCks kuu"],
+            MM: [number + " kuu", number + " kuud"],
+            y: ["\xFChe aasta", "aasta", "\xFCks aasta"],
+            yy: [number + " aasta", number + " aastat"]
+          };
+          if (withoutSuffix) {
+            return format2[key][2] ? format2[key][2] : format2[key][1];
+          }
+          return isFuture ? format2[key][0] : format2[key][1];
+        }
+        hooks.defineLocale("et", {
+          months: "jaanuar_veebruar_m\xE4rts_aprill_mai_juuni_juuli_august_september_oktoober_november_detsember".split(
+            "_"
+          ),
+          monthsShort: "jaan_veebr_m\xE4rts_apr_mai_juuni_juuli_aug_sept_okt_nov_dets".split("_"),
+          weekdays: "p\xFChap\xE4ev_esmasp\xE4ev_teisip\xE4ev_kolmap\xE4ev_neljap\xE4ev_reede_laup\xE4ev".split(
+            "_"
+          ),
+          weekdaysShort: "P_E_T_K_N_R_L".split("_"),
+          weekdaysMin: "P_E_T_K_N_R_L".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY H:mm",
+            LLLL: "dddd, D. MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[T\xE4na,] LT",
+            nextDay: "[Homme,] LT",
+            nextWeek: "[J\xE4rgmine] dddd LT",
+            lastDay: "[Eile,] LT",
+            lastWeek: "[Eelmine] dddd LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s p\xE4rast",
+            past: "%s tagasi",
+            s: processRelativeTime$3,
+            ss: processRelativeTime$3,
+            m: processRelativeTime$3,
+            mm: processRelativeTime$3,
+            h: processRelativeTime$3,
+            hh: processRelativeTime$3,
+            d: processRelativeTime$3,
+            dd: "%d p\xE4eva",
+            M: processRelativeTime$3,
+            MM: processRelativeTime$3,
+            y: processRelativeTime$3,
+            yy: processRelativeTime$3
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("eu", {
+          months: "urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua".split(
+            "_"
+          ),
+          monthsShort: "urt._ots._mar._api._mai._eka._uzt._abu._ira._urr._aza._abe.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "igandea_astelehena_asteartea_asteazkena_osteguna_ostirala_larunbata".split(
+            "_"
+          ),
+          weekdaysShort: "ig._al._ar._az._og._ol._lr.".split("_"),
+          weekdaysMin: "ig_al_ar_az_og_ol_lr".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY-MM-DD",
+            LL: "YYYY[ko] MMMM[ren] D[a]",
+            LLL: "YYYY[ko] MMMM[ren] D[a] HH:mm",
+            LLLL: "dddd, YYYY[ko] MMMM[ren] D[a] HH:mm",
+            l: "YYYY-M-D",
+            ll: "YYYY[ko] MMM D[a]",
+            lll: "YYYY[ko] MMM D[a] HH:mm",
+            llll: "ddd, YYYY[ko] MMM D[a] HH:mm"
+          },
+          calendar: {
+            sameDay: "[gaur] LT[etan]",
+            nextDay: "[bihar] LT[etan]",
+            nextWeek: "dddd LT[etan]",
+            lastDay: "[atzo] LT[etan]",
+            lastWeek: "[aurreko] dddd LT[etan]",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s barru",
+            past: "duela %s",
+            s: "segundo batzuk",
+            ss: "%d segundo",
+            m: "minutu bat",
+            mm: "%d minutu",
+            h: "ordu bat",
+            hh: "%d ordu",
+            d: "egun bat",
+            dd: "%d egun",
+            M: "hilabete bat",
+            MM: "%d hilabete",
+            y: "urte bat",
+            yy: "%d urte"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        var symbolMap$6 = {
+          1: "\u06F1",
+          2: "\u06F2",
+          3: "\u06F3",
+          4: "\u06F4",
+          5: "\u06F5",
+          6: "\u06F6",
+          7: "\u06F7",
+          8: "\u06F8",
+          9: "\u06F9",
+          0: "\u06F0"
+        }, numberMap$5 = {
+          "\u06F1": "1",
+          "\u06F2": "2",
+          "\u06F3": "3",
+          "\u06F4": "4",
+          "\u06F5": "5",
+          "\u06F6": "6",
+          "\u06F7": "7",
+          "\u06F8": "8",
+          "\u06F9": "9",
+          "\u06F0": "0"
+        };
+        hooks.defineLocale("fa", {
+          months: "\u0698\u0627\u0646\u0648\u06CC\u0647_\u0641\u0648\u0631\u06CC\u0647_\u0645\u0627\u0631\u0633_\u0622\u0648\u0631\u06CC\u0644_\u0645\u0647_\u0698\u0648\u0626\u0646_\u0698\u0648\u0626\u06CC\u0647_\u0627\u0648\u062A_\u0633\u067E\u062A\u0627\u0645\u0628\u0631_\u0627\u06A9\u062A\u0628\u0631_\u0646\u0648\u0627\u0645\u0628\u0631_\u062F\u0633\u0627\u0645\u0628\u0631".split(
+            "_"
+          ),
+          monthsShort: "\u0698\u0627\u0646\u0648\u06CC\u0647_\u0641\u0648\u0631\u06CC\u0647_\u0645\u0627\u0631\u0633_\u0622\u0648\u0631\u06CC\u0644_\u0645\u0647_\u0698\u0648\u0626\u0646_\u0698\u0648\u0626\u06CC\u0647_\u0627\u0648\u062A_\u0633\u067E\u062A\u0627\u0645\u0628\u0631_\u0627\u06A9\u062A\u0628\u0631_\u0646\u0648\u0627\u0645\u0628\u0631_\u062F\u0633\u0627\u0645\u0628\u0631".split(
+            "_"
+          ),
+          weekdays: "\u06CC\u06A9\u200C\u0634\u0646\u0628\u0647_\u062F\u0648\u0634\u0646\u0628\u0647_\u0633\u0647\u200C\u0634\u0646\u0628\u0647_\u0686\u0647\u0627\u0631\u0634\u0646\u0628\u0647_\u067E\u0646\u062C\u200C\u0634\u0646\u0628\u0647_\u062C\u0645\u0639\u0647_\u0634\u0646\u0628\u0647".split(
+            "_"
+          ),
+          weekdaysShort: "\u06CC\u06A9\u200C\u0634\u0646\u0628\u0647_\u062F\u0648\u0634\u0646\u0628\u0647_\u0633\u0647\u200C\u0634\u0646\u0628\u0647_\u0686\u0647\u0627\u0631\u0634\u0646\u0628\u0647_\u067E\u0646\u062C\u200C\u0634\u0646\u0628\u0647_\u062C\u0645\u0639\u0647_\u0634\u0646\u0628\u0647".split(
+            "_"
+          ),
+          weekdaysMin: "\u06CC_\u062F_\u0633_\u0686_\u067E_\u062C_\u0634".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /قبل از ظهر|بعد از ظهر/,
+          isPM: function(input) {
+            return /بعد از ظهر/.test(input);
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0642\u0628\u0644 \u0627\u0632 \u0638\u0647\u0631";
+            } else {
+              return "\u0628\u0639\u062F \u0627\u0632 \u0638\u0647\u0631";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0627\u0645\u0631\u0648\u0632 \u0633\u0627\u0639\u062A] LT",
+            nextDay: "[\u0641\u0631\u062F\u0627 \u0633\u0627\u0639\u062A] LT",
+            nextWeek: "dddd [\u0633\u0627\u0639\u062A] LT",
+            lastDay: "[\u062F\u06CC\u0631\u0648\u0632 \u0633\u0627\u0639\u062A] LT",
+            lastWeek: "dddd [\u067E\u06CC\u0634] [\u0633\u0627\u0639\u062A] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u062F\u0631 %s",
+            past: "%s \u067E\u06CC\u0634",
+            s: "\u0686\u0646\u062F \u062B\u0627\u0646\u06CC\u0647",
+            ss: "%d \u062B\u0627\u0646\u06CC\u0647",
+            m: "\u06CC\u06A9 \u062F\u0642\u06CC\u0642\u0647",
+            mm: "%d \u062F\u0642\u06CC\u0642\u0647",
+            h: "\u06CC\u06A9 \u0633\u0627\u0639\u062A",
+            hh: "%d \u0633\u0627\u0639\u062A",
+            d: "\u06CC\u06A9 \u0631\u0648\u0632",
+            dd: "%d \u0631\u0648\u0632",
+            M: "\u06CC\u06A9 \u0645\u0627\u0647",
+            MM: "%d \u0645\u0627\u0647",
+            y: "\u06CC\u06A9 \u0633\u0627\u0644",
+            yy: "%d \u0633\u0627\u0644"
+          },
+          preparse: function(string) {
+            return string.replace(/[۰-۹]/g, function(match) {
+              return numberMap$5[match];
+            }).replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$6[match];
+            }).replace(/,/g, "\u060C");
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}م/,
+          ordinal: "%d\u0645",
+          week: {
+            dow: 6,
+            // Saturday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        var numbersPast = "nolla yksi kaksi kolme nelj\xE4 viisi kuusi seitsem\xE4n kahdeksan yhdeks\xE4n".split(
+          " "
+        ), numbersFuture = [
+          "nolla",
+          "yhden",
+          "kahden",
+          "kolmen",
+          "nelj\xE4n",
+          "viiden",
+          "kuuden",
+          numbersPast[7],
+          numbersPast[8],
+          numbersPast[9]
+        ];
+        function translate$2(number, withoutSuffix, key, isFuture) {
+          var result = "";
+          switch (key) {
+            case "s":
+              return isFuture ? "muutaman sekunnin" : "muutama sekunti";
+            case "ss":
+              result = isFuture ? "sekunnin" : "sekuntia";
+              break;
+            case "m":
+              return isFuture ? "minuutin" : "minuutti";
+            case "mm":
+              result = isFuture ? "minuutin" : "minuuttia";
+              break;
+            case "h":
+              return isFuture ? "tunnin" : "tunti";
+            case "hh":
+              result = isFuture ? "tunnin" : "tuntia";
+              break;
+            case "d":
+              return isFuture ? "p\xE4iv\xE4n" : "p\xE4iv\xE4";
+            case "dd":
+              result = isFuture ? "p\xE4iv\xE4n" : "p\xE4iv\xE4\xE4";
+              break;
+            case "M":
+              return isFuture ? "kuukauden" : "kuukausi";
+            case "MM":
+              result = isFuture ? "kuukauden" : "kuukautta";
+              break;
+            case "y":
+              return isFuture ? "vuoden" : "vuosi";
+            case "yy":
+              result = isFuture ? "vuoden" : "vuotta";
+              break;
+          }
+          result = verbalNumber(number, isFuture) + " " + result;
+          return result;
+        }
+        function verbalNumber(number, isFuture) {
+          return number < 10 ? isFuture ? numbersFuture[number] : numbersPast[number] : number;
+        }
+        hooks.defineLocale("fi", {
+          months: "tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kes\xE4kuu_hein\xE4kuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu".split(
+            "_"
+          ),
+          monthsShort: "tammi_helmi_maalis_huhti_touko_kes\xE4_hein\xE4_elo_syys_loka_marras_joulu".split(
+            "_"
+          ),
+          weekdays: "sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai".split(
+            "_"
+          ),
+          weekdaysShort: "su_ma_ti_ke_to_pe_la".split("_"),
+          weekdaysMin: "su_ma_ti_ke_to_pe_la".split("_"),
+          longDateFormat: {
+            LT: "HH.mm",
+            LTS: "HH.mm.ss",
+            L: "DD.MM.YYYY",
+            LL: "Do MMMM[ta] YYYY",
+            LLL: "Do MMMM[ta] YYYY, [klo] HH.mm",
+            LLLL: "dddd, Do MMMM[ta] YYYY, [klo] HH.mm",
+            l: "D.M.YYYY",
+            ll: "Do MMM YYYY",
+            lll: "Do MMM YYYY, [klo] HH.mm",
+            llll: "ddd, Do MMM YYYY, [klo] HH.mm"
+          },
+          calendar: {
+            sameDay: "[t\xE4n\xE4\xE4n] [klo] LT",
+            nextDay: "[huomenna] [klo] LT",
+            nextWeek: "dddd [klo] LT",
+            lastDay: "[eilen] [klo] LT",
+            lastWeek: "[viime] dddd[na] [klo] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s p\xE4\xE4st\xE4",
+            past: "%s sitten",
+            s: translate$2,
+            ss: translate$2,
+            m: translate$2,
+            mm: translate$2,
+            h: translate$2,
+            hh: translate$2,
+            d: translate$2,
+            dd: translate$2,
+            M: translate$2,
+            MM: translate$2,
+            y: translate$2,
+            yy: translate$2
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("fil", {
+          months: "Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre".split(
+            "_"
+          ),
+          monthsShort: "Ene_Peb_Mar_Abr_May_Hun_Hul_Ago_Set_Okt_Nob_Dis".split("_"),
+          weekdays: "Linggo_Lunes_Martes_Miyerkules_Huwebes_Biyernes_Sabado".split(
+            "_"
+          ),
+          weekdaysShort: "Lin_Lun_Mar_Miy_Huw_Biy_Sab".split("_"),
+          weekdaysMin: "Li_Lu_Ma_Mi_Hu_Bi_Sab".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "MM/D/YYYY",
+            LL: "MMMM D, YYYY",
+            LLL: "MMMM D, YYYY HH:mm",
+            LLLL: "dddd, MMMM DD, YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "LT [ngayong araw]",
+            nextDay: "[Bukas ng] LT",
+            nextWeek: "LT [sa susunod na] dddd",
+            lastDay: "LT [kahapon]",
+            lastWeek: "LT [noong nakaraang] dddd",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "sa loob ng %s",
+            past: "%s ang nakalipas",
+            s: "ilang segundo",
+            ss: "%d segundo",
+            m: "isang minuto",
+            mm: "%d minuto",
+            h: "isang oras",
+            hh: "%d oras",
+            d: "isang araw",
+            dd: "%d araw",
+            M: "isang buwan",
+            MM: "%d buwan",
+            y: "isang taon",
+            yy: "%d taon"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}/,
+          ordinal: function(number) {
+            return number;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("fo", {
+          months: "januar_februar_mars_apr\xEDl_mai_juni_juli_august_september_oktober_november_desember".split(
+            "_"
+          ),
+          monthsShort: "jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),
+          weekdays: "sunnudagur_m\xE1nadagur_t\xFDsdagur_mikudagur_h\xF3sdagur_fr\xEDggjadagur_leygardagur".split(
+            "_"
+          ),
+          weekdaysShort: "sun_m\xE1n_t\xFDs_mik_h\xF3s_fr\xED_ley".split("_"),
+          weekdaysMin: "su_m\xE1_t\xFD_mi_h\xF3_fr_le".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D. MMMM, YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\xCD dag kl.] LT",
+            nextDay: "[\xCD morgin kl.] LT",
+            nextWeek: "dddd [kl.] LT",
+            lastDay: "[\xCD gj\xE1r kl.] LT",
+            lastWeek: "[s\xED\xF0stu] dddd [kl] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "um %s",
+            past: "%s s\xED\xF0ani",
+            s: "f\xE1 sekund",
+            ss: "%d sekundir",
+            m: "ein minuttur",
+            mm: "%d minuttir",
+            h: "ein t\xEDmi",
+            hh: "%d t\xEDmar",
+            d: "ein dagur",
+            dd: "%d dagar",
+            M: "ein m\xE1na\xF0ur",
+            MM: "%d m\xE1na\xF0ir",
+            y: "eitt \xE1r",
+            yy: "%d \xE1r"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("fr-ca", {
+          months: "janvier_f\xE9vrier_mars_avril_mai_juin_juillet_ao\xFBt_septembre_octobre_novembre_d\xE9cembre".split(
+            "_"
+          ),
+          monthsShort: "janv._f\xE9vr._mars_avr._mai_juin_juil._ao\xFBt_sept._oct._nov._d\xE9c.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
+          weekdaysShort: "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
+          weekdaysMin: "di_lu_ma_me_je_ve_sa".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY-MM-DD",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Aujourd\u2019hui \xE0] LT",
+            nextDay: "[Demain \xE0] LT",
+            nextWeek: "dddd [\xE0] LT",
+            lastDay: "[Hier \xE0] LT",
+            lastWeek: "dddd [dernier \xE0] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "dans %s",
+            past: "il y a %s",
+            s: "quelques secondes",
+            ss: "%d secondes",
+            m: "une minute",
+            mm: "%d minutes",
+            h: "une heure",
+            hh: "%d heures",
+            d: "un jour",
+            dd: "%d jours",
+            M: "un mois",
+            MM: "%d mois",
+            y: "un an",
+            yy: "%d ans"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              default:
+              case "M":
+              case "Q":
+              case "D":
+              case "DDD":
+              case "d":
+                return number + (number === 1 ? "er" : "e");
+              case "w":
+              case "W":
+                return number + (number === 1 ? "re" : "e");
+            }
+          }
+        });
+        hooks.defineLocale("fr-ch", {
+          months: "janvier_f\xE9vrier_mars_avril_mai_juin_juillet_ao\xFBt_septembre_octobre_novembre_d\xE9cembre".split(
+            "_"
+          ),
+          monthsShort: "janv._f\xE9vr._mars_avr._mai_juin_juil._ao\xFBt_sept._oct._nov._d\xE9c.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
+          weekdaysShort: "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
+          weekdaysMin: "di_lu_ma_me_je_ve_sa".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Aujourd\u2019hui \xE0] LT",
+            nextDay: "[Demain \xE0] LT",
+            nextWeek: "dddd [\xE0] LT",
+            lastDay: "[Hier \xE0] LT",
+            lastWeek: "dddd [dernier \xE0] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "dans %s",
+            past: "il y a %s",
+            s: "quelques secondes",
+            ss: "%d secondes",
+            m: "une minute",
+            mm: "%d minutes",
+            h: "une heure",
+            hh: "%d heures",
+            d: "un jour",
+            dd: "%d jours",
+            M: "un mois",
+            MM: "%d mois",
+            y: "un an",
+            yy: "%d ans"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              default:
+              case "M":
+              case "Q":
+              case "D":
+              case "DDD":
+              case "d":
+                return number + (number === 1 ? "er" : "e");
+              case "w":
+              case "W":
+                return number + (number === 1 ? "re" : "e");
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var monthsStrictRegex$1 = /^(janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)/i, monthsShortStrictRegex$1 = /(janv\.?|févr\.?|mars|avr\.?|mai|juin|juil\.?|août|sept\.?|oct\.?|nov\.?|déc\.?)/i, monthsRegex$7 = /(janv\.?|févr\.?|mars|avr\.?|mai|juin|juil\.?|août|sept\.?|oct\.?|nov\.?|déc\.?|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)/i, monthsParse$6 = [
+          /^janv/i,
+          /^févr/i,
+          /^mars/i,
+          /^avr/i,
+          /^mai/i,
+          /^juin/i,
+          /^juil/i,
+          /^août/i,
+          /^sept/i,
+          /^oct/i,
+          /^nov/i,
+          /^déc/i
+        ];
+        hooks.defineLocale("fr", {
+          months: "janvier_f\xE9vrier_mars_avril_mai_juin_juillet_ao\xFBt_septembre_octobre_novembre_d\xE9cembre".split(
+            "_"
+          ),
+          monthsShort: "janv._f\xE9vr._mars_avr._mai_juin_juil._ao\xFBt_sept._oct._nov._d\xE9c.".split(
+            "_"
+          ),
+          monthsRegex: monthsRegex$7,
+          monthsShortRegex: monthsRegex$7,
+          monthsStrictRegex: monthsStrictRegex$1,
+          monthsShortStrictRegex: monthsShortStrictRegex$1,
+          monthsParse: monthsParse$6,
+          longMonthsParse: monthsParse$6,
+          shortMonthsParse: monthsParse$6,
+          weekdays: "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
+          weekdaysShort: "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
+          weekdaysMin: "di_lu_ma_me_je_ve_sa".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Aujourd\u2019hui \xE0] LT",
+            nextDay: "[Demain \xE0] LT",
+            nextWeek: "dddd [\xE0] LT",
+            lastDay: "[Hier \xE0] LT",
+            lastWeek: "dddd [dernier \xE0] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "dans %s",
+            past: "il y a %s",
+            s: "quelques secondes",
+            ss: "%d secondes",
+            m: "une minute",
+            mm: "%d minutes",
+            h: "une heure",
+            hh: "%d heures",
+            d: "un jour",
+            dd: "%d jours",
+            w: "une semaine",
+            ww: "%d semaines",
+            M: "un mois",
+            MM: "%d mois",
+            y: "un an",
+            yy: "%d ans"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "D":
+                return number + (number === 1 ? "er" : "");
+              default:
+              case "M":
+              case "Q":
+              case "DDD":
+              case "d":
+                return number + (number === 1 ? "er" : "e");
+              case "w":
+              case "W":
+                return number + (number === 1 ? "re" : "e");
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var monthsShortWithDots = "jan._feb._mrt._apr._mai_jun._jul._aug._sep._okt._nov._des.".split("_"), monthsShortWithoutDots = "jan_feb_mrt_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_");
+        hooks.defineLocale("fy", {
+          months: "jannewaris_febrewaris_maart_april_maaie_juny_july_augustus_septimber_oktober_novimber_desimber".split(
+            "_"
+          ),
+          monthsShort: function(m, format2) {
+            if (!m) {
+              return monthsShortWithDots;
+            } else if (/-MMM-/.test(format2)) {
+              return monthsShortWithoutDots[m.month()];
+            } else {
+              return monthsShortWithDots[m.month()];
+            }
+          },
+          monthsParseExact: true,
+          weekdays: "snein_moandei_tiisdei_woansdei_tongersdei_freed_sneon".split(
+            "_"
+          ),
+          weekdaysShort: "si._mo._ti._wo._to._fr._so.".split("_"),
+          weekdaysMin: "Si_Mo_Ti_Wo_To_Fr_So".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD-MM-YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[hjoed om] LT",
+            nextDay: "[moarn om] LT",
+            nextWeek: "dddd [om] LT",
+            lastDay: "[juster om] LT",
+            lastWeek: "[\xF4fr\xFBne] dddd [om] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "oer %s",
+            past: "%s lyn",
+            s: "in pear sekonden",
+            ss: "%d sekonden",
+            m: "ien min\xFAt",
+            mm: "%d minuten",
+            h: "ien oere",
+            hh: "%d oeren",
+            d: "ien dei",
+            dd: "%d dagen",
+            M: "ien moanne",
+            MM: "%d moannen",
+            y: "ien jier",
+            yy: "%d jierren"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(ste|de)/,
+          ordinal: function(number) {
+            return number + (number === 1 || number === 8 || number >= 20 ? "ste" : "de");
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var months$6 = [
+          "Ean\xE1ir",
+          "Feabhra",
+          "M\xE1rta",
+          "Aibre\xE1n",
+          "Bealtaine",
+          "Meitheamh",
+          "I\xFAil",
+          "L\xFAnasa",
+          "Me\xE1n F\xF3mhair",
+          "Deireadh F\xF3mhair",
+          "Samhain",
+          "Nollaig"
+        ], monthsShort$5 = [
+          "Ean",
+          "Feabh",
+          "M\xE1rt",
+          "Aib",
+          "Beal",
+          "Meith",
+          "I\xFAil",
+          "L\xFAn",
+          "M.F.",
+          "D.F.",
+          "Samh",
+          "Noll"
+        ], weekdays$1 = [
+          "D\xE9 Domhnaigh",
+          "D\xE9 Luain",
+          "D\xE9 M\xE1irt",
+          "D\xE9 C\xE9adaoin",
+          "D\xE9ardaoin",
+          "D\xE9 hAoine",
+          "D\xE9 Sathairn"
+        ], weekdaysShort = ["Domh", "Luan", "M\xE1irt", "C\xE9ad", "D\xE9ar", "Aoine", "Sath"], weekdaysMin = ["Do", "Lu", "M\xE1", "C\xE9", "D\xE9", "A", "Sa"];
+        hooks.defineLocale("ga", {
+          months: months$6,
+          monthsShort: monthsShort$5,
+          monthsParseExact: true,
+          weekdays: weekdays$1,
+          weekdaysShort,
+          weekdaysMin,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Inniu ag] LT",
+            nextDay: "[Am\xE1rach ag] LT",
+            nextWeek: "dddd [ag] LT",
+            lastDay: "[Inn\xE9 ag] LT",
+            lastWeek: "dddd [seo caite] [ag] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "i %s",
+            past: "%s \xF3 shin",
+            s: "c\xFApla soicind",
+            ss: "%d soicind",
+            m: "n\xF3im\xE9ad",
+            mm: "%d n\xF3im\xE9ad",
+            h: "uair an chloig",
+            hh: "%d uair an chloig",
+            d: "l\xE1",
+            dd: "%d l\xE1",
+            M: "m\xED",
+            MM: "%d m\xEDonna",
+            y: "bliain",
+            yy: "%d bliain"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(d|na|mh)/,
+          ordinal: function(number) {
+            var output = number === 1 ? "d" : number % 10 === 2 ? "na" : "mh";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var months$7 = [
+          "Am Faoilleach",
+          "An Gearran",
+          "Am M\xE0rt",
+          "An Giblean",
+          "An C\xE8itean",
+          "An t-\xD2gmhios",
+          "An t-Iuchar",
+          "An L\xF9nastal",
+          "An t-Sultain",
+          "An D\xE0mhair",
+          "An t-Samhain",
+          "An D\xF9bhlachd"
+        ], monthsShort$6 = [
+          "Faoi",
+          "Gear",
+          "M\xE0rt",
+          "Gibl",
+          "C\xE8it",
+          "\xD2gmh",
+          "Iuch",
+          "L\xF9n",
+          "Sult",
+          "D\xE0mh",
+          "Samh",
+          "D\xF9bh"
+        ], weekdays$2 = [
+          "Did\xF2mhnaich",
+          "Diluain",
+          "Dim\xE0irt",
+          "Diciadain",
+          "Diardaoin",
+          "Dihaoine",
+          "Disathairne"
+        ], weekdaysShort$1 = ["Did", "Dil", "Dim", "Dic", "Dia", "Dih", "Dis"], weekdaysMin$1 = ["D\xF2", "Lu", "M\xE0", "Ci", "Ar", "Ha", "Sa"];
+        hooks.defineLocale("gd", {
+          months: months$7,
+          monthsShort: monthsShort$6,
+          monthsParseExact: true,
+          weekdays: weekdays$2,
+          weekdaysShort: weekdaysShort$1,
+          weekdaysMin: weekdaysMin$1,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[An-diugh aig] LT",
+            nextDay: "[A-m\xE0ireach aig] LT",
+            nextWeek: "dddd [aig] LT",
+            lastDay: "[An-d\xE8 aig] LT",
+            lastWeek: "dddd [seo chaidh] [aig] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "ann an %s",
+            past: "bho chionn %s",
+            s: "beagan diogan",
+            ss: "%d diogan",
+            m: "mionaid",
+            mm: "%d mionaidean",
+            h: "uair",
+            hh: "%d uairean",
+            d: "latha",
+            dd: "%d latha",
+            M: "m\xECos",
+            MM: "%d m\xECosan",
+            y: "bliadhna",
+            yy: "%d bliadhna"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(d|na|mh)/,
+          ordinal: function(number) {
+            var output = number === 1 ? "d" : number % 10 === 2 ? "na" : "mh";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("gl", {
+          months: "xaneiro_febreiro_marzo_abril_maio_xu\xF1o_xullo_agosto_setembro_outubro_novembro_decembro".split(
+            "_"
+          ),
+          monthsShort: "xan._feb._mar._abr._mai._xu\xF1._xul._ago._set._out._nov._dec.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "domingo_luns_martes_m\xE9rcores_xoves_venres_s\xE1bado".split("_"),
+          weekdaysShort: "dom._lun._mar._m\xE9r._xov._ven._s\xE1b.".split("_"),
+          weekdaysMin: "do_lu_ma_m\xE9_xo_ve_s\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D [de] MMMM [de] YYYY",
+            LLL: "D [de] MMMM [de] YYYY H:mm",
+            LLLL: "dddd, D [de] MMMM [de] YYYY H:mm"
+          },
+          calendar: {
+            sameDay: function() {
+              return "[hoxe " + (this.hours() !== 1 ? "\xE1s" : "\xE1") + "] LT";
+            },
+            nextDay: function() {
+              return "[ma\xF1\xE1 " + (this.hours() !== 1 ? "\xE1s" : "\xE1") + "] LT";
+            },
+            nextWeek: function() {
+              return "dddd [" + (this.hours() !== 1 ? "\xE1s" : "a") + "] LT";
+            },
+            lastDay: function() {
+              return "[onte " + (this.hours() !== 1 ? "\xE1" : "a") + "] LT";
+            },
+            lastWeek: function() {
+              return "[o] dddd [pasado " + (this.hours() !== 1 ? "\xE1s" : "a") + "] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: function(str) {
+              if (str.indexOf("un") === 0) {
+                return "n" + str;
+              }
+              return "en " + str;
+            },
+            past: "hai %s",
+            s: "uns segundos",
+            ss: "%d segundos",
+            m: "un minuto",
+            mm: "%d minutos",
+            h: "unha hora",
+            hh: "%d horas",
+            d: "un d\xEDa",
+            dd: "%d d\xEDas",
+            M: "un mes",
+            MM: "%d meses",
+            y: "un ano",
+            yy: "%d anos"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        function processRelativeTime$4(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            s: ["\u0925\u094B\u0921\u092F\u093E \u0938\u0945\u0915\u0902\u0921\u093E\u0902\u0928\u0940", "\u0925\u094B\u0921\u0947 \u0938\u0945\u0915\u0902\u0921"],
+            ss: [number + " \u0938\u0945\u0915\u0902\u0921\u093E\u0902\u0928\u0940", number + " \u0938\u0945\u0915\u0902\u0921"],
+            m: ["\u090F\u0915\u093E \u092E\u093F\u0923\u091F\u093E\u0928", "\u090F\u0915 \u092E\u093F\u0928\u0942\u091F"],
+            mm: [number + " \u092E\u093F\u0923\u091F\u093E\u0902\u0928\u0940", number + " \u092E\u093F\u0923\u091F\u093E\u0902"],
+            h: ["\u090F\u0915\u093E \u0935\u0930\u093E\u0928", "\u090F\u0915 \u0935\u0930"],
+            hh: [number + " \u0935\u0930\u093E\u0902\u0928\u0940", number + " \u0935\u0930\u093E\u0902"],
+            d: ["\u090F\u0915\u093E \u0926\u093F\u0938\u093E\u0928", "\u090F\u0915 \u0926\u0940\u0938"],
+            dd: [number + " \u0926\u093F\u0938\u093E\u0902\u0928\u0940", number + " \u0926\u0940\u0938"],
+            M: ["\u090F\u0915\u093E \u092E\u094D\u0939\u092F\u0928\u094D\u092F\u093E\u0928", "\u090F\u0915 \u092E\u094D\u0939\u092F\u0928\u094B"],
+            MM: [number + " \u092E\u094D\u0939\u092F\u0928\u094D\u092F\u093E\u0928\u0940", number + " \u092E\u094D\u0939\u092F\u0928\u0947"],
+            y: ["\u090F\u0915\u093E \u0935\u0930\u094D\u0938\u093E\u0928", "\u090F\u0915 \u0935\u0930\u094D\u0938"],
+            yy: [number + " \u0935\u0930\u094D\u0938\u093E\u0902\u0928\u0940", number + " \u0935\u0930\u094D\u0938\u093E\u0902"]
+          };
+          return isFuture ? format2[key][0] : format2[key][1];
+        }
+        hooks.defineLocale("gom-deva", {
+          months: {
+            standalone: "\u091C\u093E\u0928\u0947\u0935\u093E\u0930\u0940_\u092B\u0947\u092C\u094D\u0930\u0941\u0935\u093E\u0930\u0940_\u092E\u093E\u0930\u094D\u091A_\u090F\u092A\u094D\u0930\u0940\u0932_\u092E\u0947_\u091C\u0942\u0928_\u091C\u0941\u0932\u092F_\u0911\u0917\u0938\u094D\u091F_\u0938\u092A\u094D\u091F\u0947\u0902\u092C\u0930_\u0911\u0915\u094D\u091F\u094B\u092C\u0930_\u0928\u094B\u0935\u094D\u0939\u0947\u0902\u092C\u0930_\u0921\u093F\u0938\u0947\u0902\u092C\u0930".split(
+              "_"
+            ),
+            format: "\u091C\u093E\u0928\u0947\u0935\u093E\u0930\u0940\u091A\u094D\u092F\u093E_\u092B\u0947\u092C\u094D\u0930\u0941\u0935\u093E\u0930\u0940\u091A\u094D\u092F\u093E_\u092E\u093E\u0930\u094D\u091A\u093E\u091A\u094D\u092F\u093E_\u090F\u092A\u094D\u0930\u0940\u0932\u093E\u091A\u094D\u092F\u093E_\u092E\u0947\u092F\u093E\u091A\u094D\u092F\u093E_\u091C\u0942\u0928\u093E\u091A\u094D\u092F\u093E_\u091C\u0941\u0932\u092F\u093E\u091A\u094D\u092F\u093E_\u0911\u0917\u0938\u094D\u091F\u093E\u091A\u094D\u092F\u093E_\u0938\u092A\u094D\u091F\u0947\u0902\u092C\u0930\u093E\u091A\u094D\u092F\u093E_\u0911\u0915\u094D\u091F\u094B\u092C\u0930\u093E\u091A\u094D\u092F\u093E_\u0928\u094B\u0935\u094D\u0939\u0947\u0902\u092C\u0930\u093E\u091A\u094D\u092F\u093E_\u0921\u093F\u0938\u0947\u0902\u092C\u0930\u093E\u091A\u094D\u092F\u093E".split(
+              "_"
+            ),
+            isFormat: /MMMM(\s)+D[oD]?/
+          },
+          monthsShort: "\u091C\u093E\u0928\u0947._\u092B\u0947\u092C\u094D\u0930\u0941._\u092E\u093E\u0930\u094D\u091A_\u090F\u092A\u094D\u0930\u0940._\u092E\u0947_\u091C\u0942\u0928_\u091C\u0941\u0932._\u0911\u0917._\u0938\u092A\u094D\u091F\u0947\u0902._\u0911\u0915\u094D\u091F\u094B._\u0928\u094B\u0935\u094D\u0939\u0947\u0902._\u0921\u093F\u0938\u0947\u0902.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0906\u092F\u0924\u093E\u0930_\u0938\u094B\u092E\u093E\u0930_\u092E\u0902\u0917\u0933\u093E\u0930_\u092C\u0941\u0927\u0935\u093E\u0930_\u092C\u093F\u0930\u0947\u0938\u094D\u0924\u093E\u0930_\u0938\u0941\u0915\u094D\u0930\u093E\u0930_\u0936\u0947\u0928\u0935\u093E\u0930".split("_"),
+          weekdaysShort: "\u0906\u092F\u0924._\u0938\u094B\u092E._\u092E\u0902\u0917\u0933._\u092C\u0941\u0927._\u092C\u094D\u0930\u0947\u0938\u094D\u0924._\u0938\u0941\u0915\u094D\u0930._\u0936\u0947\u0928.".split("_"),
+          weekdaysMin: "\u0906_\u0938\u094B_\u092E\u0902_\u092C\u0941_\u092C\u094D\u0930\u0947_\u0938\u0941_\u0936\u0947".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "A h:mm [\u0935\u093E\u091C\u0924\u093E\u0902]",
+            LTS: "A h:mm:ss [\u0935\u093E\u091C\u0924\u093E\u0902]",
+            L: "DD-MM-YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY A h:mm [\u0935\u093E\u091C\u0924\u093E\u0902]",
+            LLLL: "dddd, MMMM Do, YYYY, A h:mm [\u0935\u093E\u091C\u0924\u093E\u0902]",
+            llll: "ddd, D MMM YYYY, A h:mm [\u0935\u093E\u091C\u0924\u093E\u0902]"
+          },
+          calendar: {
+            sameDay: "[\u0906\u092F\u091C] LT",
+            nextDay: "[\u092B\u093E\u0932\u094D\u092F\u093E\u0902] LT",
+            nextWeek: "[\u092B\u0941\u0921\u0932\u094B] dddd[,] LT",
+            lastDay: "[\u0915\u093E\u0932] LT",
+            lastWeek: "[\u092B\u093E\u091F\u0932\u094B] dddd[,] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s",
+            past: "%s \u0906\u0926\u0940\u0902",
+            s: processRelativeTime$4,
+            ss: processRelativeTime$4,
+            m: processRelativeTime$4,
+            mm: processRelativeTime$4,
+            h: processRelativeTime$4,
+            hh: processRelativeTime$4,
+            d: processRelativeTime$4,
+            dd: processRelativeTime$4,
+            M: processRelativeTime$4,
+            MM: processRelativeTime$4,
+            y: processRelativeTime$4,
+            yy: processRelativeTime$4
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(वेर)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "D":
+                return number + "\u0935\u0947\u0930";
+              default:
+              case "M":
+              case "Q":
+              case "DDD":
+              case "d":
+              case "w":
+              case "W":
+                return number;
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week
+            doy: 3
+            // The week that contains Jan 4th is the first week of the year (7 + 0 - 4)
+          },
+          meridiemParse: /राती|सकाळीं|दनपारां|सांजे/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0930\u093E\u0924\u0940") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0938\u0915\u093E\u0933\u0940\u0902") {
+              return hour;
+            } else if (meridiem2 === "\u0926\u0928\u092A\u093E\u0930\u093E\u0902") {
+              return hour > 12 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0938\u093E\u0902\u091C\u0947") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0930\u093E\u0924\u0940";
+            } else if (hour < 12) {
+              return "\u0938\u0915\u093E\u0933\u0940\u0902";
+            } else if (hour < 16) {
+              return "\u0926\u0928\u092A\u093E\u0930\u093E\u0902";
+            } else if (hour < 20) {
+              return "\u0938\u093E\u0902\u091C\u0947";
+            } else {
+              return "\u0930\u093E\u0924\u0940";
+            }
+          }
+        });
+        function processRelativeTime$5(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            s: ["thoddea sekondamni", "thodde sekond"],
+            ss: [number + " sekondamni", number + " sekond"],
+            m: ["eka mintan", "ek minut"],
+            mm: [number + " mintamni", number + " mintam"],
+            h: ["eka voran", "ek vor"],
+            hh: [number + " voramni", number + " voram"],
+            d: ["eka disan", "ek dis"],
+            dd: [number + " disamni", number + " dis"],
+            M: ["eka mhoinean", "ek mhoino"],
+            MM: [number + " mhoineamni", number + " mhoine"],
+            y: ["eka vorsan", "ek voros"],
+            yy: [number + " vorsamni", number + " vorsam"]
+          };
+          return isFuture ? format2[key][0] : format2[key][1];
+        }
+        hooks.defineLocale("gom-latn", {
+          months: {
+            standalone: "Janer_Febrer_Mars_Abril_Mai_Jun_Julai_Agost_Setembr_Otubr_Novembr_Dezembr".split(
+              "_"
+            ),
+            format: "Janerachea_Febrerachea_Marsachea_Abrilachea_Maiachea_Junachea_Julaiachea_Agostachea_Setembrachea_Otubrachea_Novembrachea_Dezembrachea".split(
+              "_"
+            ),
+            isFormat: /MMMM(\s)+D[oD]?/
+          },
+          monthsShort: "Jan._Feb._Mars_Abr._Mai_Jun_Jul._Ago._Set._Otu._Nov._Dez.".split("_"),
+          monthsParseExact: true,
+          weekdays: "Aitar_Somar_Mongllar_Budhvar_Birestar_Sukrar_Son'var".split("_"),
+          weekdaysShort: "Ait._Som._Mon._Bud._Bre._Suk._Son.".split("_"),
+          weekdaysMin: "Ai_Sm_Mo_Bu_Br_Su_Sn".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "A h:mm [vazta]",
+            LTS: "A h:mm:ss [vazta]",
+            L: "DD-MM-YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY A h:mm [vazta]",
+            LLLL: "dddd, MMMM Do, YYYY, A h:mm [vazta]",
+            llll: "ddd, D MMM YYYY, A h:mm [vazta]"
+          },
+          calendar: {
+            sameDay: "[Aiz] LT",
+            nextDay: "[Faleam] LT",
+            nextWeek: "[Fuddlo] dddd[,] LT",
+            lastDay: "[Kal] LT",
+            lastWeek: "[Fattlo] dddd[,] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s",
+            past: "%s adim",
+            s: processRelativeTime$5,
+            ss: processRelativeTime$5,
+            m: processRelativeTime$5,
+            mm: processRelativeTime$5,
+            h: processRelativeTime$5,
+            hh: processRelativeTime$5,
+            d: processRelativeTime$5,
+            dd: processRelativeTime$5,
+            M: processRelativeTime$5,
+            MM: processRelativeTime$5,
+            y: processRelativeTime$5,
+            yy: processRelativeTime$5
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(er)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "D":
+                return number + "er";
+              default:
+              case "M":
+              case "Q":
+              case "DDD":
+              case "d":
+              case "w":
+              case "W":
+                return number;
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week
+            doy: 3
+            // The week that contains Jan 4th is the first week of the year (7 + 0 - 4)
+          },
+          meridiemParse: /rati|sokallim|donparam|sanje/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "rati") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "sokallim") {
+              return hour;
+            } else if (meridiem2 === "donparam") {
+              return hour > 12 ? hour : hour + 12;
+            } else if (meridiem2 === "sanje") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "rati";
+            } else if (hour < 12) {
+              return "sokallim";
+            } else if (hour < 16) {
+              return "donparam";
+            } else if (hour < 20) {
+              return "sanje";
+            } else {
+              return "rati";
+            }
+          }
+        });
+        var symbolMap$7 = {
+          1: "\u0AE7",
+          2: "\u0AE8",
+          3: "\u0AE9",
+          4: "\u0AEA",
+          5: "\u0AEB",
+          6: "\u0AEC",
+          7: "\u0AED",
+          8: "\u0AEE",
+          9: "\u0AEF",
+          0: "\u0AE6"
+        }, numberMap$6 = {
+          "\u0AE7": "1",
+          "\u0AE8": "2",
+          "\u0AE9": "3",
+          "\u0AEA": "4",
+          "\u0AEB": "5",
+          "\u0AEC": "6",
+          "\u0AED": "7",
+          "\u0AEE": "8",
+          "\u0AEF": "9",
+          "\u0AE6": "0"
+        };
+        hooks.defineLocale("gu", {
+          months: "\u0A9C\u0ABE\u0AA8\u0ACD\u0AAF\u0AC1\u0A86\u0AB0\u0AC0_\u0AAB\u0AC7\u0AAC\u0ACD\u0AB0\u0AC1\u0A86\u0AB0\u0AC0_\u0AAE\u0ABE\u0AB0\u0ACD\u0A9A_\u0A8F\u0AAA\u0ACD\u0AB0\u0ABF\u0AB2_\u0AAE\u0AC7_\u0A9C\u0AC2\u0AA8_\u0A9C\u0AC1\u0AB2\u0ABE\u0A88_\u0A91\u0A97\u0AB8\u0ACD\u0A9F_\u0AB8\u0AAA\u0ACD\u0A9F\u0AC7\u0AAE\u0ACD\u0AAC\u0AB0_\u0A91\u0A95\u0ACD\u0A9F\u0ACD\u0AAC\u0AB0_\u0AA8\u0AB5\u0AC7\u0AAE\u0ACD\u0AAC\u0AB0_\u0AA1\u0ABF\u0AB8\u0AC7\u0AAE\u0ACD\u0AAC\u0AB0".split(
+            "_"
+          ),
+          monthsShort: "\u0A9C\u0ABE\u0AA8\u0ACD\u0AAF\u0AC1._\u0AAB\u0AC7\u0AAC\u0ACD\u0AB0\u0AC1._\u0AAE\u0ABE\u0AB0\u0ACD\u0A9A_\u0A8F\u0AAA\u0ACD\u0AB0\u0ABF._\u0AAE\u0AC7_\u0A9C\u0AC2\u0AA8_\u0A9C\u0AC1\u0AB2\u0ABE._\u0A91\u0A97._\u0AB8\u0AAA\u0ACD\u0A9F\u0AC7._\u0A91\u0A95\u0ACD\u0A9F\u0ACD._\u0AA8\u0AB5\u0AC7._\u0AA1\u0ABF\u0AB8\u0AC7.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0AB0\u0AB5\u0ABF\u0AB5\u0ABE\u0AB0_\u0AB8\u0ACB\u0AAE\u0AB5\u0ABE\u0AB0_\u0AAE\u0A82\u0A97\u0AB3\u0AB5\u0ABE\u0AB0_\u0AAC\u0AC1\u0AA7\u0ACD\u0AB5\u0ABE\u0AB0_\u0A97\u0AC1\u0AB0\u0AC1\u0AB5\u0ABE\u0AB0_\u0AB6\u0AC1\u0A95\u0ACD\u0AB0\u0AB5\u0ABE\u0AB0_\u0AB6\u0AA8\u0ABF\u0AB5\u0ABE\u0AB0".split(
+            "_"
+          ),
+          weekdaysShort: "\u0AB0\u0AB5\u0ABF_\u0AB8\u0ACB\u0AAE_\u0AAE\u0A82\u0A97\u0AB3_\u0AAC\u0AC1\u0AA7\u0ACD_\u0A97\u0AC1\u0AB0\u0AC1_\u0AB6\u0AC1\u0A95\u0ACD\u0AB0_\u0AB6\u0AA8\u0ABF".split("_"),
+          weekdaysMin: "\u0AB0_\u0AB8\u0ACB_\u0AAE\u0A82_\u0AAC\u0AC1_\u0A97\u0AC1_\u0AB6\u0AC1_\u0AB6".split("_"),
+          longDateFormat: {
+            LT: "A h:mm \u0AB5\u0ABE\u0A97\u0ACD\u0AAF\u0AC7",
+            LTS: "A h:mm:ss \u0AB5\u0ABE\u0A97\u0ACD\u0AAF\u0AC7",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm \u0AB5\u0ABE\u0A97\u0ACD\u0AAF\u0AC7",
+            LLLL: "dddd, D MMMM YYYY, A h:mm \u0AB5\u0ABE\u0A97\u0ACD\u0AAF\u0AC7"
+          },
+          calendar: {
+            sameDay: "[\u0A86\u0A9C] LT",
+            nextDay: "[\u0A95\u0ABE\u0AB2\u0AC7] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0A97\u0A87\u0A95\u0ABE\u0AB2\u0AC7] LT",
+            lastWeek: "[\u0AAA\u0ABE\u0A9B\u0AB2\u0ABE] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0AAE\u0ABE",
+            past: "%s \u0AAA\u0AB9\u0AC7\u0AB2\u0ABE",
+            s: "\u0A85\u0AAE\u0AC1\u0A95 \u0AAA\u0AB3\u0ACB",
+            ss: "%d \u0AB8\u0AC7\u0A95\u0A82\u0AA1",
+            m: "\u0A8F\u0A95 \u0AAE\u0ABF\u0AA8\u0ABF\u0A9F",
+            mm: "%d \u0AAE\u0ABF\u0AA8\u0ABF\u0A9F",
+            h: "\u0A8F\u0A95 \u0A95\u0AB2\u0ABE\u0A95",
+            hh: "%d \u0A95\u0AB2\u0ABE\u0A95",
+            d: "\u0A8F\u0A95 \u0AA6\u0ABF\u0AB5\u0AB8",
+            dd: "%d \u0AA6\u0ABF\u0AB5\u0AB8",
+            M: "\u0A8F\u0A95 \u0AAE\u0AB9\u0ABF\u0AA8\u0ACB",
+            MM: "%d \u0AAE\u0AB9\u0ABF\u0AA8\u0ACB",
+            y: "\u0A8F\u0A95 \u0AB5\u0AB0\u0ACD\u0AB7",
+            yy: "%d \u0AB5\u0AB0\u0ACD\u0AB7"
+          },
+          preparse: function(string) {
+            return string.replace(/[૧૨૩૪૫૬૭૮૯૦]/g, function(match) {
+              return numberMap$6[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$7[match];
+            });
+          },
+          // Gujarati notation for meridiems are quite fuzzy in practice. While there exists
+          // a rigid notion of a 'Pahar' it is not used as rigidly in modern Gujarati.
+          meridiemParse: /રાત|બપોર|સવાર|સાંજ/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0AB0\u0ABE\u0AA4") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0AB8\u0AB5\u0ABE\u0AB0") {
+              return hour;
+            } else if (meridiem2 === "\u0AAC\u0AAA\u0ACB\u0AB0") {
+              return hour >= 10 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0AB8\u0ABE\u0A82\u0A9C") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0AB0\u0ABE\u0AA4";
+            } else if (hour < 10) {
+              return "\u0AB8\u0AB5\u0ABE\u0AB0";
+            } else if (hour < 17) {
+              return "\u0AAC\u0AAA\u0ACB\u0AB0";
+            } else if (hour < 20) {
+              return "\u0AB8\u0ABE\u0A82\u0A9C";
+            } else {
+              return "\u0AB0\u0ABE\u0AA4";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("he", {
+          months: "\u05D9\u05E0\u05D5\u05D0\u05E8_\u05E4\u05D1\u05E8\u05D5\u05D0\u05E8_\u05DE\u05E8\u05E5_\u05D0\u05E4\u05E8\u05D9\u05DC_\u05DE\u05D0\u05D9_\u05D9\u05D5\u05E0\u05D9_\u05D9\u05D5\u05DC\u05D9_\u05D0\u05D5\u05D2\u05D5\u05E1\u05D8_\u05E1\u05E4\u05D8\u05DE\u05D1\u05E8_\u05D0\u05D5\u05E7\u05D8\u05D5\u05D1\u05E8_\u05E0\u05D5\u05D1\u05DE\u05D1\u05E8_\u05D3\u05E6\u05DE\u05D1\u05E8".split(
+            "_"
+          ),
+          monthsShort: "\u05D9\u05E0\u05D5\u05F3_\u05E4\u05D1\u05E8\u05F3_\u05DE\u05E8\u05E5_\u05D0\u05E4\u05E8\u05F3_\u05DE\u05D0\u05D9_\u05D9\u05D5\u05E0\u05D9_\u05D9\u05D5\u05DC\u05D9_\u05D0\u05D5\u05D2\u05F3_\u05E1\u05E4\u05D8\u05F3_\u05D0\u05D5\u05E7\u05F3_\u05E0\u05D5\u05D1\u05F3_\u05D3\u05E6\u05DE\u05F3".split("_"),
+          weekdays: "\u05E8\u05D0\u05E9\u05D5\u05DF_\u05E9\u05E0\u05D9_\u05E9\u05DC\u05D9\u05E9\u05D9_\u05E8\u05D1\u05D9\u05E2\u05D9_\u05D7\u05DE\u05D9\u05E9\u05D9_\u05E9\u05D9\u05E9\u05D9_\u05E9\u05D1\u05EA".split("_"),
+          weekdaysShort: "\u05D0\u05F3_\u05D1\u05F3_\u05D2\u05F3_\u05D3\u05F3_\u05D4\u05F3_\u05D5\u05F3_\u05E9\u05F3".split("_"),
+          weekdaysMin: "\u05D0_\u05D1_\u05D2_\u05D3_\u05D4_\u05D5_\u05E9".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D [\u05D1]MMMM YYYY",
+            LLL: "D [\u05D1]MMMM YYYY HH:mm",
+            LLLL: "dddd, D [\u05D1]MMMM YYYY HH:mm",
+            l: "D/M/YYYY",
+            ll: "D MMM YYYY",
+            lll: "D MMM YYYY HH:mm",
+            llll: "ddd, D MMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u05D4\u05D9\u05D5\u05DD \u05D1\u05BE]LT",
+            nextDay: "[\u05DE\u05D7\u05E8 \u05D1\u05BE]LT",
+            nextWeek: "dddd [\u05D1\u05E9\u05E2\u05D4] LT",
+            lastDay: "[\u05D0\u05EA\u05DE\u05D5\u05DC \u05D1\u05BE]LT",
+            lastWeek: "[\u05D1\u05D9\u05D5\u05DD] dddd [\u05D4\u05D0\u05D7\u05E8\u05D5\u05DF \u05D1\u05E9\u05E2\u05D4] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u05D1\u05E2\u05D5\u05D3 %s",
+            past: "\u05DC\u05E4\u05E0\u05D9 %s",
+            s: "\u05DE\u05E1\u05E4\u05E8 \u05E9\u05E0\u05D9\u05D5\u05EA",
+            ss: "%d \u05E9\u05E0\u05D9\u05D5\u05EA",
+            m: "\u05D3\u05E7\u05D4",
+            mm: "%d \u05D3\u05E7\u05D5\u05EA",
+            h: "\u05E9\u05E2\u05D4",
+            hh: function(number) {
+              if (number === 2) {
+                return "\u05E9\u05E2\u05EA\u05D9\u05D9\u05DD";
+              }
+              return number + " \u05E9\u05E2\u05D5\u05EA";
+            },
+            d: "\u05D9\u05D5\u05DD",
+            dd: function(number) {
+              if (number === 2) {
+                return "\u05D9\u05D5\u05DE\u05D9\u05D9\u05DD";
+              }
+              return number + " \u05D9\u05DE\u05D9\u05DD";
+            },
+            M: "\u05D7\u05D5\u05D3\u05E9",
+            MM: function(number) {
+              if (number === 2) {
+                return "\u05D7\u05D5\u05D3\u05E9\u05D9\u05D9\u05DD";
+              }
+              return number + " \u05D7\u05D5\u05D3\u05E9\u05D9\u05DD";
+            },
+            y: "\u05E9\u05E0\u05D4",
+            yy: function(number) {
+              if (number === 2) {
+                return "\u05E9\u05E0\u05EA\u05D9\u05D9\u05DD";
+              } else if (number % 10 === 0 && number !== 10) {
+                return number + " \u05E9\u05E0\u05D4";
+              }
+              return number + " \u05E9\u05E0\u05D9\u05DD";
+            }
+          },
+          meridiemParse: /אחה"צ|לפנה"צ|אחרי הצהריים|לפני הצהריים|לפנות בוקר|בבוקר|בערב/i,
+          isPM: function(input) {
+            return /^(אחה"צ|אחרי הצהריים|בערב)$/.test(input);
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 5) {
+              return "\u05DC\u05E4\u05E0\u05D5\u05EA \u05D1\u05D5\u05E7\u05E8";
+            } else if (hour < 10) {
+              return "\u05D1\u05D1\u05D5\u05E7\u05E8";
+            } else if (hour < 12) {
+              return isLower ? '\u05DC\u05E4\u05E0\u05D4"\u05E6' : "\u05DC\u05E4\u05E0\u05D9 \u05D4\u05E6\u05D4\u05E8\u05D9\u05D9\u05DD";
+            } else if (hour < 18) {
+              return isLower ? '\u05D0\u05D7\u05D4"\u05E6' : "\u05D0\u05D7\u05E8\u05D9 \u05D4\u05E6\u05D4\u05E8\u05D9\u05D9\u05DD";
+            } else {
+              return "\u05D1\u05E2\u05E8\u05D1";
+            }
+          }
+        });
+        var symbolMap$8 = {
+          1: "\u0967",
+          2: "\u0968",
+          3: "\u0969",
+          4: "\u096A",
+          5: "\u096B",
+          6: "\u096C",
+          7: "\u096D",
+          8: "\u096E",
+          9: "\u096F",
+          0: "\u0966"
+        }, numberMap$7 = {
+          "\u0967": "1",
+          "\u0968": "2",
+          "\u0969": "3",
+          "\u096A": "4",
+          "\u096B": "5",
+          "\u096C": "6",
+          "\u096D": "7",
+          "\u096E": "8",
+          "\u096F": "9",
+          "\u0966": "0"
+        }, monthsParse$7 = [
+          /^जन/i,
+          /^फ़र|फर/i,
+          /^मार्च/i,
+          /^अप्रै/i,
+          /^मई/i,
+          /^जून/i,
+          /^जुल/i,
+          /^अग/i,
+          /^सितं|सित/i,
+          /^अक्टू/i,
+          /^नव|नवं/i,
+          /^दिसं|दिस/i
+        ], shortMonthsParse = [
+          /^जन/i,
+          /^फ़र/i,
+          /^मार्च/i,
+          /^अप्रै/i,
+          /^मई/i,
+          /^जून/i,
+          /^जुल/i,
+          /^अग/i,
+          /^सित/i,
+          /^अक्टू/i,
+          /^नव/i,
+          /^दिस/i
+        ];
+        hooks.defineLocale("hi", {
+          months: {
+            format: "\u091C\u0928\u0935\u0930\u0940_\u092B\u093C\u0930\u0935\u0930\u0940_\u092E\u093E\u0930\u094D\u091A_\u0905\u092A\u094D\u0930\u0948\u0932_\u092E\u0908_\u091C\u0942\u0928_\u091C\u0941\u0932\u093E\u0908_\u0905\u0917\u0938\u094D\u0924_\u0938\u093F\u0924\u092E\u094D\u092C\u0930_\u0905\u0915\u094D\u091F\u0942\u092C\u0930_\u0928\u0935\u092E\u094D\u092C\u0930_\u0926\u093F\u0938\u092E\u094D\u092C\u0930".split(
+              "_"
+            ),
+            standalone: "\u091C\u0928\u0935\u0930\u0940_\u092B\u0930\u0935\u0930\u0940_\u092E\u093E\u0930\u094D\u091A_\u0905\u092A\u094D\u0930\u0948\u0932_\u092E\u0908_\u091C\u0942\u0928_\u091C\u0941\u0932\u093E\u0908_\u0905\u0917\u0938\u094D\u0924_\u0938\u093F\u0924\u0902\u092C\u0930_\u0905\u0915\u094D\u091F\u0942\u092C\u0930_\u0928\u0935\u0902\u092C\u0930_\u0926\u093F\u0938\u0902\u092C\u0930".split(
+              "_"
+            )
+          },
+          monthsShort: "\u091C\u0928._\u092B\u093C\u0930._\u092E\u093E\u0930\u094D\u091A_\u0905\u092A\u094D\u0930\u0948._\u092E\u0908_\u091C\u0942\u0928_\u091C\u0941\u0932._\u0905\u0917._\u0938\u093F\u0924._\u0905\u0915\u094D\u091F\u0942._\u0928\u0935._\u0926\u093F\u0938.".split("_"),
+          weekdays: "\u0930\u0935\u093F\u0935\u093E\u0930_\u0938\u094B\u092E\u0935\u093E\u0930_\u092E\u0902\u0917\u0932\u0935\u093E\u0930_\u092C\u0941\u0927\u0935\u093E\u0930_\u0917\u0941\u0930\u0942\u0935\u093E\u0930_\u0936\u0941\u0915\u094D\u0930\u0935\u093E\u0930_\u0936\u0928\u093F\u0935\u093E\u0930".split("_"),
+          weekdaysShort: "\u0930\u0935\u093F_\u0938\u094B\u092E_\u092E\u0902\u0917\u0932_\u092C\u0941\u0927_\u0917\u0941\u0930\u0942_\u0936\u0941\u0915\u094D\u0930_\u0936\u0928\u093F".split("_"),
+          weekdaysMin: "\u0930_\u0938\u094B_\u092E\u0902_\u092C\u0941_\u0917\u0941_\u0936\u0941_\u0936".split("_"),
+          longDateFormat: {
+            LT: "A h:mm \u092C\u091C\u0947",
+            LTS: "A h:mm:ss \u092C\u091C\u0947",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm \u092C\u091C\u0947",
+            LLLL: "dddd, D MMMM YYYY, A h:mm \u092C\u091C\u0947"
+          },
+          monthsParse: monthsParse$7,
+          longMonthsParse: monthsParse$7,
+          shortMonthsParse,
+          monthsRegex: /^(जनवरी|जन\.?|फ़रवरी|फरवरी|फ़र\.?|मार्च?|अप्रैल|अप्रै\.?|मई?|जून?|जुलाई|जुल\.?|अगस्त|अग\.?|सितम्बर|सितंबर|सित\.?|अक्टूबर|अक्टू\.?|नवम्बर|नवंबर|नव\.?|दिसम्बर|दिसंबर|दिस\.?)/i,
+          monthsShortRegex: /^(जनवरी|जन\.?|फ़रवरी|फरवरी|फ़र\.?|मार्च?|अप्रैल|अप्रै\.?|मई?|जून?|जुलाई|जुल\.?|अगस्त|अग\.?|सितम्बर|सितंबर|सित\.?|अक्टूबर|अक्टू\.?|नवम्बर|नवंबर|नव\.?|दिसम्बर|दिसंबर|दिस\.?)/i,
+          monthsStrictRegex: /^(जनवरी?|फ़रवरी|फरवरी?|मार्च?|अप्रैल?|मई?|जून?|जुलाई?|अगस्त?|सितम्बर|सितंबर|सित?\.?|अक्टूबर|अक्टू\.?|नवम्बर|नवंबर?|दिसम्बर|दिसंबर?)/i,
+          monthsShortStrictRegex: /^(जन\.?|फ़र\.?|मार्च?|अप्रै\.?|मई?|जून?|जुल\.?|अग\.?|सित\.?|अक्टू\.?|नव\.?|दिस\.?)/i,
+          calendar: {
+            sameDay: "[\u0906\u091C] LT",
+            nextDay: "[\u0915\u0932] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0915\u0932] LT",
+            lastWeek: "[\u092A\u093F\u091B\u0932\u0947] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u092E\u0947\u0902",
+            past: "%s \u092A\u0939\u0932\u0947",
+            s: "\u0915\u0941\u091B \u0939\u0940 \u0915\u094D\u0937\u0923",
+            ss: "%d \u0938\u0947\u0915\u0902\u0921",
+            m: "\u090F\u0915 \u092E\u093F\u0928\u091F",
+            mm: "%d \u092E\u093F\u0928\u091F",
+            h: "\u090F\u0915 \u0918\u0902\u091F\u093E",
+            hh: "%d \u0918\u0902\u091F\u0947",
+            d: "\u090F\u0915 \u0926\u093F\u0928",
+            dd: "%d \u0926\u093F\u0928",
+            M: "\u090F\u0915 \u092E\u0939\u0940\u0928\u0947",
+            MM: "%d \u092E\u0939\u0940\u0928\u0947",
+            y: "\u090F\u0915 \u0935\u0930\u094D\u0937",
+            yy: "%d \u0935\u0930\u094D\u0937"
+          },
+          preparse: function(string) {
+            return string.replace(/[१२३४५६७८९०]/g, function(match) {
+              return numberMap$7[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$8[match];
+            });
+          },
+          // Hindi notation for meridiems are quite fuzzy in practice. While there exists
+          // a rigid notion of a 'Pahar' it is not used as rigidly in modern Hindi.
+          meridiemParse: /रात|सुबह|दोपहर|शाम/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0930\u093E\u0924") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0938\u0941\u092C\u0939") {
+              return hour;
+            } else if (meridiem2 === "\u0926\u094B\u092A\u0939\u0930") {
+              return hour >= 10 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0936\u093E\u092E") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0930\u093E\u0924";
+            } else if (hour < 10) {
+              return "\u0938\u0941\u092C\u0939";
+            } else if (hour < 17) {
+              return "\u0926\u094B\u092A\u0939\u0930";
+            } else if (hour < 20) {
+              return "\u0936\u093E\u092E";
+            } else {
+              return "\u0930\u093E\u0924";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        function translate$3(number, withoutSuffix, key) {
+          var result = number + " ";
+          switch (key) {
+            case "ss":
+              if (number === 1) {
+                result += "sekunda";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "sekunde";
+              } else {
+                result += "sekundi";
+              }
+              return result;
+            case "m":
+              return withoutSuffix ? "jedna minuta" : "jedne minute";
+            case "mm":
+              if (number === 1) {
+                result += "minuta";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "minute";
+              } else {
+                result += "minuta";
+              }
+              return result;
+            case "h":
+              return withoutSuffix ? "jedan sat" : "jednog sata";
+            case "hh":
+              if (number === 1) {
+                result += "sat";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "sata";
+              } else {
+                result += "sati";
+              }
+              return result;
+            case "dd":
+              if (number === 1) {
+                result += "dan";
+              } else {
+                result += "dana";
+              }
+              return result;
+            case "MM":
+              if (number === 1) {
+                result += "mjesec";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "mjeseca";
+              } else {
+                result += "mjeseci";
+              }
+              return result;
+            case "yy":
+              if (number === 1) {
+                result += "godina";
+              } else if (number === 2 || number === 3 || number === 4) {
+                result += "godine";
+              } else {
+                result += "godina";
+              }
+              return result;
+          }
+        }
+        hooks.defineLocale("hr", {
+          months: {
+            format: "sije\u010Dnja_velja\u010De_o\u017Eujka_travnja_svibnja_lipnja_srpnja_kolovoza_rujna_listopada_studenoga_prosinca".split(
+              "_"
+            ),
+            standalone: "sije\u010Danj_velja\u010Da_o\u017Eujak_travanj_svibanj_lipanj_srpanj_kolovoz_rujan_listopad_studeni_prosinac".split(
+              "_"
+            )
+          },
+          monthsShort: "sij._velj._o\u017Eu._tra._svi._lip._srp._kol._ruj._lis._stu._pro.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "nedjelja_ponedjeljak_utorak_srijeda_\u010Detvrtak_petak_subota".split(
+            "_"
+          ),
+          weekdaysShort: "ned._pon._uto._sri._\u010Det._pet._sub.".split("_"),
+          weekdaysMin: "ne_po_ut_sr_\u010De_pe_su".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "Do MMMM YYYY",
+            LLL: "Do MMMM YYYY H:mm",
+            LLLL: "dddd, Do MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[danas u] LT",
+            nextDay: "[sutra u] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[u] [nedjelju] [u] LT";
+                case 3:
+                  return "[u] [srijedu] [u] LT";
+                case 6:
+                  return "[u] [subotu] [u] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[u] dddd [u] LT";
+              }
+            },
+            lastDay: "[ju\u010Der u] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[pro\u0161lu] [nedjelju] [u] LT";
+                case 3:
+                  return "[pro\u0161lu] [srijedu] [u] LT";
+                case 6:
+                  return "[pro\u0161le] [subote] [u] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[pro\u0161li] dddd [u] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "za %s",
+            past: "prije %s",
+            s: "par sekundi",
+            ss: translate$3,
+            m: translate$3,
+            mm: translate$3,
+            h: translate$3,
+            hh: translate$3,
+            d: "dan",
+            dd: translate$3,
+            M: "mjesec",
+            MM: translate$3,
+            y: "godinu",
+            yy: translate$3
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        var weekEndings = "vas\xE1rnap h\xE9tf\u0151n kedden szerd\xE1n cs\xFCt\xF6rt\xF6k\xF6n p\xE9nteken szombaton".split(" ");
+        function translate$4(number, withoutSuffix, key, isFuture) {
+          var num = number;
+          switch (key) {
+            case "s":
+              return isFuture || withoutSuffix ? "n\xE9h\xE1ny m\xE1sodperc" : "n\xE9h\xE1ny m\xE1sodperce";
+            case "ss":
+              return num + (isFuture || withoutSuffix) ? " m\xE1sodperc" : " m\xE1sodperce";
+            case "m":
+              return "egy" + (isFuture || withoutSuffix ? " perc" : " perce");
+            case "mm":
+              return num + (isFuture || withoutSuffix ? " perc" : " perce");
+            case "h":
+              return "egy" + (isFuture || withoutSuffix ? " \xF3ra" : " \xF3r\xE1ja");
+            case "hh":
+              return num + (isFuture || withoutSuffix ? " \xF3ra" : " \xF3r\xE1ja");
+            case "d":
+              return "egy" + (isFuture || withoutSuffix ? " nap" : " napja");
+            case "dd":
+              return num + (isFuture || withoutSuffix ? " nap" : " napja");
+            case "M":
+              return "egy" + (isFuture || withoutSuffix ? " h\xF3nap" : " h\xF3napja");
+            case "MM":
+              return num + (isFuture || withoutSuffix ? " h\xF3nap" : " h\xF3napja");
+            case "y":
+              return "egy" + (isFuture || withoutSuffix ? " \xE9v" : " \xE9ve");
+            case "yy":
+              return num + (isFuture || withoutSuffix ? " \xE9v" : " \xE9ve");
+          }
+          return "";
+        }
+        function week(isFuture) {
+          return (isFuture ? "" : "[m\xFAlt] ") + "[" + weekEndings[this.day()] + "] LT[-kor]";
+        }
+        hooks.defineLocale("hu", {
+          months: "janu\xE1r_febru\xE1r_m\xE1rcius_\xE1prilis_m\xE1jus_j\xFAnius_j\xFAlius_augusztus_szeptember_okt\xF3ber_november_december".split(
+            "_"
+          ),
+          monthsShort: "jan._feb._m\xE1rc._\xE1pr._m\xE1j._j\xFAn._j\xFAl._aug._szept._okt._nov._dec.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "vas\xE1rnap_h\xE9tf\u0151_kedd_szerda_cs\xFCt\xF6rt\xF6k_p\xE9ntek_szombat".split("_"),
+          weekdaysShort: "vas_h\xE9t_kedd_sze_cs\xFCt_p\xE9n_szo".split("_"),
+          weekdaysMin: "v_h_k_sze_cs_p_szo".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "YYYY.MM.DD.",
+            LL: "YYYY. MMMM D.",
+            LLL: "YYYY. MMMM D. H:mm",
+            LLLL: "YYYY. MMMM D., dddd H:mm"
+          },
+          meridiemParse: /de|du/i,
+          isPM: function(input) {
+            return input.charAt(1).toLowerCase() === "u";
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 12) {
+              return isLower === true ? "de" : "DE";
+            } else {
+              return isLower === true ? "du" : "DU";
+            }
+          },
+          calendar: {
+            sameDay: "[ma] LT[-kor]",
+            nextDay: "[holnap] LT[-kor]",
+            nextWeek: function() {
+              return week.call(this, true);
+            },
+            lastDay: "[tegnap] LT[-kor]",
+            lastWeek: function() {
+              return week.call(this, false);
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s m\xFAlva",
+            past: "%s",
+            s: translate$4,
+            ss: translate$4,
+            m: translate$4,
+            mm: translate$4,
+            h: translate$4,
+            hh: translate$4,
+            d: translate$4,
+            dd: translate$4,
+            M: translate$4,
+            MM: translate$4,
+            y: translate$4,
+            yy: translate$4
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("hy-am", {
+          months: {
+            format: "\u0570\u0578\u0582\u0576\u057E\u0561\u0580\u056B_\u0583\u0565\u057F\u0580\u057E\u0561\u0580\u056B_\u0574\u0561\u0580\u057F\u056B_\u0561\u057A\u0580\u056B\u056C\u056B_\u0574\u0561\u0575\u056B\u057D\u056B_\u0570\u0578\u0582\u0576\u056B\u057D\u056B_\u0570\u0578\u0582\u056C\u056B\u057D\u056B_\u0585\u0563\u0578\u057D\u057F\u0578\u057D\u056B_\u057D\u0565\u057A\u057F\u0565\u0574\u0562\u0565\u0580\u056B_\u0570\u0578\u056F\u057F\u0565\u0574\u0562\u0565\u0580\u056B_\u0576\u0578\u0575\u0565\u0574\u0562\u0565\u0580\u056B_\u0564\u0565\u056F\u057F\u0565\u0574\u0562\u0565\u0580\u056B".split(
+              "_"
+            ),
+            standalone: "\u0570\u0578\u0582\u0576\u057E\u0561\u0580_\u0583\u0565\u057F\u0580\u057E\u0561\u0580_\u0574\u0561\u0580\u057F_\u0561\u057A\u0580\u056B\u056C_\u0574\u0561\u0575\u056B\u057D_\u0570\u0578\u0582\u0576\u056B\u057D_\u0570\u0578\u0582\u056C\u056B\u057D_\u0585\u0563\u0578\u057D\u057F\u0578\u057D_\u057D\u0565\u057A\u057F\u0565\u0574\u0562\u0565\u0580_\u0570\u0578\u056F\u057F\u0565\u0574\u0562\u0565\u0580_\u0576\u0578\u0575\u0565\u0574\u0562\u0565\u0580_\u0564\u0565\u056F\u057F\u0565\u0574\u0562\u0565\u0580".split(
+              "_"
+            )
+          },
+          monthsShort: "\u0570\u0576\u057E_\u0583\u057F\u0580_\u0574\u0580\u057F_\u0561\u057A\u0580_\u0574\u0575\u057D_\u0570\u0576\u057D_\u0570\u056C\u057D_\u0585\u0563\u057D_\u057D\u057A\u057F_\u0570\u056F\u057F_\u0576\u0574\u0562_\u0564\u056F\u057F".split("_"),
+          weekdays: "\u056F\u056B\u0580\u0561\u056F\u056B_\u0565\u0580\u056F\u0578\u0582\u0577\u0561\u0562\u0569\u056B_\u0565\u0580\u0565\u0584\u0577\u0561\u0562\u0569\u056B_\u0579\u0578\u0580\u0565\u0584\u0577\u0561\u0562\u0569\u056B_\u0570\u056B\u0576\u0563\u0577\u0561\u0562\u0569\u056B_\u0578\u0582\u0580\u0562\u0561\u0569_\u0577\u0561\u0562\u0561\u0569".split(
+            "_"
+          ),
+          weekdaysShort: "\u056F\u0580\u056F_\u0565\u0580\u056F_\u0565\u0580\u0584_\u0579\u0580\u0584_\u0570\u0576\u0563_\u0578\u0582\u0580\u0562_\u0577\u0562\u0569".split("_"),
+          weekdaysMin: "\u056F\u0580\u056F_\u0565\u0580\u056F_\u0565\u0580\u0584_\u0579\u0580\u0584_\u0570\u0576\u0563_\u0578\u0582\u0580\u0562_\u0577\u0562\u0569".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY \u0569.",
+            LLL: "D MMMM YYYY \u0569., HH:mm",
+            LLLL: "dddd, D MMMM YYYY \u0569., HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0561\u0575\u057D\u0585\u0580] LT",
+            nextDay: "[\u057E\u0561\u0572\u0568] LT",
+            lastDay: "[\u0565\u0580\u0565\u056F] LT",
+            nextWeek: function() {
+              return "dddd [\u0585\u0580\u0568 \u056A\u0561\u0574\u0568] LT";
+            },
+            lastWeek: function() {
+              return "[\u0561\u0576\u0581\u0561\u056E] dddd [\u0585\u0580\u0568 \u056A\u0561\u0574\u0568] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0570\u0565\u057F\u0578",
+            past: "%s \u0561\u057C\u0561\u057B",
+            s: "\u0574\u056B \u0584\u0561\u0576\u056B \u057E\u0561\u0575\u0580\u056F\u0575\u0561\u0576",
+            ss: "%d \u057E\u0561\u0575\u0580\u056F\u0575\u0561\u0576",
+            m: "\u0580\u0578\u057A\u0565",
+            mm: "%d \u0580\u0578\u057A\u0565",
+            h: "\u056A\u0561\u0574",
+            hh: "%d \u056A\u0561\u0574",
+            d: "\u0585\u0580",
+            dd: "%d \u0585\u0580",
+            M: "\u0561\u0574\u056B\u057D",
+            MM: "%d \u0561\u0574\u056B\u057D",
+            y: "\u057F\u0561\u0580\u056B",
+            yy: "%d \u057F\u0561\u0580\u056B"
+          },
+          meridiemParse: /գիշերվա|առավոտվա|ցերեկվա|երեկոյան/,
+          isPM: function(input) {
+            return /^(ցերեկվա|երեկոյան)$/.test(input);
+          },
+          meridiem: function(hour) {
+            if (hour < 4) {
+              return "\u0563\u056B\u0577\u0565\u0580\u057E\u0561";
+            } else if (hour < 12) {
+              return "\u0561\u057C\u0561\u057E\u0578\u057F\u057E\u0561";
+            } else if (hour < 17) {
+              return "\u0581\u0565\u0580\u0565\u056F\u057E\u0561";
+            } else {
+              return "\u0565\u0580\u0565\u056F\u0578\u0575\u0561\u0576";
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}|\d{1,2}-(ին|րդ)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "DDD":
+              case "w":
+              case "W":
+              case "DDDo":
+                if (number === 1) {
+                  return number + "-\u056B\u0576";
+                }
+                return number + "-\u0580\u0564";
+              default:
+                return number;
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("id", {
+          months: "Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_Mei_Jun_Jul_Agt_Sep_Okt_Nov_Des".split("_"),
+          weekdays: "Minggu_Senin_Selasa_Rabu_Kamis_Jumat_Sabtu".split("_"),
+          weekdaysShort: "Min_Sen_Sel_Rab_Kam_Jum_Sab".split("_"),
+          weekdaysMin: "Mg_Sn_Sl_Rb_Km_Jm_Sb".split("_"),
+          longDateFormat: {
+            LT: "HH.mm",
+            LTS: "HH.mm.ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY [pukul] HH.mm",
+            LLLL: "dddd, D MMMM YYYY [pukul] HH.mm"
+          },
+          meridiemParse: /pagi|siang|sore|malam/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "pagi") {
+              return hour;
+            } else if (meridiem2 === "siang") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "sore" || meridiem2 === "malam") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 11) {
+              return "pagi";
+            } else if (hours2 < 15) {
+              return "siang";
+            } else if (hours2 < 19) {
+              return "sore";
+            } else {
+              return "malam";
+            }
+          },
+          calendar: {
+            sameDay: "[Hari ini pukul] LT",
+            nextDay: "[Besok pukul] LT",
+            nextWeek: "dddd [pukul] LT",
+            lastDay: "[Kemarin pukul] LT",
+            lastWeek: "dddd [lalu pukul] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "dalam %s",
+            past: "%s yang lalu",
+            s: "beberapa detik",
+            ss: "%d detik",
+            m: "semenit",
+            mm: "%d menit",
+            h: "sejam",
+            hh: "%d jam",
+            d: "sehari",
+            dd: "%d hari",
+            M: "sebulan",
+            MM: "%d bulan",
+            y: "setahun",
+            yy: "%d tahun"
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        function plural$2(n) {
+          if (n % 100 === 11) {
+            return true;
+          } else if (n % 10 === 1) {
+            return false;
+          }
+          return true;
+        }
+        function translate$5(number, withoutSuffix, key, isFuture) {
+          var result = number + " ";
+          switch (key) {
+            case "s":
+              return withoutSuffix || isFuture ? "nokkrar sek\xFAndur" : "nokkrum sek\xFAndum";
+            case "ss":
+              if (plural$2(number)) {
+                return result + (withoutSuffix || isFuture ? "sek\xFAndur" : "sek\xFAndum");
+              }
+              return result + "sek\xFAnda";
+            case "m":
+              return withoutSuffix ? "m\xEDn\xFAta" : "m\xEDn\xFAtu";
+            case "mm":
+              if (plural$2(number)) {
+                return result + (withoutSuffix || isFuture ? "m\xEDn\xFAtur" : "m\xEDn\xFAtum");
+              } else if (withoutSuffix) {
+                return result + "m\xEDn\xFAta";
+              }
+              return result + "m\xEDn\xFAtu";
+            case "hh":
+              if (plural$2(number)) {
+                return result + (withoutSuffix || isFuture ? "klukkustundir" : "klukkustundum");
+              }
+              return result + "klukkustund";
+            case "d":
+              if (withoutSuffix) {
+                return "dagur";
+              }
+              return isFuture ? "dag" : "degi";
+            case "dd":
+              if (plural$2(number)) {
+                if (withoutSuffix) {
+                  return result + "dagar";
+                }
+                return result + (isFuture ? "daga" : "d\xF6gum");
+              } else if (withoutSuffix) {
+                return result + "dagur";
+              }
+              return result + (isFuture ? "dag" : "degi");
+            case "M":
+              if (withoutSuffix) {
+                return "m\xE1nu\xF0ur";
+              }
+              return isFuture ? "m\xE1nu\xF0" : "m\xE1nu\xF0i";
+            case "MM":
+              if (plural$2(number)) {
+                if (withoutSuffix) {
+                  return result + "m\xE1nu\xF0ir";
+                }
+                return result + (isFuture ? "m\xE1nu\xF0i" : "m\xE1nu\xF0um");
+              } else if (withoutSuffix) {
+                return result + "m\xE1nu\xF0ur";
+              }
+              return result + (isFuture ? "m\xE1nu\xF0" : "m\xE1nu\xF0i");
+            case "y":
+              return withoutSuffix || isFuture ? "\xE1r" : "\xE1ri";
+            case "yy":
+              if (plural$2(number)) {
+                return result + (withoutSuffix || isFuture ? "\xE1r" : "\xE1rum");
+              }
+              return result + (withoutSuffix || isFuture ? "\xE1r" : "\xE1ri");
+          }
+        }
+        hooks.defineLocale("is", {
+          months: "jan\xFAar_febr\xFAar_mars_apr\xEDl_ma\xED_j\xFAn\xED_j\xFAl\xED_\xE1g\xFAst_september_okt\xF3ber_n\xF3vember_desember".split(
+            "_"
+          ),
+          monthsShort: "jan_feb_mar_apr_ma\xED_j\xFAn_j\xFAl_\xE1g\xFA_sep_okt_n\xF3v_des".split("_"),
+          weekdays: "sunnudagur_m\xE1nudagur_\xFEri\xF0judagur_mi\xF0vikudagur_fimmtudagur_f\xF6studagur_laugardagur".split(
+            "_"
+          ),
+          weekdaysShort: "sun_m\xE1n_\xFEri_mi\xF0_fim_f\xF6s_lau".split("_"),
+          weekdaysMin: "Su_M\xE1_\xDEr_Mi_Fi_F\xF6_La".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY [kl.] H:mm",
+            LLLL: "dddd, D. MMMM YYYY [kl.] H:mm"
+          },
+          calendar: {
+            sameDay: "[\xED dag kl.] LT",
+            nextDay: "[\xE1 morgun kl.] LT",
+            nextWeek: "dddd [kl.] LT",
+            lastDay: "[\xED g\xE6r kl.] LT",
+            lastWeek: "[s\xED\xF0asta] dddd [kl.] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "eftir %s",
+            past: "fyrir %s s\xED\xF0an",
+            s: translate$5,
+            ss: translate$5,
+            m: translate$5,
+            mm: translate$5,
+            h: "klukkustund",
+            hh: translate$5,
+            d: translate$5,
+            dd: translate$5,
+            M: translate$5,
+            MM: translate$5,
+            y: translate$5,
+            yy: translate$5
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("it-ch", {
+          months: "gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre".split(
+            "_"
+          ),
+          monthsShort: "gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic".split("_"),
+          weekdays: "domenica_luned\xEC_marted\xEC_mercoled\xEC_gioved\xEC_venerd\xEC_sabato".split(
+            "_"
+          ),
+          weekdaysShort: "dom_lun_mar_mer_gio_ven_sab".split("_"),
+          weekdaysMin: "do_lu_ma_me_gi_ve_sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Oggi alle] LT",
+            nextDay: "[Domani alle] LT",
+            nextWeek: "dddd [alle] LT",
+            lastDay: "[Ieri alle] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[la scorsa] dddd [alle] LT";
+                default:
+                  return "[lo scorso] dddd [alle] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: function(s) {
+              return (/^[0-9].+$/.test(s) ? "tra" : "in") + " " + s;
+            },
+            past: "%s fa",
+            s: "alcuni secondi",
+            ss: "%d secondi",
+            m: "un minuto",
+            mm: "%d minuti",
+            h: "un'ora",
+            hh: "%d ore",
+            d: "un giorno",
+            dd: "%d giorni",
+            M: "un mese",
+            MM: "%d mesi",
+            y: "un anno",
+            yy: "%d anni"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("it", {
+          months: "gennaio_febbraio_marzo_aprile_maggio_giugno_luglio_agosto_settembre_ottobre_novembre_dicembre".split(
+            "_"
+          ),
+          monthsShort: "gen_feb_mar_apr_mag_giu_lug_ago_set_ott_nov_dic".split("_"),
+          weekdays: "domenica_luned\xEC_marted\xEC_mercoled\xEC_gioved\xEC_venerd\xEC_sabato".split(
+            "_"
+          ),
+          weekdaysShort: "dom_lun_mar_mer_gio_ven_sab".split("_"),
+          weekdaysMin: "do_lu_ma_me_gi_ve_sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: function() {
+              return "[Oggi a" + (this.hours() > 1 ? "lle " : this.hours() === 0 ? " " : "ll'") + "]LT";
+            },
+            nextDay: function() {
+              return "[Domani a" + (this.hours() > 1 ? "lle " : this.hours() === 0 ? " " : "ll'") + "]LT";
+            },
+            nextWeek: function() {
+              return "dddd [a" + (this.hours() > 1 ? "lle " : this.hours() === 0 ? " " : "ll'") + "]LT";
+            },
+            lastDay: function() {
+              return "[Ieri a" + (this.hours() > 1 ? "lle " : this.hours() === 0 ? " " : "ll'") + "]LT";
+            },
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[La scorsa] dddd [a" + (this.hours() > 1 ? "lle " : this.hours() === 0 ? " " : "ll'") + "]LT";
+                default:
+                  return "[Lo scorso] dddd [a" + (this.hours() > 1 ? "lle " : this.hours() === 0 ? " " : "ll'") + "]LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "tra %s",
+            past: "%s fa",
+            s: "alcuni secondi",
+            ss: "%d secondi",
+            m: "un minuto",
+            mm: "%d minuti",
+            h: "un'ora",
+            hh: "%d ore",
+            d: "un giorno",
+            dd: "%d giorni",
+            w: "una settimana",
+            ww: "%d settimane",
+            M: "un mese",
+            MM: "%d mesi",
+            y: "un anno",
+            yy: "%d anni"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ja", {
+          eras: [
+            {
+              since: "2019-05-01",
+              offset: 1,
+              name: "\u4EE4\u548C",
+              narrow: "\u32FF",
+              abbr: "R"
+            },
+            {
+              since: "1989-01-08",
+              until: "2019-04-30",
+              offset: 1,
+              name: "\u5E73\u6210",
+              narrow: "\u337B",
+              abbr: "H"
+            },
+            {
+              since: "1926-12-25",
+              until: "1989-01-07",
+              offset: 1,
+              name: "\u662D\u548C",
+              narrow: "\u337C",
+              abbr: "S"
+            },
+            {
+              since: "1912-07-30",
+              until: "1926-12-24",
+              offset: 1,
+              name: "\u5927\u6B63",
+              narrow: "\u337D",
+              abbr: "T"
+            },
+            {
+              since: "1873-01-01",
+              until: "1912-07-29",
+              offset: 6,
+              name: "\u660E\u6CBB",
+              narrow: "\u337E",
+              abbr: "M"
+            },
+            {
+              since: "0001-01-01",
+              until: "1873-12-31",
+              offset: 1,
+              name: "\u897F\u66A6",
+              narrow: "AD",
+              abbr: "AD"
+            },
+            {
+              since: "0000-12-31",
+              until: -Infinity,
+              offset: 1,
+              name: "\u7D00\u5143\u524D",
+              narrow: "BC",
+              abbr: "BC"
+            }
+          ],
+          eraYearOrdinalRegex: /(元|\d+)年/,
+          eraYearOrdinalParse: function(input, match) {
+            return match[1] === "\u5143" ? 1 : parseInt(match[1] || input, 10);
+          },
+          months: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split("_"),
+          monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split(
+            "_"
+          ),
+          weekdays: "\u65E5\u66DC\u65E5_\u6708\u66DC\u65E5_\u706B\u66DC\u65E5_\u6C34\u66DC\u65E5_\u6728\u66DC\u65E5_\u91D1\u66DC\u65E5_\u571F\u66DC\u65E5".split("_"),
+          weekdaysShort: "\u65E5_\u6708_\u706B_\u6C34_\u6728_\u91D1_\u571F".split("_"),
+          weekdaysMin: "\u65E5_\u6708_\u706B_\u6C34_\u6728_\u91D1_\u571F".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY/MM/DD",
+            LL: "YYYY\u5E74M\u6708D\u65E5",
+            LLL: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            LLLL: "YYYY\u5E74M\u6708D\u65E5 dddd HH:mm",
+            l: "YYYY/MM/DD",
+            ll: "YYYY\u5E74M\u6708D\u65E5",
+            lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            llll: "YYYY\u5E74M\u6708D\u65E5(ddd) HH:mm"
+          },
+          meridiemParse: /午前|午後/i,
+          isPM: function(input) {
+            return input === "\u5348\u5F8C";
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u5348\u524D";
+            } else {
+              return "\u5348\u5F8C";
+            }
+          },
+          calendar: {
+            sameDay: "[\u4ECA\u65E5] LT",
+            nextDay: "[\u660E\u65E5] LT",
+            nextWeek: function(now2) {
+              if (now2.week() !== this.week()) {
+                return "[\u6765\u9031]dddd LT";
+              } else {
+                return "dddd LT";
+              }
+            },
+            lastDay: "[\u6628\u65E5] LT",
+            lastWeek: function(now2) {
+              if (this.week() !== now2.week()) {
+                return "[\u5148\u9031]dddd LT";
+              } else {
+                return "dddd LT";
+              }
+            },
+            sameElse: "L"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}日/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "y":
+                return number === 1 ? "\u5143\u5E74" : number + "\u5E74";
+              case "d":
+              case "D":
+              case "DDD":
+                return number + "\u65E5";
+              default:
+                return number;
+            }
+          },
+          relativeTime: {
+            future: "%s\u5F8C",
+            past: "%s\u524D",
+            s: "\u6570\u79D2",
+            ss: "%d\u79D2",
+            m: "1\u5206",
+            mm: "%d\u5206",
+            h: "1\u6642\u9593",
+            hh: "%d\u6642\u9593",
+            d: "1\u65E5",
+            dd: "%d\u65E5",
+            M: "1\u30F6\u6708",
+            MM: "%d\u30F6\u6708",
+            y: "1\u5E74",
+            yy: "%d\u5E74"
+          }
+        });
+        hooks.defineLocale("jv", {
+          months: "Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_Nopember_Desember".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nop_Des".split("_"),
+          weekdays: "Minggu_Senen_Seloso_Rebu_Kemis_Jemuwah_Septu".split("_"),
+          weekdaysShort: "Min_Sen_Sel_Reb_Kem_Jem_Sep".split("_"),
+          weekdaysMin: "Mg_Sn_Sl_Rb_Km_Jm_Sp".split("_"),
+          longDateFormat: {
+            LT: "HH.mm",
+            LTS: "HH.mm.ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY [pukul] HH.mm",
+            LLLL: "dddd, D MMMM YYYY [pukul] HH.mm"
+          },
+          meridiemParse: /enjing|siyang|sonten|ndalu/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "enjing") {
+              return hour;
+            } else if (meridiem2 === "siyang") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "sonten" || meridiem2 === "ndalu") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 11) {
+              return "enjing";
+            } else if (hours2 < 15) {
+              return "siyang";
+            } else if (hours2 < 19) {
+              return "sonten";
+            } else {
+              return "ndalu";
+            }
+          },
+          calendar: {
+            sameDay: "[Dinten puniko pukul] LT",
+            nextDay: "[Mbenjang pukul] LT",
+            nextWeek: "dddd [pukul] LT",
+            lastDay: "[Kala wingi pukul] LT",
+            lastWeek: "dddd [kepengker pukul] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "wonten ing %s",
+            past: "%s ingkang kepengker",
+            s: "sawetawis detik",
+            ss: "%d detik",
+            m: "setunggal menit",
+            mm: "%d menit",
+            h: "setunggal jam",
+            hh: "%d jam",
+            d: "sedinten",
+            dd: "%d dinten",
+            M: "sewulan",
+            MM: "%d wulan",
+            y: "setaun",
+            yy: "%d taun"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ka", {
+          months: "\u10D8\u10D0\u10DC\u10D5\u10D0\u10E0\u10D8_\u10D7\u10D4\u10D1\u10D4\u10E0\u10D5\u10D0\u10DA\u10D8_\u10DB\u10D0\u10E0\u10E2\u10D8_\u10D0\u10DE\u10E0\u10D8\u10DA\u10D8_\u10DB\u10D0\u10D8\u10E1\u10D8_\u10D8\u10D5\u10DC\u10D8\u10E1\u10D8_\u10D8\u10D5\u10DA\u10D8\u10E1\u10D8_\u10D0\u10D2\u10D5\u10D8\u10E1\u10E2\u10DD_\u10E1\u10D4\u10E5\u10E2\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8_\u10DD\u10E5\u10E2\u10DD\u10DB\u10D1\u10D4\u10E0\u10D8_\u10DC\u10DD\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8_\u10D3\u10D4\u10D9\u10D4\u10DB\u10D1\u10D4\u10E0\u10D8".split(
+            "_"
+          ),
+          monthsShort: "\u10D8\u10D0\u10DC_\u10D7\u10D4\u10D1_\u10DB\u10D0\u10E0_\u10D0\u10DE\u10E0_\u10DB\u10D0\u10D8_\u10D8\u10D5\u10DC_\u10D8\u10D5\u10DA_\u10D0\u10D2\u10D5_\u10E1\u10D4\u10E5_\u10DD\u10E5\u10E2_\u10DC\u10DD\u10D4_\u10D3\u10D4\u10D9".split("_"),
+          weekdays: {
+            standalone: "\u10D9\u10D5\u10D8\u10E0\u10D0_\u10DD\u10E0\u10E8\u10D0\u10D1\u10D0\u10D7\u10D8_\u10E1\u10D0\u10DB\u10E8\u10D0\u10D1\u10D0\u10D7\u10D8_\u10DD\u10D7\u10EE\u10E8\u10D0\u10D1\u10D0\u10D7\u10D8_\u10EE\u10E3\u10D7\u10E8\u10D0\u10D1\u10D0\u10D7\u10D8_\u10DE\u10D0\u10E0\u10D0\u10E1\u10D9\u10D4\u10D5\u10D8_\u10E8\u10D0\u10D1\u10D0\u10D7\u10D8".split(
+              "_"
+            ),
+            format: "\u10D9\u10D5\u10D8\u10E0\u10D0\u10E1_\u10DD\u10E0\u10E8\u10D0\u10D1\u10D0\u10D7\u10E1_\u10E1\u10D0\u10DB\u10E8\u10D0\u10D1\u10D0\u10D7\u10E1_\u10DD\u10D7\u10EE\u10E8\u10D0\u10D1\u10D0\u10D7\u10E1_\u10EE\u10E3\u10D7\u10E8\u10D0\u10D1\u10D0\u10D7\u10E1_\u10DE\u10D0\u10E0\u10D0\u10E1\u10D9\u10D4\u10D5\u10E1_\u10E8\u10D0\u10D1\u10D0\u10D7\u10E1".split(
+              "_"
+            ),
+            isFormat: /(წინა|შემდეგ)/
+          },
+          weekdaysShort: "\u10D9\u10D5\u10D8_\u10DD\u10E0\u10E8_\u10E1\u10D0\u10DB_\u10DD\u10D7\u10EE_\u10EE\u10E3\u10D7_\u10DE\u10D0\u10E0_\u10E8\u10D0\u10D1".split("_"),
+          weekdaysMin: "\u10D9\u10D5_\u10DD\u10E0_\u10E1\u10D0_\u10DD\u10D7_\u10EE\u10E3_\u10DE\u10D0_\u10E8\u10D0".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u10D3\u10E6\u10D4\u10E1] LT[-\u10D6\u10D4]",
+            nextDay: "[\u10EE\u10D5\u10D0\u10DA] LT[-\u10D6\u10D4]",
+            lastDay: "[\u10D2\u10E3\u10E8\u10D8\u10DC] LT[-\u10D6\u10D4]",
+            nextWeek: "[\u10E8\u10D4\u10DB\u10D3\u10D4\u10D2] dddd LT[-\u10D6\u10D4]",
+            lastWeek: "[\u10EC\u10D8\u10DC\u10D0] dddd LT-\u10D6\u10D4",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: function(s) {
+              return s.replace(
+                /(წამ|წუთ|საათ|წელ|დღ|თვ)(ი|ე)/,
+                function($0, $1, $2) {
+                  return $2 === "\u10D8" ? $1 + "\u10E8\u10D8" : $1 + $2 + "\u10E8\u10D8";
+                }
+              );
+            },
+            past: function(s) {
+              if (/(წამი|წუთი|საათი|დღე|თვე)/.test(s)) {
+                return s.replace(/(ი|ე)$/, "\u10D8\u10E1 \u10EC\u10D8\u10DC");
+              }
+              if (/წელი/.test(s)) {
+                return s.replace(/წელი$/, "\u10EC\u10DA\u10D8\u10E1 \u10EC\u10D8\u10DC");
+              }
+              return s;
+            },
+            s: "\u10E0\u10D0\u10DB\u10D3\u10D4\u10DC\u10D8\u10DB\u10D4 \u10EC\u10D0\u10DB\u10D8",
+            ss: "%d \u10EC\u10D0\u10DB\u10D8",
+            m: "\u10EC\u10E3\u10D7\u10D8",
+            mm: "%d \u10EC\u10E3\u10D7\u10D8",
+            h: "\u10E1\u10D0\u10D0\u10D7\u10D8",
+            hh: "%d \u10E1\u10D0\u10D0\u10D7\u10D8",
+            d: "\u10D3\u10E6\u10D4",
+            dd: "%d \u10D3\u10E6\u10D4",
+            M: "\u10D7\u10D5\u10D4",
+            MM: "%d \u10D7\u10D5\u10D4",
+            y: "\u10EC\u10D4\u10DA\u10D8",
+            yy: "%d \u10EC\u10D4\u10DA\u10D8"
+          },
+          dayOfMonthOrdinalParse: /0|1-ლი|მე-\d{1,2}|\d{1,2}-ე/,
+          ordinal: function(number) {
+            if (number === 0) {
+              return number;
+            }
+            if (number === 1) {
+              return number + "-\u10DA\u10D8";
+            }
+            if (number < 20 || number <= 100 && number % 20 === 0 || number % 100 === 0) {
+              return "\u10DB\u10D4-" + number;
+            }
+            return number + "-\u10D4";
+          },
+          week: {
+            dow: 1,
+            doy: 7
+          }
+        });
+        var suffixes$1 = {
+          0: "-\u0448\u0456",
+          1: "-\u0448\u0456",
+          2: "-\u0448\u0456",
+          3: "-\u0448\u0456",
+          4: "-\u0448\u0456",
+          5: "-\u0448\u0456",
+          6: "-\u0448\u044B",
+          7: "-\u0448\u0456",
+          8: "-\u0448\u0456",
+          9: "-\u0448\u044B",
+          10: "-\u0448\u044B",
+          20: "-\u0448\u044B",
+          30: "-\u0448\u044B",
+          40: "-\u0448\u044B",
+          50: "-\u0448\u0456",
+          60: "-\u0448\u044B",
+          70: "-\u0448\u0456",
+          80: "-\u0448\u0456",
+          90: "-\u0448\u044B",
+          100: "-\u0448\u0456"
+        };
+        hooks.defineLocale("kk", {
+          months: "\u049B\u0430\u04A3\u0442\u0430\u0440_\u0430\u049B\u043F\u0430\u043D_\u043D\u0430\u0443\u0440\u044B\u0437_\u0441\u04D9\u0443\u0456\u0440_\u043C\u0430\u043C\u044B\u0440_\u043C\u0430\u0443\u0441\u044B\u043C_\u0448\u0456\u043B\u0434\u0435_\u0442\u0430\u043C\u044B\u0437_\u049B\u044B\u0440\u043A\u04AF\u0439\u0435\u043A_\u049B\u0430\u0437\u0430\u043D_\u049B\u0430\u0440\u0430\u0448\u0430_\u0436\u0435\u043B\u0442\u043E\u049B\u0441\u0430\u043D".split(
+            "_"
+          ),
+          monthsShort: "\u049B\u0430\u04A3_\u0430\u049B\u043F_\u043D\u0430\u0443_\u0441\u04D9\u0443_\u043C\u0430\u043C_\u043C\u0430\u0443_\u0448\u0456\u043B_\u0442\u0430\u043C_\u049B\u044B\u0440_\u049B\u0430\u0437_\u049B\u0430\u0440_\u0436\u0435\u043B".split("_"),
+          weekdays: "\u0436\u0435\u043A\u0441\u0435\u043D\u0431\u0456_\u0434\u04AF\u0439\u0441\u0435\u043D\u0431\u0456_\u0441\u0435\u0439\u0441\u0435\u043D\u0431\u0456_\u0441\u04D9\u0440\u0441\u0435\u043D\u0431\u0456_\u0431\u0435\u0439\u0441\u0435\u043D\u0431\u0456_\u0436\u04B1\u043C\u0430_\u0441\u0435\u043D\u0431\u0456".split(
+            "_"
+          ),
+          weekdaysShort: "\u0436\u0435\u043A_\u0434\u04AF\u0439_\u0441\u0435\u0439_\u0441\u04D9\u0440_\u0431\u0435\u0439_\u0436\u04B1\u043C_\u0441\u0435\u043D".split("_"),
+          weekdaysMin: "\u0436\u043A_\u0434\u0439_\u0441\u0439_\u0441\u0440_\u0431\u0439_\u0436\u043C_\u0441\u043D".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0411\u04AF\u0433\u0456\u043D \u0441\u0430\u0493\u0430\u0442] LT",
+            nextDay: "[\u0415\u0440\u0442\u0435\u04A3 \u0441\u0430\u0493\u0430\u0442] LT",
+            nextWeek: "dddd [\u0441\u0430\u0493\u0430\u0442] LT",
+            lastDay: "[\u041A\u0435\u0448\u0435 \u0441\u0430\u0493\u0430\u0442] LT",
+            lastWeek: "[\u04E8\u0442\u043A\u0435\u043D \u0430\u043F\u0442\u0430\u043D\u044B\u04A3] dddd [\u0441\u0430\u0493\u0430\u0442] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0456\u0448\u0456\u043D\u0434\u0435",
+            past: "%s \u0431\u04B1\u0440\u044B\u043D",
+            s: "\u0431\u0456\u0440\u043D\u0435\u0448\u0435 \u0441\u0435\u043A\u0443\u043D\u0434",
+            ss: "%d \u0441\u0435\u043A\u0443\u043D\u0434",
+            m: "\u0431\u0456\u0440 \u043C\u0438\u043D\u0443\u0442",
+            mm: "%d \u043C\u0438\u043D\u0443\u0442",
+            h: "\u0431\u0456\u0440 \u0441\u0430\u0493\u0430\u0442",
+            hh: "%d \u0441\u0430\u0493\u0430\u0442",
+            d: "\u0431\u0456\u0440 \u043A\u04AF\u043D",
+            dd: "%d \u043A\u04AF\u043D",
+            M: "\u0431\u0456\u0440 \u0430\u0439",
+            MM: "%d \u0430\u0439",
+            y: "\u0431\u0456\u0440 \u0436\u044B\u043B",
+            yy: "%d \u0436\u044B\u043B"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(ші|шы)/,
+          ordinal: function(number) {
+            var a = number % 10, b = number >= 100 ? 100 : null;
+            return number + (suffixes$1[number] || suffixes$1[a] || suffixes$1[b]);
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        var symbolMap$9 = {
+          1: "\u17E1",
+          2: "\u17E2",
+          3: "\u17E3",
+          4: "\u17E4",
+          5: "\u17E5",
+          6: "\u17E6",
+          7: "\u17E7",
+          8: "\u17E8",
+          9: "\u17E9",
+          0: "\u17E0"
+        }, numberMap$8 = {
+          "\u17E1": "1",
+          "\u17E2": "2",
+          "\u17E3": "3",
+          "\u17E4": "4",
+          "\u17E5": "5",
+          "\u17E6": "6",
+          "\u17E7": "7",
+          "\u17E8": "8",
+          "\u17E9": "9",
+          "\u17E0": "0"
+        };
+        hooks.defineLocale("km", {
+          months: "\u1798\u1780\u179A\u17B6_\u1780\u17BB\u1798\u17D2\u1797\u17C8_\u1798\u17B8\u1793\u17B6_\u1798\u17C1\u179F\u17B6_\u17A7\u179F\u1797\u17B6_\u1798\u17B7\u1790\u17BB\u1793\u17B6_\u1780\u1780\u17D2\u1780\u178A\u17B6_\u179F\u17B8\u17A0\u17B6_\u1780\u1789\u17D2\u1789\u17B6_\u178F\u17BB\u179B\u17B6_\u179C\u17B7\u1785\u17D2\u1786\u17B7\u1780\u17B6_\u1792\u17D2\u1793\u17BC".split(
+            "_"
+          ),
+          monthsShort: "\u1798\u1780\u179A\u17B6_\u1780\u17BB\u1798\u17D2\u1797\u17C8_\u1798\u17B8\u1793\u17B6_\u1798\u17C1\u179F\u17B6_\u17A7\u179F\u1797\u17B6_\u1798\u17B7\u1790\u17BB\u1793\u17B6_\u1780\u1780\u17D2\u1780\u178A\u17B6_\u179F\u17B8\u17A0\u17B6_\u1780\u1789\u17D2\u1789\u17B6_\u178F\u17BB\u179B\u17B6_\u179C\u17B7\u1785\u17D2\u1786\u17B7\u1780\u17B6_\u1792\u17D2\u1793\u17BC".split(
+            "_"
+          ),
+          weekdays: "\u17A2\u17B6\u1791\u17B7\u178F\u17D2\u1799_\u1785\u17D0\u1793\u17D2\u1791_\u17A2\u1784\u17D2\u1782\u17B6\u179A_\u1796\u17BB\u1792_\u1796\u17D2\u179A\u17A0\u179F\u17D2\u1794\u178F\u17B7\u17CD_\u179F\u17BB\u1780\u17D2\u179A_\u179F\u17C5\u179A\u17CD".split("_"),
+          weekdaysShort: "\u17A2\u17B6_\u1785_\u17A2_\u1796_\u1796\u17D2\u179A_\u179F\u17BB_\u179F".split("_"),
+          weekdaysMin: "\u17A2\u17B6_\u1785_\u17A2_\u1796_\u1796\u17D2\u179A_\u179F\u17BB_\u179F".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /ព្រឹក|ល្ងាច/,
+          isPM: function(input) {
+            return input === "\u179B\u17D2\u1784\u17B6\u1785";
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u1796\u17D2\u179A\u17B9\u1780";
+            } else {
+              return "\u179B\u17D2\u1784\u17B6\u1785";
+            }
+          },
+          calendar: {
+            sameDay: "[\u1790\u17D2\u1784\u17C3\u1793\u17C1\u17C7 \u1798\u17C9\u17C4\u1784] LT",
+            nextDay: "[\u179F\u17D2\u17A2\u17C2\u1780 \u1798\u17C9\u17C4\u1784] LT",
+            nextWeek: "dddd [\u1798\u17C9\u17C4\u1784] LT",
+            lastDay: "[\u1798\u17D2\u179F\u17B7\u179B\u1798\u17B7\u1789 \u1798\u17C9\u17C4\u1784] LT",
+            lastWeek: "dddd [\u179F\u1794\u17D2\u178F\u17B6\u17A0\u17CD\u1798\u17BB\u1793] [\u1798\u17C9\u17C4\u1784] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s\u1791\u17C0\u178F",
+            past: "%s\u1798\u17BB\u1793",
+            s: "\u1794\u17C9\u17BB\u1793\u17D2\u1798\u17B6\u1793\u179C\u17B7\u1793\u17B6\u1791\u17B8",
+            ss: "%d \u179C\u17B7\u1793\u17B6\u1791\u17B8",
+            m: "\u1798\u17BD\u1799\u1793\u17B6\u1791\u17B8",
+            mm: "%d \u1793\u17B6\u1791\u17B8",
+            h: "\u1798\u17BD\u1799\u1798\u17C9\u17C4\u1784",
+            hh: "%d \u1798\u17C9\u17C4\u1784",
+            d: "\u1798\u17BD\u1799\u1790\u17D2\u1784\u17C3",
+            dd: "%d \u1790\u17D2\u1784\u17C3",
+            M: "\u1798\u17BD\u1799\u1781\u17C2",
+            MM: "%d \u1781\u17C2",
+            y: "\u1798\u17BD\u1799\u1786\u17D2\u1793\u17B6\u17C6",
+            yy: "%d \u1786\u17D2\u1793\u17B6\u17C6"
+          },
+          dayOfMonthOrdinalParse: /ទី\d{1,2}/,
+          ordinal: "\u1791\u17B8%d",
+          preparse: function(string) {
+            return string.replace(/[១២៣៤៥៦៧៨៩០]/g, function(match) {
+              return numberMap$8[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$9[match];
+            });
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var symbolMap$a = {
+          1: "\u0CE7",
+          2: "\u0CE8",
+          3: "\u0CE9",
+          4: "\u0CEA",
+          5: "\u0CEB",
+          6: "\u0CEC",
+          7: "\u0CED",
+          8: "\u0CEE",
+          9: "\u0CEF",
+          0: "\u0CE6"
+        }, numberMap$9 = {
+          "\u0CE7": "1",
+          "\u0CE8": "2",
+          "\u0CE9": "3",
+          "\u0CEA": "4",
+          "\u0CEB": "5",
+          "\u0CEC": "6",
+          "\u0CED": "7",
+          "\u0CEE": "8",
+          "\u0CEF": "9",
+          "\u0CE6": "0"
+        };
+        hooks.defineLocale("kn", {
+          months: "\u0C9C\u0CA8\u0CB5\u0CB0\u0CBF_\u0CAB\u0CC6\u0CAC\u0CCD\u0CB0\u0CB5\u0CB0\u0CBF_\u0CAE\u0CBE\u0CB0\u0CCD\u0C9A\u0CCD_\u0C8F\u0CAA\u0CCD\u0CB0\u0CBF\u0CB2\u0CCD_\u0CAE\u0CC6\u0CD5_\u0C9C\u0CC2\u0CA8\u0CCD_\u0C9C\u0CC1\u0CB2\u0CC6\u0CD6_\u0C86\u0C97\u0CB8\u0CCD\u0C9F\u0CCD_\u0CB8\u0CC6\u0CAA\u0CCD\u0C9F\u0CC6\u0C82\u0CAC\u0CB0\u0CCD_\u0C85\u0C95\u0CCD\u0C9F\u0CC6\u0CC2\u0CD5\u0CAC\u0CB0\u0CCD_\u0CA8\u0CB5\u0CC6\u0C82\u0CAC\u0CB0\u0CCD_\u0CA1\u0CBF\u0CB8\u0CC6\u0C82\u0CAC\u0CB0\u0CCD".split(
+            "_"
+          ),
+          monthsShort: "\u0C9C\u0CA8_\u0CAB\u0CC6\u0CAC\u0CCD\u0CB0_\u0CAE\u0CBE\u0CB0\u0CCD\u0C9A\u0CCD_\u0C8F\u0CAA\u0CCD\u0CB0\u0CBF\u0CB2\u0CCD_\u0CAE\u0CC6\u0CD5_\u0C9C\u0CC2\u0CA8\u0CCD_\u0C9C\u0CC1\u0CB2\u0CC6\u0CD6_\u0C86\u0C97\u0CB8\u0CCD\u0C9F\u0CCD_\u0CB8\u0CC6\u0CAA\u0CCD\u0C9F\u0CC6\u0C82_\u0C85\u0C95\u0CCD\u0C9F\u0CC6\u0CC2\u0CD5_\u0CA8\u0CB5\u0CC6\u0C82_\u0CA1\u0CBF\u0CB8\u0CC6\u0C82".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0CAD\u0CBE\u0CA8\u0CC1\u0CB5\u0CBE\u0CB0_\u0CB8\u0CC6\u0CC2\u0CD5\u0CAE\u0CB5\u0CBE\u0CB0_\u0CAE\u0C82\u0C97\u0CB3\u0CB5\u0CBE\u0CB0_\u0CAC\u0CC1\u0CA7\u0CB5\u0CBE\u0CB0_\u0C97\u0CC1\u0CB0\u0CC1\u0CB5\u0CBE\u0CB0_\u0CB6\u0CC1\u0C95\u0CCD\u0CB0\u0CB5\u0CBE\u0CB0_\u0CB6\u0CA8\u0CBF\u0CB5\u0CBE\u0CB0".split(
+            "_"
+          ),
+          weekdaysShort: "\u0CAD\u0CBE\u0CA8\u0CC1_\u0CB8\u0CC6\u0CC2\u0CD5\u0CAE_\u0CAE\u0C82\u0C97\u0CB3_\u0CAC\u0CC1\u0CA7_\u0C97\u0CC1\u0CB0\u0CC1_\u0CB6\u0CC1\u0C95\u0CCD\u0CB0_\u0CB6\u0CA8\u0CBF".split("_"),
+          weekdaysMin: "\u0CAD\u0CBE_\u0CB8\u0CC6\u0CC2\u0CD5_\u0CAE\u0C82_\u0CAC\u0CC1_\u0C97\u0CC1_\u0CB6\u0CC1_\u0CB6".split("_"),
+          longDateFormat: {
+            LT: "A h:mm",
+            LTS: "A h:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm",
+            LLLL: "dddd, D MMMM YYYY, A h:mm"
+          },
+          calendar: {
+            sameDay: "[\u0C87\u0C82\u0CA6\u0CC1] LT",
+            nextDay: "[\u0CA8\u0CBE\u0CB3\u0CC6] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0CA8\u0CBF\u0CA8\u0CCD\u0CA8\u0CC6] LT",
+            lastWeek: "[\u0C95\u0CC6\u0CC2\u0CA8\u0CC6\u0CAF] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0CA8\u0C82\u0CA4\u0CB0",
+            past: "%s \u0CB9\u0CBF\u0C82\u0CA6\u0CC6",
+            s: "\u0C95\u0CC6\u0CB2\u0CB5\u0CC1 \u0C95\u0CCD\u0CB7\u0CA3\u0C97\u0CB3\u0CC1",
+            ss: "%d \u0CB8\u0CC6\u0C95\u0CC6\u0C82\u0CA1\u0CC1\u0C97\u0CB3\u0CC1",
+            m: "\u0C92\u0C82\u0CA6\u0CC1 \u0CA8\u0CBF\u0CAE\u0CBF\u0CB7",
+            mm: "%d \u0CA8\u0CBF\u0CAE\u0CBF\u0CB7",
+            h: "\u0C92\u0C82\u0CA6\u0CC1 \u0C97\u0C82\u0C9F\u0CC6",
+            hh: "%d \u0C97\u0C82\u0C9F\u0CC6",
+            d: "\u0C92\u0C82\u0CA6\u0CC1 \u0CA6\u0CBF\u0CA8",
+            dd: "%d \u0CA6\u0CBF\u0CA8",
+            M: "\u0C92\u0C82\u0CA6\u0CC1 \u0CA4\u0CBF\u0C82\u0C97\u0CB3\u0CC1",
+            MM: "%d \u0CA4\u0CBF\u0C82\u0C97\u0CB3\u0CC1",
+            y: "\u0C92\u0C82\u0CA6\u0CC1 \u0CB5\u0CB0\u0CCD\u0CB7",
+            yy: "%d \u0CB5\u0CB0\u0CCD\u0CB7"
+          },
+          preparse: function(string) {
+            return string.replace(/[೧೨೩೪೫೬೭೮೯೦]/g, function(match) {
+              return numberMap$9[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$a[match];
+            });
+          },
+          meridiemParse: /ರಾತ್ರಿ|ಬೆಳಿಗ್ಗೆ|ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0CB0\u0CBE\u0CA4\u0CCD\u0CB0\u0CBF") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0CAC\u0CC6\u0CB3\u0CBF\u0C97\u0CCD\u0C97\u0CC6") {
+              return hour;
+            } else if (meridiem2 === "\u0CAE\u0CA7\u0CCD\u0CAF\u0CBE\u0CB9\u0CCD\u0CA8") {
+              return hour >= 10 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0CB8\u0C82\u0C9C\u0CC6") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0CB0\u0CBE\u0CA4\u0CCD\u0CB0\u0CBF";
+            } else if (hour < 10) {
+              return "\u0CAC\u0CC6\u0CB3\u0CBF\u0C97\u0CCD\u0C97\u0CC6";
+            } else if (hour < 17) {
+              return "\u0CAE\u0CA7\u0CCD\u0CAF\u0CBE\u0CB9\u0CCD\u0CA8";
+            } else if (hour < 20) {
+              return "\u0CB8\u0C82\u0C9C\u0CC6";
+            } else {
+              return "\u0CB0\u0CBE\u0CA4\u0CCD\u0CB0\u0CBF";
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(ನೇ)/,
+          ordinal: function(number) {
+            return number + "\u0CA8\u0CC6\u0CD5";
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ko", {
+          months: "1\uC6D4_2\uC6D4_3\uC6D4_4\uC6D4_5\uC6D4_6\uC6D4_7\uC6D4_8\uC6D4_9\uC6D4_10\uC6D4_11\uC6D4_12\uC6D4".split("_"),
+          monthsShort: "1\uC6D4_2\uC6D4_3\uC6D4_4\uC6D4_5\uC6D4_6\uC6D4_7\uC6D4_8\uC6D4_9\uC6D4_10\uC6D4_11\uC6D4_12\uC6D4".split(
+            "_"
+          ),
+          weekdays: "\uC77C\uC694\uC77C_\uC6D4\uC694\uC77C_\uD654\uC694\uC77C_\uC218\uC694\uC77C_\uBAA9\uC694\uC77C_\uAE08\uC694\uC77C_\uD1A0\uC694\uC77C".split("_"),
+          weekdaysShort: "\uC77C_\uC6D4_\uD654_\uC218_\uBAA9_\uAE08_\uD1A0".split("_"),
+          weekdaysMin: "\uC77C_\uC6D4_\uD654_\uC218_\uBAA9_\uAE08_\uD1A0".split("_"),
+          longDateFormat: {
+            LT: "A h:mm",
+            LTS: "A h:mm:ss",
+            L: "YYYY.MM.DD.",
+            LL: "YYYY\uB144 MMMM D\uC77C",
+            LLL: "YYYY\uB144 MMMM D\uC77C A h:mm",
+            LLLL: "YYYY\uB144 MMMM D\uC77C dddd A h:mm",
+            l: "YYYY.MM.DD.",
+            ll: "YYYY\uB144 MMMM D\uC77C",
+            lll: "YYYY\uB144 MMMM D\uC77C A h:mm",
+            llll: "YYYY\uB144 MMMM D\uC77C dddd A h:mm"
+          },
+          calendar: {
+            sameDay: "\uC624\uB298 LT",
+            nextDay: "\uB0B4\uC77C LT",
+            nextWeek: "dddd LT",
+            lastDay: "\uC5B4\uC81C LT",
+            lastWeek: "\uC9C0\uB09C\uC8FC dddd LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \uD6C4",
+            past: "%s \uC804",
+            s: "\uBA87 \uCD08",
+            ss: "%d\uCD08",
+            m: "1\uBD84",
+            mm: "%d\uBD84",
+            h: "\uD55C \uC2DC\uAC04",
+            hh: "%d\uC2DC\uAC04",
+            d: "\uD558\uB8E8",
+            dd: "%d\uC77C",
+            M: "\uD55C \uB2EC",
+            MM: "%d\uB2EC",
+            y: "\uC77C \uB144",
+            yy: "%d\uB144"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(일|월|주)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "DDD":
+                return number + "\uC77C";
+              case "M":
+                return number + "\uC6D4";
+              case "w":
+              case "W":
+                return number + "\uC8FC";
+              default:
+                return number;
+            }
+          },
+          meridiemParse: /오전|오후/,
+          isPM: function(token2) {
+            return token2 === "\uC624\uD6C4";
+          },
+          meridiem: function(hour, minute, isUpper) {
+            return hour < 12 ? "\uC624\uC804" : "\uC624\uD6C4";
+          }
+        });
+        var symbolMap$b = {
+          1: "\u0661",
+          2: "\u0662",
+          3: "\u0663",
+          4: "\u0664",
+          5: "\u0665",
+          6: "\u0666",
+          7: "\u0667",
+          8: "\u0668",
+          9: "\u0669",
+          0: "\u0660"
+        }, numberMap$a = {
+          "\u0661": "1",
+          "\u0662": "2",
+          "\u0663": "3",
+          "\u0664": "4",
+          "\u0665": "5",
+          "\u0666": "6",
+          "\u0667": "7",
+          "\u0668": "8",
+          "\u0669": "9",
+          "\u0660": "0"
+        }, months$8 = [
+          "\u06A9\u0627\u0646\u0648\u0646\u06CC \u062F\u0648\u0648\u06D5\u0645",
+          "\u0634\u0648\u0628\u0627\u062A",
+          "\u0626\u0627\u0632\u0627\u0631",
+          "\u0646\u06CC\u0633\u0627\u0646",
+          "\u0626\u0627\u06CC\u0627\u0631",
+          "\u062D\u0648\u0632\u06D5\u06CC\u0631\u0627\u0646",
+          "\u062A\u06D5\u0645\u0645\u0648\u0632",
+          "\u0626\u0627\u0628",
+          "\u0626\u06D5\u06CC\u0644\u0648\u0648\u0644",
+          "\u062A\u0634\u0631\u06CC\u0646\u06CC \u06CC\u06D5\u0643\u06D5\u0645",
+          "\u062A\u0634\u0631\u06CC\u0646\u06CC \u062F\u0648\u0648\u06D5\u0645",
+          "\u0643\u0627\u0646\u0648\u0646\u06CC \u06CC\u06D5\u06A9\u06D5\u0645"
+        ];
+        hooks.defineLocale("ku", {
+          months: months$8,
+          monthsShort: months$8,
+          weekdays: "\u06CC\u0647\u200C\u0643\u0634\u0647\u200C\u0645\u0645\u0647\u200C_\u062F\u0648\u0648\u0634\u0647\u200C\u0645\u0645\u0647\u200C_\u0633\u06CE\u0634\u0647\u200C\u0645\u0645\u0647\u200C_\u0686\u0648\u0627\u0631\u0634\u0647\u200C\u0645\u0645\u0647\u200C_\u067E\u06CE\u0646\u062C\u0634\u0647\u200C\u0645\u0645\u0647\u200C_\u0647\u0647\u200C\u06CC\u0646\u06CC_\u0634\u0647\u200C\u0645\u0645\u0647\u200C".split(
+            "_"
+          ),
+          weekdaysShort: "\u06CC\u0647\u200C\u0643\u0634\u0647\u200C\u0645_\u062F\u0648\u0648\u0634\u0647\u200C\u0645_\u0633\u06CE\u0634\u0647\u200C\u0645_\u0686\u0648\u0627\u0631\u0634\u0647\u200C\u0645_\u067E\u06CE\u0646\u062C\u0634\u0647\u200C\u0645_\u0647\u0647\u200C\u06CC\u0646\u06CC_\u0634\u0647\u200C\u0645\u0645\u0647\u200C".split("_"),
+          weekdaysMin: "\u06CC_\u062F_\u0633_\u0686_\u067E_\u0647_\u0634".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /ئێواره‌|به‌یانی/,
+          isPM: function(input) {
+            return /ئێواره‌/.test(input);
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0628\u0647\u200C\u06CC\u0627\u0646\u06CC";
+            } else {
+              return "\u0626\u06CE\u0648\u0627\u0631\u0647\u200C";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0626\u0647\u200C\u0645\u0631\u06C6 \u0643\u0627\u062A\u0698\u0645\u06CE\u0631] LT",
+            nextDay: "[\u0628\u0647\u200C\u06CC\u0627\u0646\u06CC \u0643\u0627\u062A\u0698\u0645\u06CE\u0631] LT",
+            nextWeek: "dddd [\u0643\u0627\u062A\u0698\u0645\u06CE\u0631] LT",
+            lastDay: "[\u062F\u0648\u06CE\u0646\u06CE \u0643\u0627\u062A\u0698\u0645\u06CE\u0631] LT",
+            lastWeek: "dddd [\u0643\u0627\u062A\u0698\u0645\u06CE\u0631] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0644\u0647\u200C %s",
+            past: "%s",
+            s: "\u0686\u0647\u200C\u0646\u062F \u0686\u0631\u0643\u0647\u200C\u06CC\u0647\u200C\u0643",
+            ss: "\u0686\u0631\u0643\u0647\u200C %d",
+            m: "\u06CC\u0647\u200C\u0643 \u062E\u0648\u0644\u0647\u200C\u0643",
+            mm: "%d \u062E\u0648\u0644\u0647\u200C\u0643",
+            h: "\u06CC\u0647\u200C\u0643 \u0643\u0627\u062A\u0698\u0645\u06CE\u0631",
+            hh: "%d \u0643\u0627\u062A\u0698\u0645\u06CE\u0631",
+            d: "\u06CC\u0647\u200C\u0643 \u0695\u06C6\u0698",
+            dd: "%d \u0695\u06C6\u0698",
+            M: "\u06CC\u0647\u200C\u0643 \u0645\u0627\u0646\u06AF",
+            MM: "%d \u0645\u0627\u0646\u06AF",
+            y: "\u06CC\u0647\u200C\u0643 \u0633\u0627\u06B5",
+            yy: "%d \u0633\u0627\u06B5"
+          },
+          preparse: function(string) {
+            return string.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(match) {
+              return numberMap$a[match];
+            }).replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$b[match];
+            }).replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 6,
+            // Saturday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        var suffixes$2 = {
+          0: "-\u0447\u04AF",
+          1: "-\u0447\u0438",
+          2: "-\u0447\u0438",
+          3: "-\u0447\u04AF",
+          4: "-\u0447\u04AF",
+          5: "-\u0447\u0438",
+          6: "-\u0447\u044B",
+          7: "-\u0447\u0438",
+          8: "-\u0447\u0438",
+          9: "-\u0447\u0443",
+          10: "-\u0447\u0443",
+          20: "-\u0447\u044B",
+          30: "-\u0447\u0443",
+          40: "-\u0447\u044B",
+          50: "-\u0447\u04AF",
+          60: "-\u0447\u044B",
+          70: "-\u0447\u0438",
+          80: "-\u0447\u0438",
+          90: "-\u0447\u0443",
+          100: "-\u0447\u04AF"
+        };
+        hooks.defineLocale("ky", {
+          months: "\u044F\u043D\u0432\u0430\u0440\u044C_\u0444\u0435\u0432\u0440\u0430\u043B\u044C_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440\u0435\u043B\u044C_\u043C\u0430\u0439_\u0438\u044E\u043D\u044C_\u0438\u044E\u043B\u044C_\u0430\u0432\u0433\u0443\u0441\u0442_\u0441\u0435\u043D\u0442\u044F\u0431\u0440\u044C_\u043E\u043A\u0442\u044F\u0431\u0440\u044C_\u043D\u043E\u044F\u0431\u0440\u044C_\u0434\u0435\u043A\u0430\u0431\u0440\u044C".split(
+            "_"
+          ),
+          monthsShort: "\u044F\u043D\u0432_\u0444\u0435\u0432_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440_\u043C\u0430\u0439_\u0438\u044E\u043D\u044C_\u0438\u044E\u043B\u044C_\u0430\u0432\u0433_\u0441\u0435\u043D_\u043E\u043A\u0442_\u043D\u043E\u044F_\u0434\u0435\u043A".split(
+            "_"
+          ),
+          weekdays: "\u0416\u0435\u043A\u0448\u0435\u043C\u0431\u0438_\u0414\u04AF\u0439\u0448\u04E9\u043C\u0431\u04AF_\u0428\u0435\u0439\u0448\u0435\u043C\u0431\u0438_\u0428\u0430\u0440\u0448\u0435\u043C\u0431\u0438_\u0411\u0435\u0439\u0448\u0435\u043C\u0431\u0438_\u0416\u0443\u043C\u0430_\u0418\u0448\u0435\u043C\u0431\u0438".split(
+            "_"
+          ),
+          weekdaysShort: "\u0416\u0435\u043A_\u0414\u04AF\u0439_\u0428\u0435\u0439_\u0428\u0430\u0440_\u0411\u0435\u0439_\u0416\u0443\u043C_\u0418\u0448\u0435".split("_"),
+          weekdaysMin: "\u0416\u043A_\u0414\u0439_\u0428\u0439_\u0428\u0440_\u0411\u0439_\u0416\u043C_\u0418\u0448".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0411\u04AF\u0433\u04AF\u043D \u0441\u0430\u0430\u0442] LT",
+            nextDay: "[\u042D\u0440\u0442\u0435\u04A3 \u0441\u0430\u0430\u0442] LT",
+            nextWeek: "dddd [\u0441\u0430\u0430\u0442] LT",
+            lastDay: "[\u041A\u0435\u0447\u044D\u044D \u0441\u0430\u0430\u0442] LT",
+            lastWeek: "[\u04E8\u0442\u043A\u04E9\u043D \u0430\u043F\u0442\u0430\u043D\u044B\u043D] dddd [\u043A\u04AF\u043D\u04AF] [\u0441\u0430\u0430\u0442] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0438\u0447\u0438\u043D\u0434\u0435",
+            past: "%s \u043C\u0443\u0440\u0443\u043D",
+            s: "\u0431\u0438\u0440\u043D\u0435\u0447\u0435 \u0441\u0435\u043A\u0443\u043D\u0434",
+            ss: "%d \u0441\u0435\u043A\u0443\u043D\u0434",
+            m: "\u0431\u0438\u0440 \u043C\u04AF\u043D\u04E9\u0442",
+            mm: "%d \u043C\u04AF\u043D\u04E9\u0442",
+            h: "\u0431\u0438\u0440 \u0441\u0430\u0430\u0442",
+            hh: "%d \u0441\u0430\u0430\u0442",
+            d: "\u0431\u0438\u0440 \u043A\u04AF\u043D",
+            dd: "%d \u043A\u04AF\u043D",
+            M: "\u0431\u0438\u0440 \u0430\u0439",
+            MM: "%d \u0430\u0439",
+            y: "\u0431\u0438\u0440 \u0436\u044B\u043B",
+            yy: "%d \u0436\u044B\u043B"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(чи|чы|чү|чу)/,
+          ordinal: function(number) {
+            var a = number % 10, b = number >= 100 ? 100 : null;
+            return number + (suffixes$2[number] || suffixes$2[a] || suffixes$2[b]);
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        function processRelativeTime$6(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            m: ["eng Minutt", "enger Minutt"],
+            h: ["eng Stonn", "enger Stonn"],
+            d: ["een Dag", "engem Dag"],
+            M: ["ee Mount", "engem Mount"],
+            y: ["ee Joer", "engem Joer"]
+          };
+          return withoutSuffix ? format2[key][0] : format2[key][1];
+        }
+        function processFutureTime(string) {
+          var number = string.substr(0, string.indexOf(" "));
+          if (eifelerRegelAppliesToNumber(number)) {
+            return "a " + string;
+          }
+          return "an " + string;
+        }
+        function processPastTime(string) {
+          var number = string.substr(0, string.indexOf(" "));
+          if (eifelerRegelAppliesToNumber(number)) {
+            return "viru " + string;
+          }
+          return "virun " + string;
+        }
+        function eifelerRegelAppliesToNumber(number) {
+          number = parseInt(number, 10);
+          if (isNaN(number)) {
+            return false;
+          }
+          if (number < 0) {
+            return true;
+          } else if (number < 10) {
+            if (4 <= number && number <= 7) {
+              return true;
+            }
+            return false;
+          } else if (number < 100) {
+            var lastDigit = number % 10, firstDigit = number / 10;
+            if (lastDigit === 0) {
+              return eifelerRegelAppliesToNumber(firstDigit);
+            }
+            return eifelerRegelAppliesToNumber(lastDigit);
+          } else if (number < 1e4) {
+            while (number >= 10) {
+              number = number / 10;
+            }
+            return eifelerRegelAppliesToNumber(number);
+          } else {
+            number = number / 1e3;
+            return eifelerRegelAppliesToNumber(number);
+          }
+        }
+        hooks.defineLocale("lb", {
+          months: "Januar_Februar_M\xE4erz_Abr\xEBll_Mee_Juni_Juli_August_September_Oktober_November_Dezember".split(
+            "_"
+          ),
+          monthsShort: "Jan._Febr._Mrz._Abr._Mee_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "Sonndeg_M\xE9indeg_D\xEBnschdeg_M\xEBttwoch_Donneschdeg_Freideg_Samschdeg".split(
+            "_"
+          ),
+          weekdaysShort: "So._M\xE9._D\xEB._M\xEB._Do._Fr._Sa.".split("_"),
+          weekdaysMin: "So_M\xE9_D\xEB_M\xEB_Do_Fr_Sa".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm [Auer]",
+            LTS: "H:mm:ss [Auer]",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY H:mm [Auer]",
+            LLLL: "dddd, D. MMMM YYYY H:mm [Auer]"
+          },
+          calendar: {
+            sameDay: "[Haut um] LT",
+            sameElse: "L",
+            nextDay: "[Muer um] LT",
+            nextWeek: "dddd [um] LT",
+            lastDay: "[G\xEBschter um] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 2:
+                case 4:
+                  return "[Leschten] dddd [um] LT";
+                default:
+                  return "[Leschte] dddd [um] LT";
+              }
+            }
+          },
+          relativeTime: {
+            future: processFutureTime,
+            past: processPastTime,
+            s: "e puer Sekonnen",
+            ss: "%d Sekonnen",
+            m: processRelativeTime$6,
+            mm: "%d Minutten",
+            h: processRelativeTime$6,
+            hh: "%d Stonnen",
+            d: processRelativeTime$6,
+            dd: "%d Deeg",
+            M: processRelativeTime$6,
+            MM: "%d M\xE9int",
+            y: processRelativeTime$6,
+            yy: "%d Joer"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("lo", {
+          months: "\u0EA1\u0EB1\u0E87\u0E81\u0EAD\u0E99_\u0E81\u0EB8\u0EA1\u0E9E\u0EB2_\u0EA1\u0EB5\u0E99\u0EB2_\u0EC0\u0EA1\u0EAA\u0EB2_\u0E9E\u0EB6\u0E94\u0EAA\u0EB0\u0E9E\u0EB2_\u0EA1\u0EB4\u0E96\u0EB8\u0E99\u0EB2_\u0E81\u0ECD\u0EA5\u0EB0\u0E81\u0EBB\u0E94_\u0EAA\u0EB4\u0E87\u0EAB\u0EB2_\u0E81\u0EB1\u0E99\u0E8D\u0EB2_\u0E95\u0EB8\u0EA5\u0EB2_\u0E9E\u0EB0\u0E88\u0EB4\u0E81_\u0E97\u0EB1\u0E99\u0EA7\u0EB2".split(
+            "_"
+          ),
+          monthsShort: "\u0EA1\u0EB1\u0E87\u0E81\u0EAD\u0E99_\u0E81\u0EB8\u0EA1\u0E9E\u0EB2_\u0EA1\u0EB5\u0E99\u0EB2_\u0EC0\u0EA1\u0EAA\u0EB2_\u0E9E\u0EB6\u0E94\u0EAA\u0EB0\u0E9E\u0EB2_\u0EA1\u0EB4\u0E96\u0EB8\u0E99\u0EB2_\u0E81\u0ECD\u0EA5\u0EB0\u0E81\u0EBB\u0E94_\u0EAA\u0EB4\u0E87\u0EAB\u0EB2_\u0E81\u0EB1\u0E99\u0E8D\u0EB2_\u0E95\u0EB8\u0EA5\u0EB2_\u0E9E\u0EB0\u0E88\u0EB4\u0E81_\u0E97\u0EB1\u0E99\u0EA7\u0EB2".split(
+            "_"
+          ),
+          weekdays: "\u0EAD\u0EB2\u0E97\u0EB4\u0E94_\u0E88\u0EB1\u0E99_\u0EAD\u0EB1\u0E87\u0E84\u0EB2\u0E99_\u0E9E\u0EB8\u0E94_\u0E9E\u0EB0\u0EAB\u0EB1\u0E94_\u0EAA\u0EB8\u0E81_\u0EC0\u0EAA\u0EBB\u0EB2".split("_"),
+          weekdaysShort: "\u0E97\u0EB4\u0E94_\u0E88\u0EB1\u0E99_\u0EAD\u0EB1\u0E87\u0E84\u0EB2\u0E99_\u0E9E\u0EB8\u0E94_\u0E9E\u0EB0\u0EAB\u0EB1\u0E94_\u0EAA\u0EB8\u0E81_\u0EC0\u0EAA\u0EBB\u0EB2".split("_"),
+          weekdaysMin: "\u0E97_\u0E88_\u0EAD\u0E84_\u0E9E_\u0E9E\u0EAB_\u0EAA\u0E81_\u0EAA".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "\u0EA7\u0EB1\u0E99dddd D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /ຕອນເຊົ້າ|ຕອນແລງ/,
+          isPM: function(input) {
+            return input === "\u0E95\u0EAD\u0E99\u0EC1\u0EA5\u0E87";
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0E95\u0EAD\u0E99\u0EC0\u0E8A\u0EBB\u0EC9\u0EB2";
+            } else {
+              return "\u0E95\u0EAD\u0E99\u0EC1\u0EA5\u0E87";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0EA1\u0EB7\u0EC9\u0E99\u0EB5\u0EC9\u0EC0\u0EA7\u0EA5\u0EB2] LT",
+            nextDay: "[\u0EA1\u0EB7\u0EC9\u0EAD\u0EB7\u0EC8\u0E99\u0EC0\u0EA7\u0EA5\u0EB2] LT",
+            nextWeek: "[\u0EA7\u0EB1\u0E99]dddd[\u0EDC\u0EC9\u0EB2\u0EC0\u0EA7\u0EA5\u0EB2] LT",
+            lastDay: "[\u0EA1\u0EB7\u0EC9\u0EA7\u0EB2\u0E99\u0E99\u0EB5\u0EC9\u0EC0\u0EA7\u0EA5\u0EB2] LT",
+            lastWeek: "[\u0EA7\u0EB1\u0E99]dddd[\u0EC1\u0EA5\u0EC9\u0EA7\u0E99\u0EB5\u0EC9\u0EC0\u0EA7\u0EA5\u0EB2] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0EAD\u0EB5\u0E81 %s",
+            past: "%s\u0E9C\u0EC8\u0EB2\u0E99\u0EA1\u0EB2",
+            s: "\u0E9A\u0ECD\u0EC8\u0EC0\u0E97\u0EBB\u0EC8\u0EB2\u0EC3\u0E94\u0EA7\u0EB4\u0E99\u0EB2\u0E97\u0EB5",
+            ss: "%d \u0EA7\u0EB4\u0E99\u0EB2\u0E97\u0EB5",
+            m: "1 \u0E99\u0EB2\u0E97\u0EB5",
+            mm: "%d \u0E99\u0EB2\u0E97\u0EB5",
+            h: "1 \u0E8A\u0EBB\u0EC8\u0EA7\u0EC2\u0EA1\u0E87",
+            hh: "%d \u0E8A\u0EBB\u0EC8\u0EA7\u0EC2\u0EA1\u0E87",
+            d: "1 \u0EA1\u0EB7\u0EC9",
+            dd: "%d \u0EA1\u0EB7\u0EC9",
+            M: "1 \u0EC0\u0E94\u0EB7\u0EAD\u0E99",
+            MM: "%d \u0EC0\u0E94\u0EB7\u0EAD\u0E99",
+            y: "1 \u0E9B\u0EB5",
+            yy: "%d \u0E9B\u0EB5"
+          },
+          dayOfMonthOrdinalParse: /(ທີ່)\d{1,2}/,
+          ordinal: function(number) {
+            return "\u0E97\u0EB5\u0EC8" + number;
+          }
+        });
+        var units = {
+          ss: "sekund\u0117_sekund\u017Ei\u0173_sekundes",
+          m: "minut\u0117_minut\u0117s_minut\u0119",
+          mm: "minut\u0117s_minu\u010Di\u0173_minutes",
+          h: "valanda_valandos_valand\u0105",
+          hh: "valandos_valand\u0173_valandas",
+          d: "diena_dienos_dien\u0105",
+          dd: "dienos_dien\u0173_dienas",
+          M: "m\u0117nuo_m\u0117nesio_m\u0117nes\u012F",
+          MM: "m\u0117nesiai_m\u0117nesi\u0173_m\u0117nesius",
+          y: "metai_met\u0173_metus",
+          yy: "metai_met\u0173_metus"
+        };
+        function translateSeconds(number, withoutSuffix, key, isFuture) {
+          if (withoutSuffix) {
+            return "kelios sekund\u0117s";
+          } else {
+            return isFuture ? "keli\u0173 sekund\u017Ei\u0173" : "kelias sekundes";
+          }
+        }
+        function translateSingular(number, withoutSuffix, key, isFuture) {
+          return withoutSuffix ? forms(key)[0] : isFuture ? forms(key)[1] : forms(key)[2];
+        }
+        function special(number) {
+          return number % 10 === 0 || number > 10 && number < 20;
+        }
+        function forms(key) {
+          return units[key].split("_");
+        }
+        function translate$6(number, withoutSuffix, key, isFuture) {
+          var result = number + " ";
+          if (number === 1) {
+            return result + translateSingular(number, withoutSuffix, key[0], isFuture);
+          } else if (withoutSuffix) {
+            return result + (special(number) ? forms(key)[1] : forms(key)[0]);
+          } else {
+            if (isFuture) {
+              return result + forms(key)[1];
+            } else {
+              return result + (special(number) ? forms(key)[1] : forms(key)[2]);
+            }
+          }
+        }
+        hooks.defineLocale("lt", {
+          months: {
+            format: "sausio_vasario_kovo_baland\u017Eio_gegu\u017E\u0117s_bir\u017Eelio_liepos_rugpj\u016B\u010Dio_rugs\u0117jo_spalio_lapkri\u010Dio_gruod\u017Eio".split(
+              "_"
+            ),
+            standalone: "sausis_vasaris_kovas_balandis_gegu\u017E\u0117_bir\u017Eelis_liepa_rugpj\u016Btis_rugs\u0117jis_spalis_lapkritis_gruodis".split(
+              "_"
+            ),
+            isFormat: /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?|MMMM?(\[[^\[\]]*\]|\s)+D[oD]?/
+          },
+          monthsShort: "sau_vas_kov_bal_geg_bir_lie_rgp_rgs_spa_lap_grd".split("_"),
+          weekdays: {
+            format: "sekmadien\u012F_pirmadien\u012F_antradien\u012F_tre\u010Diadien\u012F_ketvirtadien\u012F_penktadien\u012F_\u0161e\u0161tadien\u012F".split(
+              "_"
+            ),
+            standalone: "sekmadienis_pirmadienis_antradienis_tre\u010Diadienis_ketvirtadienis_penktadienis_\u0161e\u0161tadienis".split(
+              "_"
+            ),
+            isFormat: /dddd HH:mm/
+          },
+          weekdaysShort: "Sek_Pir_Ant_Tre_Ket_Pen_\u0160e\u0161".split("_"),
+          weekdaysMin: "S_P_A_T_K_Pn_\u0160".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY-MM-DD",
+            LL: "YYYY [m.] MMMM D [d.]",
+            LLL: "YYYY [m.] MMMM D [d.], HH:mm [val.]",
+            LLLL: "YYYY [m.] MMMM D [d.], dddd, HH:mm [val.]",
+            l: "YYYY-MM-DD",
+            ll: "YYYY [m.] MMMM D [d.]",
+            lll: "YYYY [m.] MMMM D [d.], HH:mm [val.]",
+            llll: "YYYY [m.] MMMM D [d.], ddd, HH:mm [val.]"
+          },
+          calendar: {
+            sameDay: "[\u0160iandien] LT",
+            nextDay: "[Rytoj] LT",
+            nextWeek: "dddd LT",
+            lastDay: "[Vakar] LT",
+            lastWeek: "[Pra\u0117jus\u012F] dddd LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "po %s",
+            past: "prie\u0161 %s",
+            s: translateSeconds,
+            ss: translate$6,
+            m: translateSingular,
+            mm: translate$6,
+            h: translateSingular,
+            hh: translate$6,
+            d: translateSingular,
+            dd: translate$6,
+            M: translateSingular,
+            MM: translate$6,
+            y: translateSingular,
+            yy: translate$6
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-oji/,
+          ordinal: function(number) {
+            return number + "-oji";
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var units$1 = {
+          ss: "sekundes_sekund\u0113m_sekunde_sekundes".split("_"),
+          m: "min\u016Btes_min\u016Bt\u0113m_min\u016Bte_min\u016Btes".split("_"),
+          mm: "min\u016Btes_min\u016Bt\u0113m_min\u016Bte_min\u016Btes".split("_"),
+          h: "stundas_stund\u0101m_stunda_stundas".split("_"),
+          hh: "stundas_stund\u0101m_stunda_stundas".split("_"),
+          d: "dienas_dien\u0101m_diena_dienas".split("_"),
+          dd: "dienas_dien\u0101m_diena_dienas".split("_"),
+          M: "m\u0113ne\u0161a_m\u0113ne\u0161iem_m\u0113nesis_m\u0113ne\u0161i".split("_"),
+          MM: "m\u0113ne\u0161a_m\u0113ne\u0161iem_m\u0113nesis_m\u0113ne\u0161i".split("_"),
+          y: "gada_gadiem_gads_gadi".split("_"),
+          yy: "gada_gadiem_gads_gadi".split("_")
+        };
+        function format$1(forms2, number, withoutSuffix) {
+          if (withoutSuffix) {
+            return number % 10 === 1 && number % 100 !== 11 ? forms2[2] : forms2[3];
+          } else {
+            return number % 10 === 1 && number % 100 !== 11 ? forms2[0] : forms2[1];
+          }
+        }
+        function relativeTimeWithPlural$1(number, withoutSuffix, key) {
+          return number + " " + format$1(units$1[key], number, withoutSuffix);
+        }
+        function relativeTimeWithSingular(number, withoutSuffix, key) {
+          return format$1(units$1[key], number, withoutSuffix);
+        }
+        function relativeSeconds(number, withoutSuffix) {
+          return withoutSuffix ? "da\u017Eas sekundes" : "da\u017E\u0101m sekund\u0113m";
+        }
+        hooks.defineLocale("lv", {
+          months: "janv\u0101ris_febru\u0101ris_marts_apr\u012Blis_maijs_j\u016Bnijs_j\u016Blijs_augusts_septembris_oktobris_novembris_decembris".split(
+            "_"
+          ),
+          monthsShort: "jan_feb_mar_apr_mai_j\u016Bn_j\u016Bl_aug_sep_okt_nov_dec".split("_"),
+          weekdays: "sv\u0113tdiena_pirmdiena_otrdiena_tre\u0161diena_ceturtdiena_piektdiena_sestdiena".split(
+            "_"
+          ),
+          weekdaysShort: "Sv_P_O_T_C_Pk_S".split("_"),
+          weekdaysMin: "Sv_P_O_T_C_Pk_S".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY.",
+            LL: "YYYY. [gada] D. MMMM",
+            LLL: "YYYY. [gada] D. MMMM, HH:mm",
+            LLLL: "YYYY. [gada] D. MMMM, dddd, HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0160odien pulksten] LT",
+            nextDay: "[R\u012Bt pulksten] LT",
+            nextWeek: "dddd [pulksten] LT",
+            lastDay: "[Vakar pulksten] LT",
+            lastWeek: "[Pag\u0101ju\u0161\u0101] dddd [pulksten] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "p\u0113c %s",
+            past: "pirms %s",
+            s: relativeSeconds,
+            ss: relativeTimeWithPlural$1,
+            m: relativeTimeWithSingular,
+            mm: relativeTimeWithPlural$1,
+            h: relativeTimeWithSingular,
+            hh: relativeTimeWithPlural$1,
+            d: relativeTimeWithSingular,
+            dd: relativeTimeWithPlural$1,
+            M: relativeTimeWithSingular,
+            MM: relativeTimeWithPlural$1,
+            y: relativeTimeWithSingular,
+            yy: relativeTimeWithPlural$1
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var translator = {
+          words: {
+            //Different grammatical cases
+            ss: ["sekund", "sekunda", "sekundi"],
+            m: ["jedan minut", "jednog minuta"],
+            mm: ["minut", "minuta", "minuta"],
+            h: ["jedan sat", "jednog sata"],
+            hh: ["sat", "sata", "sati"],
+            dd: ["dan", "dana", "dana"],
+            MM: ["mjesec", "mjeseca", "mjeseci"],
+            yy: ["godina", "godine", "godina"]
+          },
+          correctGrammaticalCase: function(number, wordKey) {
+            return number === 1 ? wordKey[0] : number >= 2 && number <= 4 ? wordKey[1] : wordKey[2];
+          },
+          translate: function(number, withoutSuffix, key) {
+            var wordKey = translator.words[key];
+            if (key.length === 1) {
+              return withoutSuffix ? wordKey[0] : wordKey[1];
+            } else {
+              return number + " " + translator.correctGrammaticalCase(number, wordKey);
+            }
+          }
+        };
+        hooks.defineLocale("me", {
+          months: "januar_februar_mart_april_maj_jun_jul_avgust_septembar_oktobar_novembar_decembar".split(
+            "_"
+          ),
+          monthsShort: "jan._feb._mar._apr._maj_jun_jul_avg._sep._okt._nov._dec.".split("_"),
+          monthsParseExact: true,
+          weekdays: "nedjelja_ponedjeljak_utorak_srijeda_\u010Detvrtak_petak_subota".split(
+            "_"
+          ),
+          weekdaysShort: "ned._pon._uto._sri._\u010Det._pet._sub.".split("_"),
+          weekdaysMin: "ne_po_ut_sr_\u010De_pe_su".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY H:mm",
+            LLLL: "dddd, D. MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[danas u] LT",
+            nextDay: "[sjutra u] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[u] [nedjelju] [u] LT";
+                case 3:
+                  return "[u] [srijedu] [u] LT";
+                case 6:
+                  return "[u] [subotu] [u] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[u] dddd [u] LT";
+              }
+            },
+            lastDay: "[ju\u010De u] LT",
+            lastWeek: function() {
+              var lastWeekDays = [
+                "[pro\u0161le] [nedjelje] [u] LT",
+                "[pro\u0161log] [ponedjeljka] [u] LT",
+                "[pro\u0161log] [utorka] [u] LT",
+                "[pro\u0161le] [srijede] [u] LT",
+                "[pro\u0161log] [\u010Detvrtka] [u] LT",
+                "[pro\u0161log] [petka] [u] LT",
+                "[pro\u0161le] [subote] [u] LT"
+              ];
+              return lastWeekDays[this.day()];
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "za %s",
+            past: "prije %s",
+            s: "nekoliko sekundi",
+            ss: translator.translate,
+            m: translator.translate,
+            mm: translator.translate,
+            h: translator.translate,
+            hh: translator.translate,
+            d: "dan",
+            dd: translator.translate,
+            M: "mjesec",
+            MM: translator.translate,
+            y: "godinu",
+            yy: translator.translate
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("mi", {
+          months: "Kohi-t\u0101te_Hui-tanguru_Pout\u016B-te-rangi_Paenga-wh\u0101wh\u0101_Haratua_Pipiri_H\u014Dngoingoi_Here-turi-k\u014Dk\u0101_Mahuru_Whiringa-\u0101-nuku_Whiringa-\u0101-rangi_Hakihea".split(
+            "_"
+          ),
+          monthsShort: "Kohi_Hui_Pou_Pae_Hara_Pipi_H\u014Dngoi_Here_Mahu_Whi-nu_Whi-ra_Haki".split(
+            "_"
+          ),
+          monthsRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,
+          monthsStrictRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,
+          monthsShortRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,3}/i,
+          monthsShortStrictRegex: /(?:['a-z\u0101\u014D\u016B]+\-?){1,2}/i,
+          weekdays: "R\u0101tapu_Mane_T\u016Brei_Wenerei_T\u0101ite_Paraire_H\u0101tarei".split("_"),
+          weekdaysShort: "Ta_Ma_T\u016B_We_T\u0101i_Pa_H\u0101".split("_"),
+          weekdaysMin: "Ta_Ma_T\u016B_We_T\u0101i_Pa_H\u0101".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY [i] HH:mm",
+            LLLL: "dddd, D MMMM YYYY [i] HH:mm"
+          },
+          calendar: {
+            sameDay: "[i teie mahana, i] LT",
+            nextDay: "[apopo i] LT",
+            nextWeek: "dddd [i] LT",
+            lastDay: "[inanahi i] LT",
+            lastWeek: "dddd [whakamutunga i] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "i roto i %s",
+            past: "%s i mua",
+            s: "te h\u0113kona ruarua",
+            ss: "%d h\u0113kona",
+            m: "he meneti",
+            mm: "%d meneti",
+            h: "te haora",
+            hh: "%d haora",
+            d: "he ra",
+            dd: "%d ra",
+            M: "he marama",
+            MM: "%d marama",
+            y: "he tau",
+            yy: "%d tau"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("mk", {
+          months: "\u0458\u0430\u043D\u0443\u0430\u0440\u0438_\u0444\u0435\u0432\u0440\u0443\u0430\u0440\u0438_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440\u0438\u043B_\u043C\u0430\u0458_\u0458\u0443\u043D\u0438_\u0458\u0443\u043B\u0438_\u0430\u0432\u0433\u0443\u0441\u0442_\u0441\u0435\u043F\u0442\u0435\u043C\u0432\u0440\u0438_\u043E\u043A\u0442\u043E\u043C\u0432\u0440\u0438_\u043D\u043E\u0435\u043C\u0432\u0440\u0438_\u0434\u0435\u043A\u0435\u043C\u0432\u0440\u0438".split(
+            "_"
+          ),
+          monthsShort: "\u0458\u0430\u043D_\u0444\u0435\u0432_\u043C\u0430\u0440_\u0430\u043F\u0440_\u043C\u0430\u0458_\u0458\u0443\u043D_\u0458\u0443\u043B_\u0430\u0432\u0433_\u0441\u0435\u043F_\u043E\u043A\u0442_\u043D\u043E\u0435_\u0434\u0435\u043A".split("_"),
+          weekdays: "\u043D\u0435\u0434\u0435\u043B\u0430_\u043F\u043E\u043D\u0435\u0434\u0435\u043B\u043D\u0438\u043A_\u0432\u0442\u043E\u0440\u043D\u0438\u043A_\u0441\u0440\u0435\u0434\u0430_\u0447\u0435\u0442\u0432\u0440\u0442\u043E\u043A_\u043F\u0435\u0442\u043E\u043A_\u0441\u0430\u0431\u043E\u0442\u0430".split(
+            "_"
+          ),
+          weekdaysShort: "\u043D\u0435\u0434_\u043F\u043E\u043D_\u0432\u0442\u043E_\u0441\u0440\u0435_\u0447\u0435\u0442_\u043F\u0435\u0442_\u0441\u0430\u0431".split("_"),
+          weekdaysMin: "\u043De_\u043Fo_\u0432\u0442_\u0441\u0440_\u0447\u0435_\u043F\u0435_\u0441a".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "D.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY H:mm",
+            LLLL: "dddd, D MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[\u0414\u0435\u043D\u0435\u0441 \u0432\u043E] LT",
+            nextDay: "[\u0423\u0442\u0440\u0435 \u0432\u043E] LT",
+            nextWeek: "[\u0412\u043E] dddd [\u0432\u043E] LT",
+            lastDay: "[\u0412\u0447\u0435\u0440\u0430 \u0432\u043E] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                case 3:
+                case 6:
+                  return "[\u0418\u0437\u043C\u0438\u043D\u0430\u0442\u0430\u0442\u0430] dddd [\u0432\u043E] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[\u0418\u0437\u043C\u0438\u043D\u0430\u0442\u0438\u043E\u0442] dddd [\u0432\u043E] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0437\u0430 %s",
+            past: "\u043F\u0440\u0435\u0434 %s",
+            s: "\u043D\u0435\u043A\u043E\u043B\u043A\u0443 \u0441\u0435\u043A\u0443\u043D\u0434\u0438",
+            ss: "%d \u0441\u0435\u043A\u0443\u043D\u0434\u0438",
+            m: "\u0435\u0434\u043D\u0430 \u043C\u0438\u043D\u0443\u0442\u0430",
+            mm: "%d \u043C\u0438\u043D\u0443\u0442\u0438",
+            h: "\u0435\u0434\u0435\u043D \u0447\u0430\u0441",
+            hh: "%d \u0447\u0430\u0441\u0430",
+            d: "\u0435\u0434\u0435\u043D \u0434\u0435\u043D",
+            dd: "%d \u0434\u0435\u043D\u0430",
+            M: "\u0435\u0434\u0435\u043D \u043C\u0435\u0441\u0435\u0446",
+            MM: "%d \u043C\u0435\u0441\u0435\u0446\u0438",
+            y: "\u0435\u0434\u043D\u0430 \u0433\u043E\u0434\u0438\u043D\u0430",
+            yy: "%d \u0433\u043E\u0434\u0438\u043D\u0438"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(ев|ен|ти|ви|ри|ми)/,
+          ordinal: function(number) {
+            var lastDigit = number % 10, last2Digits = number % 100;
+            if (number === 0) {
+              return number + "-\u0435\u0432";
+            } else if (last2Digits === 0) {
+              return number + "-\u0435\u043D";
+            } else if (last2Digits > 10 && last2Digits < 20) {
+              return number + "-\u0442\u0438";
+            } else if (lastDigit === 1) {
+              return number + "-\u0432\u0438";
+            } else if (lastDigit === 2) {
+              return number + "-\u0440\u0438";
+            } else if (lastDigit === 7 || lastDigit === 8) {
+              return number + "-\u043C\u0438";
+            } else {
+              return number + "-\u0442\u0438";
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ml", {
+          months: "\u0D1C\u0D28\u0D41\u0D35\u0D30\u0D3F_\u0D2B\u0D46\u0D2C\u0D4D\u0D30\u0D41\u0D35\u0D30\u0D3F_\u0D2E\u0D3E\u0D7C\u0D1A\u0D4D\u0D1A\u0D4D_\u0D0F\u0D2A\u0D4D\u0D30\u0D3F\u0D7D_\u0D2E\u0D47\u0D2F\u0D4D_\u0D1C\u0D42\u0D7A_\u0D1C\u0D42\u0D32\u0D48_\u0D13\u0D17\u0D38\u0D4D\u0D31\u0D4D\u0D31\u0D4D_\u0D38\u0D46\u0D2A\u0D4D\u0D31\u0D4D\u0D31\u0D02\u0D2C\u0D7C_\u0D12\u0D15\u0D4D\u0D1F\u0D4B\u0D2C\u0D7C_\u0D28\u0D35\u0D02\u0D2C\u0D7C_\u0D21\u0D3F\u0D38\u0D02\u0D2C\u0D7C".split(
+            "_"
+          ),
+          monthsShort: "\u0D1C\u0D28\u0D41._\u0D2B\u0D46\u0D2C\u0D4D\u0D30\u0D41._\u0D2E\u0D3E\u0D7C._\u0D0F\u0D2A\u0D4D\u0D30\u0D3F._\u0D2E\u0D47\u0D2F\u0D4D_\u0D1C\u0D42\u0D7A_\u0D1C\u0D42\u0D32\u0D48._\u0D13\u0D17._\u0D38\u0D46\u0D2A\u0D4D\u0D31\u0D4D\u0D31._\u0D12\u0D15\u0D4D\u0D1F\u0D4B._\u0D28\u0D35\u0D02._\u0D21\u0D3F\u0D38\u0D02.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0D1E\u0D3E\u0D2F\u0D31\u0D3E\u0D34\u0D4D\u0D1A_\u0D24\u0D3F\u0D19\u0D4D\u0D15\u0D33\u0D3E\u0D34\u0D4D\u0D1A_\u0D1A\u0D4A\u0D35\u0D4D\u0D35\u0D3E\u0D34\u0D4D\u0D1A_\u0D2C\u0D41\u0D27\u0D28\u0D3E\u0D34\u0D4D\u0D1A_\u0D35\u0D4D\u0D2F\u0D3E\u0D34\u0D3E\u0D34\u0D4D\u0D1A_\u0D35\u0D46\u0D33\u0D4D\u0D33\u0D3F\u0D2F\u0D3E\u0D34\u0D4D\u0D1A_\u0D36\u0D28\u0D3F\u0D2F\u0D3E\u0D34\u0D4D\u0D1A".split(
+            "_"
+          ),
+          weekdaysShort: "\u0D1E\u0D3E\u0D2F\u0D7C_\u0D24\u0D3F\u0D19\u0D4D\u0D15\u0D7E_\u0D1A\u0D4A\u0D35\u0D4D\u0D35_\u0D2C\u0D41\u0D27\u0D7B_\u0D35\u0D4D\u0D2F\u0D3E\u0D34\u0D02_\u0D35\u0D46\u0D33\u0D4D\u0D33\u0D3F_\u0D36\u0D28\u0D3F".split("_"),
+          weekdaysMin: "\u0D1E\u0D3E_\u0D24\u0D3F_\u0D1A\u0D4A_\u0D2C\u0D41_\u0D35\u0D4D\u0D2F\u0D3E_\u0D35\u0D46_\u0D36".split("_"),
+          longDateFormat: {
+            LT: "A h:mm -\u0D28\u0D41",
+            LTS: "A h:mm:ss -\u0D28\u0D41",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm -\u0D28\u0D41",
+            LLLL: "dddd, D MMMM YYYY, A h:mm -\u0D28\u0D41"
+          },
+          calendar: {
+            sameDay: "[\u0D07\u0D28\u0D4D\u0D28\u0D4D] LT",
+            nextDay: "[\u0D28\u0D3E\u0D33\u0D46] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0D07\u0D28\u0D4D\u0D28\u0D32\u0D46] LT",
+            lastWeek: "[\u0D15\u0D34\u0D3F\u0D1E\u0D4D\u0D1E] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0D15\u0D34\u0D3F\u0D1E\u0D4D\u0D1E\u0D4D",
+            past: "%s \u0D2E\u0D41\u0D7B\u0D2A\u0D4D",
+            s: "\u0D05\u0D7D\u0D2A \u0D28\u0D3F\u0D2E\u0D3F\u0D37\u0D19\u0D4D\u0D19\u0D7E",
+            ss: "%d \u0D38\u0D46\u0D15\u0D4D\u0D15\u0D7B\u0D21\u0D4D",
+            m: "\u0D12\u0D30\u0D41 \u0D2E\u0D3F\u0D28\u0D3F\u0D31\u0D4D\u0D31\u0D4D",
+            mm: "%d \u0D2E\u0D3F\u0D28\u0D3F\u0D31\u0D4D\u0D31\u0D4D",
+            h: "\u0D12\u0D30\u0D41 \u0D2E\u0D23\u0D3F\u0D15\u0D4D\u0D15\u0D42\u0D7C",
+            hh: "%d \u0D2E\u0D23\u0D3F\u0D15\u0D4D\u0D15\u0D42\u0D7C",
+            d: "\u0D12\u0D30\u0D41 \u0D26\u0D3F\u0D35\u0D38\u0D02",
+            dd: "%d \u0D26\u0D3F\u0D35\u0D38\u0D02",
+            M: "\u0D12\u0D30\u0D41 \u0D2E\u0D3E\u0D38\u0D02",
+            MM: "%d \u0D2E\u0D3E\u0D38\u0D02",
+            y: "\u0D12\u0D30\u0D41 \u0D35\u0D7C\u0D37\u0D02",
+            yy: "%d \u0D35\u0D7C\u0D37\u0D02"
+          },
+          meridiemParse: /രാത്രി|രാവിലെ|ഉച്ച കഴിഞ്ഞ്|വൈകുന്നേരം|രാത്രി/i,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0D30\u0D3E\u0D24\u0D4D\u0D30\u0D3F" && hour >= 4 || meridiem2 === "\u0D09\u0D1A\u0D4D\u0D1A \u0D15\u0D34\u0D3F\u0D1E\u0D4D\u0D1E\u0D4D" || meridiem2 === "\u0D35\u0D48\u0D15\u0D41\u0D28\u0D4D\u0D28\u0D47\u0D30\u0D02") {
+              return hour + 12;
+            } else {
+              return hour;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0D30\u0D3E\u0D24\u0D4D\u0D30\u0D3F";
+            } else if (hour < 12) {
+              return "\u0D30\u0D3E\u0D35\u0D3F\u0D32\u0D46";
+            } else if (hour < 17) {
+              return "\u0D09\u0D1A\u0D4D\u0D1A \u0D15\u0D34\u0D3F\u0D1E\u0D4D\u0D1E\u0D4D";
+            } else if (hour < 20) {
+              return "\u0D35\u0D48\u0D15\u0D41\u0D28\u0D4D\u0D28\u0D47\u0D30\u0D02";
+            } else {
+              return "\u0D30\u0D3E\u0D24\u0D4D\u0D30\u0D3F";
+            }
+          }
+        });
+        function translate$7(number, withoutSuffix, key, isFuture) {
+          switch (key) {
+            case "s":
+              return withoutSuffix ? "\u0445\u044D\u0434\u0445\u044D\u043D \u0441\u0435\u043A\u0443\u043D\u0434" : "\u0445\u044D\u0434\u0445\u044D\u043D \u0441\u0435\u043A\u0443\u043D\u0434\u044B\u043D";
+            case "ss":
+              return number + (withoutSuffix ? " \u0441\u0435\u043A\u0443\u043D\u0434" : " \u0441\u0435\u043A\u0443\u043D\u0434\u044B\u043D");
+            case "m":
+            case "mm":
+              return number + (withoutSuffix ? " \u043C\u0438\u043D\u0443\u0442" : " \u043C\u0438\u043D\u0443\u0442\u044B\u043D");
+            case "h":
+            case "hh":
+              return number + (withoutSuffix ? " \u0446\u0430\u0433" : " \u0446\u0430\u0433\u0438\u0439\u043D");
+            case "d":
+            case "dd":
+              return number + (withoutSuffix ? " \u04E9\u0434\u04E9\u0440" : " \u04E9\u0434\u0440\u0438\u0439\u043D");
+            case "M":
+            case "MM":
+              return number + (withoutSuffix ? " \u0441\u0430\u0440" : " \u0441\u0430\u0440\u044B\u043D");
+            case "y":
+            case "yy":
+              return number + (withoutSuffix ? " \u0436\u0438\u043B" : " \u0436\u0438\u043B\u0438\u0439\u043D");
+            default:
+              return number;
+          }
+        }
+        hooks.defineLocale("mn", {
+          months: "\u041D\u044D\u0433\u0434\u04AF\u0433\u044D\u044D\u0440 \u0441\u0430\u0440_\u0425\u043E\u0451\u0440\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440_\u0413\u0443\u0440\u0430\u0432\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440_\u0414\u04E9\u0440\u04E9\u0432\u0434\u04AF\u0433\u044D\u044D\u0440 \u0441\u0430\u0440_\u0422\u0430\u0432\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440_\u0417\u0443\u0440\u0433\u0430\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440_\u0414\u043E\u043B\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440_\u041D\u0430\u0439\u043C\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440_\u0415\u0441\u0434\u04AF\u0433\u044D\u044D\u0440 \u0441\u0430\u0440_\u0410\u0440\u0430\u0432\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440_\u0410\u0440\u0432\u0430\u043D \u043D\u044D\u0433\u0434\u04AF\u0433\u044D\u044D\u0440 \u0441\u0430\u0440_\u0410\u0440\u0432\u0430\u043D \u0445\u043E\u0451\u0440\u0434\u0443\u0433\u0430\u0430\u0440 \u0441\u0430\u0440".split(
+            "_"
+          ),
+          monthsShort: "1 \u0441\u0430\u0440_2 \u0441\u0430\u0440_3 \u0441\u0430\u0440_4 \u0441\u0430\u0440_5 \u0441\u0430\u0440_6 \u0441\u0430\u0440_7 \u0441\u0430\u0440_8 \u0441\u0430\u0440_9 \u0441\u0430\u0440_10 \u0441\u0430\u0440_11 \u0441\u0430\u0440_12 \u0441\u0430\u0440".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u041D\u044F\u043C_\u0414\u0430\u0432\u0430\u0430_\u041C\u044F\u0433\u043C\u0430\u0440_\u041B\u0445\u0430\u0433\u0432\u0430_\u041F\u04AF\u0440\u044D\u0432_\u0411\u0430\u0430\u0441\u0430\u043D_\u0411\u044F\u043C\u0431\u0430".split("_"),
+          weekdaysShort: "\u041D\u044F\u043C_\u0414\u0430\u0432_\u041C\u044F\u0433_\u041B\u0445\u0430_\u041F\u04AF\u0440_\u0411\u0430\u0430_\u0411\u044F\u043C".split("_"),
+          weekdaysMin: "\u041D\u044F_\u0414\u0430_\u041C\u044F_\u041B\u0445_\u041F\u04AF_\u0411\u0430_\u0411\u044F".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY-MM-DD",
+            LL: "YYYY \u043E\u043D\u044B MMMM\u044B\u043D D",
+            LLL: "YYYY \u043E\u043D\u044B MMMM\u044B\u043D D HH:mm",
+            LLLL: "dddd, YYYY \u043E\u043D\u044B MMMM\u044B\u043D D HH:mm"
+          },
+          meridiemParse: /ҮӨ|ҮХ/i,
+          isPM: function(input) {
+            return input === "\u04AE\u0425";
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u04AE\u04E8";
+            } else {
+              return "\u04AE\u0425";
+            }
+          },
+          calendar: {
+            sameDay: "[\u04E8\u043D\u04E9\u04E9\u0434\u04E9\u0440] LT",
+            nextDay: "[\u041C\u0430\u0440\u0433\u0430\u0430\u0448] LT",
+            nextWeek: "[\u0418\u0440\u044D\u0445] dddd LT",
+            lastDay: "[\u04E8\u0447\u0438\u0433\u0434\u04E9\u0440] LT",
+            lastWeek: "[\u04E8\u043D\u0433\u04E9\u0440\u0441\u04E9\u043D] dddd LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0434\u0430\u0440\u0430\u0430",
+            past: "%s \u04E9\u043C\u043D\u04E9",
+            s: translate$7,
+            ss: translate$7,
+            m: translate$7,
+            mm: translate$7,
+            h: translate$7,
+            hh: translate$7,
+            d: translate$7,
+            dd: translate$7,
+            M: translate$7,
+            MM: translate$7,
+            y: translate$7,
+            yy: translate$7
+          },
+          dayOfMonthOrdinalParse: /\d{1,2} өдөр/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "DDD":
+                return number + " \u04E9\u0434\u04E9\u0440";
+              default:
+                return number;
+            }
+          }
+        });
+        var symbolMap$c = {
+          1: "\u0967",
+          2: "\u0968",
+          3: "\u0969",
+          4: "\u096A",
+          5: "\u096B",
+          6: "\u096C",
+          7: "\u096D",
+          8: "\u096E",
+          9: "\u096F",
+          0: "\u0966"
+        }, numberMap$b = {
+          "\u0967": "1",
+          "\u0968": "2",
+          "\u0969": "3",
+          "\u096A": "4",
+          "\u096B": "5",
+          "\u096C": "6",
+          "\u096D": "7",
+          "\u096E": "8",
+          "\u096F": "9",
+          "\u0966": "0"
+        };
+        function relativeTimeMr(number, withoutSuffix, string, isFuture) {
+          var output = "";
+          if (withoutSuffix) {
+            switch (string) {
+              case "s":
+                output = "\u0915\u093E\u0939\u0940 \u0938\u0947\u0915\u0902\u0926";
+                break;
+              case "ss":
+                output = "%d \u0938\u0947\u0915\u0902\u0926";
+                break;
+              case "m":
+                output = "\u090F\u0915 \u092E\u093F\u0928\u093F\u091F";
+                break;
+              case "mm":
+                output = "%d \u092E\u093F\u0928\u093F\u091F\u0947";
+                break;
+              case "h":
+                output = "\u090F\u0915 \u0924\u093E\u0938";
+                break;
+              case "hh":
+                output = "%d \u0924\u093E\u0938";
+                break;
+              case "d":
+                output = "\u090F\u0915 \u0926\u093F\u0935\u0938";
+                break;
+              case "dd":
+                output = "%d \u0926\u093F\u0935\u0938";
+                break;
+              case "M":
+                output = "\u090F\u0915 \u092E\u0939\u093F\u0928\u093E";
+                break;
+              case "MM":
+                output = "%d \u092E\u0939\u093F\u0928\u0947";
+                break;
+              case "y":
+                output = "\u090F\u0915 \u0935\u0930\u094D\u0937";
+                break;
+              case "yy":
+                output = "%d \u0935\u0930\u094D\u0937\u0947";
+                break;
+            }
+          } else {
+            switch (string) {
+              case "s":
+                output = "\u0915\u093E\u0939\u0940 \u0938\u0947\u0915\u0902\u0926\u093E\u0902";
+                break;
+              case "ss":
+                output = "%d \u0938\u0947\u0915\u0902\u0926\u093E\u0902";
+                break;
+              case "m":
+                output = "\u090F\u0915\u093E \u092E\u093F\u0928\u093F\u091F\u093E";
+                break;
+              case "mm":
+                output = "%d \u092E\u093F\u0928\u093F\u091F\u093E\u0902";
+                break;
+              case "h":
+                output = "\u090F\u0915\u093E \u0924\u093E\u0938\u093E";
+                break;
+              case "hh":
+                output = "%d \u0924\u093E\u0938\u093E\u0902";
+                break;
+              case "d":
+                output = "\u090F\u0915\u093E \u0926\u093F\u0935\u0938\u093E";
+                break;
+              case "dd":
+                output = "%d \u0926\u093F\u0935\u0938\u093E\u0902";
+                break;
+              case "M":
+                output = "\u090F\u0915\u093E \u092E\u0939\u093F\u0928\u094D\u092F\u093E";
+                break;
+              case "MM":
+                output = "%d \u092E\u0939\u093F\u0928\u094D\u092F\u093E\u0902";
+                break;
+              case "y":
+                output = "\u090F\u0915\u093E \u0935\u0930\u094D\u0937\u093E";
+                break;
+              case "yy":
+                output = "%d \u0935\u0930\u094D\u0937\u093E\u0902";
+                break;
+            }
+          }
+          return output.replace(/%d/i, number);
+        }
+        hooks.defineLocale("mr", {
+          months: "\u091C\u093E\u0928\u0947\u0935\u093E\u0930\u0940_\u092B\u0947\u092C\u094D\u0930\u0941\u0935\u093E\u0930\u0940_\u092E\u093E\u0930\u094D\u091A_\u090F\u092A\u094D\u0930\u093F\u0932_\u092E\u0947_\u091C\u0942\u0928_\u091C\u0941\u0932\u0948_\u0911\u0917\u0938\u094D\u091F_\u0938\u092A\u094D\u091F\u0947\u0902\u092C\u0930_\u0911\u0915\u094D\u091F\u094B\u092C\u0930_\u0928\u094B\u0935\u094D\u0939\u0947\u0902\u092C\u0930_\u0921\u093F\u0938\u0947\u0902\u092C\u0930".split(
+            "_"
+          ),
+          monthsShort: "\u091C\u093E\u0928\u0947._\u092B\u0947\u092C\u094D\u0930\u0941._\u092E\u093E\u0930\u094D\u091A._\u090F\u092A\u094D\u0930\u093F._\u092E\u0947._\u091C\u0942\u0928._\u091C\u0941\u0932\u0948._\u0911\u0917._\u0938\u092A\u094D\u091F\u0947\u0902._\u0911\u0915\u094D\u091F\u094B._\u0928\u094B\u0935\u094D\u0939\u0947\u0902._\u0921\u093F\u0938\u0947\u0902.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0930\u0935\u093F\u0935\u093E\u0930_\u0938\u094B\u092E\u0935\u093E\u0930_\u092E\u0902\u0917\u0933\u0935\u093E\u0930_\u092C\u0941\u0927\u0935\u093E\u0930_\u0917\u0941\u0930\u0942\u0935\u093E\u0930_\u0936\u0941\u0915\u094D\u0930\u0935\u093E\u0930_\u0936\u0928\u093F\u0935\u093E\u0930".split("_"),
+          weekdaysShort: "\u0930\u0935\u093F_\u0938\u094B\u092E_\u092E\u0902\u0917\u0933_\u092C\u0941\u0927_\u0917\u0941\u0930\u0942_\u0936\u0941\u0915\u094D\u0930_\u0936\u0928\u093F".split("_"),
+          weekdaysMin: "\u0930_\u0938\u094B_\u092E\u0902_\u092C\u0941_\u0917\u0941_\u0936\u0941_\u0936".split("_"),
+          longDateFormat: {
+            LT: "A h:mm \u0935\u093E\u091C\u0924\u093E",
+            LTS: "A h:mm:ss \u0935\u093E\u091C\u0924\u093E",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm \u0935\u093E\u091C\u0924\u093E",
+            LLLL: "dddd, D MMMM YYYY, A h:mm \u0935\u093E\u091C\u0924\u093E"
+          },
+          calendar: {
+            sameDay: "[\u0906\u091C] LT",
+            nextDay: "[\u0909\u0926\u094D\u092F\u093E] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0915\u093E\u0932] LT",
+            lastWeek: "[\u092E\u093E\u0917\u0940\u0932] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s\u092E\u0927\u094D\u092F\u0947",
+            past: "%s\u092A\u0942\u0930\u094D\u0935\u0940",
+            s: relativeTimeMr,
+            ss: relativeTimeMr,
+            m: relativeTimeMr,
+            mm: relativeTimeMr,
+            h: relativeTimeMr,
+            hh: relativeTimeMr,
+            d: relativeTimeMr,
+            dd: relativeTimeMr,
+            M: relativeTimeMr,
+            MM: relativeTimeMr,
+            y: relativeTimeMr,
+            yy: relativeTimeMr
+          },
+          preparse: function(string) {
+            return string.replace(/[१२३४५६७८९०]/g, function(match) {
+              return numberMap$b[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$c[match];
+            });
+          },
+          meridiemParse: /पहाटे|सकाळी|दुपारी|सायंकाळी|रात्री/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u092A\u0939\u093E\u091F\u0947" || meridiem2 === "\u0938\u0915\u093E\u0933\u0940") {
+              return hour;
+            } else if (meridiem2 === "\u0926\u0941\u092A\u093E\u0930\u0940" || meridiem2 === "\u0938\u093E\u092F\u0902\u0915\u093E\u0933\u0940" || meridiem2 === "\u0930\u093E\u0924\u094D\u0930\u0940") {
+              return hour >= 12 ? hour : hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour >= 0 && hour < 6) {
+              return "\u092A\u0939\u093E\u091F\u0947";
+            } else if (hour < 12) {
+              return "\u0938\u0915\u093E\u0933\u0940";
+            } else if (hour < 17) {
+              return "\u0926\u0941\u092A\u093E\u0930\u0940";
+            } else if (hour < 20) {
+              return "\u0938\u093E\u092F\u0902\u0915\u093E\u0933\u0940";
+            } else {
+              return "\u0930\u093E\u0924\u094D\u0930\u0940";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ms-my", {
+          months: "Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogs_Sep_Okt_Nov_Dis".split("_"),
+          weekdays: "Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu".split("_"),
+          weekdaysShort: "Ahd_Isn_Sel_Rab_Kha_Jum_Sab".split("_"),
+          weekdaysMin: "Ah_Is_Sl_Rb_Km_Jm_Sb".split("_"),
+          longDateFormat: {
+            LT: "HH.mm",
+            LTS: "HH.mm.ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY [pukul] HH.mm",
+            LLLL: "dddd, D MMMM YYYY [pukul] HH.mm"
+          },
+          meridiemParse: /pagi|tengahari|petang|malam/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "pagi") {
+              return hour;
+            } else if (meridiem2 === "tengahari") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "petang" || meridiem2 === "malam") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 11) {
+              return "pagi";
+            } else if (hours2 < 15) {
+              return "tengahari";
+            } else if (hours2 < 19) {
+              return "petang";
+            } else {
+              return "malam";
+            }
+          },
+          calendar: {
+            sameDay: "[Hari ini pukul] LT",
+            nextDay: "[Esok pukul] LT",
+            nextWeek: "dddd [pukul] LT",
+            lastDay: "[Kelmarin pukul] LT",
+            lastWeek: "dddd [lepas pukul] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "dalam %s",
+            past: "%s yang lepas",
+            s: "beberapa saat",
+            ss: "%d saat",
+            m: "seminit",
+            mm: "%d minit",
+            h: "sejam",
+            hh: "%d jam",
+            d: "sehari",
+            dd: "%d hari",
+            M: "sebulan",
+            MM: "%d bulan",
+            y: "setahun",
+            yy: "%d tahun"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ms", {
+          months: "Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogs_Sep_Okt_Nov_Dis".split("_"),
+          weekdays: "Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu".split("_"),
+          weekdaysShort: "Ahd_Isn_Sel_Rab_Kha_Jum_Sab".split("_"),
+          weekdaysMin: "Ah_Is_Sl_Rb_Km_Jm_Sb".split("_"),
+          longDateFormat: {
+            LT: "HH.mm",
+            LTS: "HH.mm.ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY [pukul] HH.mm",
+            LLLL: "dddd, D MMMM YYYY [pukul] HH.mm"
+          },
+          meridiemParse: /pagi|tengahari|petang|malam/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "pagi") {
+              return hour;
+            } else if (meridiem2 === "tengahari") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "petang" || meridiem2 === "malam") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 11) {
+              return "pagi";
+            } else if (hours2 < 15) {
+              return "tengahari";
+            } else if (hours2 < 19) {
+              return "petang";
+            } else {
+              return "malam";
+            }
+          },
+          calendar: {
+            sameDay: "[Hari ini pukul] LT",
+            nextDay: "[Esok pukul] LT",
+            nextWeek: "dddd [pukul] LT",
+            lastDay: "[Kelmarin pukul] LT",
+            lastWeek: "dddd [lepas pukul] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "dalam %s",
+            past: "%s yang lepas",
+            s: "beberapa saat",
+            ss: "%d saat",
+            m: "seminit",
+            mm: "%d minit",
+            h: "sejam",
+            hh: "%d jam",
+            d: "sehari",
+            dd: "%d hari",
+            M: "sebulan",
+            MM: "%d bulan",
+            y: "setahun",
+            yy: "%d tahun"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("mt", {
+          months: "Jannar_Frar_Marzu_April_Mejju_\u0120unju_Lulju_Awwissu_Settembru_Ottubru_Novembru_Di\u010Bembru".split(
+            "_"
+          ),
+          monthsShort: "Jan_Fra_Mar_Apr_Mej_\u0120un_Lul_Aww_Set_Ott_Nov_Di\u010B".split("_"),
+          weekdays: "Il-\u0126add_It-Tnejn_It-Tlieta_L-Erbg\u0127a_Il-\u0126amis_Il-\u0120img\u0127a_Is-Sibt".split(
+            "_"
+          ),
+          weekdaysShort: "\u0126ad_Tne_Tli_Erb_\u0126am_\u0120im_Sib".split("_"),
+          weekdaysMin: "\u0126a_Tn_Tl_Er_\u0126a_\u0120i_Si".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Illum fil-]LT",
+            nextDay: "[G\u0127ada fil-]LT",
+            nextWeek: "dddd [fil-]LT",
+            lastDay: "[Il-biera\u0127 fil-]LT",
+            lastWeek: "dddd [li g\u0127adda] [fil-]LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "f\u2019 %s",
+            past: "%s ilu",
+            s: "ftit sekondi",
+            ss: "%d sekondi",
+            m: "minuta",
+            mm: "%d minuti",
+            h: "sieg\u0127a",
+            hh: "%d sieg\u0127at",
+            d: "\u0121urnata",
+            dd: "%d \u0121ranet",
+            M: "xahar",
+            MM: "%d xhur",
+            y: "sena",
+            yy: "%d sni"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var symbolMap$d = {
+          1: "\u1041",
+          2: "\u1042",
+          3: "\u1043",
+          4: "\u1044",
+          5: "\u1045",
+          6: "\u1046",
+          7: "\u1047",
+          8: "\u1048",
+          9: "\u1049",
+          0: "\u1040"
+        }, numberMap$c = {
+          "\u1041": "1",
+          "\u1042": "2",
+          "\u1043": "3",
+          "\u1044": "4",
+          "\u1045": "5",
+          "\u1046": "6",
+          "\u1047": "7",
+          "\u1048": "8",
+          "\u1049": "9",
+          "\u1040": "0"
+        };
+        hooks.defineLocale("my", {
+          months: "\u1007\u1014\u103A\u1014\u101D\u102B\u101B\u102E_\u1016\u1031\u1016\u1031\u102C\u103A\u101D\u102B\u101B\u102E_\u1019\u1010\u103A_\u1027\u1015\u103C\u102E_\u1019\u1031_\u1007\u103D\u1014\u103A_\u1007\u1030\u101C\u102D\u102F\u1004\u103A_\u101E\u103C\u1002\u102F\u1010\u103A_\u1005\u1000\u103A\u1010\u1004\u103A\u1018\u102C_\u1021\u1031\u102C\u1000\u103A\u1010\u102D\u102F\u1018\u102C_\u1014\u102D\u102F\u101D\u1004\u103A\u1018\u102C_\u1012\u102E\u1007\u1004\u103A\u1018\u102C".split(
+            "_"
+          ),
+          monthsShort: "\u1007\u1014\u103A_\u1016\u1031_\u1019\u1010\u103A_\u1015\u103C\u102E_\u1019\u1031_\u1007\u103D\u1014\u103A_\u101C\u102D\u102F\u1004\u103A_\u101E\u103C_\u1005\u1000\u103A_\u1021\u1031\u102C\u1000\u103A_\u1014\u102D\u102F_\u1012\u102E".split("_"),
+          weekdays: "\u1010\u1014\u1004\u103A\u1039\u1002\u1014\u103D\u1031_\u1010\u1014\u1004\u103A\u1039\u101C\u102C_\u1021\u1004\u103A\u1039\u1002\u102B_\u1017\u102F\u1012\u1039\u1013\u101F\u1030\u1038_\u1000\u103C\u102C\u101E\u1015\u1010\u1031\u1038_\u101E\u1031\u102C\u1000\u103C\u102C_\u1005\u1014\u1031".split(
+            "_"
+          ),
+          weekdaysShort: "\u1014\u103D\u1031_\u101C\u102C_\u1002\u102B_\u101F\u1030\u1038_\u1000\u103C\u102C_\u101E\u1031\u102C_\u1014\u1031".split("_"),
+          weekdaysMin: "\u1014\u103D\u1031_\u101C\u102C_\u1002\u102B_\u101F\u1030\u1038_\u1000\u103C\u102C_\u101E\u1031\u102C_\u1014\u1031".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u101A\u1014\u1031.] LT [\u1019\u103E\u102C]",
+            nextDay: "[\u1019\u1014\u1000\u103A\u1016\u103C\u1014\u103A] LT [\u1019\u103E\u102C]",
+            nextWeek: "dddd LT [\u1019\u103E\u102C]",
+            lastDay: "[\u1019\u1014\u1031.\u1000] LT [\u1019\u103E\u102C]",
+            lastWeek: "[\u1015\u103C\u102E\u1038\u1001\u1032\u1037\u101E\u1031\u102C] dddd LT [\u1019\u103E\u102C]",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u101C\u102C\u1019\u100A\u103A\u1037 %s \u1019\u103E\u102C",
+            past: "\u101C\u103D\u1014\u103A\u1001\u1032\u1037\u101E\u1031\u102C %s \u1000",
+            s: "\u1005\u1000\u1039\u1000\u1014\u103A.\u1021\u1014\u100A\u103A\u1038\u1004\u101A\u103A",
+            ss: "%d \u1005\u1000\u1039\u1000\u1014\u1037\u103A",
+            m: "\u1010\u1005\u103A\u1019\u102D\u1014\u1005\u103A",
+            mm: "%d \u1019\u102D\u1014\u1005\u103A",
+            h: "\u1010\u1005\u103A\u1014\u102C\u101B\u102E",
+            hh: "%d \u1014\u102C\u101B\u102E",
+            d: "\u1010\u1005\u103A\u101B\u1000\u103A",
+            dd: "%d \u101B\u1000\u103A",
+            M: "\u1010\u1005\u103A\u101C",
+            MM: "%d \u101C",
+            y: "\u1010\u1005\u103A\u1014\u103E\u1005\u103A",
+            yy: "%d \u1014\u103E\u1005\u103A"
+          },
+          preparse: function(string) {
+            return string.replace(/[၁၂၃၄၅၆၇၈၉၀]/g, function(match) {
+              return numberMap$c[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$d[match];
+            });
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("nb", {
+          months: "januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split(
+            "_"
+          ),
+          monthsShort: "jan._feb._mars_apr._mai_juni_juli_aug._sep._okt._nov._des.".split("_"),
+          monthsParseExact: true,
+          weekdays: "s\xF8ndag_mandag_tirsdag_onsdag_torsdag_fredag_l\xF8rdag".split("_"),
+          weekdaysShort: "s\xF8._ma._ti._on._to._fr._l\xF8.".split("_"),
+          weekdaysMin: "s\xF8_ma_ti_on_to_fr_l\xF8".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY [kl.] HH:mm",
+            LLLL: "dddd D. MMMM YYYY [kl.] HH:mm"
+          },
+          calendar: {
+            sameDay: "[i dag kl.] LT",
+            nextDay: "[i morgen kl.] LT",
+            nextWeek: "dddd [kl.] LT",
+            lastDay: "[i g\xE5r kl.] LT",
+            lastWeek: "[forrige] dddd [kl.] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "om %s",
+            past: "%s siden",
+            s: "noen sekunder",
+            ss: "%d sekunder",
+            m: "ett minutt",
+            mm: "%d minutter",
+            h: "en time",
+            hh: "%d timer",
+            d: "en dag",
+            dd: "%d dager",
+            w: "en uke",
+            ww: "%d uker",
+            M: "en m\xE5ned",
+            MM: "%d m\xE5neder",
+            y: "ett \xE5r",
+            yy: "%d \xE5r"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var symbolMap$e = {
+          1: "\u0967",
+          2: "\u0968",
+          3: "\u0969",
+          4: "\u096A",
+          5: "\u096B",
+          6: "\u096C",
+          7: "\u096D",
+          8: "\u096E",
+          9: "\u096F",
+          0: "\u0966"
+        }, numberMap$d = {
+          "\u0967": "1",
+          "\u0968": "2",
+          "\u0969": "3",
+          "\u096A": "4",
+          "\u096B": "5",
+          "\u096C": "6",
+          "\u096D": "7",
+          "\u096E": "8",
+          "\u096F": "9",
+          "\u0966": "0"
+        };
+        hooks.defineLocale("ne", {
+          months: "\u091C\u0928\u0935\u0930\u0940_\u092B\u0947\u092C\u094D\u0930\u0941\u0935\u0930\u0940_\u092E\u093E\u0930\u094D\u091A_\u0905\u092A\u094D\u0930\u093F\u0932_\u092E\u0908_\u091C\u0941\u0928_\u091C\u0941\u0932\u093E\u0908_\u0905\u0917\u0937\u094D\u091F_\u0938\u0947\u092A\u094D\u091F\u0947\u092E\u094D\u092C\u0930_\u0905\u0915\u094D\u091F\u094B\u092C\u0930_\u0928\u094B\u092D\u0947\u092E\u094D\u092C\u0930_\u0921\u093F\u0938\u0947\u092E\u094D\u092C\u0930".split(
+            "_"
+          ),
+          monthsShort: "\u091C\u0928._\u092B\u0947\u092C\u094D\u0930\u0941._\u092E\u093E\u0930\u094D\u091A_\u0905\u092A\u094D\u0930\u093F._\u092E\u0908_\u091C\u0941\u0928_\u091C\u0941\u0932\u093E\u0908._\u0905\u0917._\u0938\u0947\u092A\u094D\u091F._\u0905\u0915\u094D\u091F\u094B._\u0928\u094B\u092D\u0947._\u0921\u093F\u0938\u0947.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0906\u0907\u0924\u092C\u093E\u0930_\u0938\u094B\u092E\u092C\u093E\u0930_\u092E\u0919\u094D\u0917\u0932\u092C\u093E\u0930_\u092C\u0941\u0927\u092C\u093E\u0930_\u092C\u093F\u0939\u093F\u092C\u093E\u0930_\u0936\u0941\u0915\u094D\u0930\u092C\u093E\u0930_\u0936\u0928\u093F\u092C\u093E\u0930".split(
+            "_"
+          ),
+          weekdaysShort: "\u0906\u0907\u0924._\u0938\u094B\u092E._\u092E\u0919\u094D\u0917\u0932._\u092C\u0941\u0927._\u092C\u093F\u0939\u093F._\u0936\u0941\u0915\u094D\u0930._\u0936\u0928\u093F.".split("_"),
+          weekdaysMin: "\u0906._\u0938\u094B._\u092E\u0902._\u092C\u0941._\u092C\u093F._\u0936\u0941._\u0936.".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "A\u0915\u094B h:mm \u092C\u091C\u0947",
+            LTS: "A\u0915\u094B h:mm:ss \u092C\u091C\u0947",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A\u0915\u094B h:mm \u092C\u091C\u0947",
+            LLLL: "dddd, D MMMM YYYY, A\u0915\u094B h:mm \u092C\u091C\u0947"
+          },
+          preparse: function(string) {
+            return string.replace(/[१२३४५६७८९०]/g, function(match) {
+              return numberMap$d[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$e[match];
+            });
+          },
+          meridiemParse: /राति|बिहान|दिउँसो|साँझ/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0930\u093E\u0924\u093F") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u092C\u093F\u0939\u093E\u0928") {
+              return hour;
+            } else if (meridiem2 === "\u0926\u093F\u0909\u0901\u0938\u094B") {
+              return hour >= 10 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0938\u093E\u0901\u091D") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 3) {
+              return "\u0930\u093E\u0924\u093F";
+            } else if (hour < 12) {
+              return "\u092C\u093F\u0939\u093E\u0928";
+            } else if (hour < 16) {
+              return "\u0926\u093F\u0909\u0901\u0938\u094B";
+            } else if (hour < 20) {
+              return "\u0938\u093E\u0901\u091D";
+            } else {
+              return "\u0930\u093E\u0924\u093F";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0906\u091C] LT",
+            nextDay: "[\u092D\u094B\u0932\u093F] LT",
+            nextWeek: "[\u0906\u0909\u0901\u0926\u094B] dddd[,] LT",
+            lastDay: "[\u0939\u093F\u091C\u094B] LT",
+            lastWeek: "[\u0917\u090F\u0915\u094B] dddd[,] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s\u092E\u093E",
+            past: "%s \u0905\u0917\u093E\u0921\u093F",
+            s: "\u0915\u0947\u0939\u0940 \u0915\u094D\u0937\u0923",
+            ss: "%d \u0938\u0947\u0915\u0947\u0923\u094D\u0921",
+            m: "\u090F\u0915 \u092E\u093F\u0928\u0947\u091F",
+            mm: "%d \u092E\u093F\u0928\u0947\u091F",
+            h: "\u090F\u0915 \u0918\u0923\u094D\u091F\u093E",
+            hh: "%d \u0918\u0923\u094D\u091F\u093E",
+            d: "\u090F\u0915 \u0926\u093F\u0928",
+            dd: "%d \u0926\u093F\u0928",
+            M: "\u090F\u0915 \u092E\u0939\u093F\u0928\u093E",
+            MM: "%d \u092E\u0939\u093F\u0928\u093E",
+            y: "\u090F\u0915 \u092C\u0930\u094D\u0937",
+            yy: "%d \u092C\u0930\u094D\u0937"
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        var monthsShortWithDots$1 = "jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"), monthsShortWithoutDots$1 = "jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_"), monthsParse$8 = [
+          /^jan/i,
+          /^feb/i,
+          /^maart|mrt.?$/i,
+          /^apr/i,
+          /^mei$/i,
+          /^jun[i.]?$/i,
+          /^jul[i.]?$/i,
+          /^aug/i,
+          /^sep/i,
+          /^okt/i,
+          /^nov/i,
+          /^dec/i
+        ], monthsRegex$8 = /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;
+        hooks.defineLocale("nl-be", {
+          months: "januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split(
+            "_"
+          ),
+          monthsShort: function(m, format2) {
+            if (!m) {
+              return monthsShortWithDots$1;
+            } else if (/-MMM-/.test(format2)) {
+              return monthsShortWithoutDots$1[m.month()];
+            } else {
+              return monthsShortWithDots$1[m.month()];
+            }
+          },
+          monthsRegex: monthsRegex$8,
+          monthsShortRegex: monthsRegex$8,
+          monthsStrictRegex: /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december)/i,
+          monthsShortStrictRegex: /^(jan\.?|feb\.?|mrt\.?|apr\.?|mei|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i,
+          monthsParse: monthsParse$8,
+          longMonthsParse: monthsParse$8,
+          shortMonthsParse: monthsParse$8,
+          weekdays: "zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),
+          weekdaysShort: "zo._ma._di._wo._do._vr._za.".split("_"),
+          weekdaysMin: "zo_ma_di_wo_do_vr_za".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[vandaag om] LT",
+            nextDay: "[morgen om] LT",
+            nextWeek: "dddd [om] LT",
+            lastDay: "[gisteren om] LT",
+            lastWeek: "[afgelopen] dddd [om] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "over %s",
+            past: "%s geleden",
+            s: "een paar seconden",
+            ss: "%d seconden",
+            m: "\xE9\xE9n minuut",
+            mm: "%d minuten",
+            h: "\xE9\xE9n uur",
+            hh: "%d uur",
+            d: "\xE9\xE9n dag",
+            dd: "%d dagen",
+            M: "\xE9\xE9n maand",
+            MM: "%d maanden",
+            y: "\xE9\xE9n jaar",
+            yy: "%d jaar"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(ste|de)/,
+          ordinal: function(number) {
+            return number + (number === 1 || number === 8 || number >= 20 ? "ste" : "de");
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var monthsShortWithDots$2 = "jan._feb._mrt._apr._mei_jun._jul._aug._sep._okt._nov._dec.".split("_"), monthsShortWithoutDots$2 = "jan_feb_mrt_apr_mei_jun_jul_aug_sep_okt_nov_dec".split("_"), monthsParse$9 = [
+          /^jan/i,
+          /^feb/i,
+          /^maart|mrt.?$/i,
+          /^apr/i,
+          /^mei$/i,
+          /^jun[i.]?$/i,
+          /^jul[i.]?$/i,
+          /^aug/i,
+          /^sep/i,
+          /^okt/i,
+          /^nov/i,
+          /^dec/i
+        ], monthsRegex$9 = /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december|jan\.?|feb\.?|mrt\.?|apr\.?|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i;
+        hooks.defineLocale("nl", {
+          months: "januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split(
+            "_"
+          ),
+          monthsShort: function(m, format2) {
+            if (!m) {
+              return monthsShortWithDots$2;
+            } else if (/-MMM-/.test(format2)) {
+              return monthsShortWithoutDots$2[m.month()];
+            } else {
+              return monthsShortWithDots$2[m.month()];
+            }
+          },
+          monthsRegex: monthsRegex$9,
+          monthsShortRegex: monthsRegex$9,
+          monthsStrictRegex: /^(januari|februari|maart|april|mei|ju[nl]i|augustus|september|oktober|november|december)/i,
+          monthsShortStrictRegex: /^(jan\.?|feb\.?|mrt\.?|apr\.?|mei|ju[nl]\.?|aug\.?|sep\.?|okt\.?|nov\.?|dec\.?)/i,
+          monthsParse: monthsParse$9,
+          longMonthsParse: monthsParse$9,
+          shortMonthsParse: monthsParse$9,
+          weekdays: "zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),
+          weekdaysShort: "zo._ma._di._wo._do._vr._za.".split("_"),
+          weekdaysMin: "zo_ma_di_wo_do_vr_za".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD-MM-YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[vandaag om] LT",
+            nextDay: "[morgen om] LT",
+            nextWeek: "dddd [om] LT",
+            lastDay: "[gisteren om] LT",
+            lastWeek: "[afgelopen] dddd [om] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "over %s",
+            past: "%s geleden",
+            s: "een paar seconden",
+            ss: "%d seconden",
+            m: "\xE9\xE9n minuut",
+            mm: "%d minuten",
+            h: "\xE9\xE9n uur",
+            hh: "%d uur",
+            d: "\xE9\xE9n dag",
+            dd: "%d dagen",
+            w: "\xE9\xE9n week",
+            ww: "%d weken",
+            M: "\xE9\xE9n maand",
+            MM: "%d maanden",
+            y: "\xE9\xE9n jaar",
+            yy: "%d jaar"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(ste|de)/,
+          ordinal: function(number) {
+            return number + (number === 1 || number === 8 || number >= 20 ? "ste" : "de");
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("nn", {
+          months: "januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split(
+            "_"
+          ),
+          monthsShort: "jan._feb._mars_apr._mai_juni_juli_aug._sep._okt._nov._des.".split("_"),
+          monthsParseExact: true,
+          weekdays: "sundag_m\xE5ndag_tysdag_onsdag_torsdag_fredag_laurdag".split("_"),
+          weekdaysShort: "su._m\xE5._ty._on._to._fr._lau.".split("_"),
+          weekdaysMin: "su_m\xE5_ty_on_to_fr_la".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY [kl.] H:mm",
+            LLLL: "dddd D. MMMM YYYY [kl.] HH:mm"
+          },
+          calendar: {
+            sameDay: "[I dag klokka] LT",
+            nextDay: "[I morgon klokka] LT",
+            nextWeek: "dddd [klokka] LT",
+            lastDay: "[I g\xE5r klokka] LT",
+            lastWeek: "[F\xF8reg\xE5ande] dddd [klokka] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "om %s",
+            past: "%s sidan",
+            s: "nokre sekund",
+            ss: "%d sekund",
+            m: "eit minutt",
+            mm: "%d minutt",
+            h: "ein time",
+            hh: "%d timar",
+            d: "ein dag",
+            dd: "%d dagar",
+            w: "ei veke",
+            ww: "%d veker",
+            M: "ein m\xE5nad",
+            MM: "%d m\xE5nader",
+            y: "eit \xE5r",
+            yy: "%d \xE5r"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("oc-lnc", {
+          months: {
+            standalone: "geni\xE8r_febri\xE8r_mar\xE7_abril_mai_junh_julhet_agost_setembre_oct\xF2bre_novembre_decembre".split(
+              "_"
+            ),
+            format: "de geni\xE8r_de febri\xE8r_de mar\xE7_d'abril_de mai_de junh_de julhet_d'agost_de setembre_d'oct\xF2bre_de novembre_de decembre".split(
+              "_"
+            ),
+            isFormat: /D[oD]?(\s)+MMMM/
+          },
+          monthsShort: "gen._febr._mar\xE7_abr._mai_junh_julh._ago._set._oct._nov._dec.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "dimenge_diluns_dimars_dim\xE8cres_dij\xF2us_divendres_dissabte".split(
+            "_"
+          ),
+          weekdaysShort: "dg._dl._dm._dc._dj._dv._ds.".split("_"),
+          weekdaysMin: "dg_dl_dm_dc_dj_dv_ds".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM [de] YYYY",
+            ll: "D MMM YYYY",
+            LLL: "D MMMM [de] YYYY [a] H:mm",
+            lll: "D MMM YYYY, H:mm",
+            LLLL: "dddd D MMMM [de] YYYY [a] H:mm",
+            llll: "ddd D MMM YYYY, H:mm"
+          },
+          calendar: {
+            sameDay: "[u\xE8i a] LT",
+            nextDay: "[deman a] LT",
+            nextWeek: "dddd [a] LT",
+            lastDay: "[i\xE8r a] LT",
+            lastWeek: "dddd [passat a] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "d'aqu\xED %s",
+            past: "fa %s",
+            s: "unas segondas",
+            ss: "%d segondas",
+            m: "una minuta",
+            mm: "%d minutas",
+            h: "una ora",
+            hh: "%d oras",
+            d: "un jorn",
+            dd: "%d jorns",
+            M: "un mes",
+            MM: "%d meses",
+            y: "un an",
+            yy: "%d ans"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(r|n|t|è|a)/,
+          ordinal: function(number, period) {
+            var output = number === 1 ? "r" : number === 2 ? "n" : number === 3 ? "r" : number === 4 ? "t" : "\xE8";
+            if (period === "w" || period === "W") {
+              output = "a";
+            }
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+          }
+        });
+        var symbolMap$f = {
+          1: "\u0A67",
+          2: "\u0A68",
+          3: "\u0A69",
+          4: "\u0A6A",
+          5: "\u0A6B",
+          6: "\u0A6C",
+          7: "\u0A6D",
+          8: "\u0A6E",
+          9: "\u0A6F",
+          0: "\u0A66"
+        }, numberMap$e = {
+          "\u0A67": "1",
+          "\u0A68": "2",
+          "\u0A69": "3",
+          "\u0A6A": "4",
+          "\u0A6B": "5",
+          "\u0A6C": "6",
+          "\u0A6D": "7",
+          "\u0A6E": "8",
+          "\u0A6F": "9",
+          "\u0A66": "0"
+        };
+        hooks.defineLocale("pa-in", {
+          // There are months name as per Nanakshahi Calendar but they are not used as rigidly in modern Punjabi.
+          months: "\u0A1C\u0A28\u0A35\u0A30\u0A40_\u0A2B\u0A3C\u0A30\u0A35\u0A30\u0A40_\u0A2E\u0A3E\u0A30\u0A1A_\u0A05\u0A2A\u0A4D\u0A30\u0A48\u0A32_\u0A2E\u0A08_\u0A1C\u0A42\u0A28_\u0A1C\u0A41\u0A32\u0A3E\u0A08_\u0A05\u0A17\u0A38\u0A24_\u0A38\u0A24\u0A70\u0A2C\u0A30_\u0A05\u0A15\u0A24\u0A42\u0A2C\u0A30_\u0A28\u0A35\u0A70\u0A2C\u0A30_\u0A26\u0A38\u0A70\u0A2C\u0A30".split(
+            "_"
+          ),
+          monthsShort: "\u0A1C\u0A28\u0A35\u0A30\u0A40_\u0A2B\u0A3C\u0A30\u0A35\u0A30\u0A40_\u0A2E\u0A3E\u0A30\u0A1A_\u0A05\u0A2A\u0A4D\u0A30\u0A48\u0A32_\u0A2E\u0A08_\u0A1C\u0A42\u0A28_\u0A1C\u0A41\u0A32\u0A3E\u0A08_\u0A05\u0A17\u0A38\u0A24_\u0A38\u0A24\u0A70\u0A2C\u0A30_\u0A05\u0A15\u0A24\u0A42\u0A2C\u0A30_\u0A28\u0A35\u0A70\u0A2C\u0A30_\u0A26\u0A38\u0A70\u0A2C\u0A30".split(
+            "_"
+          ),
+          weekdays: "\u0A10\u0A24\u0A35\u0A3E\u0A30_\u0A38\u0A4B\u0A2E\u0A35\u0A3E\u0A30_\u0A2E\u0A70\u0A17\u0A32\u0A35\u0A3E\u0A30_\u0A2C\u0A41\u0A27\u0A35\u0A3E\u0A30_\u0A35\u0A40\u0A30\u0A35\u0A3E\u0A30_\u0A38\u0A3C\u0A41\u0A71\u0A15\u0A30\u0A35\u0A3E\u0A30_\u0A38\u0A3C\u0A28\u0A40\u0A1A\u0A30\u0A35\u0A3E\u0A30".split(
+            "_"
+          ),
+          weekdaysShort: "\u0A10\u0A24_\u0A38\u0A4B\u0A2E_\u0A2E\u0A70\u0A17\u0A32_\u0A2C\u0A41\u0A27_\u0A35\u0A40\u0A30_\u0A38\u0A3C\u0A41\u0A15\u0A30_\u0A38\u0A3C\u0A28\u0A40".split("_"),
+          weekdaysMin: "\u0A10\u0A24_\u0A38\u0A4B\u0A2E_\u0A2E\u0A70\u0A17\u0A32_\u0A2C\u0A41\u0A27_\u0A35\u0A40\u0A30_\u0A38\u0A3C\u0A41\u0A15\u0A30_\u0A38\u0A3C\u0A28\u0A40".split("_"),
+          longDateFormat: {
+            LT: "A h:mm \u0A35\u0A1C\u0A47",
+            LTS: "A h:mm:ss \u0A35\u0A1C\u0A47",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm \u0A35\u0A1C\u0A47",
+            LLLL: "dddd, D MMMM YYYY, A h:mm \u0A35\u0A1C\u0A47"
+          },
+          calendar: {
+            sameDay: "[\u0A05\u0A1C] LT",
+            nextDay: "[\u0A15\u0A32] LT",
+            nextWeek: "[\u0A05\u0A17\u0A32\u0A3E] dddd, LT",
+            lastDay: "[\u0A15\u0A32] LT",
+            lastWeek: "[\u0A2A\u0A3F\u0A1B\u0A32\u0A47] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0A35\u0A3F\u0A71\u0A1A",
+            past: "%s \u0A2A\u0A3F\u0A1B\u0A32\u0A47",
+            s: "\u0A15\u0A41\u0A1D \u0A38\u0A15\u0A3F\u0A70\u0A1F",
+            ss: "%d \u0A38\u0A15\u0A3F\u0A70\u0A1F",
+            m: "\u0A07\u0A15 \u0A2E\u0A3F\u0A70\u0A1F",
+            mm: "%d \u0A2E\u0A3F\u0A70\u0A1F",
+            h: "\u0A07\u0A71\u0A15 \u0A18\u0A70\u0A1F\u0A3E",
+            hh: "%d \u0A18\u0A70\u0A1F\u0A47",
+            d: "\u0A07\u0A71\u0A15 \u0A26\u0A3F\u0A28",
+            dd: "%d \u0A26\u0A3F\u0A28",
+            M: "\u0A07\u0A71\u0A15 \u0A2E\u0A39\u0A40\u0A28\u0A3E",
+            MM: "%d \u0A2E\u0A39\u0A40\u0A28\u0A47",
+            y: "\u0A07\u0A71\u0A15 \u0A38\u0A3E\u0A32",
+            yy: "%d \u0A38\u0A3E\u0A32"
+          },
+          preparse: function(string) {
+            return string.replace(/[੧੨੩੪੫੬੭੮੯੦]/g, function(match) {
+              return numberMap$e[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$f[match];
+            });
+          },
+          // Punjabi notation for meridiems are quite fuzzy in practice. While there exists
+          // a rigid notion of a 'Pahar' it is not used as rigidly in modern Punjabi.
+          meridiemParse: /ਰਾਤ|ਸਵੇਰ|ਦੁਪਹਿਰ|ਸ਼ਾਮ/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0A30\u0A3E\u0A24") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0A38\u0A35\u0A47\u0A30") {
+              return hour;
+            } else if (meridiem2 === "\u0A26\u0A41\u0A2A\u0A39\u0A3F\u0A30") {
+              return hour >= 10 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0A38\u0A3C\u0A3E\u0A2E") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0A30\u0A3E\u0A24";
+            } else if (hour < 10) {
+              return "\u0A38\u0A35\u0A47\u0A30";
+            } else if (hour < 17) {
+              return "\u0A26\u0A41\u0A2A\u0A39\u0A3F\u0A30";
+            } else if (hour < 20) {
+              return "\u0A38\u0A3C\u0A3E\u0A2E";
+            } else {
+              return "\u0A30\u0A3E\u0A24";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        var monthsNominative = "stycze\u0144_luty_marzec_kwiecie\u0144_maj_czerwiec_lipiec_sierpie\u0144_wrzesie\u0144_pa\u017Adziernik_listopad_grudzie\u0144".split(
+          "_"
+        ), monthsSubjective = "stycznia_lutego_marca_kwietnia_maja_czerwca_lipca_sierpnia_wrze\u015Bnia_pa\u017Adziernika_listopada_grudnia".split(
+          "_"
+        ), monthsParse$a = [
+          /^sty/i,
+          /^lut/i,
+          /^mar/i,
+          /^kwi/i,
+          /^maj/i,
+          /^cze/i,
+          /^lip/i,
+          /^sie/i,
+          /^wrz/i,
+          /^paź/i,
+          /^lis/i,
+          /^gru/i
+        ];
+        function plural$3(n) {
+          return n % 10 < 5 && n % 10 > 1 && ~~(n / 10) % 10 !== 1;
+        }
+        function translate$8(number, withoutSuffix, key) {
+          var result = number + " ";
+          switch (key) {
+            case "ss":
+              return result + (plural$3(number) ? "sekundy" : "sekund");
+            case "m":
+              return withoutSuffix ? "minuta" : "minut\u0119";
+            case "mm":
+              return result + (plural$3(number) ? "minuty" : "minut");
+            case "h":
+              return withoutSuffix ? "godzina" : "godzin\u0119";
+            case "hh":
+              return result + (plural$3(number) ? "godziny" : "godzin");
+            case "ww":
+              return result + (plural$3(number) ? "tygodnie" : "tygodni");
+            case "MM":
+              return result + (plural$3(number) ? "miesi\u0105ce" : "miesi\u0119cy");
+            case "yy":
+              return result + (plural$3(number) ? "lata" : "lat");
+          }
+        }
+        hooks.defineLocale("pl", {
+          months: function(momentToFormat, format2) {
+            if (!momentToFormat) {
+              return monthsNominative;
+            } else if (/D MMMM/.test(format2)) {
+              return monthsSubjective[momentToFormat.month()];
+            } else {
+              return monthsNominative[momentToFormat.month()];
+            }
+          },
+          monthsShort: "sty_lut_mar_kwi_maj_cze_lip_sie_wrz_pa\u017A_lis_gru".split("_"),
+          monthsParse: monthsParse$a,
+          longMonthsParse: monthsParse$a,
+          shortMonthsParse: monthsParse$a,
+          weekdays: "niedziela_poniedzia\u0142ek_wtorek_\u015Broda_czwartek_pi\u0105tek_sobota".split("_"),
+          weekdaysShort: "ndz_pon_wt_\u015Br_czw_pt_sob".split("_"),
+          weekdaysMin: "Nd_Pn_Wt_\u015Ar_Cz_Pt_So".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Dzi\u015B o] LT",
+            nextDay: "[Jutro o] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[W niedziel\u0119 o] LT";
+                case 2:
+                  return "[We wtorek o] LT";
+                case 3:
+                  return "[W \u015Brod\u0119 o] LT";
+                case 6:
+                  return "[W sobot\u0119 o] LT";
+                default:
+                  return "[W] dddd [o] LT";
+              }
+            },
+            lastDay: "[Wczoraj o] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[W zesz\u0142\u0105 niedziel\u0119 o] LT";
+                case 3:
+                  return "[W zesz\u0142\u0105 \u015Brod\u0119 o] LT";
+                case 6:
+                  return "[W zesz\u0142\u0105 sobot\u0119 o] LT";
+                default:
+                  return "[W zesz\u0142y] dddd [o] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "za %s",
+            past: "%s temu",
+            s: "kilka sekund",
+            ss: translate$8,
+            m: translate$8,
+            mm: translate$8,
+            h: translate$8,
+            hh: translate$8,
+            d: "1 dzie\u0144",
+            dd: "%d dni",
+            w: "tydzie\u0144",
+            ww: translate$8,
+            M: "miesi\u0105c",
+            MM: translate$8,
+            y: "rok",
+            yy: translate$8
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("pt-br", {
+          months: "janeiro_fevereiro_mar\xE7o_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split(
+            "_"
+          ),
+          monthsShort: "jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez".split("_"),
+          weekdays: "domingo_segunda-feira_ter\xE7a-feira_quarta-feira_quinta-feira_sexta-feira_s\xE1bado".split(
+            "_"
+          ),
+          weekdaysShort: "dom_seg_ter_qua_qui_sex_s\xE1b".split("_"),
+          weekdaysMin: "do_2\xAA_3\xAA_4\xAA_5\xAA_6\xAA_s\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D [de] MMMM [de] YYYY",
+            LLL: "D [de] MMMM [de] YYYY [\xE0s] HH:mm",
+            LLLL: "dddd, D [de] MMMM [de] YYYY [\xE0s] HH:mm"
+          },
+          calendar: {
+            sameDay: "[Hoje \xE0s] LT",
+            nextDay: "[Amanh\xE3 \xE0s] LT",
+            nextWeek: "dddd [\xE0s] LT",
+            lastDay: "[Ontem \xE0s] LT",
+            lastWeek: function() {
+              return this.day() === 0 || this.day() === 6 ? "[\xDAltimo] dddd [\xE0s] LT" : "[\xDAltima] dddd [\xE0s] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "em %s",
+            past: "h\xE1 %s",
+            s: "poucos segundos",
+            ss: "%d segundos",
+            m: "um minuto",
+            mm: "%d minutos",
+            h: "uma hora",
+            hh: "%d horas",
+            d: "um dia",
+            dd: "%d dias",
+            M: "um m\xEAs",
+            MM: "%d meses",
+            y: "um ano",
+            yy: "%d anos"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          invalidDate: "Data inv\xE1lida"
+        });
+        hooks.defineLocale("pt", {
+          months: "janeiro_fevereiro_mar\xE7o_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split(
+            "_"
+          ),
+          monthsShort: "jan_fev_mar_abr_mai_jun_jul_ago_set_out_nov_dez".split("_"),
+          weekdays: "Domingo_Segunda-feira_Ter\xE7a-feira_Quarta-feira_Quinta-feira_Sexta-feira_S\xE1bado".split(
+            "_"
+          ),
+          weekdaysShort: "Dom_Seg_Ter_Qua_Qui_Sex_S\xE1b".split("_"),
+          weekdaysMin: "Do_2\xAA_3\xAA_4\xAA_5\xAA_6\xAA_S\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D [de] MMMM [de] YYYY",
+            LLL: "D [de] MMMM [de] YYYY HH:mm",
+            LLLL: "dddd, D [de] MMMM [de] YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Hoje \xE0s] LT",
+            nextDay: "[Amanh\xE3 \xE0s] LT",
+            nextWeek: "dddd [\xE0s] LT",
+            lastDay: "[Ontem \xE0s] LT",
+            lastWeek: function() {
+              return this.day() === 0 || this.day() === 6 ? "[\xDAltimo] dddd [\xE0s] LT" : "[\xDAltima] dddd [\xE0s] LT";
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "em %s",
+            past: "h\xE1 %s",
+            s: "segundos",
+            ss: "%d segundos",
+            m: "um minuto",
+            mm: "%d minutos",
+            h: "uma hora",
+            hh: "%d horas",
+            d: "um dia",
+            dd: "%d dias",
+            w: "uma semana",
+            ww: "%d semanas",
+            M: "um m\xEAs",
+            MM: "%d meses",
+            y: "um ano",
+            yy: "%d anos"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}º/,
+          ordinal: "%d\xBA",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        function relativeTimeWithPlural$2(number, withoutSuffix, key) {
+          var format2 = {
+            ss: "secunde",
+            mm: "minute",
+            hh: "ore",
+            dd: "zile",
+            ww: "s\u0103pt\u0103m\xE2ni",
+            MM: "luni",
+            yy: "ani"
+          }, separator = " ";
+          if (number % 100 >= 20 || number >= 100 && number % 100 === 0) {
+            separator = " de ";
+          }
+          return number + separator + format2[key];
+        }
+        hooks.defineLocale("ro", {
+          months: "ianuarie_februarie_martie_aprilie_mai_iunie_iulie_august_septembrie_octombrie_noiembrie_decembrie".split(
+            "_"
+          ),
+          monthsShort: "ian._feb._mart._apr._mai_iun._iul._aug._sept._oct._nov._dec.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "duminic\u0103_luni_mar\u021Bi_miercuri_joi_vineri_s\xE2mb\u0103t\u0103".split("_"),
+          weekdaysShort: "Dum_Lun_Mar_Mie_Joi_Vin_S\xE2m".split("_"),
+          weekdaysMin: "Du_Lu_Ma_Mi_Jo_Vi_S\xE2".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY H:mm",
+            LLLL: "dddd, D MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[azi la] LT",
+            nextDay: "[m\xE2ine la] LT",
+            nextWeek: "dddd [la] LT",
+            lastDay: "[ieri la] LT",
+            lastWeek: "[fosta] dddd [la] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "peste %s",
+            past: "%s \xEEn urm\u0103",
+            s: "c\xE2teva secunde",
+            ss: relativeTimeWithPlural$2,
+            m: "un minut",
+            mm: relativeTimeWithPlural$2,
+            h: "o or\u0103",
+            hh: relativeTimeWithPlural$2,
+            d: "o zi",
+            dd: relativeTimeWithPlural$2,
+            w: "o s\u0103pt\u0103m\xE2n\u0103",
+            ww: relativeTimeWithPlural$2,
+            M: "o lun\u0103",
+            MM: relativeTimeWithPlural$2,
+            y: "un an",
+            yy: relativeTimeWithPlural$2
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        function plural$4(word, num) {
+          var forms2 = word.split("_");
+          return num % 10 === 1 && num % 100 !== 11 ? forms2[0] : num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms2[1] : forms2[2];
+        }
+        function relativeTimeWithPlural$3(number, withoutSuffix, key) {
+          var format2 = {
+            ss: withoutSuffix ? "\u0441\u0435\u043A\u0443\u043D\u0434\u0430_\u0441\u0435\u043A\u0443\u043D\u0434\u044B_\u0441\u0435\u043A\u0443\u043D\u0434" : "\u0441\u0435\u043A\u0443\u043D\u0434\u0443_\u0441\u0435\u043A\u0443\u043D\u0434\u044B_\u0441\u0435\u043A\u0443\u043D\u0434",
+            mm: withoutSuffix ? "\u043C\u0438\u043D\u0443\u0442\u0430_\u043C\u0438\u043D\u0443\u0442\u044B_\u043C\u0438\u043D\u0443\u0442" : "\u043C\u0438\u043D\u0443\u0442\u0443_\u043C\u0438\u043D\u0443\u0442\u044B_\u043C\u0438\u043D\u0443\u0442",
+            hh: "\u0447\u0430\u0441_\u0447\u0430\u0441\u0430_\u0447\u0430\u0441\u043E\u0432",
+            dd: "\u0434\u0435\u043D\u044C_\u0434\u043D\u044F_\u0434\u043D\u0435\u0439",
+            ww: "\u043D\u0435\u0434\u0435\u043B\u044F_\u043D\u0435\u0434\u0435\u043B\u0438_\u043D\u0435\u0434\u0435\u043B\u044C",
+            MM: "\u043C\u0435\u0441\u044F\u0446_\u043C\u0435\u0441\u044F\u0446\u0430_\u043C\u0435\u0441\u044F\u0446\u0435\u0432",
+            yy: "\u0433\u043E\u0434_\u0433\u043E\u0434\u0430_\u043B\u0435\u0442"
+          };
+          if (key === "m") {
+            return withoutSuffix ? "\u043C\u0438\u043D\u0443\u0442\u0430" : "\u043C\u0438\u043D\u0443\u0442\u0443";
+          } else {
+            return number + " " + plural$4(format2[key], +number);
+          }
+        }
+        var monthsParse$b = [
+          /^янв/i,
+          /^фев/i,
+          /^мар/i,
+          /^апр/i,
+          /^ма[йя]/i,
+          /^июн/i,
+          /^июл/i,
+          /^авг/i,
+          /^сен/i,
+          /^окт/i,
+          /^ноя/i,
+          /^дек/i
+        ];
+        hooks.defineLocale("ru", {
+          months: {
+            format: "\u044F\u043D\u0432\u0430\u0440\u044F_\u0444\u0435\u0432\u0440\u0430\u043B\u044F_\u043C\u0430\u0440\u0442\u0430_\u0430\u043F\u0440\u0435\u043B\u044F_\u043C\u0430\u044F_\u0438\u044E\u043D\u044F_\u0438\u044E\u043B\u044F_\u0430\u0432\u0433\u0443\u0441\u0442\u0430_\u0441\u0435\u043D\u0442\u044F\u0431\u0440\u044F_\u043E\u043A\u0442\u044F\u0431\u0440\u044F_\u043D\u043E\u044F\u0431\u0440\u044F_\u0434\u0435\u043A\u0430\u0431\u0440\u044F".split(
+              "_"
+            ),
+            standalone: "\u044F\u043D\u0432\u0430\u0440\u044C_\u0444\u0435\u0432\u0440\u0430\u043B\u044C_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440\u0435\u043B\u044C_\u043C\u0430\u0439_\u0438\u044E\u043D\u044C_\u0438\u044E\u043B\u044C_\u0430\u0432\u0433\u0443\u0441\u0442_\u0441\u0435\u043D\u0442\u044F\u0431\u0440\u044C_\u043E\u043A\u0442\u044F\u0431\u0440\u044C_\u043D\u043E\u044F\u0431\u0440\u044C_\u0434\u0435\u043A\u0430\u0431\u0440\u044C".split(
+              "_"
+            )
+          },
+          monthsShort: {
+            // по CLDR именно "июл." и "июн.", но какой смысл менять букву на точку?
+            format: "\u044F\u043D\u0432._\u0444\u0435\u0432\u0440._\u043C\u0430\u0440._\u0430\u043F\u0440._\u043C\u0430\u044F_\u0438\u044E\u043D\u044F_\u0438\u044E\u043B\u044F_\u0430\u0432\u0433._\u0441\u0435\u043D\u0442._\u043E\u043A\u0442._\u043D\u043E\u044F\u0431._\u0434\u0435\u043A.".split(
+              "_"
+            ),
+            standalone: "\u044F\u043D\u0432._\u0444\u0435\u0432\u0440._\u043C\u0430\u0440\u0442_\u0430\u043F\u0440._\u043C\u0430\u0439_\u0438\u044E\u043D\u044C_\u0438\u044E\u043B\u044C_\u0430\u0432\u0433._\u0441\u0435\u043D\u0442._\u043E\u043A\u0442._\u043D\u043E\u044F\u0431._\u0434\u0435\u043A.".split(
+              "_"
+            )
+          },
+          weekdays: {
+            standalone: "\u0432\u043E\u0441\u043A\u0440\u0435\u0441\u0435\u043D\u044C\u0435_\u043F\u043E\u043D\u0435\u0434\u0435\u043B\u044C\u043D\u0438\u043A_\u0432\u0442\u043E\u0440\u043D\u0438\u043A_\u0441\u0440\u0435\u0434\u0430_\u0447\u0435\u0442\u0432\u0435\u0440\u0433_\u043F\u044F\u0442\u043D\u0438\u0446\u0430_\u0441\u0443\u0431\u0431\u043E\u0442\u0430".split(
+              "_"
+            ),
+            format: "\u0432\u043E\u0441\u043A\u0440\u0435\u0441\u0435\u043D\u044C\u0435_\u043F\u043E\u043D\u0435\u0434\u0435\u043B\u044C\u043D\u0438\u043A_\u0432\u0442\u043E\u0440\u043D\u0438\u043A_\u0441\u0440\u0435\u0434\u0443_\u0447\u0435\u0442\u0432\u0435\u0440\u0433_\u043F\u044F\u0442\u043D\u0438\u0446\u0443_\u0441\u0443\u0431\u0431\u043E\u0442\u0443".split(
+              "_"
+            ),
+            isFormat: /\[ ?[Вв] ?(?:прошлую|следующую|эту)? ?] ?dddd/
+          },
+          weekdaysShort: "\u0432\u0441_\u043F\u043D_\u0432\u0442_\u0441\u0440_\u0447\u0442_\u043F\u0442_\u0441\u0431".split("_"),
+          weekdaysMin: "\u0432\u0441_\u043F\u043D_\u0432\u0442_\u0441\u0440_\u0447\u0442_\u043F\u0442_\u0441\u0431".split("_"),
+          monthsParse: monthsParse$b,
+          longMonthsParse: monthsParse$b,
+          shortMonthsParse: monthsParse$b,
+          // полные названия с падежами, по три буквы, для некоторых, по 4 буквы, сокращения с точкой и без точки
+          monthsRegex: /^(январ[ья]|янв\.?|феврал[ья]|февр?\.?|марта?|мар\.?|апрел[ья]|апр\.?|ма[йя]|июн[ья]|июн\.?|июл[ья]|июл\.?|августа?|авг\.?|сентябр[ья]|сент?\.?|октябр[ья]|окт\.?|ноябр[ья]|нояб?\.?|декабр[ья]|дек\.?)/i,
+          // копия предыдущего
+          monthsShortRegex: /^(январ[ья]|янв\.?|феврал[ья]|февр?\.?|марта?|мар\.?|апрел[ья]|апр\.?|ма[йя]|июн[ья]|июн\.?|июл[ья]|июл\.?|августа?|авг\.?|сентябр[ья]|сент?\.?|октябр[ья]|окт\.?|ноябр[ья]|нояб?\.?|декабр[ья]|дек\.?)/i,
+          // полные названия с падежами
+          monthsStrictRegex: /^(январ[яь]|феврал[яь]|марта?|апрел[яь]|ма[яй]|июн[яь]|июл[яь]|августа?|сентябр[яь]|октябр[яь]|ноябр[яь]|декабр[яь])/i,
+          // Выражение, которое соответствует только сокращённым формам
+          monthsShortStrictRegex: /^(янв\.|февр?\.|мар[т.]|апр\.|ма[яй]|июн[ья.]|июл[ья.]|авг\.|сент?\.|окт\.|нояб?\.|дек\.)/i,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY \u0433.",
+            LLL: "D MMMM YYYY \u0433., H:mm",
+            LLLL: "dddd, D MMMM YYYY \u0433., H:mm"
+          },
+          calendar: {
+            sameDay: "[\u0421\u0435\u0433\u043E\u0434\u043D\u044F, \u0432] LT",
+            nextDay: "[\u0417\u0430\u0432\u0442\u0440\u0430, \u0432] LT",
+            lastDay: "[\u0412\u0447\u0435\u0440\u0430, \u0432] LT",
+            nextWeek: function(now2) {
+              if (now2.week() !== this.week()) {
+                switch (this.day()) {
+                  case 0:
+                    return "[\u0412 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0435] dddd, [\u0432] LT";
+                  case 1:
+                  case 2:
+                  case 4:
+                    return "[\u0412 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0438\u0439] dddd, [\u0432] LT";
+                  case 3:
+                  case 5:
+                  case 6:
+                    return "[\u0412 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0443\u044E] dddd, [\u0432] LT";
+                }
+              } else {
+                if (this.day() === 2) {
+                  return "[\u0412\u043E] dddd, [\u0432] LT";
+                } else {
+                  return "[\u0412] dddd, [\u0432] LT";
+                }
+              }
+            },
+            lastWeek: function(now2) {
+              if (now2.week() !== this.week()) {
+                switch (this.day()) {
+                  case 0:
+                    return "[\u0412 \u043F\u0440\u043E\u0448\u043B\u043E\u0435] dddd, [\u0432] LT";
+                  case 1:
+                  case 2:
+                  case 4:
+                    return "[\u0412 \u043F\u0440\u043E\u0448\u043B\u044B\u0439] dddd, [\u0432] LT";
+                  case 3:
+                  case 5:
+                  case 6:
+                    return "[\u0412 \u043F\u0440\u043E\u0448\u043B\u0443\u044E] dddd, [\u0432] LT";
+                }
+              } else {
+                if (this.day() === 2) {
+                  return "[\u0412\u043E] dddd, [\u0432] LT";
+                } else {
+                  return "[\u0412] dddd, [\u0432] LT";
+                }
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0447\u0435\u0440\u0435\u0437 %s",
+            past: "%s \u043D\u0430\u0437\u0430\u0434",
+            s: "\u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0441\u0435\u043A\u0443\u043D\u0434",
+            ss: relativeTimeWithPlural$3,
+            m: relativeTimeWithPlural$3,
+            mm: relativeTimeWithPlural$3,
+            h: "\u0447\u0430\u0441",
+            hh: relativeTimeWithPlural$3,
+            d: "\u0434\u0435\u043D\u044C",
+            dd: relativeTimeWithPlural$3,
+            w: "\u043D\u0435\u0434\u0435\u043B\u044F",
+            ww: relativeTimeWithPlural$3,
+            M: "\u043C\u0435\u0441\u044F\u0446",
+            MM: relativeTimeWithPlural$3,
+            y: "\u0433\u043E\u0434",
+            yy: relativeTimeWithPlural$3
+          },
+          meridiemParse: /ночи|утра|дня|вечера/i,
+          isPM: function(input) {
+            return /^(дня|вечера)$/.test(input);
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u043D\u043E\u0447\u0438";
+            } else if (hour < 12) {
+              return "\u0443\u0442\u0440\u0430";
+            } else if (hour < 17) {
+              return "\u0434\u043D\u044F";
+            } else {
+              return "\u0432\u0435\u0447\u0435\u0440\u0430";
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(й|го|я)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "M":
+              case "d":
+              case "DDD":
+                return number + "-\u0439";
+              case "D":
+                return number + "-\u0433\u043E";
+              case "w":
+              case "W":
+                return number + "-\u044F";
+              default:
+                return number;
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var months$9 = [
+          "\u062C\u0646\u0648\u0631\u064A",
+          "\u0641\u064A\u0628\u0631\u0648\u0631\u064A",
+          "\u0645\u0627\u0631\u0686",
+          "\u0627\u067E\u0631\u064A\u0644",
+          "\u0645\u0626\u064A",
+          "\u062C\u0648\u0646",
+          "\u062C\u0648\u0644\u0627\u0621\u0650",
+          "\u0622\u06AF\u0633\u067D",
+          "\u0633\u064A\u067E\u067D\u0645\u0628\u0631",
+          "\u0622\u06AA\u067D\u0648\u0628\u0631",
+          "\u0646\u0648\u0645\u0628\u0631",
+          "\u068A\u0633\u0645\u0628\u0631"
+        ], days$1 = ["\u0622\u0686\u0631", "\u0633\u0648\u0645\u0631", "\u0627\u06B1\u0627\u0631\u0648", "\u0627\u0631\u0628\u0639", "\u062E\u0645\u064A\u0633", "\u062C\u0645\u0639", "\u0687\u0646\u0687\u0631"];
+        hooks.defineLocale("sd", {
+          months: months$9,
+          monthsShort: months$9,
+          weekdays: days$1,
+          weekdaysShort: days$1,
+          weekdaysMin: days$1,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd\u060C D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /صبح|شام/,
+          isPM: function(input) {
+            return "\u0634\u0627\u0645" === input;
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0635\u0628\u062D";
+            }
+            return "\u0634\u0627\u0645";
+          },
+          calendar: {
+            sameDay: "[\u0627\u0684] LT",
+            nextDay: "[\u0633\u0680\u0627\u06BB\u064A] LT",
+            nextWeek: "dddd [\u0627\u06B3\u064A\u0646 \u0647\u0641\u062A\u064A \u062A\u064A] LT",
+            lastDay: "[\u06AA\u0627\u0644\u0647\u0647] LT",
+            lastWeek: "[\u06AF\u0632\u0631\u064A\u0644 \u0647\u0641\u062A\u064A] dddd [\u062A\u064A] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u067E\u0648\u0621",
+            past: "%s \u0627\u06B3",
+            s: "\u0686\u0646\u062F \u0633\u064A\u06AA\u0646\u068A",
+            ss: "%d \u0633\u064A\u06AA\u0646\u068A",
+            m: "\u0647\u06AA \u0645\u0646\u067D",
+            mm: "%d \u0645\u0646\u067D",
+            h: "\u0647\u06AA \u06AA\u0644\u0627\u06AA",
+            hh: "%d \u06AA\u0644\u0627\u06AA",
+            d: "\u0647\u06AA \u068F\u064A\u0646\u0647\u0646",
+            dd: "%d \u068F\u064A\u0646\u0647\u0646",
+            M: "\u0647\u06AA \u0645\u0647\u064A\u0646\u0648",
+            MM: "%d \u0645\u0647\u064A\u0646\u0627",
+            y: "\u0647\u06AA \u0633\u0627\u0644",
+            yy: "%d \u0633\u0627\u0644"
+          },
+          preparse: function(string) {
+            return string.replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("se", {
+          months: "o\u0111\u0111ajagem\xE1nnu_guovvam\xE1nnu_njuk\u010Dam\xE1nnu_cuo\u014Bom\xE1nnu_miessem\xE1nnu_geassem\xE1nnu_suoidnem\xE1nnu_borgem\xE1nnu_\u010Dak\u010Dam\xE1nnu_golggotm\xE1nnu_sk\xE1bmam\xE1nnu_juovlam\xE1nnu".split(
+            "_"
+          ),
+          monthsShort: "o\u0111\u0111j_guov_njuk_cuo_mies_geas_suoi_borg_\u010Dak\u010D_golg_sk\xE1b_juov".split("_"),
+          weekdays: "sotnabeaivi_vuoss\xE1rga_ma\u014B\u014Beb\xE1rga_gaskavahkku_duorastat_bearjadat_l\xE1vvardat".split(
+            "_"
+          ),
+          weekdaysShort: "sotn_vuos_ma\u014B_gask_duor_bear_l\xE1v".split("_"),
+          weekdaysMin: "s_v_m_g_d_b_L".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "MMMM D. [b.] YYYY",
+            LLL: "MMMM D. [b.] YYYY [ti.] HH:mm",
+            LLLL: "dddd, MMMM D. [b.] YYYY [ti.] HH:mm"
+          },
+          calendar: {
+            sameDay: "[otne ti] LT",
+            nextDay: "[ihttin ti] LT",
+            nextWeek: "dddd [ti] LT",
+            lastDay: "[ikte ti] LT",
+            lastWeek: "[ovddit] dddd [ti] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s gea\u017Ees",
+            past: "ma\u014Bit %s",
+            s: "moadde sekunddat",
+            ss: "%d sekunddat",
+            m: "okta minuhta",
+            mm: "%d minuhtat",
+            h: "okta diimmu",
+            hh: "%d diimmut",
+            d: "okta beaivi",
+            dd: "%d beaivvit",
+            M: "okta m\xE1nnu",
+            MM: "%d m\xE1nut",
+            y: "okta jahki",
+            yy: "%d jagit"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("si", {
+          months: "\u0DA2\u0DB1\u0DC0\u0DCF\u0DBB\u0DD2_\u0DB4\u0DD9\u0DB6\u0DBB\u0DC0\u0DCF\u0DBB\u0DD2_\u0DB8\u0DCF\u0DBB\u0DCA\u0DAD\u0DD4_\u0D85\u0DB4\u0DCA\u200D\u0DBB\u0DDA\u0DBD\u0DCA_\u0DB8\u0DD0\u0DBA\u0DD2_\u0DA2\u0DD6\u0DB1\u0DD2_\u0DA2\u0DD6\u0DBD\u0DD2_\u0D85\u0D9C\u0DDD\u0DC3\u0DCA\u0DAD\u0DD4_\u0DC3\u0DD0\u0DB4\u0DCA\u0DAD\u0DD0\u0DB8\u0DCA\u0DB6\u0DBB\u0DCA_\u0D94\u0D9A\u0DCA\u0DAD\u0DDD\u0DB6\u0DBB\u0DCA_\u0DB1\u0DDC\u0DC0\u0DD0\u0DB8\u0DCA\u0DB6\u0DBB\u0DCA_\u0DAF\u0DD9\u0DC3\u0DD0\u0DB8\u0DCA\u0DB6\u0DBB\u0DCA".split(
+            "_"
+          ),
+          monthsShort: "\u0DA2\u0DB1_\u0DB4\u0DD9\u0DB6_\u0DB8\u0DCF\u0DBB\u0DCA_\u0D85\u0DB4\u0DCA_\u0DB8\u0DD0\u0DBA\u0DD2_\u0DA2\u0DD6\u0DB1\u0DD2_\u0DA2\u0DD6\u0DBD\u0DD2_\u0D85\u0D9C\u0DDD_\u0DC3\u0DD0\u0DB4\u0DCA_\u0D94\u0D9A\u0DCA_\u0DB1\u0DDC\u0DC0\u0DD0_\u0DAF\u0DD9\u0DC3\u0DD0".split(
+            "_"
+          ),
+          weekdays: "\u0D89\u0DBB\u0DD2\u0DAF\u0DCF_\u0DC3\u0DB3\u0DD4\u0DAF\u0DCF_\u0D85\u0D9F\u0DC4\u0DBB\u0DD4\u0DC0\u0DCF\u0DAF\u0DCF_\u0DB6\u0DAF\u0DCF\u0DAF\u0DCF_\u0DB6\u0DCA\u200D\u0DBB\u0DC4\u0DC3\u0DCA\u0DB4\u0DAD\u0DD2\u0DB1\u0DCA\u0DAF\u0DCF_\u0DC3\u0DD2\u0D9A\u0DD4\u0DBB\u0DCF\u0DAF\u0DCF_\u0DC3\u0DD9\u0DB1\u0DC3\u0DD4\u0DBB\u0DCF\u0DAF\u0DCF".split(
+            "_"
+          ),
+          weekdaysShort: "\u0D89\u0DBB\u0DD2_\u0DC3\u0DB3\u0DD4_\u0D85\u0D9F_\u0DB6\u0DAF\u0DCF_\u0DB6\u0DCA\u200D\u0DBB\u0DC4_\u0DC3\u0DD2\u0D9A\u0DD4_\u0DC3\u0DD9\u0DB1".split("_"),
+          weekdaysMin: "\u0D89_\u0DC3_\u0D85_\u0DB6_\u0DB6\u0DCA\u200D\u0DBB_\u0DC3\u0DD2_\u0DC3\u0DD9".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "a h:mm",
+            LTS: "a h:mm:ss",
+            L: "YYYY/MM/DD",
+            LL: "YYYY MMMM D",
+            LLL: "YYYY MMMM D, a h:mm",
+            LLLL: "YYYY MMMM D [\u0DC0\u0DD0\u0DB1\u0DD2] dddd, a h:mm:ss"
+          },
+          calendar: {
+            sameDay: "[\u0D85\u0DAF] LT[\u0DA7]",
+            nextDay: "[\u0DC4\u0DD9\u0DA7] LT[\u0DA7]",
+            nextWeek: "dddd LT[\u0DA7]",
+            lastDay: "[\u0D8A\u0DBA\u0DDA] LT[\u0DA7]",
+            lastWeek: "[\u0DB4\u0DC3\u0DD4\u0D9C\u0DD2\u0DBA] dddd LT[\u0DA7]",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s\u0D9A\u0DD2\u0DB1\u0DCA",
+            past: "%s\u0D9A\u0DA7 \u0DB4\u0DD9\u0DBB",
+            s: "\u0DAD\u0DAD\u0DCA\u0DB4\u0DBB \u0D9A\u0DD2\u0DC4\u0DD2\u0DB4\u0DBA",
+            ss: "\u0DAD\u0DAD\u0DCA\u0DB4\u0DBB %d",
+            m: "\u0DB8\u0DD2\u0DB1\u0DD2\u0DAD\u0DCA\u0DAD\u0DD4\u0DC0",
+            mm: "\u0DB8\u0DD2\u0DB1\u0DD2\u0DAD\u0DCA\u0DAD\u0DD4 %d",
+            h: "\u0DB4\u0DD0\u0DBA",
+            hh: "\u0DB4\u0DD0\u0DBA %d",
+            d: "\u0DAF\u0DD2\u0DB1\u0DBA",
+            dd: "\u0DAF\u0DD2\u0DB1 %d",
+            M: "\u0DB8\u0DCF\u0DC3\u0DBA",
+            MM: "\u0DB8\u0DCF\u0DC3 %d",
+            y: "\u0DC0\u0DC3\u0DBB",
+            yy: "\u0DC0\u0DC3\u0DBB %d"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2} වැනි/,
+          ordinal: function(number) {
+            return number + " \u0DC0\u0DD0\u0DB1\u0DD2";
+          },
+          meridiemParse: /පෙර වරු|පස් වරු|පෙ.ව|ප.ව./,
+          isPM: function(input) {
+            return input === "\u0DB4.\u0DC0." || input === "\u0DB4\u0DC3\u0DCA \u0DC0\u0DBB\u0DD4";
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 > 11) {
+              return isLower ? "\u0DB4.\u0DC0." : "\u0DB4\u0DC3\u0DCA \u0DC0\u0DBB\u0DD4";
+            } else {
+              return isLower ? "\u0DB4\u0DD9.\u0DC0." : "\u0DB4\u0DD9\u0DBB \u0DC0\u0DBB\u0DD4";
+            }
+          }
+        });
+        var months$a = "janu\xE1r_febru\xE1r_marec_apr\xEDl_m\xE1j_j\xFAn_j\xFAl_august_september_okt\xF3ber_november_december".split(
+          "_"
+        ), monthsShort$7 = "jan_feb_mar_apr_m\xE1j_j\xFAn_j\xFAl_aug_sep_okt_nov_dec".split("_");
+        function plural$5(n) {
+          return n > 1 && n < 5;
+        }
+        function translate$9(number, withoutSuffix, key, isFuture) {
+          var result = number + " ";
+          switch (key) {
+            case "s":
+              return withoutSuffix || isFuture ? "p\xE1r sek\xFAnd" : "p\xE1r sekundami";
+            case "ss":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$5(number) ? "sekundy" : "sek\xFAnd");
+              } else {
+                return result + "sekundami";
+              }
+            case "m":
+              return withoutSuffix ? "min\xFAta" : isFuture ? "min\xFAtu" : "min\xFAtou";
+            case "mm":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$5(number) ? "min\xFAty" : "min\xFAt");
+              } else {
+                return result + "min\xFAtami";
+              }
+            case "h":
+              return withoutSuffix ? "hodina" : isFuture ? "hodinu" : "hodinou";
+            case "hh":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$5(number) ? "hodiny" : "hod\xEDn");
+              } else {
+                return result + "hodinami";
+              }
+            case "d":
+              return withoutSuffix || isFuture ? "de\u0148" : "d\u0148om";
+            case "dd":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$5(number) ? "dni" : "dn\xED");
+              } else {
+                return result + "d\u0148ami";
+              }
+            case "M":
+              return withoutSuffix || isFuture ? "mesiac" : "mesiacom";
+            case "MM":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$5(number) ? "mesiace" : "mesiacov");
+              } else {
+                return result + "mesiacmi";
+              }
+            case "y":
+              return withoutSuffix || isFuture ? "rok" : "rokom";
+            case "yy":
+              if (withoutSuffix || isFuture) {
+                return result + (plural$5(number) ? "roky" : "rokov");
+              } else {
+                return result + "rokmi";
+              }
+          }
+        }
+        hooks.defineLocale("sk", {
+          months: months$a,
+          monthsShort: monthsShort$7,
+          weekdays: "nede\u013Ea_pondelok_utorok_streda_\u0161tvrtok_piatok_sobota".split("_"),
+          weekdaysShort: "ne_po_ut_st_\u0161t_pi_so".split("_"),
+          weekdaysMin: "ne_po_ut_st_\u0161t_pi_so".split("_"),
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY H:mm",
+            LLLL: "dddd D. MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[dnes o] LT",
+            nextDay: "[zajtra o] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[v nede\u013Eu o] LT";
+                case 1:
+                case 2:
+                  return "[v] dddd [o] LT";
+                case 3:
+                  return "[v stredu o] LT";
+                case 4:
+                  return "[vo \u0161tvrtok o] LT";
+                case 5:
+                  return "[v piatok o] LT";
+                case 6:
+                  return "[v sobotu o] LT";
+              }
+            },
+            lastDay: "[v\u010Dera o] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[minul\xFA nede\u013Eu o] LT";
+                case 1:
+                case 2:
+                  return "[minul\xFD] dddd [o] LT";
+                case 3:
+                  return "[minul\xFA stredu o] LT";
+                case 4:
+                case 5:
+                  return "[minul\xFD] dddd [o] LT";
+                case 6:
+                  return "[minul\xFA sobotu o] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "za %s",
+            past: "pred %s",
+            s: translate$9,
+            ss: translate$9,
+            m: translate$9,
+            mm: translate$9,
+            h: translate$9,
+            hh: translate$9,
+            d: translate$9,
+            dd: translate$9,
+            M: translate$9,
+            MM: translate$9,
+            y: translate$9,
+            yy: translate$9
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        function processRelativeTime$7(number, withoutSuffix, key, isFuture) {
+          var result = number + " ";
+          switch (key) {
+            case "s":
+              return withoutSuffix || isFuture ? "nekaj sekund" : "nekaj sekundami";
+            case "ss":
+              if (number === 1) {
+                result += withoutSuffix ? "sekundo" : "sekundi";
+              } else if (number === 2) {
+                result += withoutSuffix || isFuture ? "sekundi" : "sekundah";
+              } else if (number < 5) {
+                result += withoutSuffix || isFuture ? "sekunde" : "sekundah";
+              } else {
+                result += "sekund";
+              }
+              return result;
+            case "m":
+              return withoutSuffix ? "ena minuta" : "eno minuto";
+            case "mm":
+              if (number === 1) {
+                result += withoutSuffix ? "minuta" : "minuto";
+              } else if (number === 2) {
+                result += withoutSuffix || isFuture ? "minuti" : "minutama";
+              } else if (number < 5) {
+                result += withoutSuffix || isFuture ? "minute" : "minutami";
+              } else {
+                result += withoutSuffix || isFuture ? "minut" : "minutami";
+              }
+              return result;
+            case "h":
+              return withoutSuffix ? "ena ura" : "eno uro";
+            case "hh":
+              if (number === 1) {
+                result += withoutSuffix ? "ura" : "uro";
+              } else if (number === 2) {
+                result += withoutSuffix || isFuture ? "uri" : "urama";
+              } else if (number < 5) {
+                result += withoutSuffix || isFuture ? "ure" : "urami";
+              } else {
+                result += withoutSuffix || isFuture ? "ur" : "urami";
+              }
+              return result;
+            case "d":
+              return withoutSuffix || isFuture ? "en dan" : "enim dnem";
+            case "dd":
+              if (number === 1) {
+                result += withoutSuffix || isFuture ? "dan" : "dnem";
+              } else if (number === 2) {
+                result += withoutSuffix || isFuture ? "dni" : "dnevoma";
+              } else {
+                result += withoutSuffix || isFuture ? "dni" : "dnevi";
+              }
+              return result;
+            case "M":
+              return withoutSuffix || isFuture ? "en mesec" : "enim mesecem";
+            case "MM":
+              if (number === 1) {
+                result += withoutSuffix || isFuture ? "mesec" : "mesecem";
+              } else if (number === 2) {
+                result += withoutSuffix || isFuture ? "meseca" : "mesecema";
+              } else if (number < 5) {
+                result += withoutSuffix || isFuture ? "mesece" : "meseci";
+              } else {
+                result += withoutSuffix || isFuture ? "mesecev" : "meseci";
+              }
+              return result;
+            case "y":
+              return withoutSuffix || isFuture ? "eno leto" : "enim letom";
+            case "yy":
+              if (number === 1) {
+                result += withoutSuffix || isFuture ? "leto" : "letom";
+              } else if (number === 2) {
+                result += withoutSuffix || isFuture ? "leti" : "letoma";
+              } else if (number < 5) {
+                result += withoutSuffix || isFuture ? "leta" : "leti";
+              } else {
+                result += withoutSuffix || isFuture ? "let" : "leti";
+              }
+              return result;
+          }
+        }
+        hooks.defineLocale("sl", {
+          months: "januar_februar_marec_april_maj_junij_julij_avgust_september_oktober_november_december".split(
+            "_"
+          ),
+          monthsShort: "jan._feb._mar._apr._maj._jun._jul._avg._sep._okt._nov._dec.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "nedelja_ponedeljek_torek_sreda_\u010Detrtek_petek_sobota".split("_"),
+          weekdaysShort: "ned._pon._tor._sre._\u010Det._pet._sob.".split("_"),
+          weekdaysMin: "ne_po_to_sr_\u010De_pe_so".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD. MM. YYYY",
+            LL: "D. MMMM YYYY",
+            LLL: "D. MMMM YYYY H:mm",
+            LLLL: "dddd, D. MMMM YYYY H:mm"
+          },
+          calendar: {
+            sameDay: "[danes ob] LT",
+            nextDay: "[jutri ob] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[v] [nedeljo] [ob] LT";
+                case 3:
+                  return "[v] [sredo] [ob] LT";
+                case 6:
+                  return "[v] [soboto] [ob] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[v] dddd [ob] LT";
+              }
+            },
+            lastDay: "[v\u010Deraj ob] LT",
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[prej\u0161njo] [nedeljo] [ob] LT";
+                case 3:
+                  return "[prej\u0161njo] [sredo] [ob] LT";
+                case 6:
+                  return "[prej\u0161njo] [soboto] [ob] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[prej\u0161nji] dddd [ob] LT";
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u010Dez %s",
+            past: "pred %s",
+            s: processRelativeTime$7,
+            ss: processRelativeTime$7,
+            m: processRelativeTime$7,
+            mm: processRelativeTime$7,
+            h: processRelativeTime$7,
+            hh: processRelativeTime$7,
+            d: processRelativeTime$7,
+            dd: processRelativeTime$7,
+            M: processRelativeTime$7,
+            MM: processRelativeTime$7,
+            y: processRelativeTime$7,
+            yy: processRelativeTime$7
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("sq", {
+          months: "Janar_Shkurt_Mars_Prill_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_N\xEBntor_Dhjetor".split(
+            "_"
+          ),
+          monthsShort: "Jan_Shk_Mar_Pri_Maj_Qer_Kor_Gus_Sht_Tet_N\xEBn_Dhj".split("_"),
+          weekdays: "E Diel_E H\xEBn\xEB_E Mart\xEB_E M\xEBrkur\xEB_E Enjte_E Premte_E Shtun\xEB".split(
+            "_"
+          ),
+          weekdaysShort: "Die_H\xEBn_Mar_M\xEBr_Enj_Pre_Sht".split("_"),
+          weekdaysMin: "D_H_Ma_M\xEB_E_P_Sh".split("_"),
+          weekdaysParseExact: true,
+          meridiemParse: /PD|MD/,
+          isPM: function(input) {
+            return input.charAt(0) === "M";
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            return hours2 < 12 ? "PD" : "MD";
+          },
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Sot n\xEB] LT",
+            nextDay: "[Nes\xEBr n\xEB] LT",
+            nextWeek: "dddd [n\xEB] LT",
+            lastDay: "[Dje n\xEB] LT",
+            lastWeek: "dddd [e kaluar n\xEB] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "n\xEB %s",
+            past: "%s m\xEB par\xEB",
+            s: "disa sekonda",
+            ss: "%d sekonda",
+            m: "nj\xEB minut\xEB",
+            mm: "%d minuta",
+            h: "nj\xEB or\xEB",
+            hh: "%d or\xEB",
+            d: "nj\xEB dit\xEB",
+            dd: "%d dit\xEB",
+            M: "nj\xEB muaj",
+            MM: "%d muaj",
+            y: "nj\xEB vit",
+            yy: "%d vite"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var translator$1 = {
+          words: {
+            //Different grammatical cases
+            ss: ["\u0441\u0435\u043A\u0443\u043D\u0434\u0430", "\u0441\u0435\u043A\u0443\u043D\u0434\u0435", "\u0441\u0435\u043A\u0443\u043D\u0434\u0438"],
+            m: ["\u0458\u0435\u0434\u0430\u043D \u043C\u0438\u043D\u0443\u0442", "\u0458\u0435\u0434\u043D\u043E\u0433 \u043C\u0438\u043D\u0443\u0442\u0430"],
+            mm: ["\u043C\u0438\u043D\u0443\u0442", "\u043C\u0438\u043D\u0443\u0442\u0430", "\u043C\u0438\u043D\u0443\u0442\u0430"],
+            h: ["\u0458\u0435\u0434\u0430\u043D \u0441\u0430\u0442", "\u0458\u0435\u0434\u043D\u043E\u0433 \u0441\u0430\u0442\u0430"],
+            hh: ["\u0441\u0430\u0442", "\u0441\u0430\u0442\u0430", "\u0441\u0430\u0442\u0438"],
+            d: ["\u0458\u0435\u0434\u0430\u043D \u0434\u0430\u043D", "\u0458\u0435\u0434\u043D\u043E\u0433 \u0434\u0430\u043D\u0430"],
+            dd: ["\u0434\u0430\u043D", "\u0434\u0430\u043D\u0430", "\u0434\u0430\u043D\u0430"],
+            M: ["\u0458\u0435\u0434\u0430\u043D \u043C\u0435\u0441\u0435\u0446", "\u0458\u0435\u0434\u043D\u043E\u0433 \u043C\u0435\u0441\u0435\u0446\u0430"],
+            MM: ["\u043C\u0435\u0441\u0435\u0446", "\u043C\u0435\u0441\u0435\u0446\u0430", "\u043C\u0435\u0441\u0435\u0446\u0438"],
+            y: ["\u0458\u0435\u0434\u043D\u0443 \u0433\u043E\u0434\u0438\u043D\u0443", "\u0458\u0435\u0434\u043D\u0435 \u0433\u043E\u0434\u0438\u043D\u0435"],
+            yy: ["\u0433\u043E\u0434\u0438\u043D\u0443", "\u0433\u043E\u0434\u0438\u043D\u0435", "\u0433\u043E\u0434\u0438\u043D\u0430"]
+          },
+          correctGrammaticalCase: function(number, wordKey) {
+            if (number % 10 >= 1 && number % 10 <= 4 && (number % 100 < 10 || number % 100 >= 20)) {
+              return number % 10 === 1 ? wordKey[0] : wordKey[1];
+            }
+            return wordKey[2];
+          },
+          translate: function(number, withoutSuffix, key, isFuture) {
+            var wordKey = translator$1.words[key], word;
+            if (key.length === 1) {
+              if (key === "y" && withoutSuffix)
+                return "\u0458\u0435\u0434\u043D\u0430 \u0433\u043E\u0434\u0438\u043D\u0430";
+              return isFuture || withoutSuffix ? wordKey[0] : wordKey[1];
+            }
+            word = translator$1.correctGrammaticalCase(number, wordKey);
+            if (key === "yy" && withoutSuffix && word === "\u0433\u043E\u0434\u0438\u043D\u0443") {
+              return number + " \u0433\u043E\u0434\u0438\u043D\u0430";
+            }
+            return number + " " + word;
+          }
+        };
+        hooks.defineLocale("sr-cyrl", {
+          months: "\u0458\u0430\u043D\u0443\u0430\u0440_\u0444\u0435\u0431\u0440\u0443\u0430\u0440_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440\u0438\u043B_\u043C\u0430\u0458_\u0458\u0443\u043D_\u0458\u0443\u043B_\u0430\u0432\u0433\u0443\u0441\u0442_\u0441\u0435\u043F\u0442\u0435\u043C\u0431\u0430\u0440_\u043E\u043A\u0442\u043E\u0431\u0430\u0440_\u043D\u043E\u0432\u0435\u043C\u0431\u0430\u0440_\u0434\u0435\u0446\u0435\u043C\u0431\u0430\u0440".split(
+            "_"
+          ),
+          monthsShort: "\u0458\u0430\u043D._\u0444\u0435\u0431._\u043C\u0430\u0440._\u0430\u043F\u0440._\u043C\u0430\u0458_\u0458\u0443\u043D_\u0458\u0443\u043B_\u0430\u0432\u0433._\u0441\u0435\u043F._\u043E\u043A\u0442._\u043D\u043E\u0432._\u0434\u0435\u0446.".split("_"),
+          monthsParseExact: true,
+          weekdays: "\u043D\u0435\u0434\u0435\u0459\u0430_\u043F\u043E\u043D\u0435\u0434\u0435\u0459\u0430\u043A_\u0443\u0442\u043E\u0440\u0430\u043A_\u0441\u0440\u0435\u0434\u0430_\u0447\u0435\u0442\u0432\u0440\u0442\u0430\u043A_\u043F\u0435\u0442\u0430\u043A_\u0441\u0443\u0431\u043E\u0442\u0430".split("_"),
+          weekdaysShort: "\u043D\u0435\u0434._\u043F\u043E\u043D._\u0443\u0442\u043E._\u0441\u0440\u0435._\u0447\u0435\u0442._\u043F\u0435\u0442._\u0441\u0443\u0431.".split("_"),
+          weekdaysMin: "\u043D\u0435_\u043F\u043E_\u0443\u0442_\u0441\u0440_\u0447\u0435_\u043F\u0435_\u0441\u0443".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "D. M. YYYY.",
+            LL: "D. MMMM YYYY.",
+            LLL: "D. MMMM YYYY. H:mm",
+            LLLL: "dddd, D. MMMM YYYY. H:mm"
+          },
+          calendar: {
+            sameDay: "[\u0434\u0430\u043D\u0430\u0441 \u0443] LT",
+            nextDay: "[\u0441\u0443\u0442\u0440\u0430 \u0443] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[\u0443] [\u043D\u0435\u0434\u0435\u0459\u0443] [\u0443] LT";
+                case 3:
+                  return "[\u0443] [\u0441\u0440\u0435\u0434\u0443] [\u0443] LT";
+                case 6:
+                  return "[\u0443] [\u0441\u0443\u0431\u043E\u0442\u0443] [\u0443] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[\u0443] dddd [\u0443] LT";
+              }
+            },
+            lastDay: "[\u0458\u0443\u0447\u0435 \u0443] LT",
+            lastWeek: function() {
+              var lastWeekDays = [
+                "[\u043F\u0440\u043E\u0448\u043B\u0435] [\u043D\u0435\u0434\u0435\u0459\u0435] [\u0443] LT",
+                "[\u043F\u0440\u043E\u0448\u043B\u043E\u0433] [\u043F\u043E\u043D\u0435\u0434\u0435\u0459\u043A\u0430] [\u0443] LT",
+                "[\u043F\u0440\u043E\u0448\u043B\u043E\u0433] [\u0443\u0442\u043E\u0440\u043A\u0430] [\u0443] LT",
+                "[\u043F\u0440\u043E\u0448\u043B\u0435] [\u0441\u0440\u0435\u0434\u0435] [\u0443] LT",
+                "[\u043F\u0440\u043E\u0448\u043B\u043E\u0433] [\u0447\u0435\u0442\u0432\u0440\u0442\u043A\u0430] [\u0443] LT",
+                "[\u043F\u0440\u043E\u0448\u043B\u043E\u0433] [\u043F\u0435\u0442\u043A\u0430] [\u0443] LT",
+                "[\u043F\u0440\u043E\u0448\u043B\u0435] [\u0441\u0443\u0431\u043E\u0442\u0435] [\u0443] LT"
+              ];
+              return lastWeekDays[this.day()];
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0437\u0430 %s",
+            past: "\u043F\u0440\u0435 %s",
+            s: "\u043D\u0435\u043A\u043E\u043B\u0438\u043A\u043E \u0441\u0435\u043A\u0443\u043D\u0434\u0438",
+            ss: translator$1.translate,
+            m: translator$1.translate,
+            mm: translator$1.translate,
+            h: translator$1.translate,
+            hh: translator$1.translate,
+            d: translator$1.translate,
+            dd: translator$1.translate,
+            M: translator$1.translate,
+            MM: translator$1.translate,
+            y: translator$1.translate,
+            yy: translator$1.translate
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 1st is the first week of the year.
+          }
+        });
+        var translator$2 = {
+          words: {
+            //Different grammatical cases
+            ss: ["sekunda", "sekunde", "sekundi"],
+            m: ["jedan minut", "jednog minuta"],
+            mm: ["minut", "minuta", "minuta"],
+            h: ["jedan sat", "jednog sata"],
+            hh: ["sat", "sata", "sati"],
+            d: ["jedan dan", "jednog dana"],
+            dd: ["dan", "dana", "dana"],
+            M: ["jedan mesec", "jednog meseca"],
+            MM: ["mesec", "meseca", "meseci"],
+            y: ["jednu godinu", "jedne godine"],
+            yy: ["godinu", "godine", "godina"]
+          },
+          correctGrammaticalCase: function(number, wordKey) {
+            if (number % 10 >= 1 && number % 10 <= 4 && (number % 100 < 10 || number % 100 >= 20)) {
+              return number % 10 === 1 ? wordKey[0] : wordKey[1];
+            }
+            return wordKey[2];
+          },
+          translate: function(number, withoutSuffix, key, isFuture) {
+            var wordKey = translator$2.words[key], word;
+            if (key.length === 1) {
+              if (key === "y" && withoutSuffix)
+                return "jedna godina";
+              return isFuture || withoutSuffix ? wordKey[0] : wordKey[1];
+            }
+            word = translator$2.correctGrammaticalCase(number, wordKey);
+            if (key === "yy" && withoutSuffix && word === "godinu") {
+              return number + " godina";
+            }
+            return number + " " + word;
+          }
+        };
+        hooks.defineLocale("sr", {
+          months: "januar_februar_mart_april_maj_jun_jul_avgust_septembar_oktobar_novembar_decembar".split(
+            "_"
+          ),
+          monthsShort: "jan._feb._mar._apr._maj_jun_jul_avg._sep._okt._nov._dec.".split("_"),
+          monthsParseExact: true,
+          weekdays: "nedelja_ponedeljak_utorak_sreda_\u010Detvrtak_petak_subota".split(
+            "_"
+          ),
+          weekdaysShort: "ned._pon._uto._sre._\u010Det._pet._sub.".split("_"),
+          weekdaysMin: "ne_po_ut_sr_\u010De_pe_su".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "D. M. YYYY.",
+            LL: "D. MMMM YYYY.",
+            LLL: "D. MMMM YYYY. H:mm",
+            LLLL: "dddd, D. MMMM YYYY. H:mm"
+          },
+          calendar: {
+            sameDay: "[danas u] LT",
+            nextDay: "[sutra u] LT",
+            nextWeek: function() {
+              switch (this.day()) {
+                case 0:
+                  return "[u] [nedelju] [u] LT";
+                case 3:
+                  return "[u] [sredu] [u] LT";
+                case 6:
+                  return "[u] [subotu] [u] LT";
+                case 1:
+                case 2:
+                case 4:
+                case 5:
+                  return "[u] dddd [u] LT";
+              }
+            },
+            lastDay: "[ju\u010De u] LT",
+            lastWeek: function() {
+              var lastWeekDays = [
+                "[pro\u0161le] [nedelje] [u] LT",
+                "[pro\u0161log] [ponedeljka] [u] LT",
+                "[pro\u0161log] [utorka] [u] LT",
+                "[pro\u0161le] [srede] [u] LT",
+                "[pro\u0161log] [\u010Detvrtka] [u] LT",
+                "[pro\u0161log] [petka] [u] LT",
+                "[pro\u0161le] [subote] [u] LT"
+              ];
+              return lastWeekDays[this.day()];
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "za %s",
+            past: "pre %s",
+            s: "nekoliko sekundi",
+            ss: translator$2.translate,
+            m: translator$2.translate,
+            mm: translator$2.translate,
+            h: translator$2.translate,
+            hh: translator$2.translate,
+            d: translator$2.translate,
+            dd: translator$2.translate,
+            M: translator$2.translate,
+            MM: translator$2.translate,
+            y: translator$2.translate,
+            yy: translator$2.translate
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ss", {
+          months: "Bhimbidvwane_Indlovana_Indlov'lenkhulu_Mabasa_Inkhwekhweti_Inhlaba_Kholwane_Ingci_Inyoni_Imphala_Lweti_Ingongoni".split(
+            "_"
+          ),
+          monthsShort: "Bhi_Ina_Inu_Mab_Ink_Inh_Kho_Igc_Iny_Imp_Lwe_Igo".split("_"),
+          weekdays: "Lisontfo_Umsombuluko_Lesibili_Lesitsatfu_Lesine_Lesihlanu_Umgcibelo".split(
+            "_"
+          ),
+          weekdaysShort: "Lis_Umb_Lsb_Les_Lsi_Lsh_Umg".split("_"),
+          weekdaysMin: "Li_Us_Lb_Lt_Ls_Lh_Ug".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY h:mm A",
+            LLLL: "dddd, D MMMM YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: "[Namuhla nga] LT",
+            nextDay: "[Kusasa nga] LT",
+            nextWeek: "dddd [nga] LT",
+            lastDay: "[Itolo nga] LT",
+            lastWeek: "dddd [leliphelile] [nga] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "nga %s",
+            past: "wenteka nga %s",
+            s: "emizuzwana lomcane",
+            ss: "%d mzuzwana",
+            m: "umzuzu",
+            mm: "%d emizuzu",
+            h: "lihora",
+            hh: "%d emahora",
+            d: "lilanga",
+            dd: "%d emalanga",
+            M: "inyanga",
+            MM: "%d tinyanga",
+            y: "umnyaka",
+            yy: "%d iminyaka"
+          },
+          meridiemParse: /ekuseni|emini|entsambama|ebusuku/,
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 11) {
+              return "ekuseni";
+            } else if (hours2 < 15) {
+              return "emini";
+            } else if (hours2 < 19) {
+              return "entsambama";
+            } else {
+              return "ebusuku";
+            }
+          },
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "ekuseni") {
+              return hour;
+            } else if (meridiem2 === "emini") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "entsambama" || meridiem2 === "ebusuku") {
+              if (hour === 0) {
+                return 0;
+              }
+              return hour + 12;
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}/,
+          ordinal: "%d",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("sv", {
+          months: "januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december".split(
+            "_"
+          ),
+          monthsShort: "jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),
+          weekdays: "s\xF6ndag_m\xE5ndag_tisdag_onsdag_torsdag_fredag_l\xF6rdag".split("_"),
+          weekdaysShort: "s\xF6n_m\xE5n_tis_ons_tor_fre_l\xF6r".split("_"),
+          weekdaysMin: "s\xF6_m\xE5_ti_on_to_fr_l\xF6".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY-MM-DD",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY [kl.] HH:mm",
+            LLLL: "dddd D MMMM YYYY [kl.] HH:mm",
+            lll: "D MMM YYYY HH:mm",
+            llll: "ddd D MMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Idag] LT",
+            nextDay: "[Imorgon] LT",
+            lastDay: "[Ig\xE5r] LT",
+            nextWeek: "[P\xE5] dddd LT",
+            lastWeek: "[I] dddd[s] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "om %s",
+            past: "f\xF6r %s sedan",
+            s: "n\xE5gra sekunder",
+            ss: "%d sekunder",
+            m: "en minut",
+            mm: "%d minuter",
+            h: "en timme",
+            hh: "%d timmar",
+            d: "en dag",
+            dd: "%d dagar",
+            M: "en m\xE5nad",
+            MM: "%d m\xE5nader",
+            y: "ett \xE5r",
+            yy: "%d \xE5r"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(\:e|\:a)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? ":e" : b === 1 ? ":a" : b === 2 ? ":a" : b === 3 ? ":e" : ":e";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("sw", {
+          months: "Januari_Februari_Machi_Aprili_Mei_Juni_Julai_Agosti_Septemba_Oktoba_Novemba_Desemba".split(
+            "_"
+          ),
+          monthsShort: "Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ago_Sep_Okt_Nov_Des".split("_"),
+          weekdays: "Jumapili_Jumatatu_Jumanne_Jumatano_Alhamisi_Ijumaa_Jumamosi".split(
+            "_"
+          ),
+          weekdaysShort: "Jpl_Jtat_Jnne_Jtan_Alh_Ijm_Jmos".split("_"),
+          weekdaysMin: "J2_J3_J4_J5_Al_Ij_J1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "hh:mm A",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[leo saa] LT",
+            nextDay: "[kesho saa] LT",
+            nextWeek: "[wiki ijayo] dddd [saat] LT",
+            lastDay: "[jana] LT",
+            lastWeek: "[wiki iliyopita] dddd [saat] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s baadaye",
+            past: "tokea %s",
+            s: "hivi punde",
+            ss: "sekunde %d",
+            m: "dakika moja",
+            mm: "dakika %d",
+            h: "saa limoja",
+            hh: "masaa %d",
+            d: "siku moja",
+            dd: "siku %d",
+            M: "mwezi mmoja",
+            MM: "miezi %d",
+            y: "mwaka mmoja",
+            yy: "miaka %d"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        var symbolMap$g = {
+          1: "\u0BE7",
+          2: "\u0BE8",
+          3: "\u0BE9",
+          4: "\u0BEA",
+          5: "\u0BEB",
+          6: "\u0BEC",
+          7: "\u0BED",
+          8: "\u0BEE",
+          9: "\u0BEF",
+          0: "\u0BE6"
+        }, numberMap$f = {
+          "\u0BE7": "1",
+          "\u0BE8": "2",
+          "\u0BE9": "3",
+          "\u0BEA": "4",
+          "\u0BEB": "5",
+          "\u0BEC": "6",
+          "\u0BED": "7",
+          "\u0BEE": "8",
+          "\u0BEF": "9",
+          "\u0BE6": "0"
+        };
+        hooks.defineLocale("ta", {
+          months: "\u0B9C\u0BA9\u0BB5\u0BB0\u0BBF_\u0BAA\u0BBF\u0BAA\u0BCD\u0BB0\u0BB5\u0BB0\u0BBF_\u0BAE\u0BBE\u0BB0\u0BCD\u0B9A\u0BCD_\u0B8F\u0BAA\u0BCD\u0BB0\u0BB2\u0BCD_\u0BAE\u0BC7_\u0B9C\u0BC2\u0BA9\u0BCD_\u0B9C\u0BC2\u0BB2\u0BC8_\u0B86\u0B95\u0BB8\u0BCD\u0B9F\u0BCD_\u0B9A\u0BC6\u0BAA\u0BCD\u0B9F\u0BC6\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD_\u0B85\u0B95\u0BCD\u0B9F\u0BC7\u0BBE\u0BAA\u0BB0\u0BCD_\u0BA8\u0BB5\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD_\u0B9F\u0BBF\u0B9A\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD".split(
+            "_"
+          ),
+          monthsShort: "\u0B9C\u0BA9\u0BB5\u0BB0\u0BBF_\u0BAA\u0BBF\u0BAA\u0BCD\u0BB0\u0BB5\u0BB0\u0BBF_\u0BAE\u0BBE\u0BB0\u0BCD\u0B9A\u0BCD_\u0B8F\u0BAA\u0BCD\u0BB0\u0BB2\u0BCD_\u0BAE\u0BC7_\u0B9C\u0BC2\u0BA9\u0BCD_\u0B9C\u0BC2\u0BB2\u0BC8_\u0B86\u0B95\u0BB8\u0BCD\u0B9F\u0BCD_\u0B9A\u0BC6\u0BAA\u0BCD\u0B9F\u0BC6\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD_\u0B85\u0B95\u0BCD\u0B9F\u0BC7\u0BBE\u0BAA\u0BB0\u0BCD_\u0BA8\u0BB5\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD_\u0B9F\u0BBF\u0B9A\u0BAE\u0BCD\u0BAA\u0BB0\u0BCD".split(
+            "_"
+          ),
+          weekdays: "\u0B9E\u0BBE\u0BAF\u0BBF\u0BB1\u0BCD\u0BB1\u0BC1\u0B95\u0BCD\u0B95\u0BBF\u0BB4\u0BAE\u0BC8_\u0BA4\u0BBF\u0B99\u0BCD\u0B95\u0B9F\u0BCD\u0B95\u0BBF\u0BB4\u0BAE\u0BC8_\u0B9A\u0BC6\u0BB5\u0BCD\u0BB5\u0BBE\u0BAF\u0BCD\u0B95\u0BBF\u0BB4\u0BAE\u0BC8_\u0BAA\u0BC1\u0BA4\u0BA9\u0BCD\u0B95\u0BBF\u0BB4\u0BAE\u0BC8_\u0BB5\u0BBF\u0BAF\u0BBE\u0BB4\u0B95\u0BCD\u0B95\u0BBF\u0BB4\u0BAE\u0BC8_\u0BB5\u0BC6\u0BB3\u0BCD\u0BB3\u0BBF\u0B95\u0BCD\u0B95\u0BBF\u0BB4\u0BAE\u0BC8_\u0B9A\u0BA9\u0BBF\u0B95\u0BCD\u0B95\u0BBF\u0BB4\u0BAE\u0BC8".split(
+            "_"
+          ),
+          weekdaysShort: "\u0B9E\u0BBE\u0BAF\u0BBF\u0BB1\u0BC1_\u0BA4\u0BBF\u0B99\u0BCD\u0B95\u0BB3\u0BCD_\u0B9A\u0BC6\u0BB5\u0BCD\u0BB5\u0BBE\u0BAF\u0BCD_\u0BAA\u0BC1\u0BA4\u0BA9\u0BCD_\u0BB5\u0BBF\u0BAF\u0BBE\u0BB4\u0BA9\u0BCD_\u0BB5\u0BC6\u0BB3\u0BCD\u0BB3\u0BBF_\u0B9A\u0BA9\u0BBF".split(
+            "_"
+          ),
+          weekdaysMin: "\u0B9E\u0BBE_\u0BA4\u0BBF_\u0B9A\u0BC6_\u0BAA\u0BC1_\u0BB5\u0BBF_\u0BB5\u0BC6_\u0B9A".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, HH:mm",
+            LLLL: "dddd, D MMMM YYYY, HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0B87\u0BA9\u0BCD\u0BB1\u0BC1] LT",
+            nextDay: "[\u0BA8\u0BBE\u0BB3\u0BC8] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0BA8\u0BC7\u0BB1\u0BCD\u0BB1\u0BC1] LT",
+            lastWeek: "[\u0B95\u0B9F\u0BA8\u0BCD\u0BA4 \u0BB5\u0BBE\u0BB0\u0BAE\u0BCD] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0B87\u0BB2\u0BCD",
+            past: "%s \u0BAE\u0BC1\u0BA9\u0BCD",
+            s: "\u0B92\u0BB0\u0BC1 \u0B9A\u0BBF\u0BB2 \u0BB5\u0BBF\u0BA8\u0BBE\u0B9F\u0BBF\u0B95\u0BB3\u0BCD",
+            ss: "%d \u0BB5\u0BBF\u0BA8\u0BBE\u0B9F\u0BBF\u0B95\u0BB3\u0BCD",
+            m: "\u0B92\u0BB0\u0BC1 \u0BA8\u0BBF\u0BAE\u0BBF\u0B9F\u0BAE\u0BCD",
+            mm: "%d \u0BA8\u0BBF\u0BAE\u0BBF\u0B9F\u0B99\u0BCD\u0B95\u0BB3\u0BCD",
+            h: "\u0B92\u0BB0\u0BC1 \u0BAE\u0BA3\u0BBF \u0BA8\u0BC7\u0BB0\u0BAE\u0BCD",
+            hh: "%d \u0BAE\u0BA3\u0BBF \u0BA8\u0BC7\u0BB0\u0BAE\u0BCD",
+            d: "\u0B92\u0BB0\u0BC1 \u0BA8\u0BBE\u0BB3\u0BCD",
+            dd: "%d \u0BA8\u0BBE\u0B9F\u0BCD\u0B95\u0BB3\u0BCD",
+            M: "\u0B92\u0BB0\u0BC1 \u0BAE\u0BBE\u0BA4\u0BAE\u0BCD",
+            MM: "%d \u0BAE\u0BBE\u0BA4\u0B99\u0BCD\u0B95\u0BB3\u0BCD",
+            y: "\u0B92\u0BB0\u0BC1 \u0BB5\u0BB0\u0BC1\u0B9F\u0BAE\u0BCD",
+            yy: "%d \u0B86\u0BA3\u0BCD\u0B9F\u0BC1\u0B95\u0BB3\u0BCD"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}வது/,
+          ordinal: function(number) {
+            return number + "\u0BB5\u0BA4\u0BC1";
+          },
+          preparse: function(string) {
+            return string.replace(/[௧௨௩௪௫௬௭௮௯௦]/g, function(match) {
+              return numberMap$f[match];
+            });
+          },
+          postformat: function(string) {
+            return string.replace(/\d/g, function(match) {
+              return symbolMap$g[match];
+            });
+          },
+          // refer http://ta.wikipedia.org/s/1er1
+          meridiemParse: /யாமம்|வைகறை|காலை|நண்பகல்|எற்பாடு|மாலை/,
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 2) {
+              return " \u0BAF\u0BBE\u0BAE\u0BAE\u0BCD";
+            } else if (hour < 6) {
+              return " \u0BB5\u0BC8\u0B95\u0BB1\u0BC8";
+            } else if (hour < 10) {
+              return " \u0B95\u0BBE\u0BB2\u0BC8";
+            } else if (hour < 14) {
+              return " \u0BA8\u0BA3\u0BCD\u0BAA\u0B95\u0BB2\u0BCD";
+            } else if (hour < 18) {
+              return " \u0B8E\u0BB1\u0BCD\u0BAA\u0BBE\u0B9F\u0BC1";
+            } else if (hour < 22) {
+              return " \u0BAE\u0BBE\u0BB2\u0BC8";
+            } else {
+              return " \u0BAF\u0BBE\u0BAE\u0BAE\u0BCD";
+            }
+          },
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0BAF\u0BBE\u0BAE\u0BAE\u0BCD") {
+              return hour < 2 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0BB5\u0BC8\u0B95\u0BB1\u0BC8" || meridiem2 === "\u0B95\u0BBE\u0BB2\u0BC8") {
+              return hour;
+            } else if (meridiem2 === "\u0BA8\u0BA3\u0BCD\u0BAA\u0B95\u0BB2\u0BCD") {
+              return hour >= 10 ? hour : hour + 12;
+            } else {
+              return hour + 12;
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("te", {
+          months: "\u0C1C\u0C28\u0C35\u0C30\u0C3F_\u0C2B\u0C3F\u0C2C\u0C4D\u0C30\u0C35\u0C30\u0C3F_\u0C2E\u0C3E\u0C30\u0C4D\u0C1A\u0C3F_\u0C0F\u0C2A\u0C4D\u0C30\u0C3F\u0C32\u0C4D_\u0C2E\u0C47_\u0C1C\u0C42\u0C28\u0C4D_\u0C1C\u0C41\u0C32\u0C48_\u0C06\u0C17\u0C38\u0C4D\u0C1F\u0C41_\u0C38\u0C46\u0C2A\u0C4D\u0C1F\u0C46\u0C02\u0C2C\u0C30\u0C4D_\u0C05\u0C15\u0C4D\u0C1F\u0C4B\u0C2C\u0C30\u0C4D_\u0C28\u0C35\u0C02\u0C2C\u0C30\u0C4D_\u0C21\u0C3F\u0C38\u0C46\u0C02\u0C2C\u0C30\u0C4D".split(
+            "_"
+          ),
+          monthsShort: "\u0C1C\u0C28._\u0C2B\u0C3F\u0C2C\u0C4D\u0C30._\u0C2E\u0C3E\u0C30\u0C4D\u0C1A\u0C3F_\u0C0F\u0C2A\u0C4D\u0C30\u0C3F._\u0C2E\u0C47_\u0C1C\u0C42\u0C28\u0C4D_\u0C1C\u0C41\u0C32\u0C48_\u0C06\u0C17._\u0C38\u0C46\u0C2A\u0C4D._\u0C05\u0C15\u0C4D\u0C1F\u0C4B._\u0C28\u0C35._\u0C21\u0C3F\u0C38\u0C46.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0C06\u0C26\u0C3F\u0C35\u0C3E\u0C30\u0C02_\u0C38\u0C4B\u0C2E\u0C35\u0C3E\u0C30\u0C02_\u0C2E\u0C02\u0C17\u0C33\u0C35\u0C3E\u0C30\u0C02_\u0C2C\u0C41\u0C27\u0C35\u0C3E\u0C30\u0C02_\u0C17\u0C41\u0C30\u0C41\u0C35\u0C3E\u0C30\u0C02_\u0C36\u0C41\u0C15\u0C4D\u0C30\u0C35\u0C3E\u0C30\u0C02_\u0C36\u0C28\u0C3F\u0C35\u0C3E\u0C30\u0C02".split(
+            "_"
+          ),
+          weekdaysShort: "\u0C06\u0C26\u0C3F_\u0C38\u0C4B\u0C2E_\u0C2E\u0C02\u0C17\u0C33_\u0C2C\u0C41\u0C27_\u0C17\u0C41\u0C30\u0C41_\u0C36\u0C41\u0C15\u0C4D\u0C30_\u0C36\u0C28\u0C3F".split("_"),
+          weekdaysMin: "\u0C06_\u0C38\u0C4B_\u0C2E\u0C02_\u0C2C\u0C41_\u0C17\u0C41_\u0C36\u0C41_\u0C36".split("_"),
+          longDateFormat: {
+            LT: "A h:mm",
+            LTS: "A h:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, A h:mm",
+            LLLL: "dddd, D MMMM YYYY, A h:mm"
+          },
+          calendar: {
+            sameDay: "[\u0C28\u0C47\u0C21\u0C41] LT",
+            nextDay: "[\u0C30\u0C47\u0C2A\u0C41] LT",
+            nextWeek: "dddd, LT",
+            lastDay: "[\u0C28\u0C3F\u0C28\u0C4D\u0C28] LT",
+            lastWeek: "[\u0C17\u0C24] dddd, LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0C32\u0C4B",
+            past: "%s \u0C15\u0C4D\u0C30\u0C3F\u0C24\u0C02",
+            s: "\u0C15\u0C4A\u0C28\u0C4D\u0C28\u0C3F \u0C15\u0C4D\u0C37\u0C23\u0C3E\u0C32\u0C41",
+            ss: "%d \u0C38\u0C46\u0C15\u0C28\u0C4D\u0C32\u0C41",
+            m: "\u0C12\u0C15 \u0C28\u0C3F\u0C2E\u0C3F\u0C37\u0C02",
+            mm: "%d \u0C28\u0C3F\u0C2E\u0C3F\u0C37\u0C3E\u0C32\u0C41",
+            h: "\u0C12\u0C15 \u0C17\u0C02\u0C1F",
+            hh: "%d \u0C17\u0C02\u0C1F\u0C32\u0C41",
+            d: "\u0C12\u0C15 \u0C30\u0C4B\u0C1C\u0C41",
+            dd: "%d \u0C30\u0C4B\u0C1C\u0C41\u0C32\u0C41",
+            M: "\u0C12\u0C15 \u0C28\u0C46\u0C32",
+            MM: "%d \u0C28\u0C46\u0C32\u0C32\u0C41",
+            y: "\u0C12\u0C15 \u0C38\u0C02\u0C35\u0C24\u0C4D\u0C38\u0C30\u0C02",
+            yy: "%d \u0C38\u0C02\u0C35\u0C24\u0C4D\u0C38\u0C30\u0C3E\u0C32\u0C41"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}వ/,
+          ordinal: "%d\u0C35",
+          meridiemParse: /రాత్రి|ఉదయం|మధ్యాహ్నం|సాయంత్రం/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0C30\u0C3E\u0C24\u0C4D\u0C30\u0C3F") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0C09\u0C26\u0C2F\u0C02") {
+              return hour;
+            } else if (meridiem2 === "\u0C2E\u0C27\u0C4D\u0C2F\u0C3E\u0C39\u0C4D\u0C28\u0C02") {
+              return hour >= 10 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0C38\u0C3E\u0C2F\u0C02\u0C24\u0C4D\u0C30\u0C02") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0C30\u0C3E\u0C24\u0C4D\u0C30\u0C3F";
+            } else if (hour < 10) {
+              return "\u0C09\u0C26\u0C2F\u0C02";
+            } else if (hour < 17) {
+              return "\u0C2E\u0C27\u0C4D\u0C2F\u0C3E\u0C39\u0C4D\u0C28\u0C02";
+            } else if (hour < 20) {
+              return "\u0C38\u0C3E\u0C2F\u0C02\u0C24\u0C4D\u0C30\u0C02";
+            } else {
+              return "\u0C30\u0C3E\u0C24\u0C4D\u0C30\u0C3F";
+            }
+          },
+          week: {
+            dow: 0,
+            // Sunday is the first day of the week.
+            doy: 6
+            // The week that contains Jan 6th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("tet", {
+          months: "Janeiru_Fevereiru_Marsu_Abril_Maiu_Ju\xF1u_Jullu_Agustu_Setembru_Outubru_Novembru_Dezembru".split(
+            "_"
+          ),
+          monthsShort: "Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),
+          weekdays: "Domingu_Segunda_Tersa_Kuarta_Kinta_Sesta_Sabadu".split("_"),
+          weekdaysShort: "Dom_Seg_Ters_Kua_Kint_Sest_Sab".split("_"),
+          weekdaysMin: "Do_Seg_Te_Ku_Ki_Ses_Sa".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[Ohin iha] LT",
+            nextDay: "[Aban iha] LT",
+            nextWeek: "dddd [iha] LT",
+            lastDay: "[Horiseik iha] LT",
+            lastWeek: "dddd [semana kotuk] [iha] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "iha %s",
+            past: "%s liuba",
+            s: "segundu balun",
+            ss: "segundu %d",
+            m: "minutu ida",
+            mm: "minutu %d",
+            h: "oras ida",
+            hh: "oras %d",
+            d: "loron ida",
+            dd: "loron %d",
+            M: "fulan ida",
+            MM: "fulan %d",
+            y: "tinan ida",
+            yy: "tinan %d"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(st|nd|rd|th)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var suffixes$3 = {
+          0: "-\u0443\u043C",
+          1: "-\u0443\u043C",
+          2: "-\u044E\u043C",
+          3: "-\u044E\u043C",
+          4: "-\u0443\u043C",
+          5: "-\u0443\u043C",
+          6: "-\u0443\u043C",
+          7: "-\u0443\u043C",
+          8: "-\u0443\u043C",
+          9: "-\u0443\u043C",
+          10: "-\u0443\u043C",
+          12: "-\u0443\u043C",
+          13: "-\u0443\u043C",
+          20: "-\u0443\u043C",
+          30: "-\u044E\u043C",
+          40: "-\u0443\u043C",
+          50: "-\u0443\u043C",
+          60: "-\u0443\u043C",
+          70: "-\u0443\u043C",
+          80: "-\u0443\u043C",
+          90: "-\u0443\u043C",
+          100: "-\u0443\u043C"
+        };
+        hooks.defineLocale("tg", {
+          months: {
+            format: "\u044F\u043D\u0432\u0430\u0440\u0438_\u0444\u0435\u0432\u0440\u0430\u043B\u0438_\u043C\u0430\u0440\u0442\u0438_\u0430\u043F\u0440\u0435\u043B\u0438_\u043C\u0430\u0439\u0438_\u0438\u044E\u043D\u0438_\u0438\u044E\u043B\u0438_\u0430\u0432\u0433\u0443\u0441\u0442\u0438_\u0441\u0435\u043D\u0442\u044F\u0431\u0440\u0438_\u043E\u043A\u0442\u044F\u0431\u0440\u0438_\u043D\u043E\u044F\u0431\u0440\u0438_\u0434\u0435\u043A\u0430\u0431\u0440\u0438".split(
+              "_"
+            ),
+            standalone: "\u044F\u043D\u0432\u0430\u0440_\u0444\u0435\u0432\u0440\u0430\u043B_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440\u0435\u043B_\u043C\u0430\u0439_\u0438\u044E\u043D_\u0438\u044E\u043B_\u0430\u0432\u0433\u0443\u0441\u0442_\u0441\u0435\u043D\u0442\u044F\u0431\u0440_\u043E\u043A\u0442\u044F\u0431\u0440_\u043D\u043E\u044F\u0431\u0440_\u0434\u0435\u043A\u0430\u0431\u0440".split(
+              "_"
+            )
+          },
+          monthsShort: "\u044F\u043D\u0432_\u0444\u0435\u0432_\u043C\u0430\u0440_\u0430\u043F\u0440_\u043C\u0430\u0439_\u0438\u044E\u043D_\u0438\u044E\u043B_\u0430\u0432\u0433_\u0441\u0435\u043D_\u043E\u043A\u0442_\u043D\u043E\u044F_\u0434\u0435\u043A".split("_"),
+          weekdays: "\u044F\u043A\u0448\u0430\u043D\u0431\u0435_\u0434\u0443\u0448\u0430\u043D\u0431\u0435_\u0441\u0435\u0448\u0430\u043D\u0431\u0435_\u0447\u043E\u0440\u0448\u0430\u043D\u0431\u0435_\u043F\u0430\u043D\u04B7\u0448\u0430\u043D\u0431\u0435_\u04B7\u0443\u043C\u044A\u0430_\u0448\u0430\u043D\u0431\u0435".split(
+            "_"
+          ),
+          weekdaysShort: "\u044F\u0448\u0431_\u0434\u0448\u0431_\u0441\u0448\u0431_\u0447\u0448\u0431_\u043F\u0448\u0431_\u04B7\u0443\u043C_\u0448\u043D\u0431".split("_"),
+          weekdaysMin: "\u044F\u0448_\u0434\u0448_\u0441\u0448_\u0447\u0448_\u043F\u0448_\u04B7\u043C_\u0448\u0431".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0418\u043C\u0440\u04EF\u0437 \u0441\u043E\u0430\u0442\u0438] LT",
+            nextDay: "[\u0424\u0430\u0440\u0434\u043E \u0441\u043E\u0430\u0442\u0438] LT",
+            lastDay: "[\u0414\u0438\u0440\u04EF\u0437 \u0441\u043E\u0430\u0442\u0438] LT",
+            nextWeek: "dddd[\u0438] [\u04B3\u0430\u0444\u0442\u0430\u0438 \u043E\u044F\u043D\u0434\u0430 \u0441\u043E\u0430\u0442\u0438] LT",
+            lastWeek: "dddd[\u0438] [\u04B3\u0430\u0444\u0442\u0430\u0438 \u0433\u0443\u0437\u0430\u0448\u0442\u0430 \u0441\u043E\u0430\u0442\u0438] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0431\u0430\u044A\u0434\u0438 %s",
+            past: "%s \u043F\u0435\u0448",
+            s: "\u044F\u043A\u0447\u0430\u043D\u0434 \u0441\u043E\u043D\u0438\u044F",
+            m: "\u044F\u043A \u0434\u0430\u049B\u0438\u049B\u0430",
+            mm: "%d \u0434\u0430\u049B\u0438\u049B\u0430",
+            h: "\u044F\u043A \u0441\u043E\u0430\u0442",
+            hh: "%d \u0441\u043E\u0430\u0442",
+            d: "\u044F\u043A \u0440\u04EF\u0437",
+            dd: "%d \u0440\u04EF\u0437",
+            M: "\u044F\u043A \u043C\u043E\u04B3",
+            MM: "%d \u043C\u043E\u04B3",
+            y: "\u044F\u043A \u0441\u043E\u043B",
+            yy: "%d \u0441\u043E\u043B"
+          },
+          meridiemParse: /шаб|субҳ|рӯз|бегоҳ/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u0448\u0430\u0431") {
+              return hour < 4 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0441\u0443\u0431\u04B3") {
+              return hour;
+            } else if (meridiem2 === "\u0440\u04EF\u0437") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "\u0431\u0435\u0433\u043E\u04B3") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u0448\u0430\u0431";
+            } else if (hour < 11) {
+              return "\u0441\u0443\u0431\u04B3";
+            } else if (hour < 16) {
+              return "\u0440\u04EF\u0437";
+            } else if (hour < 19) {
+              return "\u0431\u0435\u0433\u043E\u04B3";
+            } else {
+              return "\u0448\u0430\u0431";
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(ум|юм)/,
+          ordinal: function(number) {
+            var a = number % 10, b = number >= 100 ? 100 : null;
+            return number + (suffixes$3[number] || suffixes$3[a] || suffixes$3[b]);
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 1th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("th", {
+          months: "\u0E21\u0E01\u0E23\u0E32\u0E04\u0E21_\u0E01\u0E38\u0E21\u0E20\u0E32\u0E1E\u0E31\u0E19\u0E18\u0E4C_\u0E21\u0E35\u0E19\u0E32\u0E04\u0E21_\u0E40\u0E21\u0E29\u0E32\u0E22\u0E19_\u0E1E\u0E24\u0E29\u0E20\u0E32\u0E04\u0E21_\u0E21\u0E34\u0E16\u0E38\u0E19\u0E32\u0E22\u0E19_\u0E01\u0E23\u0E01\u0E0E\u0E32\u0E04\u0E21_\u0E2A\u0E34\u0E07\u0E2B\u0E32\u0E04\u0E21_\u0E01\u0E31\u0E19\u0E22\u0E32\u0E22\u0E19_\u0E15\u0E38\u0E25\u0E32\u0E04\u0E21_\u0E1E\u0E24\u0E28\u0E08\u0E34\u0E01\u0E32\u0E22\u0E19_\u0E18\u0E31\u0E19\u0E27\u0E32\u0E04\u0E21".split(
+            "_"
+          ),
+          monthsShort: "\u0E21.\u0E04._\u0E01.\u0E1E._\u0E21\u0E35.\u0E04._\u0E40\u0E21.\u0E22._\u0E1E.\u0E04._\u0E21\u0E34.\u0E22._\u0E01.\u0E04._\u0E2A.\u0E04._\u0E01.\u0E22._\u0E15.\u0E04._\u0E1E.\u0E22._\u0E18.\u0E04.".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "\u0E2D\u0E32\u0E17\u0E34\u0E15\u0E22\u0E4C_\u0E08\u0E31\u0E19\u0E17\u0E23\u0E4C_\u0E2D\u0E31\u0E07\u0E04\u0E32\u0E23_\u0E1E\u0E38\u0E18_\u0E1E\u0E24\u0E2B\u0E31\u0E2A\u0E1A\u0E14\u0E35_\u0E28\u0E38\u0E01\u0E23\u0E4C_\u0E40\u0E2A\u0E32\u0E23\u0E4C".split("_"),
+          weekdaysShort: "\u0E2D\u0E32\u0E17\u0E34\u0E15\u0E22\u0E4C_\u0E08\u0E31\u0E19\u0E17\u0E23\u0E4C_\u0E2D\u0E31\u0E07\u0E04\u0E32\u0E23_\u0E1E\u0E38\u0E18_\u0E1E\u0E24\u0E2B\u0E31\u0E2A_\u0E28\u0E38\u0E01\u0E23\u0E4C_\u0E40\u0E2A\u0E32\u0E23\u0E4C".split("_"),
+          // yes, three characters difference
+          weekdaysMin: "\u0E2D\u0E32._\u0E08._\u0E2D._\u0E1E._\u0E1E\u0E24._\u0E28._\u0E2A.".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "H:mm",
+            LTS: "H:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY \u0E40\u0E27\u0E25\u0E32 H:mm",
+            LLLL: "\u0E27\u0E31\u0E19dddd\u0E17\u0E35\u0E48 D MMMM YYYY \u0E40\u0E27\u0E25\u0E32 H:mm"
+          },
+          meridiemParse: /ก่อนเที่ยง|หลังเที่ยง/,
+          isPM: function(input) {
+            return input === "\u0E2B\u0E25\u0E31\u0E07\u0E40\u0E17\u0E35\u0E48\u0E22\u0E07";
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0E01\u0E48\u0E2D\u0E19\u0E40\u0E17\u0E35\u0E48\u0E22\u0E07";
+            } else {
+              return "\u0E2B\u0E25\u0E31\u0E07\u0E40\u0E17\u0E35\u0E48\u0E22\u0E07";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49 \u0E40\u0E27\u0E25\u0E32] LT",
+            nextDay: "[\u0E1E\u0E23\u0E38\u0E48\u0E07\u0E19\u0E35\u0E49 \u0E40\u0E27\u0E25\u0E32] LT",
+            nextWeek: "dddd[\u0E2B\u0E19\u0E49\u0E32 \u0E40\u0E27\u0E25\u0E32] LT",
+            lastDay: "[\u0E40\u0E21\u0E37\u0E48\u0E2D\u0E27\u0E32\u0E19\u0E19\u0E35\u0E49 \u0E40\u0E27\u0E25\u0E32] LT",
+            lastWeek: "[\u0E27\u0E31\u0E19]dddd[\u0E17\u0E35\u0E48\u0E41\u0E25\u0E49\u0E27 \u0E40\u0E27\u0E25\u0E32] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0E2D\u0E35\u0E01 %s",
+            past: "%s\u0E17\u0E35\u0E48\u0E41\u0E25\u0E49\u0E27",
+            s: "\u0E44\u0E21\u0E48\u0E01\u0E35\u0E48\u0E27\u0E34\u0E19\u0E32\u0E17\u0E35",
+            ss: "%d \u0E27\u0E34\u0E19\u0E32\u0E17\u0E35",
+            m: "1 \u0E19\u0E32\u0E17\u0E35",
+            mm: "%d \u0E19\u0E32\u0E17\u0E35",
+            h: "1 \u0E0A\u0E31\u0E48\u0E27\u0E42\u0E21\u0E07",
+            hh: "%d \u0E0A\u0E31\u0E48\u0E27\u0E42\u0E21\u0E07",
+            d: "1 \u0E27\u0E31\u0E19",
+            dd: "%d \u0E27\u0E31\u0E19",
+            w: "1 \u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C",
+            ww: "%d \u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C",
+            M: "1 \u0E40\u0E14\u0E37\u0E2D\u0E19",
+            MM: "%d \u0E40\u0E14\u0E37\u0E2D\u0E19",
+            y: "1 \u0E1B\u0E35",
+            yy: "%d \u0E1B\u0E35"
+          }
+        });
+        var suffixes$4 = {
+          1: "'inji",
+          5: "'inji",
+          8: "'inji",
+          70: "'inji",
+          80: "'inji",
+          2: "'nji",
+          7: "'nji",
+          20: "'nji",
+          50: "'nji",
+          3: "'\xFCnji",
+          4: "'\xFCnji",
+          100: "'\xFCnji",
+          6: "'njy",
+          9: "'unjy",
+          10: "'unjy",
+          30: "'unjy",
+          60: "'ynjy",
+          90: "'ynjy"
+        };
+        hooks.defineLocale("tk", {
+          months: "\xDDanwar_Fewral_Mart_Aprel_Ma\xFD_I\xFDun_I\xFDul_Awgust_Sent\xFDabr_Okt\xFDabr_No\xFDabr_Dekabr".split(
+            "_"
+          ),
+          monthsShort: "\xDDan_Few_Mar_Apr_Ma\xFD_I\xFDn_I\xFDl_Awg_Sen_Okt_No\xFD_Dek".split("_"),
+          weekdays: "\xDDek\u015Fenbe_Du\u015Fenbe_Si\u015Fenbe_\xC7ar\u015Fenbe_Pen\u015Fenbe_Anna_\u015Eenbe".split(
+            "_"
+          ),
+          weekdaysShort: "\xDDek_Du\u015F_Si\u015F_\xC7ar_Pen_Ann_\u015Een".split("_"),
+          weekdaysMin: "\xDDk_D\u015F_S\u015F_\xC7r_Pn_An_\u015En".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[bug\xFCn sagat] LT",
+            nextDay: "[ertir sagat] LT",
+            nextWeek: "[indiki] dddd [sagat] LT",
+            lastDay: "[d\xFC\xFDn] LT",
+            lastWeek: "[ge\xE7en] dddd [sagat] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s so\u0148",
+            past: "%s \xF6\u0148",
+            s: "birn\xE4\xE7e sekunt",
+            m: "bir minut",
+            mm: "%d minut",
+            h: "bir sagat",
+            hh: "%d sagat",
+            d: "bir g\xFCn",
+            dd: "%d g\xFCn",
+            M: "bir a\xFD",
+            MM: "%d a\xFD",
+            y: "bir \xFDyl",
+            yy: "%d \xFDyl"
+          },
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "Do":
+              case "DD":
+                return number;
+              default:
+                if (number === 0) {
+                  return number + "'unjy";
+                }
+                var a = number % 10, b = number % 100 - a, c = number >= 100 ? 100 : null;
+                return number + (suffixes$4[a] || suffixes$4[b] || suffixes$4[c]);
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("tl-ph", {
+          months: "Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre".split(
+            "_"
+          ),
+          monthsShort: "Ene_Peb_Mar_Abr_May_Hun_Hul_Ago_Set_Okt_Nob_Dis".split("_"),
+          weekdays: "Linggo_Lunes_Martes_Miyerkules_Huwebes_Biyernes_Sabado".split(
+            "_"
+          ),
+          weekdaysShort: "Lin_Lun_Mar_Miy_Huw_Biy_Sab".split("_"),
+          weekdaysMin: "Li_Lu_Ma_Mi_Hu_Bi_Sab".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "MM/D/YYYY",
+            LL: "MMMM D, YYYY",
+            LLL: "MMMM D, YYYY HH:mm",
+            LLLL: "dddd, MMMM DD, YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "LT [ngayong araw]",
+            nextDay: "[Bukas ng] LT",
+            nextWeek: "LT [sa susunod na] dddd",
+            lastDay: "LT [kahapon]",
+            lastWeek: "LT [noong nakaraang] dddd",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "sa loob ng %s",
+            past: "%s ang nakalipas",
+            s: "ilang segundo",
+            ss: "%d segundo",
+            m: "isang minuto",
+            mm: "%d minuto",
+            h: "isang oras",
+            hh: "%d oras",
+            d: "isang araw",
+            dd: "%d araw",
+            M: "isang buwan",
+            MM: "%d buwan",
+            y: "isang taon",
+            yy: "%d taon"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}/,
+          ordinal: function(number) {
+            return number;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var numbersNouns = "pagh_wa\u2019_cha\u2019_wej_loS_vagh_jav_Soch_chorgh_Hut".split("_");
+        function translateFuture(output) {
+          var time = output;
+          time = output.indexOf("jaj") !== -1 ? time.slice(0, -3) + "leS" : output.indexOf("jar") !== -1 ? time.slice(0, -3) + "waQ" : output.indexOf("DIS") !== -1 ? time.slice(0, -3) + "nem" : time + " pIq";
+          return time;
+        }
+        function translatePast(output) {
+          var time = output;
+          time = output.indexOf("jaj") !== -1 ? time.slice(0, -3) + "Hu\u2019" : output.indexOf("jar") !== -1 ? time.slice(0, -3) + "wen" : output.indexOf("DIS") !== -1 ? time.slice(0, -3) + "ben" : time + " ret";
+          return time;
+        }
+        function translate$a(number, withoutSuffix, string, isFuture) {
+          var numberNoun = numberAsNoun(number);
+          switch (string) {
+            case "ss":
+              return numberNoun + " lup";
+            case "mm":
+              return numberNoun + " tup";
+            case "hh":
+              return numberNoun + " rep";
+            case "dd":
+              return numberNoun + " jaj";
+            case "MM":
+              return numberNoun + " jar";
+            case "yy":
+              return numberNoun + " DIS";
+          }
+        }
+        function numberAsNoun(number) {
+          var hundred = Math.floor(number % 1e3 / 100), ten = Math.floor(number % 100 / 10), one = number % 10, word = "";
+          if (hundred > 0) {
+            word += numbersNouns[hundred] + "vatlh";
+          }
+          if (ten > 0) {
+            word += (word !== "" ? " " : "") + numbersNouns[ten] + "maH";
+          }
+          if (one > 0) {
+            word += (word !== "" ? " " : "") + numbersNouns[one];
+          }
+          return word === "" ? "pagh" : word;
+        }
+        hooks.defineLocale("tlh", {
+          months: "tera\u2019 jar wa\u2019_tera\u2019 jar cha\u2019_tera\u2019 jar wej_tera\u2019 jar loS_tera\u2019 jar vagh_tera\u2019 jar jav_tera\u2019 jar Soch_tera\u2019 jar chorgh_tera\u2019 jar Hut_tera\u2019 jar wa\u2019maH_tera\u2019 jar wa\u2019maH wa\u2019_tera\u2019 jar wa\u2019maH cha\u2019".split(
+            "_"
+          ),
+          monthsShort: "jar wa\u2019_jar cha\u2019_jar wej_jar loS_jar vagh_jar jav_jar Soch_jar chorgh_jar Hut_jar wa\u2019maH_jar wa\u2019maH wa\u2019_jar wa\u2019maH cha\u2019".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj".split(
+            "_"
+          ),
+          weekdaysShort: "lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj".split("_"),
+          weekdaysMin: "lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[DaHjaj] LT",
+            nextDay: "[wa\u2019leS] LT",
+            nextWeek: "LLL",
+            lastDay: "[wa\u2019Hu\u2019] LT",
+            lastWeek: "LLL",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: translateFuture,
+            past: translatePast,
+            s: "puS lup",
+            ss: translate$a,
+            m: "wa\u2019 tup",
+            mm: translate$a,
+            h: "wa\u2019 rep",
+            hh: translate$a,
+            d: "wa\u2019 jaj",
+            dd: translate$a,
+            M: "wa\u2019 jar",
+            MM: translate$a,
+            y: "wa\u2019 DIS",
+            yy: translate$a
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        var suffixes$5 = {
+          1: "'inci",
+          5: "'inci",
+          8: "'inci",
+          70: "'inci",
+          80: "'inci",
+          2: "'nci",
+          7: "'nci",
+          20: "'nci",
+          50: "'nci",
+          3: "'\xFCnc\xFC",
+          4: "'\xFCnc\xFC",
+          100: "'\xFCnc\xFC",
+          6: "'nc\u0131",
+          9: "'uncu",
+          10: "'uncu",
+          30: "'uncu",
+          60: "'\u0131nc\u0131",
+          90: "'\u0131nc\u0131"
+        };
+        hooks.defineLocale("tr", {
+          months: "Ocak_\u015Eubat_Mart_Nisan_May\u0131s_Haziran_Temmuz_A\u011Fustos_Eyl\xFCl_Ekim_Kas\u0131m_Aral\u0131k".split(
+            "_"
+          ),
+          monthsShort: "Oca_\u015Eub_Mar_Nis_May_Haz_Tem_A\u011Fu_Eyl_Eki_Kas_Ara".split("_"),
+          weekdays: "Pazar_Pazartesi_Sal\u0131_\xC7ar\u015Famba_Per\u015Fembe_Cuma_Cumartesi".split(
+            "_"
+          ),
+          weekdaysShort: "Paz_Pzt_Sal_\xC7ar_Per_Cum_Cmt".split("_"),
+          weekdaysMin: "Pz_Pt_Sa_\xC7a_Pe_Cu_Ct".split("_"),
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 12) {
+              return isLower ? "\xF6\xF6" : "\xD6\xD6";
+            } else {
+              return isLower ? "\xF6s" : "\xD6S";
+            }
+          },
+          meridiemParse: /öö|ÖÖ|ös|ÖS/,
+          isPM: function(input) {
+            return input === "\xF6s" || input === "\xD6S";
+          },
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[bug\xFCn saat] LT",
+            nextDay: "[yar\u0131n saat] LT",
+            nextWeek: "[gelecek] dddd [saat] LT",
+            lastDay: "[d\xFCn] LT",
+            lastWeek: "[ge\xE7en] dddd [saat] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s sonra",
+            past: "%s \xF6nce",
+            s: "birka\xE7 saniye",
+            ss: "%d saniye",
+            m: "bir dakika",
+            mm: "%d dakika",
+            h: "bir saat",
+            hh: "%d saat",
+            d: "bir g\xFCn",
+            dd: "%d g\xFCn",
+            w: "bir hafta",
+            ww: "%d hafta",
+            M: "bir ay",
+            MM: "%d ay",
+            y: "bir y\u0131l",
+            yy: "%d y\u0131l"
+          },
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "Do":
+              case "DD":
+                return number;
+              default:
+                if (number === 0) {
+                  return number + "'\u0131nc\u0131";
+                }
+                var a = number % 10, b = number % 100 - a, c = number >= 100 ? 100 : null;
+                return number + (suffixes$5[a] || suffixes$5[b] || suffixes$5[c]);
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("tzl", {
+          months: "Januar_Fevraglh_Mar\xE7_Avr\xEFu_Mai_G\xFCn_Julia_Guscht_Setemvar_Listop\xE4ts_Noemvar_Zecemvar".split(
+            "_"
+          ),
+          monthsShort: "Jan_Fev_Mar_Avr_Mai_G\xFCn_Jul_Gus_Set_Lis_Noe_Zec".split("_"),
+          weekdays: "S\xFAladi_L\xFAne\xE7i_Maitzi_M\xE1rcuri_Xh\xFAadi_Vi\xE9ner\xE7i_S\xE1turi".split("_"),
+          weekdaysShort: "S\xFAl_L\xFAn_Mai_M\xE1r_Xh\xFA_Vi\xE9_S\xE1t".split("_"),
+          weekdaysMin: "S\xFA_L\xFA_Ma_M\xE1_Xh_Vi_S\xE1".split("_"),
+          longDateFormat: {
+            LT: "HH.mm",
+            LTS: "HH.mm.ss",
+            L: "DD.MM.YYYY",
+            LL: "D. MMMM [dallas] YYYY",
+            LLL: "D. MMMM [dallas] YYYY HH.mm",
+            LLLL: "dddd, [li] D. MMMM [dallas] YYYY HH.mm"
+          },
+          meridiemParse: /d\'o|d\'a/i,
+          isPM: function(input) {
+            return "d'o" === input.toLowerCase();
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 > 11) {
+              return isLower ? "d'o" : "D'O";
+            } else {
+              return isLower ? "d'a" : "D'A";
+            }
+          },
+          calendar: {
+            sameDay: "[oxhi \xE0] LT",
+            nextDay: "[dem\xE0 \xE0] LT",
+            nextWeek: "dddd [\xE0] LT",
+            lastDay: "[ieiri \xE0] LT",
+            lastWeek: "[s\xFCr el] dddd [lasteu \xE0] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "osprei %s",
+            past: "ja%s",
+            s: processRelativeTime$8,
+            ss: processRelativeTime$8,
+            m: processRelativeTime$8,
+            mm: processRelativeTime$8,
+            h: processRelativeTime$8,
+            hh: processRelativeTime$8,
+            d: processRelativeTime$8,
+            dd: processRelativeTime$8,
+            M: processRelativeTime$8,
+            MM: processRelativeTime$8,
+            y: processRelativeTime$8,
+            yy: processRelativeTime$8
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}\./,
+          ordinal: "%d.",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        function processRelativeTime$8(number, withoutSuffix, key, isFuture) {
+          var format2 = {
+            s: ["viensas secunds", "'iensas secunds"],
+            ss: [number + " secunds", "" + number + " secunds"],
+            m: ["'n m\xEDut", "'iens m\xEDut"],
+            mm: [number + " m\xEDuts", "" + number + " m\xEDuts"],
+            h: ["'n \xFEora", "'iensa \xFEora"],
+            hh: [number + " \xFEoras", "" + number + " \xFEoras"],
+            d: ["'n ziua", "'iensa ziua"],
+            dd: [number + " ziuas", "" + number + " ziuas"],
+            M: ["'n mes", "'iens mes"],
+            MM: [number + " mesen", "" + number + " mesen"],
+            y: ["'n ar", "'iens ar"],
+            yy: [number + " ars", "" + number + " ars"]
+          };
+          return isFuture ? format2[key][0] : withoutSuffix ? format2[key][0] : format2[key][1];
+        }
+        hooks.defineLocale("tzm-latn", {
+          months: "innayr_br\u02E4ayr\u02E4_mar\u02E4s\u02E4_ibrir_mayyw_ywnyw_ywlywz_\u0263w\u0161t_\u0161wtanbir_kt\u02E4wbr\u02E4_nwwanbir_dwjnbir".split(
+            "_"
+          ),
+          monthsShort: "innayr_br\u02E4ayr\u02E4_mar\u02E4s\u02E4_ibrir_mayyw_ywnyw_ywlywz_\u0263w\u0161t_\u0161wtanbir_kt\u02E4wbr\u02E4_nwwanbir_dwjnbir".split(
+            "_"
+          ),
+          weekdays: "asamas_aynas_asinas_akras_akwas_asimwas_asi\u1E0Dyas".split("_"),
+          weekdaysShort: "asamas_aynas_asinas_akras_akwas_asimwas_asi\u1E0Dyas".split("_"),
+          weekdaysMin: "asamas_aynas_asinas_akras_akwas_asimwas_asi\u1E0Dyas".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[asdkh g] LT",
+            nextDay: "[aska g] LT",
+            nextWeek: "dddd [g] LT",
+            lastDay: "[assant g] LT",
+            lastWeek: "dddd [g] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "dadkh s yan %s",
+            past: "yan %s",
+            s: "imik",
+            ss: "%d imik",
+            m: "minu\u1E0D",
+            mm: "%d minu\u1E0D",
+            h: "sa\u025Ba",
+            hh: "%d tassa\u025Bin",
+            d: "ass",
+            dd: "%d ossan",
+            M: "ayowr",
+            MM: "%d iyyirn",
+            y: "asgas",
+            yy: "%d isgasn"
+          },
+          week: {
+            dow: 6,
+            // Saturday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("tzm", {
+          months: "\u2D49\u2D4F\u2D4F\u2D30\u2D62\u2D54_\u2D31\u2D55\u2D30\u2D62\u2D55_\u2D4E\u2D30\u2D55\u2D5A_\u2D49\u2D31\u2D54\u2D49\u2D54_\u2D4E\u2D30\u2D62\u2D62\u2D53_\u2D62\u2D53\u2D4F\u2D62\u2D53_\u2D62\u2D53\u2D4D\u2D62\u2D53\u2D63_\u2D56\u2D53\u2D5B\u2D5C_\u2D5B\u2D53\u2D5C\u2D30\u2D4F\u2D31\u2D49\u2D54_\u2D3D\u2D5F\u2D53\u2D31\u2D55_\u2D4F\u2D53\u2D61\u2D30\u2D4F\u2D31\u2D49\u2D54_\u2D37\u2D53\u2D4A\u2D4F\u2D31\u2D49\u2D54".split(
+            "_"
+          ),
+          monthsShort: "\u2D49\u2D4F\u2D4F\u2D30\u2D62\u2D54_\u2D31\u2D55\u2D30\u2D62\u2D55_\u2D4E\u2D30\u2D55\u2D5A_\u2D49\u2D31\u2D54\u2D49\u2D54_\u2D4E\u2D30\u2D62\u2D62\u2D53_\u2D62\u2D53\u2D4F\u2D62\u2D53_\u2D62\u2D53\u2D4D\u2D62\u2D53\u2D63_\u2D56\u2D53\u2D5B\u2D5C_\u2D5B\u2D53\u2D5C\u2D30\u2D4F\u2D31\u2D49\u2D54_\u2D3D\u2D5F\u2D53\u2D31\u2D55_\u2D4F\u2D53\u2D61\u2D30\u2D4F\u2D31\u2D49\u2D54_\u2D37\u2D53\u2D4A\u2D4F\u2D31\u2D49\u2D54".split(
+            "_"
+          ),
+          weekdays: "\u2D30\u2D59\u2D30\u2D4E\u2D30\u2D59_\u2D30\u2D62\u2D4F\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D4F\u2D30\u2D59_\u2D30\u2D3D\u2D54\u2D30\u2D59_\u2D30\u2D3D\u2D61\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D4E\u2D61\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D39\u2D62\u2D30\u2D59".split("_"),
+          weekdaysShort: "\u2D30\u2D59\u2D30\u2D4E\u2D30\u2D59_\u2D30\u2D62\u2D4F\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D4F\u2D30\u2D59_\u2D30\u2D3D\u2D54\u2D30\u2D59_\u2D30\u2D3D\u2D61\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D4E\u2D61\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D39\u2D62\u2D30\u2D59".split("_"),
+          weekdaysMin: "\u2D30\u2D59\u2D30\u2D4E\u2D30\u2D59_\u2D30\u2D62\u2D4F\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D4F\u2D30\u2D59_\u2D30\u2D3D\u2D54\u2D30\u2D59_\u2D30\u2D3D\u2D61\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D4E\u2D61\u2D30\u2D59_\u2D30\u2D59\u2D49\u2D39\u2D62\u2D30\u2D59".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u2D30\u2D59\u2D37\u2D45 \u2D34] LT",
+            nextDay: "[\u2D30\u2D59\u2D3D\u2D30 \u2D34] LT",
+            nextWeek: "dddd [\u2D34] LT",
+            lastDay: "[\u2D30\u2D5A\u2D30\u2D4F\u2D5C \u2D34] LT",
+            lastWeek: "dddd [\u2D34] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u2D37\u2D30\u2D37\u2D45 \u2D59 \u2D62\u2D30\u2D4F %s",
+            past: "\u2D62\u2D30\u2D4F %s",
+            s: "\u2D49\u2D4E\u2D49\u2D3D",
+            ss: "%d \u2D49\u2D4E\u2D49\u2D3D",
+            m: "\u2D4E\u2D49\u2D4F\u2D53\u2D3A",
+            mm: "%d \u2D4E\u2D49\u2D4F\u2D53\u2D3A",
+            h: "\u2D59\u2D30\u2D44\u2D30",
+            hh: "%d \u2D5C\u2D30\u2D59\u2D59\u2D30\u2D44\u2D49\u2D4F",
+            d: "\u2D30\u2D59\u2D59",
+            dd: "%d o\u2D59\u2D59\u2D30\u2D4F",
+            M: "\u2D30\u2D62o\u2D53\u2D54",
+            MM: "%d \u2D49\u2D62\u2D62\u2D49\u2D54\u2D4F",
+            y: "\u2D30\u2D59\u2D33\u2D30\u2D59",
+            yy: "%d \u2D49\u2D59\u2D33\u2D30\u2D59\u2D4F"
+          },
+          week: {
+            dow: 6,
+            // Saturday is the first day of the week.
+            doy: 12
+            // The week that contains Jan 12th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("ug-cn", {
+          months: "\u064A\u0627\u0646\u06CB\u0627\u0631_\u0641\u06D0\u06CB\u0631\u0627\u0644_\u0645\u0627\u0631\u062A_\u0626\u0627\u067E\u0631\u06D0\u0644_\u0645\u0627\u064A_\u0626\u0649\u064A\u06C7\u0646_\u0626\u0649\u064A\u06C7\u0644_\u0626\u0627\u06CB\u063A\u06C7\u0633\u062A_\u0633\u06D0\u0646\u062A\u06D5\u0628\u0649\u0631_\u0626\u06C6\u0643\u062A\u06D5\u0628\u0649\u0631_\u0646\u0648\u064A\u0627\u0628\u0649\u0631_\u062F\u06D0\u0643\u0627\u0628\u0649\u0631".split(
+            "_"
+          ),
+          monthsShort: "\u064A\u0627\u0646\u06CB\u0627\u0631_\u0641\u06D0\u06CB\u0631\u0627\u0644_\u0645\u0627\u0631\u062A_\u0626\u0627\u067E\u0631\u06D0\u0644_\u0645\u0627\u064A_\u0626\u0649\u064A\u06C7\u0646_\u0626\u0649\u064A\u06C7\u0644_\u0626\u0627\u06CB\u063A\u06C7\u0633\u062A_\u0633\u06D0\u0646\u062A\u06D5\u0628\u0649\u0631_\u0626\u06C6\u0643\u062A\u06D5\u0628\u0649\u0631_\u0646\u0648\u064A\u0627\u0628\u0649\u0631_\u062F\u06D0\u0643\u0627\u0628\u0649\u0631".split(
+            "_"
+          ),
+          weekdays: "\u064A\u06D5\u0643\u0634\u06D5\u0646\u0628\u06D5_\u062F\u06C8\u0634\u06D5\u0646\u0628\u06D5_\u0633\u06D5\u064A\u0634\u06D5\u0646\u0628\u06D5_\u0686\u0627\u0631\u0634\u06D5\u0646\u0628\u06D5_\u067E\u06D5\u064A\u0634\u06D5\u0646\u0628\u06D5_\u062C\u06C8\u0645\u06D5_\u0634\u06D5\u0646\u0628\u06D5".split(
+            "_"
+          ),
+          weekdaysShort: "\u064A\u06D5_\u062F\u06C8_\u0633\u06D5_\u0686\u0627_\u067E\u06D5_\u062C\u06C8_\u0634\u06D5".split("_"),
+          weekdaysMin: "\u064A\u06D5_\u062F\u06C8_\u0633\u06D5_\u0686\u0627_\u067E\u06D5_\u062C\u06C8_\u0634\u06D5".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY-MM-DD",
+            LL: "YYYY-\u064A\u0649\u0644\u0649M-\u0626\u0627\u064A\u0646\u0649\u06ADD-\u0643\u06C8\u0646\u0649",
+            LLL: "YYYY-\u064A\u0649\u0644\u0649M-\u0626\u0627\u064A\u0646\u0649\u06ADD-\u0643\u06C8\u0646\u0649\u060C HH:mm",
+            LLLL: "dddd\u060C YYYY-\u064A\u0649\u0644\u0649M-\u0626\u0627\u064A\u0646\u0649\u06ADD-\u0643\u06C8\u0646\u0649\u060C HH:mm"
+          },
+          meridiemParse: /يېرىم كېچە|سەھەر|چۈشتىن بۇرۇن|چۈش|چۈشتىن كېيىن|كەچ/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u064A\u06D0\u0631\u0649\u0645 \u0643\u06D0\u0686\u06D5" || meridiem2 === "\u0633\u06D5\u06BE\u06D5\u0631" || meridiem2 === "\u0686\u06C8\u0634\u062A\u0649\u0646 \u0628\u06C7\u0631\u06C7\u0646") {
+              return hour;
+            } else if (meridiem2 === "\u0686\u06C8\u0634\u062A\u0649\u0646 \u0643\u06D0\u064A\u0649\u0646" || meridiem2 === "\u0643\u06D5\u0686") {
+              return hour + 12;
+            } else {
+              return hour >= 11 ? hour : hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            var hm = hour * 100 + minute;
+            if (hm < 600) {
+              return "\u064A\u06D0\u0631\u0649\u0645 \u0643\u06D0\u0686\u06D5";
+            } else if (hm < 900) {
+              return "\u0633\u06D5\u06BE\u06D5\u0631";
+            } else if (hm < 1130) {
+              return "\u0686\u06C8\u0634\u062A\u0649\u0646 \u0628\u06C7\u0631\u06C7\u0646";
+            } else if (hm < 1230) {
+              return "\u0686\u06C8\u0634";
+            } else if (hm < 1800) {
+              return "\u0686\u06C8\u0634\u062A\u0649\u0646 \u0643\u06D0\u064A\u0649\u0646";
+            } else {
+              return "\u0643\u06D5\u0686";
+            }
+          },
+          calendar: {
+            sameDay: "[\u0628\u06C8\u06AF\u06C8\u0646 \u0633\u0627\u0626\u06D5\u062A] LT",
+            nextDay: "[\u0626\u06D5\u062A\u06D5 \u0633\u0627\u0626\u06D5\u062A] LT",
+            nextWeek: "[\u0643\u06D0\u0644\u06D5\u0631\u0643\u0649] dddd [\u0633\u0627\u0626\u06D5\u062A] LT",
+            lastDay: "[\u062A\u06C6\u0646\u06C8\u06AF\u06C8\u0646] LT",
+            lastWeek: "[\u0626\u0627\u0644\u062F\u0649\u0646\u0642\u0649] dddd [\u0633\u0627\u0626\u06D5\u062A] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0643\u06D0\u064A\u0649\u0646",
+            past: "%s \u0628\u06C7\u0631\u06C7\u0646",
+            s: "\u0646\u06D5\u0686\u0686\u06D5 \u0633\u06D0\u0643\u0648\u0646\u062A",
+            ss: "%d \u0633\u06D0\u0643\u0648\u0646\u062A",
+            m: "\u0628\u0649\u0631 \u0645\u0649\u0646\u06C7\u062A",
+            mm: "%d \u0645\u0649\u0646\u06C7\u062A",
+            h: "\u0628\u0649\u0631 \u0633\u0627\u0626\u06D5\u062A",
+            hh: "%d \u0633\u0627\u0626\u06D5\u062A",
+            d: "\u0628\u0649\u0631 \u0643\u06C8\u0646",
+            dd: "%d \u0643\u06C8\u0646",
+            M: "\u0628\u0649\u0631 \u0626\u0627\u064A",
+            MM: "%d \u0626\u0627\u064A",
+            y: "\u0628\u0649\u0631 \u064A\u0649\u0644",
+            yy: "%d \u064A\u0649\u0644"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(-كۈنى|-ئاي|-ھەپتە)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "DDD":
+                return number + "-\u0643\u06C8\u0646\u0649";
+              case "w":
+              case "W":
+                return number + "-\u06BE\u06D5\u067E\u062A\u06D5";
+              default:
+                return number;
+            }
+          },
+          preparse: function(string) {
+            return string.replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/,/g, "\u060C");
+          },
+          week: {
+            // GB/T 7408-1994《数据元和交换格式·信息交换·日期和时间表示法》与ISO 8601:1988等效
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 1st is the first week of the year.
+          }
+        });
+        function plural$6(word, num) {
+          var forms2 = word.split("_");
+          return num % 10 === 1 && num % 100 !== 11 ? forms2[0] : num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms2[1] : forms2[2];
+        }
+        function relativeTimeWithPlural$4(number, withoutSuffix, key) {
+          var format2 = {
+            ss: withoutSuffix ? "\u0441\u0435\u043A\u0443\u043D\u0434\u0430_\u0441\u0435\u043A\u0443\u043D\u0434\u0438_\u0441\u0435\u043A\u0443\u043D\u0434" : "\u0441\u0435\u043A\u0443\u043D\u0434\u0443_\u0441\u0435\u043A\u0443\u043D\u0434\u0438_\u0441\u0435\u043A\u0443\u043D\u0434",
+            mm: withoutSuffix ? "\u0445\u0432\u0438\u043B\u0438\u043D\u0430_\u0445\u0432\u0438\u043B\u0438\u043D\u0438_\u0445\u0432\u0438\u043B\u0438\u043D" : "\u0445\u0432\u0438\u043B\u0438\u043D\u0443_\u0445\u0432\u0438\u043B\u0438\u043D\u0438_\u0445\u0432\u0438\u043B\u0438\u043D",
+            hh: withoutSuffix ? "\u0433\u043E\u0434\u0438\u043D\u0430_\u0433\u043E\u0434\u0438\u043D\u0438_\u0433\u043E\u0434\u0438\u043D" : "\u0433\u043E\u0434\u0438\u043D\u0443_\u0433\u043E\u0434\u0438\u043D\u0438_\u0433\u043E\u0434\u0438\u043D",
+            dd: "\u0434\u0435\u043D\u044C_\u0434\u043D\u0456_\u0434\u043D\u0456\u0432",
+            MM: "\u043C\u0456\u0441\u044F\u0446\u044C_\u043C\u0456\u0441\u044F\u0446\u0456_\u043C\u0456\u0441\u044F\u0446\u0456\u0432",
+            yy: "\u0440\u0456\u043A_\u0440\u043E\u043A\u0438_\u0440\u043E\u043A\u0456\u0432"
+          };
+          if (key === "m") {
+            return withoutSuffix ? "\u0445\u0432\u0438\u043B\u0438\u043D\u0430" : "\u0445\u0432\u0438\u043B\u0438\u043D\u0443";
+          } else if (key === "h") {
+            return withoutSuffix ? "\u0433\u043E\u0434\u0438\u043D\u0430" : "\u0433\u043E\u0434\u0438\u043D\u0443";
+          } else {
+            return number + " " + plural$6(format2[key], +number);
+          }
+        }
+        function weekdaysCaseReplace(m, format2) {
+          var weekdays2 = {
+            nominative: "\u043D\u0435\u0434\u0456\u043B\u044F_\u043F\u043E\u043D\u0435\u0434\u0456\u043B\u043E\u043A_\u0432\u0456\u0432\u0442\u043E\u0440\u043E\u043A_\u0441\u0435\u0440\u0435\u0434\u0430_\u0447\u0435\u0442\u0432\u0435\u0440_\u043F\u2019\u044F\u0442\u043D\u0438\u0446\u044F_\u0441\u0443\u0431\u043E\u0442\u0430".split(
+              "_"
+            ),
+            accusative: "\u043D\u0435\u0434\u0456\u043B\u044E_\u043F\u043E\u043D\u0435\u0434\u0456\u043B\u043E\u043A_\u0432\u0456\u0432\u0442\u043E\u0440\u043E\u043A_\u0441\u0435\u0440\u0435\u0434\u0443_\u0447\u0435\u0442\u0432\u0435\u0440_\u043F\u2019\u044F\u0442\u043D\u0438\u0446\u044E_\u0441\u0443\u0431\u043E\u0442\u0443".split(
+              "_"
+            ),
+            genitive: "\u043D\u0435\u0434\u0456\u043B\u0456_\u043F\u043E\u043D\u0435\u0434\u0456\u043B\u043A\u0430_\u0432\u0456\u0432\u0442\u043E\u0440\u043A\u0430_\u0441\u0435\u0440\u0435\u0434\u0438_\u0447\u0435\u0442\u0432\u0435\u0440\u0433\u0430_\u043F\u2019\u044F\u0442\u043D\u0438\u0446\u0456_\u0441\u0443\u0431\u043E\u0442\u0438".split(
+              "_"
+            )
+          }, nounCase;
+          if (m === true) {
+            return weekdays2["nominative"].slice(1, 7).concat(weekdays2["nominative"].slice(0, 1));
+          }
+          if (!m) {
+            return weekdays2["nominative"];
+          }
+          nounCase = /(\[[ВвУу]\]) ?dddd/.test(format2) ? "accusative" : /\[?(?:минулої|наступної)? ?\] ?dddd/.test(format2) ? "genitive" : "nominative";
+          return weekdays2[nounCase][m.day()];
+        }
+        function processHoursFunction(str) {
+          return function() {
+            return str + "\u043E" + (this.hours() === 11 ? "\u0431" : "") + "] LT";
+          };
+        }
+        hooks.defineLocale("uk", {
+          months: {
+            format: "\u0441\u0456\u0447\u043D\u044F_\u043B\u044E\u0442\u043E\u0433\u043E_\u0431\u0435\u0440\u0435\u0437\u043D\u044F_\u043A\u0432\u0456\u0442\u043D\u044F_\u0442\u0440\u0430\u0432\u043D\u044F_\u0447\u0435\u0440\u0432\u043D\u044F_\u043B\u0438\u043F\u043D\u044F_\u0441\u0435\u0440\u043F\u043D\u044F_\u0432\u0435\u0440\u0435\u0441\u043D\u044F_\u0436\u043E\u0432\u0442\u043D\u044F_\u043B\u0438\u0441\u0442\u043E\u043F\u0430\u0434\u0430_\u0433\u0440\u0443\u0434\u043D\u044F".split(
+              "_"
+            ),
+            standalone: "\u0441\u0456\u0447\u0435\u043D\u044C_\u043B\u044E\u0442\u0438\u0439_\u0431\u0435\u0440\u0435\u0437\u0435\u043D\u044C_\u043A\u0432\u0456\u0442\u0435\u043D\u044C_\u0442\u0440\u0430\u0432\u0435\u043D\u044C_\u0447\u0435\u0440\u0432\u0435\u043D\u044C_\u043B\u0438\u043F\u0435\u043D\u044C_\u0441\u0435\u0440\u043F\u0435\u043D\u044C_\u0432\u0435\u0440\u0435\u0441\u0435\u043D\u044C_\u0436\u043E\u0432\u0442\u0435\u043D\u044C_\u043B\u0438\u0441\u0442\u043E\u043F\u0430\u0434_\u0433\u0440\u0443\u0434\u0435\u043D\u044C".split(
+              "_"
+            )
+          },
+          monthsShort: "\u0441\u0456\u0447_\u043B\u044E\u0442_\u0431\u0435\u0440_\u043A\u0432\u0456\u0442_\u0442\u0440\u0430\u0432_\u0447\u0435\u0440\u0432_\u043B\u0438\u043F_\u0441\u0435\u0440\u043F_\u0432\u0435\u0440_\u0436\u043E\u0432\u0442_\u043B\u0438\u0441\u0442_\u0433\u0440\u0443\u0434".split(
+            "_"
+          ),
+          weekdays: weekdaysCaseReplace,
+          weekdaysShort: "\u043D\u0434_\u043F\u043D_\u0432\u0442_\u0441\u0440_\u0447\u0442_\u043F\u0442_\u0441\u0431".split("_"),
+          weekdaysMin: "\u043D\u0434_\u043F\u043D_\u0432\u0442_\u0441\u0440_\u0447\u0442_\u043F\u0442_\u0441\u0431".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY \u0440.",
+            LLL: "D MMMM YYYY \u0440., HH:mm",
+            LLLL: "dddd, D MMMM YYYY \u0440., HH:mm"
+          },
+          calendar: {
+            sameDay: processHoursFunction("[\u0421\u044C\u043E\u0433\u043E\u0434\u043D\u0456 "),
+            nextDay: processHoursFunction("[\u0417\u0430\u0432\u0442\u0440\u0430 "),
+            lastDay: processHoursFunction("[\u0412\u0447\u043E\u0440\u0430 "),
+            nextWeek: processHoursFunction("[\u0423] dddd ["),
+            lastWeek: function() {
+              switch (this.day()) {
+                case 0:
+                case 3:
+                case 5:
+                case 6:
+                  return processHoursFunction("[\u041C\u0438\u043D\u0443\u043B\u043E\u0457] dddd [").call(this);
+                case 1:
+                case 2:
+                case 4:
+                  return processHoursFunction("[\u041C\u0438\u043D\u0443\u043B\u043E\u0433\u043E] dddd [").call(this);
+              }
+            },
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u0437\u0430 %s",
+            past: "%s \u0442\u043E\u043C\u0443",
+            s: "\u0434\u0435\u043A\u0456\u043B\u044C\u043A\u0430 \u0441\u0435\u043A\u0443\u043D\u0434",
+            ss: relativeTimeWithPlural$4,
+            m: relativeTimeWithPlural$4,
+            mm: relativeTimeWithPlural$4,
+            h: "\u0433\u043E\u0434\u0438\u043D\u0443",
+            hh: relativeTimeWithPlural$4,
+            d: "\u0434\u0435\u043D\u044C",
+            dd: relativeTimeWithPlural$4,
+            M: "\u043C\u0456\u0441\u044F\u0446\u044C",
+            MM: relativeTimeWithPlural$4,
+            y: "\u0440\u0456\u043A",
+            yy: relativeTimeWithPlural$4
+          },
+          // M. E.: those two are virtually unused but a user might want to implement them for his/her website for some reason
+          meridiemParse: /ночі|ранку|дня|вечора/,
+          isPM: function(input) {
+            return /^(дня|вечора)$/.test(input);
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 4) {
+              return "\u043D\u043E\u0447\u0456";
+            } else if (hour < 12) {
+              return "\u0440\u0430\u043D\u043A\u0443";
+            } else if (hour < 17) {
+              return "\u0434\u043D\u044F";
+            } else {
+              return "\u0432\u0435\u0447\u043E\u0440\u0430";
+            }
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}-(й|го)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "M":
+              case "d":
+              case "DDD":
+              case "w":
+              case "W":
+                return number + "-\u0439";
+              case "D":
+                return number + "-\u0433\u043E";
+              default:
+                return number;
+            }
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        var months$b = [
+          "\u062C\u0646\u0648\u0631\u06CC",
+          "\u0641\u0631\u0648\u0631\u06CC",
+          "\u0645\u0627\u0631\u0686",
+          "\u0627\u067E\u0631\u06CC\u0644",
+          "\u0645\u0626\u06CC",
+          "\u062C\u0648\u0646",
+          "\u062C\u0648\u0644\u0627\u0626\u06CC",
+          "\u0627\u06AF\u0633\u062A",
+          "\u0633\u062A\u0645\u0628\u0631",
+          "\u0627\u06A9\u062A\u0648\u0628\u0631",
+          "\u0646\u0648\u0645\u0628\u0631",
+          "\u062F\u0633\u0645\u0628\u0631"
+        ], days$2 = ["\u0627\u062A\u0648\u0627\u0631", "\u067E\u06CC\u0631", "\u0645\u0646\u06AF\u0644", "\u0628\u062F\u06BE", "\u062C\u0645\u0639\u0631\u0627\u062A", "\u062C\u0645\u0639\u06C1", "\u06C1\u0641\u062A\u06C1"];
+        hooks.defineLocale("ur", {
+          months: months$b,
+          monthsShort: months$b,
+          weekdays: days$2,
+          weekdaysShort: days$2,
+          weekdaysMin: days$2,
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd\u060C D MMMM YYYY HH:mm"
+          },
+          meridiemParse: /صبح|شام/,
+          isPM: function(input) {
+            return "\u0634\u0627\u0645" === input;
+          },
+          meridiem: function(hour, minute, isLower) {
+            if (hour < 12) {
+              return "\u0635\u0628\u062D";
+            }
+            return "\u0634\u0627\u0645";
+          },
+          calendar: {
+            sameDay: "[\u0622\u062C \u0628\u0648\u0642\u062A] LT",
+            nextDay: "[\u06A9\u0644 \u0628\u0648\u0642\u062A] LT",
+            nextWeek: "dddd [\u0628\u0648\u0642\u062A] LT",
+            lastDay: "[\u06AF\u0630\u0634\u062A\u06C1 \u0631\u0648\u0632 \u0628\u0648\u0642\u062A] LT",
+            lastWeek: "[\u06AF\u0630\u0634\u062A\u06C1] dddd [\u0628\u0648\u0642\u062A] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s \u0628\u0639\u062F",
+            past: "%s \u0642\u0628\u0644",
+            s: "\u0686\u0646\u062F \u0633\u06CC\u06A9\u0646\u0688",
+            ss: "%d \u0633\u06CC\u06A9\u0646\u0688",
+            m: "\u0627\u06CC\u06A9 \u0645\u0646\u0679",
+            mm: "%d \u0645\u0646\u0679",
+            h: "\u0627\u06CC\u06A9 \u06AF\u06BE\u0646\u0679\u06C1",
+            hh: "%d \u06AF\u06BE\u0646\u0679\u06D2",
+            d: "\u0627\u06CC\u06A9 \u062F\u0646",
+            dd: "%d \u062F\u0646",
+            M: "\u0627\u06CC\u06A9 \u0645\u0627\u06C1",
+            MM: "%d \u0645\u0627\u06C1",
+            y: "\u0627\u06CC\u06A9 \u0633\u0627\u0644",
+            yy: "%d \u0633\u0627\u0644"
+          },
+          preparse: function(string) {
+            return string.replace(/،/g, ",");
+          },
+          postformat: function(string) {
+            return string.replace(/,/g, "\u060C");
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("uz-latn", {
+          months: "Yanvar_Fevral_Mart_Aprel_May_Iyun_Iyul_Avgust_Sentabr_Oktabr_Noyabr_Dekabr".split(
+            "_"
+          ),
+          monthsShort: "Yan_Fev_Mar_Apr_May_Iyun_Iyul_Avg_Sen_Okt_Noy_Dek".split("_"),
+          weekdays: "Yakshanba_Dushanba_Seshanba_Chorshanba_Payshanba_Juma_Shanba".split(
+            "_"
+          ),
+          weekdaysShort: "Yak_Dush_Sesh_Chor_Pay_Jum_Shan".split("_"),
+          weekdaysMin: "Ya_Du_Se_Cho_Pa_Ju_Sha".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "D MMMM YYYY, dddd HH:mm"
+          },
+          calendar: {
+            sameDay: "[Bugun soat] LT [da]",
+            nextDay: "[Ertaga] LT [da]",
+            nextWeek: "dddd [kuni soat] LT [da]",
+            lastDay: "[Kecha soat] LT [da]",
+            lastWeek: "[O'tgan] dddd [kuni soat] LT [da]",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "Yaqin %s ichida",
+            past: "Bir necha %s oldin",
+            s: "soniya",
+            ss: "%d soniya",
+            m: "bir daqiqa",
+            mm: "%d daqiqa",
+            h: "bir soat",
+            hh: "%d soat",
+            d: "bir kun",
+            dd: "%d kun",
+            M: "bir oy",
+            MM: "%d oy",
+            y: "bir yil",
+            yy: "%d yil"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 7th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("uz", {
+          months: "\u044F\u043D\u0432\u0430\u0440_\u0444\u0435\u0432\u0440\u0430\u043B_\u043C\u0430\u0440\u0442_\u0430\u043F\u0440\u0435\u043B_\u043C\u0430\u0439_\u0438\u044E\u043D_\u0438\u044E\u043B_\u0430\u0432\u0433\u0443\u0441\u0442_\u0441\u0435\u043D\u0442\u044F\u0431\u0440_\u043E\u043A\u0442\u044F\u0431\u0440_\u043D\u043E\u044F\u0431\u0440_\u0434\u0435\u043A\u0430\u0431\u0440".split(
+            "_"
+          ),
+          monthsShort: "\u044F\u043D\u0432_\u0444\u0435\u0432_\u043C\u0430\u0440_\u0430\u043F\u0440_\u043C\u0430\u0439_\u0438\u044E\u043D_\u0438\u044E\u043B_\u0430\u0432\u0433_\u0441\u0435\u043D_\u043E\u043A\u0442_\u043D\u043E\u044F_\u0434\u0435\u043A".split("_"),
+          weekdays: "\u042F\u043A\u0448\u0430\u043D\u0431\u0430_\u0414\u0443\u0448\u0430\u043D\u0431\u0430_\u0421\u0435\u0448\u0430\u043D\u0431\u0430_\u0427\u043E\u0440\u0448\u0430\u043D\u0431\u0430_\u041F\u0430\u0439\u0448\u0430\u043D\u0431\u0430_\u0416\u0443\u043C\u0430_\u0428\u0430\u043D\u0431\u0430".split("_"),
+          weekdaysShort: "\u042F\u043A\u0448_\u0414\u0443\u0448_\u0421\u0435\u0448_\u0427\u043E\u0440_\u041F\u0430\u0439_\u0416\u0443\u043C_\u0428\u0430\u043D".split("_"),
+          weekdaysMin: "\u042F\u043A_\u0414\u0443_\u0421\u0435_\u0427\u043E_\u041F\u0430_\u0416\u0443_\u0428\u0430".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "D MMMM YYYY, dddd HH:mm"
+          },
+          calendar: {
+            sameDay: "[\u0411\u0443\u0433\u0443\u043D \u0441\u043E\u0430\u0442] LT [\u0434\u0430]",
+            nextDay: "[\u042D\u0440\u0442\u0430\u0433\u0430] LT [\u0434\u0430]",
+            nextWeek: "dddd [\u043A\u0443\u043D\u0438 \u0441\u043E\u0430\u0442] LT [\u0434\u0430]",
+            lastDay: "[\u041A\u0435\u0447\u0430 \u0441\u043E\u0430\u0442] LT [\u0434\u0430]",
+            lastWeek: "[\u0423\u0442\u0433\u0430\u043D] dddd [\u043A\u0443\u043D\u0438 \u0441\u043E\u0430\u0442] LT [\u0434\u0430]",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\u042F\u043A\u0438\u043D %s \u0438\u0447\u0438\u0434\u0430",
+            past: "\u0411\u0438\u0440 \u043D\u0435\u0447\u0430 %s \u043E\u043B\u0434\u0438\u043D",
+            s: "\u0444\u0443\u0440\u0441\u0430\u0442",
+            ss: "%d \u0444\u0443\u0440\u0441\u0430\u0442",
+            m: "\u0431\u0438\u0440 \u0434\u0430\u043A\u0438\u043A\u0430",
+            mm: "%d \u0434\u0430\u043A\u0438\u043A\u0430",
+            h: "\u0431\u0438\u0440 \u0441\u043E\u0430\u0442",
+            hh: "%d \u0441\u043E\u0430\u0442",
+            d: "\u0431\u0438\u0440 \u043A\u0443\u043D",
+            dd: "%d \u043A\u0443\u043D",
+            M: "\u0431\u0438\u0440 \u043E\u0439",
+            MM: "%d \u043E\u0439",
+            y: "\u0431\u0438\u0440 \u0439\u0438\u043B",
+            yy: "%d \u0439\u0438\u043B"
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 7
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("vi", {
+          months: "th\xE1ng 1_th\xE1ng 2_th\xE1ng 3_th\xE1ng 4_th\xE1ng 5_th\xE1ng 6_th\xE1ng 7_th\xE1ng 8_th\xE1ng 9_th\xE1ng 10_th\xE1ng 11_th\xE1ng 12".split(
+            "_"
+          ),
+          monthsShort: "Thg 01_Thg 02_Thg 03_Thg 04_Thg 05_Thg 06_Thg 07_Thg 08_Thg 09_Thg 10_Thg 11_Thg 12".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "ch\u1EE7 nh\u1EADt_th\u1EE9 hai_th\u1EE9 ba_th\u1EE9 t\u01B0_th\u1EE9 n\u0103m_th\u1EE9 s\xE1u_th\u1EE9 b\u1EA3y".split(
+            "_"
+          ),
+          weekdaysShort: "CN_T2_T3_T4_T5_T6_T7".split("_"),
+          weekdaysMin: "CN_T2_T3_T4_T5_T6_T7".split("_"),
+          weekdaysParseExact: true,
+          meridiemParse: /sa|ch/i,
+          isPM: function(input) {
+            return /^ch$/i.test(input);
+          },
+          meridiem: function(hours2, minutes2, isLower) {
+            if (hours2 < 12) {
+              return isLower ? "sa" : "SA";
+            } else {
+              return isLower ? "ch" : "CH";
+            }
+          },
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM [n\u0103m] YYYY",
+            LLL: "D MMMM [n\u0103m] YYYY HH:mm",
+            LLLL: "dddd, D MMMM [n\u0103m] YYYY HH:mm",
+            l: "DD/M/YYYY",
+            ll: "D MMM YYYY",
+            lll: "D MMM YYYY HH:mm",
+            llll: "ddd, D MMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[H\xF4m nay l\xFAc] LT",
+            nextDay: "[Ng\xE0y mai l\xFAc] LT",
+            nextWeek: "dddd [tu\u1EA7n t\u1EDBi l\xFAc] LT",
+            lastDay: "[H\xF4m qua l\xFAc] LT",
+            lastWeek: "dddd [tu\u1EA7n tr\u01B0\u1EDBc l\xFAc] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "%s t\u1EDBi",
+            past: "%s tr\u01B0\u1EDBc",
+            s: "v\xE0i gi\xE2y",
+            ss: "%d gi\xE2y",
+            m: "m\u1ED9t ph\xFAt",
+            mm: "%d ph\xFAt",
+            h: "m\u1ED9t gi\u1EDD",
+            hh: "%d gi\u1EDD",
+            d: "m\u1ED9t ng\xE0y",
+            dd: "%d ng\xE0y",
+            w: "m\u1ED9t tu\u1EA7n",
+            ww: "%d tu\u1EA7n",
+            M: "m\u1ED9t th\xE1ng",
+            MM: "%d th\xE1ng",
+            y: "m\u1ED9t n\u0103m",
+            yy: "%d n\u0103m"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}/,
+          ordinal: function(number) {
+            return number;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("x-pseudo", {
+          months: "J~\xE1\xF1\xFA\xE1~r\xFD_F~\xE9br\xFA~\xE1r\xFD_~M\xE1rc~h_\xC1p~r\xEDl_~M\xE1\xFD_~J\xFA\xF1\xE9~_J\xFAl~\xFD_\xC1\xFA~g\xFAst~_S\xE9p~t\xE9mb~\xE9r_\xD3~ct\xF3b~\xE9r_\xD1~\xF3v\xE9m~b\xE9r_~D\xE9c\xE9~mb\xE9r".split(
+            "_"
+          ),
+          monthsShort: "J~\xE1\xF1_~F\xE9b_~M\xE1r_~\xC1pr_~M\xE1\xFD_~J\xFA\xF1_~J\xFAl_~\xC1\xFAg_~S\xE9p_~\xD3ct_~\xD1\xF3v_~D\xE9c".split(
+            "_"
+          ),
+          monthsParseExact: true,
+          weekdays: "S~\xFA\xF1d\xE1~\xFD_M\xF3~\xF1d\xE1\xFD~_T\xFA\xE9~sd\xE1\xFD~_W\xE9d~\xF1\xE9sd~\xE1\xFD_T~h\xFArs~d\xE1\xFD_~Fr\xEDd~\xE1\xFD_S~\xE1t\xFAr~d\xE1\xFD".split(
+            "_"
+          ),
+          weekdaysShort: "S~\xFA\xF1_~M\xF3\xF1_~T\xFA\xE9_~W\xE9d_~Th\xFA_~Fr\xED_~S\xE1t".split("_"),
+          weekdaysMin: "S~\xFA_M\xF3~_T\xFA_~W\xE9_T~h_Fr~_S\xE1".split("_"),
+          weekdaysParseExact: true,
+          longDateFormat: {
+            LT: "HH:mm",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY HH:mm",
+            LLLL: "dddd, D MMMM YYYY HH:mm"
+          },
+          calendar: {
+            sameDay: "[T~\xF3d\xE1~\xFD \xE1t] LT",
+            nextDay: "[T~\xF3m\xF3~rr\xF3~w \xE1t] LT",
+            nextWeek: "dddd [\xE1t] LT",
+            lastDay: "[\xDD~\xE9st~\xE9rd\xE1~\xFD \xE1t] LT",
+            lastWeek: "[L~\xE1st] dddd [\xE1t] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "\xED~\xF1 %s",
+            past: "%s \xE1~g\xF3",
+            s: "\xE1 ~f\xE9w ~s\xE9c\xF3~\xF1ds",
+            ss: "%d s~\xE9c\xF3\xF1~ds",
+            m: "\xE1 ~m\xED\xF1~\xFAt\xE9",
+            mm: "%d m~\xED\xF1\xFA~t\xE9s",
+            h: "\xE1~\xF1 h\xF3~\xFAr",
+            hh: "%d h~\xF3\xFArs",
+            d: "\xE1 ~d\xE1\xFD",
+            dd: "%d d~\xE1\xFDs",
+            M: "\xE1 ~m\xF3\xF1~th",
+            MM: "%d m~\xF3\xF1t~hs",
+            y: "\xE1 ~\xFD\xE9\xE1r",
+            yy: "%d \xFD~\xE9\xE1rs"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
+          ordinal: function(number) {
+            var b = number % 10, output = ~~(number % 100 / 10) === 1 ? "th" : b === 1 ? "st" : b === 2 ? "nd" : b === 3 ? "rd" : "th";
+            return number + output;
+          },
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("yo", {
+          months: "S\u1EB9\u0301r\u1EB9\u0301_E\u0300re\u0300le\u0300_\u1EB8r\u1EB9\u0300na\u0300_I\u0300gbe\u0301_E\u0300bibi_O\u0300ku\u0300du_Ag\u1EB9mo_O\u0300gu\u0301n_Owewe_\u1ECC\u0300wa\u0300ra\u0300_Be\u0301lu\u0301_\u1ECC\u0300p\u1EB9\u0300\u0300".split(
+            "_"
+          ),
+          monthsShort: "S\u1EB9\u0301r_E\u0300rl_\u1EB8rn_I\u0300gb_E\u0300bi_O\u0300ku\u0300_Ag\u1EB9_O\u0300gu\u0301_Owe_\u1ECC\u0300wa\u0300_Be\u0301l_\u1ECC\u0300p\u1EB9\u0300\u0300".split("_"),
+          weekdays: "A\u0300i\u0300ku\u0301_Aje\u0301_I\u0300s\u1EB9\u0301gun_\u1ECCj\u1ECD\u0301ru\u0301_\u1ECCj\u1ECD\u0301b\u1ECD_\u1EB8ti\u0300_A\u0300ba\u0301m\u1EB9\u0301ta".split("_"),
+          weekdaysShort: "A\u0300i\u0300k_Aje\u0301_I\u0300s\u1EB9\u0301_\u1ECCjr_\u1ECCjb_\u1EB8ti\u0300_A\u0300ba\u0301".split("_"),
+          weekdaysMin: "A\u0300i\u0300_Aj_I\u0300s_\u1ECCr_\u1ECCb_\u1EB8t_A\u0300b".split("_"),
+          longDateFormat: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY h:mm A",
+            LLLL: "dddd, D MMMM YYYY h:mm A"
+          },
+          calendar: {
+            sameDay: "[O\u0300ni\u0300 ni] LT",
+            nextDay: "[\u1ECC\u0300la ni] LT",
+            nextWeek: "dddd [\u1ECCs\u1EB9\u0300 to\u0301n'b\u1ECD] [ni] LT",
+            lastDay: "[A\u0300na ni] LT",
+            lastWeek: "dddd [\u1ECCs\u1EB9\u0300 to\u0301l\u1ECD\u0301] [ni] LT",
+            sameElse: "L"
+          },
+          relativeTime: {
+            future: "ni\u0301 %s",
+            past: "%s k\u1ECDja\u0301",
+            s: "i\u0300s\u1EB9ju\u0301 aaya\u0301 die",
+            ss: "aaya\u0301 %d",
+            m: "i\u0300s\u1EB9ju\u0301 kan",
+            mm: "i\u0300s\u1EB9ju\u0301 %d",
+            h: "wa\u0301kati kan",
+            hh: "wa\u0301kati %d",
+            d: "\u1ECDj\u1ECD\u0301 kan",
+            dd: "\u1ECDj\u1ECD\u0301 %d",
+            M: "osu\u0300 kan",
+            MM: "osu\u0300 %d",
+            y: "\u1ECDdu\u0301n kan",
+            yy: "\u1ECDdu\u0301n %d"
+          },
+          dayOfMonthOrdinalParse: /ọjọ́\s\d{1,2}/,
+          ordinal: "\u1ECDj\u1ECD\u0301 %d",
+          week: {
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("zh-cn", {
+          months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split(
+            "_"
+          ),
+          monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split(
+            "_"
+          ),
+          weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"),
+          weekdaysShort: "\u5468\u65E5_\u5468\u4E00_\u5468\u4E8C_\u5468\u4E09_\u5468\u56DB_\u5468\u4E94_\u5468\u516D".split("_"),
+          weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY/MM/DD",
+            LL: "YYYY\u5E74M\u6708D\u65E5",
+            LLL: "YYYY\u5E74M\u6708D\u65E5Ah\u70B9mm\u5206",
+            LLLL: "YYYY\u5E74M\u6708D\u65E5ddddAh\u70B9mm\u5206",
+            l: "YYYY/M/D",
+            ll: "YYYY\u5E74M\u6708D\u65E5",
+            lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm"
+          },
+          meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u51CC\u6668" || meridiem2 === "\u65E9\u4E0A" || meridiem2 === "\u4E0A\u5348") {
+              return hour;
+            } else if (meridiem2 === "\u4E0B\u5348" || meridiem2 === "\u665A\u4E0A") {
+              return hour + 12;
+            } else {
+              return hour >= 11 ? hour : hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            var hm = hour * 100 + minute;
+            if (hm < 600) {
+              return "\u51CC\u6668";
+            } else if (hm < 900) {
+              return "\u65E9\u4E0A";
+            } else if (hm < 1130) {
+              return "\u4E0A\u5348";
+            } else if (hm < 1230) {
+              return "\u4E2D\u5348";
+            } else if (hm < 1800) {
+              return "\u4E0B\u5348";
+            } else {
+              return "\u665A\u4E0A";
+            }
+          },
+          calendar: {
+            sameDay: "[\u4ECA\u5929]LT",
+            nextDay: "[\u660E\u5929]LT",
+            nextWeek: function(now2) {
+              if (now2.week() !== this.week()) {
+                return "[\u4E0B]dddLT";
+              } else {
+                return "[\u672C]dddLT";
+              }
+            },
+            lastDay: "[\u6628\u5929]LT",
+            lastWeek: function(now2) {
+              if (this.week() !== now2.week()) {
+                return "[\u4E0A]dddLT";
+              } else {
+                return "[\u672C]dddLT";
+              }
+            },
+            sameElse: "L"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(日|月|周)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "DDD":
+                return number + "\u65E5";
+              case "M":
+                return number + "\u6708";
+              case "w":
+              case "W":
+                return number + "\u5468";
+              default:
+                return number;
+            }
+          },
+          relativeTime: {
+            future: "%s\u540E",
+            past: "%s\u524D",
+            s: "\u51E0\u79D2",
+            ss: "%d \u79D2",
+            m: "1 \u5206\u949F",
+            mm: "%d \u5206\u949F",
+            h: "1 \u5C0F\u65F6",
+            hh: "%d \u5C0F\u65F6",
+            d: "1 \u5929",
+            dd: "%d \u5929",
+            w: "1 \u5468",
+            ww: "%d \u5468",
+            M: "1 \u4E2A\u6708",
+            MM: "%d \u4E2A\u6708",
+            y: "1 \u5E74",
+            yy: "%d \u5E74"
+          },
+          week: {
+            // GB/T 7408-1994《数据元和交换格式·信息交换·日期和时间表示法》与ISO 8601:1988等效
+            dow: 1,
+            // Monday is the first day of the week.
+            doy: 4
+            // The week that contains Jan 4th is the first week of the year.
+          }
+        });
+        hooks.defineLocale("zh-hk", {
+          months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split(
+            "_"
+          ),
+          monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split(
+            "_"
+          ),
+          weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"),
+          weekdaysShort: "\u9031\u65E5_\u9031\u4E00_\u9031\u4E8C_\u9031\u4E09_\u9031\u56DB_\u9031\u4E94_\u9031\u516D".split("_"),
+          weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY/MM/DD",
+            LL: "YYYY\u5E74M\u6708D\u65E5",
+            LLL: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            LLLL: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm",
+            l: "YYYY/M/D",
+            ll: "YYYY\u5E74M\u6708D\u65E5",
+            lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm"
+          },
+          meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u51CC\u6668" || meridiem2 === "\u65E9\u4E0A" || meridiem2 === "\u4E0A\u5348") {
+              return hour;
+            } else if (meridiem2 === "\u4E2D\u5348") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "\u4E0B\u5348" || meridiem2 === "\u665A\u4E0A") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            var hm = hour * 100 + minute;
+            if (hm < 600) {
+              return "\u51CC\u6668";
+            } else if (hm < 900) {
+              return "\u65E9\u4E0A";
+            } else if (hm < 1200) {
+              return "\u4E0A\u5348";
+            } else if (hm === 1200) {
+              return "\u4E2D\u5348";
+            } else if (hm < 1800) {
+              return "\u4E0B\u5348";
+            } else {
+              return "\u665A\u4E0A";
+            }
+          },
+          calendar: {
+            sameDay: "[\u4ECA\u5929]LT",
+            nextDay: "[\u660E\u5929]LT",
+            nextWeek: "[\u4E0B]ddddLT",
+            lastDay: "[\u6628\u5929]LT",
+            lastWeek: "[\u4E0A]ddddLT",
+            sameElse: "L"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(日|月|週)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "DDD":
+                return number + "\u65E5";
+              case "M":
+                return number + "\u6708";
+              case "w":
+              case "W":
+                return number + "\u9031";
+              default:
+                return number;
+            }
+          },
+          relativeTime: {
+            future: "%s\u5F8C",
+            past: "%s\u524D",
+            s: "\u5E7E\u79D2",
+            ss: "%d \u79D2",
+            m: "1 \u5206\u9418",
+            mm: "%d \u5206\u9418",
+            h: "1 \u5C0F\u6642",
+            hh: "%d \u5C0F\u6642",
+            d: "1 \u5929",
+            dd: "%d \u5929",
+            M: "1 \u500B\u6708",
+            MM: "%d \u500B\u6708",
+            y: "1 \u5E74",
+            yy: "%d \u5E74"
+          }
+        });
+        hooks.defineLocale("zh-mo", {
+          months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split(
+            "_"
+          ),
+          monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split(
+            "_"
+          ),
+          weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"),
+          weekdaysShort: "\u9031\u65E5_\u9031\u4E00_\u9031\u4E8C_\u9031\u4E09_\u9031\u56DB_\u9031\u4E94_\u9031\u516D".split("_"),
+          weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "DD/MM/YYYY",
+            LL: "YYYY\u5E74M\u6708D\u65E5",
+            LLL: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            LLLL: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm",
+            l: "D/M/YYYY",
+            ll: "YYYY\u5E74M\u6708D\u65E5",
+            lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm"
+          },
+          meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u51CC\u6668" || meridiem2 === "\u65E9\u4E0A" || meridiem2 === "\u4E0A\u5348") {
+              return hour;
+            } else if (meridiem2 === "\u4E2D\u5348") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "\u4E0B\u5348" || meridiem2 === "\u665A\u4E0A") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            var hm = hour * 100 + minute;
+            if (hm < 600) {
+              return "\u51CC\u6668";
+            } else if (hm < 900) {
+              return "\u65E9\u4E0A";
+            } else if (hm < 1130) {
+              return "\u4E0A\u5348";
+            } else if (hm < 1230) {
+              return "\u4E2D\u5348";
+            } else if (hm < 1800) {
+              return "\u4E0B\u5348";
+            } else {
+              return "\u665A\u4E0A";
+            }
+          },
+          calendar: {
+            sameDay: "[\u4ECA\u5929] LT",
+            nextDay: "[\u660E\u5929] LT",
+            nextWeek: "[\u4E0B]dddd LT",
+            lastDay: "[\u6628\u5929] LT",
+            lastWeek: "[\u4E0A]dddd LT",
+            sameElse: "L"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(日|月|週)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "DDD":
+                return number + "\u65E5";
+              case "M":
+                return number + "\u6708";
+              case "w":
+              case "W":
+                return number + "\u9031";
+              default:
+                return number;
+            }
+          },
+          relativeTime: {
+            future: "%s\u5167",
+            past: "%s\u524D",
+            s: "\u5E7E\u79D2",
+            ss: "%d \u79D2",
+            m: "1 \u5206\u9418",
+            mm: "%d \u5206\u9418",
+            h: "1 \u5C0F\u6642",
+            hh: "%d \u5C0F\u6642",
+            d: "1 \u5929",
+            dd: "%d \u5929",
+            M: "1 \u500B\u6708",
+            MM: "%d \u500B\u6708",
+            y: "1 \u5E74",
+            yy: "%d \u5E74"
+          }
+        });
+        hooks.defineLocale("zh-tw", {
+          months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split(
+            "_"
+          ),
+          monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split(
+            "_"
+          ),
+          weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"),
+          weekdaysShort: "\u9031\u65E5_\u9031\u4E00_\u9031\u4E8C_\u9031\u4E09_\u9031\u56DB_\u9031\u4E94_\u9031\u516D".split("_"),
+          weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"),
+          longDateFormat: {
+            LT: "HH:mm",
+            LTS: "HH:mm:ss",
+            L: "YYYY/MM/DD",
+            LL: "YYYY\u5E74M\u6708D\u65E5",
+            LLL: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            LLLL: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm",
+            l: "YYYY/M/D",
+            ll: "YYYY\u5E74M\u6708D\u65E5",
+            lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
+            llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm"
+          },
+          meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
+          meridiemHour: function(hour, meridiem2) {
+            if (hour === 12) {
+              hour = 0;
+            }
+            if (meridiem2 === "\u51CC\u6668" || meridiem2 === "\u65E9\u4E0A" || meridiem2 === "\u4E0A\u5348") {
+              return hour;
+            } else if (meridiem2 === "\u4E2D\u5348") {
+              return hour >= 11 ? hour : hour + 12;
+            } else if (meridiem2 === "\u4E0B\u5348" || meridiem2 === "\u665A\u4E0A") {
+              return hour + 12;
+            }
+          },
+          meridiem: function(hour, minute, isLower) {
+            var hm = hour * 100 + minute;
+            if (hm < 600) {
+              return "\u51CC\u6668";
+            } else if (hm < 900) {
+              return "\u65E9\u4E0A";
+            } else if (hm < 1130) {
+              return "\u4E0A\u5348";
+            } else if (hm < 1230) {
+              return "\u4E2D\u5348";
+            } else if (hm < 1800) {
+              return "\u4E0B\u5348";
+            } else {
+              return "\u665A\u4E0A";
+            }
+          },
+          calendar: {
+            sameDay: "[\u4ECA\u5929] LT",
+            nextDay: "[\u660E\u5929] LT",
+            nextWeek: "[\u4E0B]dddd LT",
+            lastDay: "[\u6628\u5929] LT",
+            lastWeek: "[\u4E0A]dddd LT",
+            sameElse: "L"
+          },
+          dayOfMonthOrdinalParse: /\d{1,2}(日|月|週)/,
+          ordinal: function(number, period) {
+            switch (period) {
+              case "d":
+              case "D":
+              case "DDD":
+                return number + "\u65E5";
+              case "M":
+                return number + "\u6708";
+              case "w":
+              case "W":
+                return number + "\u9031";
+              default:
+                return number;
+            }
+          },
+          relativeTime: {
+            future: "%s\u5F8C",
+            past: "%s\u524D",
+            s: "\u5E7E\u79D2",
+            ss: "%d \u79D2",
+            m: "1 \u5206\u9418",
+            mm: "%d \u5206\u9418",
+            h: "1 \u5C0F\u6642",
+            hh: "%d \u5C0F\u6642",
+            d: "1 \u5929",
+            dd: "%d \u5929",
+            M: "1 \u500B\u6708",
+            MM: "%d \u500B\u6708",
+            y: "1 \u5E74",
+            yy: "%d \u5E74"
+          }
+        });
+        hooks.locale("en");
+        return hooks;
+      });
+    }
+  });
+
   // twitter/src/index.jsx
   var import_react3 = __toESM(require_react());
-  var import_react_dom = __toESM(require_react_dom());
+  var import_client = __toESM(require_client());
 
   // twitter/src/body.jsx
   var import_react = __toESM(require_react());
+  var import_moment = __toESM(require_moment());
   function TwitterBody() {
-    return /* @__PURE__ */ import_react.default.createElement("div", { id: "twitt-body" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react.default.createElement("img", { src: "https://picsum.photos/48", className: "rounded", alt: "random pic from api, twitteravatar" }), /* @__PURE__ */ import_react.default.createElement("div", { className: "flex" }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("span", { className: "font-bold mx-1" }, "lorem ipsum"), /* @__PURE__ */ import_react.default.createElement("span", { className: "text-neutral-500" }, "@loremipsum \u2022 16min")))));
+    const [twitts, setTwitts] = (0, import_react.useState)([]);
+    (0, import_react.useEffect)(() => {
+      fetch("https://6164cc1b09a29d0017c88e7a.mockapi.io/twitter").then((res) => res.json()).then((data) => setTwitts(data));
+    }, []);
+    return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement("div", { className: "text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700" }, /* @__PURE__ */ import_react.default.createElement("ul", { className: "flex flex-wrap -mb-px justify-center" }, /* @__PURE__ */ import_react.default.createElement("li", { className: "mr-2" }, /* @__PURE__ */ import_react.default.createElement("a", { href: "#", className: "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" }, "For You")), /* @__PURE__ */ import_react.default.createElement("li", { className: "mr-2" }, /* @__PURE__ */ import_react.default.createElement("a", { href: "#", className: "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500", "aria-current": "page" }, "Following")))), /* @__PURE__ */ import_react.default.createElement("div", { id: "twitt-body", className: "mb-14" }, twitts.map(({ date, name, avatar, handle, twitt, likes, retwitts, impression, replies, id }) => /* @__PURE__ */ import_react.default.createElement("div", { key: id, className: "flex items-start space-x-2 border-b border-white/50 p-4" }, /* @__PURE__ */ import_react.default.createElement("img", { src: avatar, className: "mr-2 rounded-full h-12", alt: "random pic from api, twitteravatar" }), /* @__PURE__ */ import_react.default.createElement("div", { className: "flex flex-col" }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("span", { className: "font-bold mr-1" }, name), /* @__PURE__ */ import_react.default.createElement("span", { className: "text-neutral-500" }, "@", handle, " \u2022 ", (0, import_moment.default)(date).format("LL"))), /* @__PURE__ */ import_react.default.createElement("p", { className: "mb-2" }, twitt.slice(0, 288)), /* @__PURE__ */ import_react.default.createElement("div", { className: "grid grid-cols-5 items-center" }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("i", { className: "fa-solid fa-reply" }), " ", /* @__PURE__ */ import_react.default.createElement("span", null, replies)), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("i", { className: "fa-solid fa-repeat" }), " ", /* @__PURE__ */ import_react.default.createElement("span", null, retwitts)), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("i", { className: "fa-regular fa-heart" }), " ", /* @__PURE__ */ import_react.default.createElement("span", null, likes)), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("i", { className: "fa-solid fa-chart-column" }), " ", /* @__PURE__ */ import_react.default.createElement("span", null, impression)), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("i", { className: "fa-solid fa-arrow-up-from-bracket" }))))))));
   }
 
   // twitter/src/nav.jsx
   var import_react2 = __toESM(require_react());
   function Nav() {
-    return /* @__PURE__ */ import_react2.default.createElement("nav", { className: "sticky top-[100vh] grid grid-cols-4 items-center h-14 border-t sm:hidden" }, /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-solid fa-house" }), /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-solid fa-magnifying-glass" }), /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-regular fa-bell" }), /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-regular fa-envelope" }));
+    return /* @__PURE__ */ import_react2.default.createElement("nav", { className: "z-10 fixed bottom-0 w-full mt-12 bg-black grid grid-cols-4 items-center h-14 border-t sm:hidden" }, /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-solid fa-house" }), /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-solid fa-magnifying-glass" }), /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-regular fa-bell" }), /* @__PURE__ */ import_react2.default.createElement("i", { className: "text-2xl text-center fa-regular fa-envelope" }));
   }
 
   // twitter/src/index.jsx
   function App() {
-    return /* @__PURE__ */ import_react3.default.createElement(import_react3.default.Fragment, null, /* @__PURE__ */ import_react3.default.createElement(TwitterBody, null), /* @__PURE__ */ import_react3.default.createElement(Nav, null));
+    return /* @__PURE__ */ import_react3.default.createElement("main", { className: "min-h-screen bg-black text-neutral-200 relative" }, /* @__PURE__ */ import_react3.default.createElement(TwitterBody, null), /* @__PURE__ */ import_react3.default.createElement(Nav, null));
   }
-  import_react_dom.default.render(/* @__PURE__ */ import_react3.default.createElement(App, null), document.getElementById("root"));
+  var container = document.getElementById("root");
+  var root = (0, import_client.createRoot)(container);
+  root.render(/* @__PURE__ */ import_react3.default.createElement(App, null));
 })();
+//! moment.js
+//! moment.js locale configuration
 /*! Bundled license information:
 
 react/cjs/react.development.js:
