@@ -8,11 +8,13 @@
   "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.17.10",
+    "live-server": "^1.2.2",
     "tailwindcss": "^3.2.7"
   },
   "scripts": {
-    "build:css": "tailwindcss -i ./input.css -o ./css/style.css --watch",
-    "build:tt": "esbuild --bundle ./twitter/src/index.jsx --outfile=js/twitter.js --watch && cp ./twitter/index.html twitter.html"
+    "build:css": "tailwindcss -i ./input.css -o ./dist/css/style.css --watch",
+    "build:tt": "cp ./twitter/index.html ./dist/twitter.html && esbuild --bundle ./twitter/src/index.jsx --outfile=dist/js/twitter.js --watch",
+    "start": "live-server ./dist"
   },
   "dependencies": {
     "react": "^18.2.0",

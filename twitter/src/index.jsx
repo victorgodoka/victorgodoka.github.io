@@ -6,7 +6,7 @@ import { Nav } from './nav';
 
 function App () {
   return (
-    <main className="min-h-screen bg-black text-neutral-200 relative">
+    <main className="min-h-screen text-neutral-200 relative w-full mx-auto flex items-start container">
       <TwitterBody />
       <Nav />
     </main>
