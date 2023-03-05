@@ -13,6 +13,7 @@
   "scripts": {
     "build:css": "tailwindcss -i ./input.css -o ./docs/css/style.css --watch",
     "build:tt": "cp ./twitter/index.html ./docs/twitter.html && esbuild --bundle ./twitter/src/index.jsx --outfile=docs/js/twitter.js --watch",
+    "build:db": "cp ./deckbuilder/index.html ./docs/deckbuilder.html && esbuild --bundle ./deckbuilder/src/index.jsx --outfile=docs/js/deckbuilder.js --watch",
     "start": "live-server ./docs"
   },
   "dependencies": {
